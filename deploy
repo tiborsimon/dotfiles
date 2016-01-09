@@ -90,7 +90,7 @@ link_file () {
 
     if [ "$skip" == "true" ]
     then
-      success "skipped $src"
+      success "Skipped $src"
     fi
   fi
 
@@ -102,7 +102,7 @@ link_file () {
 }
 
 install_dotfiles () {
-  info 'installing dotfiles'
+  info 'Installing dotfiles..'
 
   local overwrite_all=false backup_all=false skip_all=false
 
@@ -114,7 +114,7 @@ install_dotfiles () {
 }
 
 install_etc_files () {
-  info 'installing etc files'
+  info 'Installing etc files..'
 
   local overwrite_all=false backup_all=false skip_all=false
 
@@ -128,20 +128,28 @@ install_etc_files () {
 install_homebrew () {
   if test ! $(which brew)
   then
-    echo "  Installing Homebrew for you."
+    info "Installing Homebrew.."
 
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   else
-    echo "  Homebrew is installed"
+    success "Homebrew is installed!"
   fi
+}
 
-  echo "› brew update"
-  brew update
+update_homebrew () {
+  info "Updating Homebrew.."
+  if brew update > brew-update.log
+  then
+    success "Homebrew is up-to-date!"
+  else
+    fail "Error during Homebrew update!"
+  fi
 }
 
 install_dotfiles
 install_etc_files
 install_homebrew
+update_homebrew
 
 echo ''
 echo '  All installed!'
