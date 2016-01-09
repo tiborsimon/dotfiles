@@ -70,7 +70,8 @@
   "modal-file-manager": {}
   "tree-view-open-files": {}
   "symbols-tree-view": {}
-  "tree-view": {}
+  "tree-view":
+    "hideVcsIgnoredFiles": false
   autosave:
     enabled: true
 ".c.source":
