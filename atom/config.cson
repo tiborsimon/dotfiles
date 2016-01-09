@@ -1,0 +1,78 @@
+"*":
+  "exception-reporting":
+    userId: "91eb295a-88d1-fb2e-a767-5d5c7396c823"
+  welcome:
+    showOnStartup: false
+  core:
+    disabledPackages: [
+      "linter-jshint"
+      "linter-csslint"
+      "linter-htmlhint"
+      "linter-jsonlint"
+      "linter-sass-lint"
+      "linter-jscs"
+      "jscs-fixer"
+      "spell-check"
+    ]
+  editor:
+    invisibles: {}
+    scrollPastEnd: true
+    showIndentGuide: true
+    backUpBeforeSaving: true
+    zoomFontWhenCtrlScrolling: true
+    lineHeight: 1.1
+    fontSize: 12
+  "one-dark-ui": {}
+  minimap:
+    plugins:
+      pigments: true
+      "highlight-selected": true
+      bookmarks: true
+    displayMinimapOnLeft: true
+  "terminal-plus":
+    core:
+      scrollback: 10000
+    style:
+      theme: "dracula"
+      animationSpeed: 0
+      fontSize: "10"
+    ansiColors:
+      normal:
+        blue:
+          red: 0
+          green: 150
+          blue: 255
+          alpha: 1
+        white:
+          red: 214
+          green: 214
+          blue: 214
+          alpha: 1
+        red:
+          red: 255
+          green: 38
+          blue: 0
+          alpha: 1
+  "atom-clock": {}
+  pigments: {}
+  linter:
+    showErrorPanel: false
+  "atom-beautify":
+    _analyticsUserId: "04f8ff88-4c4a-4a9b-873d-ad06b8421a17"
+  "todo-show": {}
+  "file-icons":
+    coloured: false
+  "git-plus": {}
+  "linter-gcc": {}
+  "linter-jscs":
+    fixOnSave: true
+    displayAs: "jscs Error"
+  "modal-file-manager": {}
+  "tree-view-open-files": {}
+  "symbols-tree-view": {}
+  "tree-view": {}
+  autosave:
+    enabled: true
+".c.source":
+  editor:
+    showInvisibles: false

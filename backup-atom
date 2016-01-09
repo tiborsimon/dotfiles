@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Saving atom packages to file
+
+set -e
+
+echo ''
+
+source functions/commons
+
+
+backup_package_list () {
+  info "Saving Atom package list.."
+
+  rm -f atom/package-list.txt
+  if apm list --installed --bare > atom/package-list.txt
+  then
+    success "Atom package list saved to atom/package-list.txt!"
+  else
+    fail "Atom package list cannot be saved!"
+  fi
+}
