@@ -1,9 +1,11 @@
-# Setting PATH for Python 3.4
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
-export PATH
+
+
+export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:~/github/dotfiles-osx/bin:${PATH}"
+
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export EDITOR='atom'
+export PROJECTS='github'
 
 # ==============================================================================
 #  A L I A S E S
@@ -11,28 +13,38 @@ export LANG=en_US.UTF-8
 
 alias site='cd ~/Repos/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
-alias github='cd ~/github'
+alias c='cd ~/$PROJECTS'
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
-alias appserver='ssh tibor@46.101.202.81'
-alias proxyserver='ssh tibor@46.101.115.184'
+alias appserver='ssh tibor@ts-centos-02'
+alias proxyserver='ssh tibor@ts-centos-01'
 
 alias ls='ls -lahpTG'
 
 alias gs='git status'
 alias ga='git add --all'
 alias ..='cd ..'
-
+``
 function commitFunction {
   git commit -m $1
 }
 alias gc=commitFunction
 
 function cloneFunction {
-  cd ~/github
+  cd ~/$PROJECTS
   git clone $1
   cd $(python -c "import re, sys; m=re.search('([-\w]+)\.git', sys.argv[1]); print(m.group(1))" $1)
 }
 alias gclone=cloneFunction
+
+function eFunction {
+  if [ "$1" = "" ] ; then
+    exec $EDITOR .
+  else
+    exec $EDITOR "$1"
+  fi
+}
+alias e=eFunction
 
 
 
