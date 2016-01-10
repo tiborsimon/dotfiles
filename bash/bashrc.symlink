@@ -35,7 +35,7 @@ function cloneFunction {
   git clone $1
   cd $(python -c "import re, sys; m=re.search('([-\w]+)\.git', sys.argv[1]); print(m.group(1))" $1)
 }
-alias gclone=cloneFunctionXX
+alias gclone=cloneFunction
 
 
 
