@@ -70,7 +70,7 @@ excute_brewfile () {
   case "$action" in
     y )
     info "Executing Brewfile.."
-    brew bundle -v > brew-install.log
+    brew bundle -v  --file=brew/Brewfile > brew-install.log
     success "Brewfile executed. All apps are installed.";;
     * )
       ;;
@@ -102,7 +102,6 @@ install_atom_packages () {
     * )
       ;;
   esac
-
 }
 
 install_dotfiles
