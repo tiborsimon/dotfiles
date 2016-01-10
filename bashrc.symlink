@@ -35,16 +35,7 @@ function cloneFunction {
   git clone $1
   cd $(python -c "import re, sys; m=re.search('([-\w]+)\.git', sys.argv[1]); print(m.group(1))" $1)
 }
-alias gclone=cloneFunction
-
-function eFunction {
-  if [ "$1" = "" ] ; then
-    exec $EDITOR .
-  else
-    exec $EDITOR "$1"
-  fi
-}
-alias e=eFunction
+alias gclone=cloneFunctionXX
 
 
 

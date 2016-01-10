@@ -17,6 +17,8 @@ brew 'unrar'
 brew 'youtube-dl'
 brew 'boot2docker'
 brew 'mc'
+brew 'mongodb'
+
 
 cask 'atom'
 cask 'firefox'

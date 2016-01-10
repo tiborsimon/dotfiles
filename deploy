@@ -2,7 +2,7 @@
 #
 # bootstrap installs things.
 
-DOTFILES_ROOT=$(pwd)
+export DOTFILES_ROOT=$(pwd)
 
 set -e
 
@@ -64,7 +64,7 @@ update_homebrew () {
 }
 
 excute_brewfile () {
-  user "Do you want to execute the Brewfile to install all your programs? [y]es, [s]kip"
+  user "Do you want to execute the Brewfile to install all your programs?  [y]es, [s]kip"
   read -n 1 action
 
   case "$action" in
@@ -91,9 +91,18 @@ link_atom_files () {
 }
 
 install_atom_packages () {
-  info "Installing Atom packages.."
-  apm install --packages-file atom/package-list.txt > atom-package-setup.log
-  success "Atom packages installed!"
+  user "Do you want to install Atom packages?  [y]es, [s]kip"
+  read -n 1 action
+
+  case "$action" in
+    y )
+    info "Installing Atom packages.."
+    apm install --packages-file atom/package-list.txt > atom-package-setup.log
+    success "Atom packages installed!";;
+    * )
+      ;;
+  esac
+
 }
 
 install_dotfiles

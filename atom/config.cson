@@ -71,7 +71,7 @@
   "tree-view-open-files": {}
   "symbols-tree-view": {}
   "tree-view":
-    "hideVcsIgnoredFiles": false
+    hideVcsIgnoredFiles: true
   autosave:
     enabled: true
 ".c.source":

@@ -16,6 +16,9 @@ backup_package_list () {
   if apm list --installed --bare > atom/package-list.txt
   then
     success "Atom package list saved to atom/package-list.txt!"
+    git add atom/package-list.txt
+    git commit -m "Atom package list updated"
+    git push
   else
     fail "Atom package list cannot be saved!"
   fi
