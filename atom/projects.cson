@@ -8,3 +8,8 @@
   paths: [
     "/Users/tibor/github/tiborsimon.io"
   ]
+worklog:
+  title: "worklog"
+  paths: [
+    "/Users/tibor/github/worklog"
+  ]

@@ -39,6 +39,7 @@ function cloneFunction {
 }
 alias gclone=cloneFunction
 
+alias g='cd ~/github'
 
 
 # ==============================================================================
