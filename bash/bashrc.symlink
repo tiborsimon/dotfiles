@@ -28,7 +28,7 @@ alias ga='git add --all'
 alias ..='cd ..'
 ``
 function commitFunction {
-  git commit -m $1
+  git commit -m "$1"
 }
 alias gc=commitFunction
 
