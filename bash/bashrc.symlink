@@ -7,11 +7,13 @@ export LANG=en_US.UTF-8
 export EDITOR='atom'
 export PROJECTS='github'
 
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 # ==============================================================================
 #  A L I A S E S
 #
 
-alias site='cd ~/Repos/tiborsimon.io && source site-env/bin/activate && clear'
+alias site='cd ~/github/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias c='cd ~/$PROJECTS'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
@@ -76,13 +78,27 @@ function git_branch {
   echo -en $COLOR_RESET
 }
 
-PS1="\n[\u] @ [\w] \$(git_branch)"
-PS1+="\n [\#] → "
-export PS1
-
-function prompt {
-  export PS1="\n[\u] @ \w \$(git branch 2> /dev/null)\n [\#] → "
-  export PS2="|→"
+# http://stackoverflow.com/a/20026992
+function virtualenv_info(){
+    local COLOR_YELLOW="\033[0;33m"
+    local COLOR_RESET="\033[0m"
+    # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    echo -en $COLOR_YELLOW
+    [[ -n "$venv" ]] && echo -en "(venv:$venv) "
+    echo -en $COLOR_RESET
 }
+
+VENV="\$(virtualenv_info)";
+
+PS1="\n[\u] @ [\w] \$(git_branch)"
+PS1+="\n [\#] ${VENV}→ "
+export PS1
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"

@@ -73,6 +73,8 @@
   "tree-view": {}
   autosave:
     enabled: true
+  "merge-conflicts": {}
+  "project-manager": {}
 ".c.source":
   editor:
     showInvisibles: false
