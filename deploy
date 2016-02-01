@@ -54,13 +54,21 @@ install_homebrew () {
 }
 
 update_homebrew () {
-  info "Updating Homebrew.."
-  if brew update > brew-update.log
-  then
-    success "Homebrew is up-to-date!"
-  else
-    fail "Error during Homebrew update!"
-  fi
+  user "Do you want to update Homebrew?  [y]es, [s]kip"
+  read -n 1 action
+
+  case "$action" in
+    y )
+      info "Updating Homebrew.."
+      if brew update > brew-update.log
+      then
+        success "Homebrew is up-to-date!"
+      else
+        fail "Error during Homebrew update!"
+      fi;;
+    * )
+      ;;
+  esac
 }
 
 excute_brewfile () {

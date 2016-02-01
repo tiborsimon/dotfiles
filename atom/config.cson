@@ -1,8 +1,10 @@
 "*":
-  "exception-reporting":
-    userId: "91eb295a-88d1-fb2e-a767-5d5c7396c823"
-  welcome:
-    showOnStartup: false
+  "atom-beautify":
+    _analyticsUserId: "04f8ff88-4c4a-4a9b-873d-ad06b8421a17"
+  "atom-clock": {}
+  autosave:
+    enabled: true
+  "clipboard-plus": {}
   core:
     disabledPackages: [
       "linter-jshint"
@@ -13,29 +15,47 @@
       "linter-jscs"
       "jscs-fixer"
       "spell-check"
+      "minimap"
+      "autoclose-html"
+      "vim-mode"
+      "json-colorer"
     ]
   editor:
+    backUpBeforeSaving: true
+    fontSize: 11
     invisibles: {}
+    lineHeight: 1.1
     scrollPastEnd: true
     showIndentGuide: true
-    backUpBeforeSaving: true
+    showInvisibles: true
+    softWrap: true
+    tabType: "soft"
     zoomFontWhenCtrlScrolling: true
-    lineHeight: 1.1
-    fontSize: 12
-  "one-dark-ui": {}
+  "exception-reporting":
+    userId: "91eb295a-88d1-fb2e-a767-5d5c7396c823"
+  "file-icons":
+    coloured: false
+  "git-plus": {}
+  linter:
+    showErrorPanel: false
+  "linter-gcc": {}
+  "linter-jscs":
+    displayAs: "jscs Error"
+    fixOnSave: true
+  "merge-conflicts": {}
   minimap:
-    plugins:
-      pigments: true
-      "highlight-selected": true
-      bookmarks: true
     displayMinimapOnLeft: true
+    plugins:
+      bookmarks: true
+      "highlight-selected": true
+      pigments: true
+  "modal-file-manager": {}
+  "one-dark-ui": {}
+  pigments: {}
+  "project-manager": {}
+  "python-tools": {}
+  "symbols-tree-view": {}
   "terminal-plus":
-    core:
-      scrollback: 10000
-    style:
-      theme: "dracula"
-      animationSpeed: 0
-      fontSize: "10"
     ansiColors:
       normal:
         blue:
@@ -43,38 +63,28 @@
           green: 150
           blue: 255
           alpha: 1
-        white:
-          red: 214
-          green: 214
-          blue: 214
-          alpha: 1
         red:
           red: 255
           green: 38
           blue: 0
           alpha: 1
-  "atom-clock": {}
-  pigments: {}
-  linter:
-    showErrorPanel: false
-  "atom-beautify":
-    _analyticsUserId: "04f8ff88-4c4a-4a9b-873d-ad06b8421a17"
+        white:
+          red: 214
+          green: 214
+          blue: 214
+          alpha: 1
+    core:
+      scrollback: 10000
+    style:
+      animationSpeed: 0
+      fontSize: "10"
+      theme: "dracula"
   "todo-show": {}
-  "file-icons":
-    coloured: false
-  "git-plus": {}
-  "linter-gcc": {}
-  "linter-jscs":
-    fixOnSave: true
-    displayAs: "jscs Error"
-  "modal-file-manager": {}
-  "tree-view-open-files": {}
-  "symbols-tree-view": {}
   "tree-view": {}
-  autosave:
-    enabled: true
-  "merge-conflicts": {}
-  "project-manager": {}
+  "tree-view-open-files": {}
+  "vim-mode": {}
+  welcome:
+    showOnStartup: false
 ".c.source":
   editor:
     showInvisibles: false

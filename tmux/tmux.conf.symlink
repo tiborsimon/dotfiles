@@ -1,0 +1,5 @@
+# Redefine the split window key to a more reasonable one
+bind | split-window -h
+bind - split-window -v
+
+
