@@ -10,30 +10,38 @@ echo ''
 
 source functions/commons
 
+#----------------------------------------------------------------------------------------
+#  C O M M O N   F U N C T I O N S
+#----------------------------------------------------------------------------------------
+
+is_osx () {
+  local system=
+  if [ $(uname -s) = 'Darwin' ]
+  then
+    return 0 
+  else
+    return 1
+  fi
+}
+
 install_dotfiles () {
   info 'Installing dotfiles..'
 
   local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-  do
+  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
   done
 }
 
-
-install_etc_files () {
-  info 'Installing etc files..'
-
-  local overwrite_all=false backup_all=false skip_all=false
-
-  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.etc' -not -path '*.git*')
-  do
-    dst="/etc/$(basename "${src%.*}")"
-    link_file "$src" "$dst"
-  done
+deploy_git_ssh_key () {
+  info 'Deploying git ssh key'
 }
+
+#----------------------------------------------------------------------------------------
+#  O S X   R E L A T E D   F U N C T I O N S
+#----------------------------------------------------------------------------------------
 
 set_up_osx () {
   info 'Configuring OSX..'
@@ -41,86 +49,88 @@ set_up_osx () {
   success 'OSX configured!'
 }
 
-
 install_homebrew () {
-  if test ! $(which brew)
-  then
-    info "Installing Homebrew.."
-
+  if test ! $(which brew); then
+    info 'Installing Homebrew..'
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   else
-    success "Homebrew is installed!"
+    success 'Homebrew is installed!'
   fi
 }
 
 update_homebrew () {
-  user "Do you want to update Homebrew?  [y]es, [s]kip"
+  user 'Do you want to update Homebrew?  [y]es, [s]kip'
   read -n 1 action
 
   case "$action" in
-    y )
-      info "Updating Homebrew.."
-      if brew update > brew-update.log
-      then
-        success "Homebrew is up-to-date!"
+    y ) 
+      info 'Updating Homebrew..'
+      if brew update > brew-update.log; then
+        success 'Homebrew is up-to-date!'
       else
-        fail "Error during Homebrew update!"
-      fi;;
+        fail 'Error during Homebrew update!'
+      fi
+      ;;
     * )
+      success 'Skipped..'
       ;;
   esac
 }
 
 excute_brewfile () {
-  user "Do you want to execute the Brewfile to install all your programs?  [y]es, [s]kip"
+  user 'Do you want to execute the Brewfile to install all your programs?  [y]es, [s]kip'
   read -n 1 action
 
   case "$action" in
     y )
-    info "Executing Brewfile.."
-    brew bundle -v  --file=brew/Brewfile > brew-install.log
-    success "Brewfile executed. All apps are installed.";;
+      info 'Executing Brewfile..'
+      brew bundle -v  --file=brew/Brewfile > brew-install.log
+      success 'Brewfile executed. All apps are installed.'
+      ;;
     * )
+      success 'Skipped..'
       ;;
   esac
 }
 
-link_atom_files () {
-  local overwrite_all=false backup_all=false skip_all=false
+#----------------------------------------------------------------------------------------
+#  L I N U X   R E L A T E D   F U N C T I O N S
+#----------------------------------------------------------------------------------------
 
-  info "Installing Atom files"
-  link_file "$DOTFILES_ROOT/atom/config.cson" "$HOME/.atom/config.cson"
-  link_file "$DOTFILES_ROOT/atom/init.coffee" "$HOME/.atom/init.coffee"
-  link_file "$DOTFILES_ROOT/atom/keymap.cson" "$HOME/.atom/keymap.cson"
-  link_file "$DOTFILES_ROOT/atom/projects.cson" "$HOME/.atom/projects.cson"
-  link_file "$DOTFILES_ROOT/atom/snippets.cson" "$HOME/.atom/snippets.cson"
-  link_file "$DOTFILES_ROOT/atom/styles.less" "$HOME/.atom/styles.less"
-  success "Atom files are installed"
-}
-
-install_atom_packages () {
-  user "Do you want to install Atom packages?  [y]es, [s]kip"
+excute_yum_file () {
+  user 'Do you want to execute the yum file to install all your programs?  [y]es, [s]kip'
   read -n 1 action
 
   case "$action" in
     y )
-    info "Installing Atom packages.."
-    apm install --packages-file atom/package-list.txt > atom-package-setup.log
-    success "Atom packages installed!";;
+      info 'Executing yum file..'
+      yum install -y < ./linux/packages.txt > yum-install.log
+      success 'Yum file  executed. All apps are installed.'
+      ;;
     * )
+      success 'Skipped..'
       ;;
   esac
 }
 
-install_dotfiles
-install_etc_files
-set_up_osx
-install_homebrew
-update_homebrew
-excute_brewfile
-link_atom_files
-install_atom_packages
+#----------------------------------------------------------------------------------------
+#  F U N C T I O N S   C A L LS
+#----------------------------------------------------------------------------------------
 
+if is_osx; then
+  info "Installing OS X related config"
+  install_dotfiles
+  set_up_osx
+  install_homebrew
+  update_homebrew
+  excute_brewfile
+else
+  info "Installing Linux related config"
+  install_dotfiles
+  excute_yum_file
+fi
 
 echo ''
-echo '  All installed!'
+success 'Dotfiles has been deployed.'
+echo ''
+

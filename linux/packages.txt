@@ -1,0 +1,6 @@
+epel-release
+git
+vim
+tmux
+mc
+

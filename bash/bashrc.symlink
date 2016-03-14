@@ -1,5 +1,3 @@
-
-
 export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:~/github/dotfiles-osx/bin:${PATH}"
 
 export LC_ALL=en_US.UTF-8
@@ -21,7 +19,7 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 alias appserver='ssh tibor@ts-centos-02'
 alias proxyserver='ssh tibor@ts-centos-01'
 
-alias ls='ls -lahpTG'
+#alias ls='ls -lahpTG'
 
 alias gs='git status'
 alias ga='git add --all'
@@ -98,8 +96,8 @@ function virtualenv_info(){
 
 VENV="\$(virtualenv_info)";
 
-PS1="\n[\u] @ [\w] \$(git_branch)"
-PS1+="\n [\#] ${VENV}→ "
-export PS1
+#PS1="\n[\u] @ [\w] \$(git_branch) ${VENV} $" 
+
+#export PS1
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"

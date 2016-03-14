@@ -1,0 +1,35 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree'
+Plug 'easymotion/vim-easymotion'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-fugitive'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dkprice/vim-easygrep'
+Plug 'tpope/vim-unimpaired'
+Plug 'christoomey/vim-tmux-navigator' 
+
+call plug#end()
+
+set lazyredraw
+set ttyfast
+
+" Remapping keys
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+
+nnoremap <F7> :CtrlP ~<CR>
+
+" Solving paste issue with comments
+set pastetoggle=
+set nosi noai
+
+" Tab management: http://stackoverflow.com/a/1878983/1565331
+set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+
+set number
+
+set hls
