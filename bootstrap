@@ -57,8 +57,10 @@ prepare_ssh_key () {
 }
 
 add_key_to_ssh_agent () {
-  eval $(ssh-agent)
+  info 'Adding SSH key to ssh-agent..'
+  eval $(ssh-agent)>/dev/null
   ssh-add
+  success 'SSH key added to ssh-agent.'
 }
 
 add_ssh_key_to_github () {
