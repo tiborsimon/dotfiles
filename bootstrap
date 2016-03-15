@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+DOTFILES_ROOT=~/.dotfiles
+DOTFILES_REPO=https://github.com/tiborsimon/dotfiles
+
+#----------------------------------------------------------------------------------------
+#  C O M M O N   F U N C T I O N S
+#----------------------------------------------------------------------------------------
+
+info () {
+  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+}
+
+user () {
+  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  exit
+}
+
+#----------------------------------------------------------------------------------------
+#  B O O T S T R A P   S C R I P T 
+#----------------------------------------------------------------------------------------
+
+echo ''
+echo '---------------------------------------------------------------------------------'
+echo "      T I B O R   S I M O N ' S   D O T F I L E   C O N F I G U R A T I O N"
+echo '---------------------------------------------------------------------------------'
+echo ''
+
+if [ -d "$DOTFILES_ROOT" ]; then
+  user "$DOTFILES_ROOT folder already exist. [D]elete, [a]bort"
+  read -n 1 action
+
+  case "$action" in
+  D ) success "Old $DOTFILES_ROOT folder deleted."
+      rm -rf $DOTFILES_ROOT
+      ;;
+  * ) success 'Bootstrap script aborted.'
+      exit
+      ;;
+  esac
+fi
+
+
+if [ ! $(which git) ]; then
+  fail 'Could not find git. You have to install it manually!'
+fi
+
+info 'Cloning dotfiles repository..'
+
+echo ''
+git clone --depth 1 $DOTFILES_REPO $DOTFILES_ROOT
+echo ''
+
+success 'Dotfiles repository cloned.'
+info 'Running deploy script..'
+
+cd $DOTFILES_ROOT
+./deploy
+
+success 'Bootstrap script has finished!'
+echo ''
+
