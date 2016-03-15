@@ -72,7 +72,7 @@ fi
 
 info 'Cloning dotfiles repository..'
 
-git clone --depth 1 $DOTFILES_REPO $DOTFILES_ROOT>/dev/null
+git clone --quiet --depth 1 $DOTFILES_REPO $DOTFILES_ROOT
 
 success 'Dotfiles repository cloned.'
 info 'Running deploy script..'
