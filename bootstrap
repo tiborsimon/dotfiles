@@ -59,7 +59,8 @@ if [ -f ~/.ssh/id_rsa ]; then
   read -n 1 action
 
   case "$action" in
-  C ) ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai
+  C ) info 'Generating SSH key..'
+      ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai
       success 'SSH key generated.'
       ;;
   * ) success 'SSH key generation skipped. Existing key will be used.'
