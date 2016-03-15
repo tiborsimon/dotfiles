@@ -54,7 +54,7 @@ fi
 
 info 'Looking for SSH key..'
 
-if [ -f $SSH_KEY && -f $SSH_KEY.pub ]; then 
+if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then 
   user 'SSH key is detected. Do you want to create a new one? [C]reate, [k]eep'
   read -n 1 action
 
@@ -67,7 +67,7 @@ if [ -f $SSH_KEY && -f $SSH_KEY.pub ]; then
       ;;
   esac
 else
-  user "SSH key ($SSH_KEY)) cannot be found. Generating a new one.."
+  user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
   until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
   success 'SSH key generated.'
 fi
