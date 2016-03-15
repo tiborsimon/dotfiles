@@ -68,13 +68,11 @@ if [ -f $SSH_KEY ]; then
   esac
 fi
 
-echo "$(cat $SSH_KEY.pub)"
-
 user 'Do you want to add the SSH key to your GitHub account? [Y]es [s]kip'
 read -n 1 action
 case "$action" in
 Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
-    curl -u "$GITHUB_USERNAME" --data '{"title":"$(id -un)@$(hostname -f)","key":"$(cat $SSH_KEY.pub)"}' https://api.github.com/user/keys
+    curl -u "$GITHUB_USERNAME" --data "{\"title\":\"$(id -un)@$(hostname -f)\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys
     ;;
 * ) info 'Skipped uploading SSH key to GitHub.'
     ;;
