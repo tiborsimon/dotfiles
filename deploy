@@ -2,7 +2,7 @@
 #
 # bootstrap installs things.
 
-export DOTFILES_ROOT=$(pwd)
+export DOTFILES_ROOT=~/.dotfiles
 
 set -e
 
@@ -35,10 +35,6 @@ install_dotfiles () {
   done
 }
 
-deploy_git_ssh_key () {
-  info 'Deploying git ssh key'
-}
-
 #----------------------------------------------------------------------------------------
 #  O S X   R E L A T E D   F U N C T I O N S
 #----------------------------------------------------------------------------------------
@@ -63,16 +59,14 @@ update_homebrew () {
   read -n 1 action
 
   case "$action" in
-    y ) 
-      info 'Updating Homebrew..'
+  y ) info 'Updating Homebrew..'
       if brew update > brew-update.log; then
         success 'Homebrew is up-to-date!'
       else
         fail 'Error during Homebrew update!'
       fi
       ;;
-    * )
-      success 'Skipped..'
+  * ) success 'Skipped..'
       ;;
   esac
 }
@@ -82,13 +76,11 @@ excute_brewfile () {
   read -n 1 action
 
   case "$action" in
-    y )
-      info 'Executing Brewfile..'
+  y ) info 'Executing Brewfile..'
       brew bundle -v  --file=brew/Brewfile > brew-install.log
       success 'Brewfile executed. All apps are installed.'
       ;;
-    * )
-      success 'Skipped..'
+  * ) success 'Skipped..'
       ;;
   esac
 }
@@ -102,13 +94,11 @@ excute_yum_file () {
   read -n 1 action
 
   case "$action" in
-    y )
-      info 'Executing yum file..'
+  y ) info 'Executing yum file..'
       yum install -y < ./linux/packages.txt > yum-install.log
       success 'Yum file  executed. All apps are installed.'
       ;;
-    * )
-      success 'Skipped..'
+  * ) success 'Skipped..'
       ;;
   esac
 }
