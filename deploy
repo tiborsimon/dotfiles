@@ -128,7 +128,5 @@ else
   install_vimplug
 fi
 
-echo ''
 success 'Dotfiles has been deployed.'
-echo ''
 
