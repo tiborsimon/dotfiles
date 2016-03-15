@@ -3,4 +3,5 @@ git
 vim
 tmux
 mc
+nc
 
