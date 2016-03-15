@@ -108,7 +108,7 @@ if [ -d "$DOTFILES_ROOT" ]; then
   esac
 fi
 
-user 'Do you want to push later to the dotfiles repo? [y]es [n]o'
+user 'Clone repo via [h]ttp or via [g]it (ssh key required)?'
 read -n 1 action
 case "$action" in
 y ) success 'Repo will be cloned via git protocol.'
