@@ -99,7 +99,7 @@ excute_linux_packages_file () {
 
   case "$action" in
   y ) info 'Executing yum file..'
-      sudo $LINUX_PACKAGE_MANAGER install -y < ./linux/packages.txt > $LINUX_PACKAGE_MANAGER-install.log
+      sudo $LINUX_PACKAGE_MANAGER install -y < $DOTFILES_ROOT/linux/packages.txt > $LINUX_PACKAGE_MANAGER-install.log
       success 'All apps are installed.'
       ;;
   * ) success 'Skipped..'
