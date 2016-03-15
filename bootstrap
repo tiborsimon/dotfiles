@@ -53,6 +53,12 @@ prepare_ssh_key () {
     until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
     success 'SSH key generated.'
   fi
+  add_key_to_ssh_agent
+}
+
+add_key_to_ssh_agent () {
+  eval $(ssh-agent)
+  ssh-add
 }
 
 add_ssh_key_to_github () {
