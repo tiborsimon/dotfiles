@@ -62,8 +62,7 @@ if [ -f ~/.ssh/id_rsa ]; then
   C ) ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai
       success 'SSH key generated.'
       ;;
-  * ) success 'SSH key generation skipped.'
-      exit
+  * ) success 'SSH key generation skipped. Existing key will be used.'
       ;;
   esac
 fi
