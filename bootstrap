@@ -60,7 +60,7 @@ if [ -f ~/.ssh/id_rsa ]; then
 
   case "$action" in
   C ) info 'Generating SSH key..'
-      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai; do warning 'Try again'; done
+      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai; do info 'Try again'; done
       success 'SSH key generated.'
       ;;
   * ) success 'SSH key generation skipped. Existing key will be used.'
