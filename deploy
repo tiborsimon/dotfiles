@@ -35,6 +35,12 @@ install_dotfiles () {
   done
 }
 
+install_vimplug () {
+  info 'Installing VimPlug..'
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  success 'VimPlug installed!'
+}
+
 #----------------------------------------------------------------------------------------
 #  O S X   R E L A T E D   F U N C T I O N S
 #----------------------------------------------------------------------------------------
@@ -114,10 +120,12 @@ if is_osx; then
   install_homebrew
   update_homebrew
   excute_brewfile
+  install_vimplug
 else
   info "Installing Linux related config"
   install_dotfiles
   excute_yum_file
+  install_vimplug
 fi
 
 echo ''
