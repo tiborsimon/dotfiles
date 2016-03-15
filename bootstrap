@@ -21,8 +21,6 @@ success () {
 
 fail () {
   printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
-  echo ''
-  exit
 }
 
 #----------------------------------------------------------------------------------------
@@ -60,7 +58,7 @@ if [ -f ~/.ssh/id_rsa ]; then
 
   case "$action" in
   C ) info 'Generating SSH key..'
-      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai; do info 'Try again'; done
+      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai; do fail 'Key generation failed. Try again'; done
       success 'SSH key generated.'
       ;;
   * ) success 'SSH key generation skipped. Existing key will be used.'
@@ -70,6 +68,8 @@ fi
 
 if [ ! $(which git) ]; then
   fail 'Could not find git. You have to install it manually!'
+  echo ''
+  exit
 fi
 
 info 'Cloning dotfiles repository..'
