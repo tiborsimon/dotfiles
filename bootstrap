@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 DOTFILES_ROOT=~/.dotfiles
 DOTFILES_REPO=git@github.com:tiborsimon/dotfiles
+USER_EMAIL=tibor@tiborsimon.io
 
 #----------------------------------------------------------------------------------------
 #  C O M M O N   F U N C T I O N S
@@ -48,6 +49,21 @@ if [ -d "$DOTFILES_ROOT" ]; then
   esac
 fi
 
+info 'Looking for SSH key..'
+
+if [ -d "~/.ssh/id_rsa" ]; then 
+  user 'SSH key is detected. Do you want to create a new one? [C]reate, [k]eep'
+  read -n 1 action
+
+  case "$action" in
+  C ) ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai
+      success 'SSH key generated.'
+      ;;
+  * ) success 'SSH key generation skipped.'
+      exit
+      ;;
+  esac
+fi
 
 if [ ! $(which git) ]; then
   fail 'Could not find git. You have to install it manually!'
