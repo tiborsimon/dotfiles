@@ -2,6 +2,8 @@
 DOTFILES_ROOT=~/.dotfiles
 DOTFILES_REPO=git@github.com:tiborsimon/dotfiles
 USER_EMAIL=tibor@tiborsimon.io
+GITHUB_USERNAME=tiborsimon
+SSH_KEY=~/.ssh/id_rsa
 
 #----------------------------------------------------------------------------------------
 #  C O M M O N   F U N C T I O N S
@@ -52,19 +54,29 @@ fi
 
 info 'Looking for SSH key..'
 
-if [ -f ~/.ssh/id_rsa ]; then 
+if [ -f $SSH_KEY ]; then 
   user 'SSH key is detected. Do you want to create a new one? [C]reate, [k]eep'
   read -n 1 action
 
   case "$action" in
   C ) info 'Generating SSH key..'
-      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f ~/.ssh/id_rsai; do fail 'Key generation failed. Try again'; done
+      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
       success 'SSH key generated.'
       ;;
   * ) success 'SSH key generation skipped. Existing key will be used.'
       ;;
   esac
 fi
+
+user 'Do you want to add the SSH key to your GitHub account? [Y]es [s]kip'
+read -n 1 action
+case "$action" in
+Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
+    curl -u "$GITHUB_USERNAME" --data '{"title":"$(id -un)@$(hostname -f)","key":"$(cat $SSH_KEY.pub)"}' https://api.github.com/user/keys
+    ;;
+* ) info 'Skipped uploading SSH key to GitHub.'
+    ;;
+esac
 
 if [ ! $(which git) ]; then
   fail 'Could not find git. You have to install it manually!'
