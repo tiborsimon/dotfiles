@@ -44,6 +44,7 @@ if [ -d "$DOTFILES_ROOT" ]; then
       rm -rf $DOTFILES_ROOT
       ;;
   * ) success 'Bootstrap script aborted.'
+      echo ''
       exit
       ;;
   esac
@@ -72,7 +73,7 @@ fi
 info 'Cloning dotfiles repository..'
 
 echo ''
-git clone --depth 1 $DOTFILES_REPO $DOTFILES_ROOT
+git clone --depth 1 $DOTFILES_REPO $DOTFILES_ROOT>/dev/null
 echo ''
 
 success 'Dotfiles repository cloned.'
