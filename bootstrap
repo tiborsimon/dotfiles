@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 DOTFILES_ROOT=~/.dotfiles
 DOTFILES_REPO=git@github.com:tiborsimon/dotfiles
+DOTFILES_REPO_NORMAL=https://github.com/tiborsimon/dotfiles
 USER_EMAIL=tibor@tiborsimon.io
 GITHUB_USERNAME=tiborsimon
 SSH_KEY=~/.ssh/id_rsa
@@ -25,6 +26,59 @@ fail () {
   printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
 }
 
+assert_for_git () {
+  if [ ! $(which git) ]; then
+    fail 'Could not find git. You have to install it manually!'
+    echo ''
+    exit
+  fi
+}
+
+prepare_ssh_key () {
+  info 'Looking for SSH key..'
+  
+  if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then 
+    user 'SSH key is detected. Do you want to create a new one? [C]reate, [k]eep'
+    read -n 1 action
+    case "$action" in
+    C ) info 'Generating SSH key..'
+        until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
+        success 'SSH key generated.'
+        ;;
+    * ) success 'SSH key generation skipped. Existing key will be used.'
+        ;;
+    esac
+  else
+    user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
+    until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
+    success 'SSH key generated.'
+  fi
+}
+
+add_ssh_key_to_github () {
+  user 'Do you want to add the SSH key to your GitHub account? [Y]es [s]kip'
+  read -n 1 action
+  case "$action" in
+  Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
+      curl -u "$GITHUB_USERNAME" --data "{\"title\":\"$(id -un)@$(hostname -f)\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys
+      ;;
+  * ) info 'Skipped uploading SSH key to GitHub.'
+      ;;
+  esac
+}
+
+clone_via_git () {
+  info 'Cloning dotfiles repository..'
+  git clone --quiet --depth 1 $DOTFILES_REPO $DOTFILES_ROOT>/dev/null 2>&1
+  success 'Dotfiles repository cloned.'
+}
+
+clone_via_http () {
+  info 'Cloning dotfiles repository..'
+  git clone --quiet --depth 1 $DOTFILES_REPO_NORMAL $DOTFILES_ROOT>/dev/null 2>&1
+  success 'Dotfiles repository cloned.'
+}
+
 #----------------------------------------------------------------------------------------
 #  B O O T S T R A P   S C R I P T 
 #----------------------------------------------------------------------------------------
@@ -36,6 +90,8 @@ echo '--------------------------------------------------------------------------
 echo ''
 
 info 'Installing dotfiles system..'
+
+assert_for_git
 
 if [ -d "$DOTFILES_ROOT" ]; then
   user "$DOTFILES_ROOT folder already exist. [D]elete, [a]bort"
@@ -52,47 +108,19 @@ if [ -d "$DOTFILES_ROOT" ]; then
   esac
 fi
 
-info 'Looking for SSH key..'
-
-if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then 
-  user 'SSH key is detected. Do you want to create a new one? [C]reate, [k]eep'
-  read -n 1 action
-
-  case "$action" in
-  C ) info 'Generating SSH key..'
-      until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
-      success 'SSH key generated.'
-      ;;
-  * ) success 'SSH key generation skipped. Existing key will be used.'
-      ;;
-  esac
-else
-  user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
-  until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
-  success 'SSH key generated.'
-fi
-
-user 'Do you want to add the SSH key to your GitHub account? [Y]es [s]kip'
+user 'Do you want to push later to the dotfiles repo? [y]es [n]o'
 read -n 1 action
 case "$action" in
-Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
-    curl -u "$GITHUB_USERNAME" --data "{\"title\":\"$(id -un)@$(hostname -f)\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys
+y ) success 'Repo will be cloned via git protocol.'
+    prepare_ssh_key
+    add_ssh_key_to_github
+    clone_via_git
     ;;
-* ) info 'Skipped uploading SSH key to GitHub.'
+* ) success 'Repo will be cloned via http protocol.'
+    clone_via_http
     ;;
 esac
 
-if [ ! $(which git) ]; then
-  fail 'Could not find git. You have to install it manually!'
-  echo ''
-  exit
-fi
-
-info 'Cloning dotfiles repository..'
-
-git clone --quiet --depth 1 $DOTFILES_REPO $DOTFILES_ROOT>/dev/null 2>&1
-
-success 'Dotfiles repository cloned.'
 info 'Running deploy script..'
 
 cd $DOTFILES_ROOT
