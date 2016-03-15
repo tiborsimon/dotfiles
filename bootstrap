@@ -111,7 +111,7 @@ fi
 user 'Clone repo via [h]ttp or via [g]it (ssh key required)?'
 read -n 1 action
 case "$action" in
-y ) success 'Repo will be cloned via git protocol.'
+g ) success 'Repo will be cloned via git protocol.'
     prepare_ssh_key
     add_ssh_key_to_github
     clone_via_git
