@@ -2,7 +2,9 @@
 #
 # bootstrap installs things.
 
-export DOTFILES_ROOT=~/.dotfiles
+DOTFILES_ROOT=~/.dotfiles
+LINUX_PACKAGE_MANAGER=yum
+
 set -e
 source functions/commons
 
@@ -91,14 +93,14 @@ excute_brewfile () {
 #  L I N U X   R E L A T E D   F U N C T I O N S
 #----------------------------------------------------------------------------------------
 
-excute_yum_file () {
-  user 'Do you want to execute the yum file to install all your programs?  [y]es, [s]kip'
+excute_linux_packages_file () {
+  user "Do you want to install packages via $LINUX_PACKAGE_MANAGER?  [y]es, [s]kip"
   read -n 1 action
 
   case "$action" in
   y ) info 'Executing yum file..'
-      yum install -y < ./linux/packages.txt > yum-install.log
-      success 'Yum file  executed. All apps are installed.'
+      sudo $LINUX_PACKAGE_MANAGER install -y < ./linux/packages.txt > $LINUX_PACKAGE_MANAGER-install.log
+      success 'All apps are installed.'
       ;;
   * ) success 'Skipped..'
       ;;
@@ -120,7 +122,7 @@ if is_osx; then
 else
   info "Installing Linux related config"
   install_dotfiles
-  excute_yum_file
+  excute_linux_packages_file
   install_vimplug
 fi
 
