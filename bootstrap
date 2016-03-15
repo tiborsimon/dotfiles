@@ -35,7 +35,7 @@ echo "      T I B O R   S I M O N ' S   D O T F I L E   C O N F I G U R A T I O 
 echo '---------------------------------------------------------------------------------'
 echo ''
 
-info 'Installing dotfiles system'
+info 'Installing dotfiles system..'
 
 if [ -d "$DOTFILES_ROOT" ]; then
   user "$DOTFILES_ROOT folder already exist. [D]elete, [a]bort"
@@ -54,7 +54,7 @@ fi
 
 info 'Looking for SSH key..'
 
-if [ -f "~/.ssh/id_rsa" ]; then 
+if [ -f ~/.ssh/id_rsa ]; then 
   user 'SSH key is detected. Do you want to create a new one? [C]reate, [k]eep'
   read -n 1 action
 
