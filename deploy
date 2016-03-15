@@ -3,11 +3,7 @@
 # bootstrap installs things.
 
 export DOTFILES_ROOT=~/.dotfiles
-
 set -e
-
-echo ''
-
 source functions/commons
 
 #----------------------------------------------------------------------------------------
