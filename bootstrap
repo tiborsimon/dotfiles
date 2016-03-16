@@ -2,7 +2,7 @@
 DOTFILES_ROOT=~/.dotfiles
 DOTFILES_REPO=git@github.com:tiborsimon/dotfiles
 DOTFILES_REPO_NORMAL=https://github.com/tiborsimon/dotfiles
-USER_EMAIL=tibor@tiborsimon.io
+USER_EMAIL=
 GITHUB_USERNAME=tiborsimon
 SSH_KEY=~/.ssh/id_rsa
 
@@ -34,6 +34,21 @@ assert_for_git () {
   fi
 }
 
+add_key_to_ssh_agent () {
+  info 'Adding SSH key to ssh-agent..'
+  eval $(ssh-agent)>/dev/null
+  ssh-add
+  success 'SSH key added to ssh-agent.'
+}
+
+generate_ssh_key () {
+  user 'What is your email address?' 
+  read -e USER_EMAIL
+  until ssh-keygen -t rsa -b 4096 -c "$USER_EMAIL" -f $SSH_KEY; do fail 'key generation failed. try again..'; done
+  success 'SSH key generated.'
+}
+
+
 prepare_ssh_key () {
   info 'Looking for SSH key..'
   
@@ -42,25 +57,17 @@ prepare_ssh_key () {
     read -n 1 action
     case "$action" in
     C ) info 'Generating SSH key..'
-        until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
-        success 'SSH key generated.'
+        generate_ssh_key
+        echo $USER_EMAIL
         ;;
     * ) success 'SSH key generation skipped. Existing key will be used.'
         ;;
     esac
   else
     user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
-    until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do fail 'Key generation failed. Try again..'; done
-    success 'SSH key generated.'
+    generate_ssh_key
   fi
   add_key_to_ssh_agent
-}
-
-add_key_to_ssh_agent () {
-  info 'Adding SSH key to ssh-agent..'
-  eval $(ssh-agent)>/dev/null
-  ssh-add
-  success 'SSH key added to ssh-agent.'
 }
 
 add_ssh_key_to_github () {

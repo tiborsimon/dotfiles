@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-surround'
+Plug 'mbbill/undotree'
 Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'terryma/vim-multiple-cursors'
@@ -9,18 +10,71 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dkprice/vim-easygrep'
 Plug 'tpope/vim-unimpaired'
 Plug 'christoomey/vim-tmux-navigator' 
+Plug 'vim-airline/vim-airline' 
+Plug 'vim-airline/vim-airline-themes' 
+Plug 'mhinz/vim-startify' 
+Plug 'gregsexton/gitv' 
+Plug 'kana/vim-arpeggio' 
+Plug 'chrisbra/NrrwRgn' 
 
 call plug#end()
+
+" change the mapleader from \ to ,
+let mapleader=","
+
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :e ~/.vimrc<CR>
+vmap <silent> <leader>sv :so ~/.vimrc<CR>
+
+set pastetoggle=<F1>
+nnoremap ; :
+nnoremap j gj
+nnoremap k gk
 
 set lazyredraw
 set ttyfast
 
-" Remapping keys
-nnoremap <C-j> <C-W>j
-nnoremap <C-k> <C-W>k
-nnoremap <C-h> <C-W>h
-nnoremap <C-l> <C-W>l
+" Window related remappings
+nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>s <C-w>s
+nnoremap <leader>vsa :vert sba<cr>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
+" Tab related remappings
+map <leader>tn :tabnew<CR>
+map <leader>tc :tabclose<CR>
+
+" Motion in insert mode
+inoremap <C-h> <left>
+inoremap <C-l> <right>
+inoremap <C-j> <down>
+inoremap <C-k> <up>
+
+" Smash esc :D
+call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+
+" NERDTree remap
+nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <F3> :NERDTreeFind<CR>
+let NERDTreeShowBookmarks=1
+
+" Undotree config
+nnoremap <F5> :UndotreeToggle<cr>
+
+" Fugitive remaps
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
+nnoremap <silent> <leader>gr :Gremove<CR>
+
+" CtrlP remap
 nnoremap <F7> :CtrlP ~<CR>
 
 " Solving paste issue with comments
@@ -33,3 +87,5 @@ set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set number
 
 set hls
+set incsearch
+
