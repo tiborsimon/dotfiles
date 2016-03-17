@@ -13,4 +13,6 @@
 #
 # Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/vimrc)
 
-echo 'Vim deployment: it works!'
+echo ''
+echo 'Kersz egy kv-t, szivi?'
+echo ''
