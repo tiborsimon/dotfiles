@@ -11,6 +11,6 @@
 # files with comfort, and do not want to deploy the whole dotfile system. You won't be able to push
 # back changes you make in the config.
 #
-# Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/vim)
+# Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/vimrc)
 
 echo 'Vim deployment: it works!'
