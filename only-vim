@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# This script will install the vim configuration part of the tiborsimon/dotfiles repo. 
+# It won't use the symlinked solution as it will create the the .vimrc file and
+# the .vim folder instead. It also installs the Vim-Plug plugin manager, and installs the 
+# plugins listed in the .vimrc file. 
+#
+# After the script finished, you will have a full vim configuration on your machine.
+#
+# This solution is useful if you have spun up a new virtual machine, and you only want to edit 
+# files with comfort, and do not want to deploy the whole dotfile system. You won't be able to push
+# back changes you make in the config.
+#
+# Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/vimrc)
+
+echo ''
+echo 'Kersz egy kv-t, szivi?'
+echo ''
