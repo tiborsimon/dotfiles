@@ -75,7 +75,16 @@ upload_key_to_github () {
     user 'How do you want to name the key?'
     read -e KEY_NAME
     local output=$(curl -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys)
-    echo $output
+    if [ echo $output | grep 'key is already in use' ]; then
+      github_result=1
+      success 'Key is already in use'
+    else [ echo $output | grep '"verified": true, "created_at"'  ]; then
+      github_result=1
+      success 'Key is already in use'
+    else
+      fail 'A problem occured during the upload!'
+      echo $output
+    fi
   done
 }
 
