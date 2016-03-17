@@ -78,7 +78,7 @@ upload_key_to_github () {
     if [ echo $output | grep 'key is already in use' ]; then
       github_result=1
       success 'Key is already in use'
-    else [ echo $output | grep '"verified": true, "created_at"'  ]
+    elif [ echo $output | grep '"verified": true, "created_at"' ]
       github_result=1
       success 'Key is already in use'
     else
