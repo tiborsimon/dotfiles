@@ -30,6 +30,12 @@ unbind C-Down
 unbind C-Left 
 unbind C-Right
 
+et -g utf8
+set-window-option -g utf8 on
+
+# make tmux display things in 256 colors
+set -g default-terminal "screen-256color"
+
 # Smart pane switching with awareness of vim splits
 # See: https://github.com/christoomey/vim-tmux-navigator
 is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?x?)(diff)?$"'

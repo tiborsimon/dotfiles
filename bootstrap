@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 DOTFILES_ROOT=~/.dotfiles
-DOTFILES_REPO=git@github.com:tiborsimon/dotfiles
-DOTFILES_REPO_NORMAL=https://github.com/tiborsimon/dotfiles
-USER_EMAIL=
 GITHUB_USERNAME=tiborsimon
+REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
 
 #----------------------------------------------------------------------------------------
@@ -45,7 +43,6 @@ generate_ssh_key () {
   user 'What is your email address?' 
   read -e USER_EMAIL
   until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do 
-  echo $USER_EMAIL
     fail 'key generation failed. try again..'
   done
   success 'SSH key generated.'
@@ -72,12 +69,21 @@ prepare_ssh_key () {
   add_key_to_ssh_agent
 }
 
+upload_key_to_github () {
+  local GITHUB_RESULT=0
+  until [ GITHUB_RESULT -eq 1 ]; do
+    user 'How do you want to name the key?'
+    read -e KEY_NAME
+    curl -u "$GITHUB_USERNAME" --data "{\"title\":\"$(KEY_NAME)\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys
+  done
+}
+
 add_ssh_key_to_github () {
   user 'Do you want to add the SSH key to your GitHub account? [Y]es [s]kip'
   read -n 1 action
   case "$action" in
   Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
-      curl -u "$GITHUB_USERNAME" --data "{\"title\":\"$(id -un)@$(hostname -f)\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys
+      upload_key_to_github
       ;;
   * ) info 'Skipped uploading SSH key to GitHub.'
       ;;
@@ -86,13 +92,13 @@ add_ssh_key_to_github () {
 
 clone_via_git () {
   info 'Cloning dotfiles repository..'
-  git clone --quiet --depth 1 $DOTFILES_REPO $DOTFILES_ROOT>/dev/null 2>&1
+  git clone --quiet --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT>/dev/null 2>&1
   success 'Dotfiles repository cloned.'
 }
 
 clone_via_http () {
   info 'Cloning dotfiles repository..'
-  git clone --quiet --depth 1 $DOTFILES_REPO_NORMAL $DOTFILES_ROOT>/dev/null 2>&1
+  git clone --quiet --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT>/dev/null 2>&1
   success 'Dotfiles repository cloned.'
 }
 
