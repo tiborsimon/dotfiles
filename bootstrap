@@ -44,7 +44,8 @@ add_key_to_ssh_agent () {
 generate_ssh_key () {
   user 'What is your email address?' 
   read -e USER_EMAIL
-  until ssh-keygen -t rsa -b 4096 -c "$USER_EMAIL" -f $SSH_KEY; do 
+  until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do 
+  echo $USER_EMAIL
     fail 'key generation failed. try again..'
   done
   success 'SSH key generated.'
