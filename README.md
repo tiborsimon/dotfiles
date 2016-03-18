@@ -4,9 +4,10 @@ This repo contains my dotfile management system that I use to take care of my
 OS X and Linux configurations. This project is partially based on
 [Zach Holman's dotfiles](https://github.com/holman/dotfiles) project.
 
-# I have a virgin system and I want my config with ease!
+# I have a virgin system and I want my config to it!
 
 Exactly what I wanted to do with this project.
+
 Bootstrap your dotfiles by running the following command __on__ your __virgin system__:
 
 ```
@@ -39,7 +40,7 @@ Both methods will take care of the possible errors. You only need to answer to t
 
 # I have already cloned my dotfiles repo and I want to deploy the pulled updates!
 
-Good, you can run the `~/.dotfiles/deploy` script from the `.dotfiles` folder to do that.
+Good. Then go to your `~/.dotfiles` folder and run the  `./deploy` script to do that.
 
 # Example bootstrapping printouts
 
