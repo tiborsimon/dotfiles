@@ -1,5 +1,19 @@
-#!/usr/bin/env bash
-DOTFILES_ROOT=$HOME/.dotfiles
+#!/bin/sh
+#
+# This script will install the full configuration of the tiborsimon/dotfiles repo. 
+# It will use a symlinked solution: it will symlink the configuration files located in 
+# the .dotfiles folder's subfolders. With this approach, you will be able to separate
+# the configurations from each others.
+#
+# You can clone the repo via https and ssh protocol. If you choose https, you wouldn't need
+# your ssh key set up, but you will have to provide your GitHub credentials during every push.
+# If you choose ssh as a cloning method, you are directed through an ssh key creatation process
+# which contains an ssh key upload to GitHub too.
+#
+# To be able to use this file, you have to fill out the global variables below.
+#
+# Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/dotfiles)
+
 GITHUB_USERNAME=tiborsimon
 REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
@@ -152,7 +166,7 @@ add_ssh_key_to_github () {
 
 clone_via_git () {
   info 'Cloning dotfiles repository..'
-  if git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT; then
+  if git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $HOME/.dotfiles; then
     success 'Dotfiles repository cloned.'
   else
     fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
@@ -163,7 +177,7 @@ clone_via_git () {
 
 clone_via_http () {
   info 'Cloning dotfiles repository..'
-  if git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT; then
+  if git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $HOME/.dotfiles; then
     success 'Dotfiles repository cloned.'
   else
     fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
@@ -188,13 +202,13 @@ info 'Installing dotfiles system..'
 
 assert_for_git
 
-if [ -d "$DOTFILES_ROOT" ]; then
-  user "$DOTFILES_ROOT folder already exist. [D]elete, [a]bort"
+if [ -d "$HOME/.dotfiles" ]; then
+  user "$HOME/.dotfiles folder already exist. [D]elete, [a]bort"
   read -n 1 action
 
   case "$action" in
-  D ) success "Old $DOTFILES_ROOT folder deleted."
-      rm -rf $DOTFILES_ROOT
+  D ) success "Old $HOME/.dotfiles folder deleted."
+      rm -rf $HOME/.dotfiles
       ;;
   * ) success 'Bootstrap script aborted.'
       echo ''
@@ -218,7 +232,7 @@ esac
 
 info 'Running deploy script..'
 
-cd $DOTFILES_ROOT
+cd $HOME/.dotfiles
 ./deploy
 
 success 'Bootstrap script has finished!'
