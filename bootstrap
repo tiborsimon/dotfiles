@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-DOTFILES_ROOT=~/.dotfiles
+DOTFILES_ROOT=$HOME/.dotfiles
 GITHUB_USERNAME=tiborsimon
 REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
@@ -100,7 +100,7 @@ upload_key_to_github () {
     if grep -q 'key is already in use' gh-result; then
       github_result=1
       success 'Key is already in use. Rerun this script if you want to add a new one.'
-    elif echo $output | grep '"verified": true'; then
+    elif grep -q '"verified": true' gh-result; then
       github_result=1
       success "Key ($KEY_NAME) has been added successfully."
     elif grep -q 'Bad credentials' gh-result; then
@@ -129,13 +129,13 @@ add_ssh_key_to_github () {
 
 clone_via_git () {
   info 'Cloning dotfiles repository..'
-  git clone --quiet --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT>/dev/null 2>&1
+  git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT
   success 'Dotfiles repository cloned.'
 }
 
 clone_via_http () {
   info 'Cloning dotfiles repository..'
-  git clone --quiet --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT>/dev/null 2>&1
+  git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT
   success 'Dotfiles repository cloned.'
 }
 
