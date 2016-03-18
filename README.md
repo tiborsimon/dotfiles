@@ -6,7 +6,7 @@ OS X and Linux configurations. This project is partially based on
 
 # I have a virgin system and I want my config to it!
 
-Exactly what I wanted to do with this project.
+__Exactly__ what I wanted to do with this project.
 
 Bootstrap your dotfiles by running the following command __on__ your __virgin system__:
 
