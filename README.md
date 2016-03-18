@@ -4,7 +4,7 @@ This repo contains my dotfile management system that I use to take care of my
 OS X and Linux configurations. This project is partially based on
 [Zach Holman's dotfiles](https://github.com/holman/dotfiles) project.
 
-# I have a virgin system and I want my config to it!
+# I have a virgin system and I want my config with ease!
 
 __Exactly__ what I wanted to achieve with this project.
 
