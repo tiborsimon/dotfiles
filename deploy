@@ -2,7 +2,6 @@
 #
 # bootstrap installs things.
 
-DOTFILES_ROOT=~/.dotfiles
 LINUX_PACKAGE_MANAGER=yum
 
 set -e
@@ -27,7 +26,7 @@ install_dotfiles () {
 
   local overwrite_all=false backup_all=false skip_all=false
 
-  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
+  for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
   done
@@ -99,8 +98,8 @@ excute_linux_packages_file () {
 
   case "$action" in
   y ) info 'Executing yum file..'
-      for app in $(cat $DOTFILES_ROOT/linux/packages.txt); do info "Installing $app.."; done
-      sudo $LINUX_PACKAGE_MANAGER install -y $(cat $DOTFILES_ROOT/linux/packages.txt) > $LINUX_PACKAGE_MANAGER-install.log
+      for app in $(cat $HOME/.dotfiles/linux/packages.txt); do info "Installing $app.."; done
+      sudo $LINUX_PACKAGE_MANAGER install -y $(cat $HOME/.dotfiles/linux/packages.txt) > $LINUX_PACKAGE_MANAGER-install.log
       success 'All apps are installed.'
       ;;
   * ) success 'Skipped..'
