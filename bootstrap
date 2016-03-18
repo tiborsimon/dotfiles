@@ -78,9 +78,9 @@ upload_key_to_github () {
     if echo $output | grep 'key is already in use'; then
       github_result=1
       success 'Key is already in use'
-    elif echo $output | grep '"verified": true, "created_at"'; then
+    elif echo $output | grep '"verified": true'; then
       github_result=1
-      success 'Key is already in use'
+      success "Key ($KEY_NAME) has been added successfully."
     elif echo $output | grep 'Bad credentials'; then
       fail 'Error during login: invalid username or password!'
       info 'Try again!'
