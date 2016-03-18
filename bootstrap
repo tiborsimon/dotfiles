@@ -86,9 +86,9 @@ prepare_ssh_key () {
 
 upload_key_to_github () {
   local github_result=0
+  user 'How do you want to name the key?'
+  read -e KEY_NAME
   until [ $github_result -eq 1 ]; do
-    user 'How do you want to name the key?'
-    read -e KEY_NAME
     local output=$(curl -fsS -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys)
     if echo $output | grep 'key is already in use'; then
       github_result=1
