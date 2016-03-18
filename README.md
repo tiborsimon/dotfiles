@@ -4,18 +4,17 @@ This repo contains my dotfile management system that I use to take care of my
 OS X and Linux configurations. This project is partially based on
 [Zach Holman's dotfiles](https://github.com/holman/dotfiles) project.
 
-### Don't you have your config yet?
-# Bootstrap it via an URL!
+# I have a virgin system and I want my config with ease!
 
-..by running the following command __on__ your __virgin system__:
+Exactly what I wanted to do with this project.
+Bootstrap your dotfiles by running the following command __on__ your __virgin system__:
 
 ```
 sh <(curl -fsSL tiborsimon.io/dotfiles)
 ```
+You can use your own domain, and a simple redirection to your own __bootstrap__ script as well.
 
-This will download the latest _bootstrap script_ (domain redirect to the latest raw github listing of the bootstrap script), and it will clone the repo to your machine, and run the actual deployment script.
-
-You can use your own domain, and a simple redirection to your own __bootstrap__ script's raw listing.
+This will download the latest _bootstrap script_ (domain redirect to the latest raw github listing of your bootstrap script), and it will clone the repo to your machine, and run the actual deployment script.
 
 #### You can clone via https or via ssh as well
 
@@ -38,7 +37,7 @@ Every step is optional if you have an existing __SSH KEY__.
 
 Both methods will take care of the possible errors. You only need to answer to the asked questions during deployment.
 
-# I have already cloned my dotfiles repo, and I want to deploy pulled updates
+# I have already cloned my dotfiles repo and I want to deploy the pulled updates!
 
 Good, you can run the `~/.dotfiles/deploy` script from the `.dotfiles` folder to do that.
 
