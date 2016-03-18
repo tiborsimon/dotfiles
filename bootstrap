@@ -39,6 +39,14 @@ fail () {
   printf "\r  [${BOLD}${RED}FAIL${RESET}] $1\n"
 }
 
+assert_path () {
+  if [ "$(pwd)" == "$HOME/.dotfiles" ]; then
+    fail "You could't run this script from your ${BOLD}.dotfiles${RESET} folder!"
+    echo ''
+    exit
+  fi
+}
+
 assert_for_git () {
   if [ ! $(which git) ]; then
     fail 'Could not find git. You have to install it manually!'
@@ -163,6 +171,8 @@ echo '--------------------------------------------------------------------------
 echo "      T I B O R   S I M O N ' S   D O T F I L E   C O N F I G U R A T I O N"
 echo '---------------------------------------------------------------------------------'
 echo ''
+
+assert_path
 
 info 'Installing dotfiles system..'
 

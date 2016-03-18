@@ -1,19 +1,32 @@
+RESET=$(tput sgr0)
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+
+BOLD=$(tput bold)
+
 info () {
-  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+  printf "\r  [ ${BOLD}${LBLUE}..${RESET} ] $1\n"
 }
 
 user () {
-  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+  printf "\r  [ ${BOLD}${CYAN}??${RESET} ] $1\n"
 }
 
 success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+  printf "\r  [ ${BOLD}${GREEN}OK${RESET} ] $1\n"
+}
+
+warning () {
+  printf "\r  [ ${BOLD}${YELLOW}!!${RESET} ] $1\n"
 }
 
 fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
-  echo ''
-  exit
+  printf "\r  [${BOLD}${RED}FAIL${RESET}] $1\n"
 }
 
 link_file () {
