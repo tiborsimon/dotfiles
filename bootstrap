@@ -156,6 +156,8 @@ clone_via_git () {
     success 'Dotfiles repository cloned.'
   else
     fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
+    echo ''
+    exit
   fi
 }
 
@@ -165,6 +167,8 @@ clone_via_http () {
     success 'Dotfiles repository cloned.'
   else
     fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
+    echo ''
+    exit
   fi
 }
 
