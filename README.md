@@ -13,9 +13,9 @@ Bootstrap your dotfiles by running the following command __on__ your __virgin sy
 ```
 sh <(curl -fsSL tiborsimon.io/dotfiles)
 ```
-You can use your own domain, and a simple redirection to your own __bootstrap__ script as well.
+_You can use your own domain and a simple redirection to your own bootstrap script as well._
 
-This will download the latest _bootstrap script_ (domain redirect to the latest raw github listing of your bootstrap script), and it will clone the repo to your machine, and run the actual deployment script.
+This will download the latest _bootstrap script_ (domain redirect to the latest raw github listing of your bootstrap script) and it will clone the repo to your machine and run the actual deployment script.
 
 #### You can clone via https or via ssh as well
 
