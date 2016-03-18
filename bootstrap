@@ -152,14 +152,20 @@ add_ssh_key_to_github () {
 
 clone_via_git () {
   info 'Cloning dotfiles repository..'
-  git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT
-  success 'Dotfiles repository cloned.'
+  if git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT; then
+    success 'Dotfiles repository cloned.'
+  else
+    fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
+  fi
 }
 
 clone_via_http () {
   info 'Cloning dotfiles repository..'
-  git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT
-  success 'Dotfiles repository cloned.'
+  if git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $DOTFILES_ROOT; then
+    success 'Dotfiles repository cloned.'
+  else
+    fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
+  fi
 }
 
 #----------------------------------------------------------------------------------------
