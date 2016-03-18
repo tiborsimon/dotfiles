@@ -1,6 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
-# bootstrap installs things.
+# This script will install the full configuration of the tiborsimon/dotfiles repo. 
+# It will use a symlinked solution: it will symlink the configuration files located in 
+# the .dotfiles folder's subfolders. With this approach, you will be able to separate
+# the configurations from each others.
+#
+# This script can be used if you already have cloned the dotfiles repo, but you want to update
+# to the latest version.
+#
+# To be able to use this file, you have to fill out the global variables below.
+#
+# Usage: run the script from the ~/.dotfiles folder.
 
 LINUX_PACKAGE_MANAGER=yum
 
