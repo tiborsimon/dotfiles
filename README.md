@@ -4,6 +4,8 @@ This repo contains my dotfile management system that I use to take care of my
 OS X and Linux configurations. This project is partially based on
 [Zach Holman's dotfiles](https://github.com/holman/dotfiles) project.
 
+Put your binary files and scripts to the `~/.dotfiles/bin` folder, and put your configuration (dot)files to separated folders without the leading dot and the extension of `.symlink`. The `deploy` script will _symlink_ all files with the extension fo `.symlink` to your home folder with a leading dot and without the extension.
+
 # I have a virgin system and I want my config with ease!
 
 __Exactly__ what I wanted to achieve with this project.
