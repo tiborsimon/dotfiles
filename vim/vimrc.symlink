@@ -26,7 +26,7 @@ let mapleader=","
 nmap <silent> <leader>ev :e ~/.vimrc<CR>
 vmap <silent> <leader>sv :so ~/.vimrc<CR>
 
-set pastetoggle=<F1>
+set pastetoggle=<F8>
 nnoremap ; :
 nnoremap j gj
 nnoremap k gk
