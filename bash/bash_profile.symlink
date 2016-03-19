@@ -1,3 +1,5 @@
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
+
+export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
