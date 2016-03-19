@@ -111,28 +111,6 @@ upload_key_to_github () {
   user 'How do you want to name the key?'
   read -e KEY_NAME
   until [ $github_result -eq 1 ]; do
-    local output=$(curl -fsS -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys)
-    if echo $output | grep 'key is already in use'; then
-      github_result=1
-      success 'Key is already in use'
-    elif echo $output | grep '"verified": true'; then
-      github_result=1
-      success "Key ($KEY_NAME) has been added successfully."
-    elif echo $output | grep 'Bad credentials'; then
-      fail 'Error during login: invalid username or password!'
-      info 'Try again!'
-    else
-      fail 'A problem occured during the upload!'
-      echo $output
-    fi
-  done
-}
-
-upload_key_to_github () {
-  local github_result=0
-  user 'How do you want to name the key?'
-  read -e KEY_NAME
-  until [ $github_result -eq 1 ]; do
     curl --silent -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys > gh-result
     if grep -q 'key is already in use' gh-result; then
       github_result=1
