@@ -6,6 +6,10 @@ OS X and Linux configurations. This project is partially based on
 
 Put your binary files and scripts to the `~/.dotfiles/bin` folder, and put your configuration (dot)files to separated folders without the leading dot and the extension of `.symlink`. The `deploy` script will _symlink_ all files with the extension fo `.symlink` to your home folder with a leading dot and without the extension.
 
+### Corresponding articles
+
+- [Dotfiles with URL deployment](https://tiborsimon.io/tools/dotfiles-with-url-deployment/)
+
 # I have a virgin system and I want my config with ease!
 
 This is __exactly__ what I wanted to achieve with this project.
