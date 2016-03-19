@@ -11,6 +11,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 #  A L I A S E S
 #
 
+alias dit='cd ~/.dotfiles'
 alias site='cd ~/github/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias c='cd ~/$PROJECTS'
@@ -24,7 +25,7 @@ alias proxyserver='ssh tibor@ts-centos-01'
 alias gs='git status'
 alias ga='git add --all'
 alias ..='cd ..'
-``
+
 function commitFunction {
   git commit -m $1
 }
@@ -101,3 +102,5 @@ VENV="\$(virtualenv_info)";
 #export PS1
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+
+export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
