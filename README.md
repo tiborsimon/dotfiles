@@ -8,7 +8,7 @@ Put your binary files and scripts to the `~/.dotfiles/bin` folder, and put your 
 
 # I have a virgin system and I want my config with ease!
 
-__Exactly__ what I wanted to achieve with this project.
+This is __exactly__ what I wanted to achieve with this project.
 
 Bootstrap your dotfiles by running the following command __on__ your __virgin system__:
 
