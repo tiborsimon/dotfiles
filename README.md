@@ -47,7 +47,7 @@ Good. Then go to your `~/.dotfiles` folder and run the  `./deploy` script to do 
 # Example bootstrapping printouts
 
 - __HTTPS__
-- __SSH__ with existing __SSH KEY_
+- __SSH__ with existing __SSH KEY__
 - __SSH__ on __virgin system__
 
 
