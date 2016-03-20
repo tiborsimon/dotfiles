@@ -3,3 +3,5 @@ if [ -f ~/.bashrc ]; then
 fi
 
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
+
+export PATH="$PATH:"/Applications/microchip/xc8/v1.37/bin""

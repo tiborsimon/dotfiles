@@ -104,3 +104,5 @@ VENV="\$(virtualenv_info)";
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
+
+export PATH="$PATH:"/Applications/microchip/xc8/v1.37/bin""

@@ -16,6 +16,8 @@ Plug 'mhinz/vim-startify'
 Plug 'gregsexton/gitv' 
 Plug 'kana/vim-arpeggio' 
 Plug 'chrisbra/NrrwRgn' 
+Plug 'Shougo/vimproc.vim' 
+Plug 'Shougo/vimshell.vim' 
 
 call plug#end()
 
@@ -78,6 +80,9 @@ nnoremap <silent> <leader>gr :Gremove<CR>
 
 " CtrlP remap
 nnoremap <F7> :CtrlP ~<CR>
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPLastMode'
+let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
 " Solving paste issue with comments
 set pastetoggle=
