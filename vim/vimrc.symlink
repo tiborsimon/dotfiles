@@ -18,6 +18,7 @@ Plug 'kana/vim-arpeggio'
 Plug 'chrisbra/NrrwRgn' 
 Plug 'Shougo/vimproc.vim' 
 Plug 'Shougo/vimshell.vim' 
+Plug 'mattn/emmet-vim' 
 
 call plug#end()
 
