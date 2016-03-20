@@ -103,7 +103,7 @@ excute_brewfile () {
 #----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-  user "Do you want to install packages?  [y]es, [s]kip"
+  user "Do you want to install software packages?  [y]es, [s]kip"
   read -n 1 action
   case "$action" in
   y ) user 'What is the package manager for this platform?'
@@ -117,7 +117,7 @@ excute_linux_packages_file () {
         fi
         rm -f pof
       done
-      success 'All apps are installed.'
+      success 'Done'
       ;;
   * ) success 'Skipped..'
       ;;
