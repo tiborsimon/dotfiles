@@ -11,7 +11,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 #  A L I A S E S
 #
 
-alias dit='cd ~/.dotfiles'
+alias dot='cd ~/.dotfiles'
 alias site='cd ~/github/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias c='cd ~/$PROJECTS'
