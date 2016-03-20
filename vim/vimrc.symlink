@@ -76,6 +76,9 @@ nnoremap <silent> <leader>gp :Git push<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>
 nnoremap <silent> <leader>gr :Gremove<CR>
 
+" Gitv mapping
+nnoremap <silent> <leader>gv :Gitv<CR>
+
 " CtrlP remap
 nnoremap <F7> :CtrlP ~<CR>
 let g:ctrlp_map = '<c-p>'
