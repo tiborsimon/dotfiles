@@ -103,14 +103,20 @@ excute_brewfile () {
 #----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-  user "Do you want to install packages via $LINUX_PACKAGE_MANAGER?  [y]es, [s]kip"
+  user "Do you want to install packages?  [y]es, [s]kip"
   read -n 1 action
-  user 'What is the package manager for this platform?'
-  read -e LINUX_PACKAGE_MANAGER
   case "$action" in
   y ) info 'Executing yum file..'
-      for app in $(cat $HOME/.dotfiles/linux/packages.txt); do info "Installing $app.."; done
-      sudo $LINUX_PACKAGE_MANAGER install -y $(cat $HOME/.dotfiles/linux/packages.txt) > $LINUX_PACKAGE_MANAGER-install.log
+      user 'What is the package manager for this platform?'
+      read -e LINUX_PACKAGE_MANAGER
+      for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
+        info "Installing $app.."
+        if sudo $LINUX_PACKAGE_MANAGER install -y $app; then
+          success "$app installed."
+        else
+          warning "$app installation failed!"
+        fi
+      done
       success 'All apps are installed.'
       ;;
   * ) success 'Skipped..'
