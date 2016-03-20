@@ -9,6 +9,7 @@ Put your binary files and scripts to the `~/.dotfiles/bin` folder, and put your 
 ### Corresponding articles
 
 - [Dotfiles with URL deployment](https://tiborsimon.io/tools/dotfiles-with-url-deployment/)
+- [Upload ssh key via Github API](https://tiborsimon.io/programming/upload-ssh-key-via-github-api/)
 
 # I have a virgin system and I want my config with ease!
 
