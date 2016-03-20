@@ -90,7 +90,7 @@ prepare_ssh_key () {
   info 'Looking for SSH key..'
   
   if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then 
-    user "SSH key is detected. Do you want to create a new one? ${BOLD}[C]${RESET}reate, ${BOLD}[k]${RESET}eep"
+    user "SSH key is detected. Do you want to create a new one? ${BOLD}${GREEN}[C]${RESET}reate, ${BOLD}${GREEN}[k]${RESET}eep"
     read -n 1 action
     case "$action" in
     C ) info 'Generating SSH key..'
@@ -131,7 +131,7 @@ upload_key_to_github () {
 }
 
 add_ssh_key_to_github () {
-  user 'Do you want to add the SSH key to your GitHub account? ${BOLD}[Y]${RESET}es ${BOLD}[s]${RESET}kip'
+  user 'Do you want to add the SSH key to your GitHub account? ${BOLD}${GREEN}[Y]${RESET}es ${BOLD}${GREEN}[s]${RESET}kip'
   read -n 1 action
   case "$action" in
   Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
@@ -181,7 +181,7 @@ info 'Installing dotfiles system..'
 assert_for_git
 
 if [ -d "$HOME/.dotfiles" ]; then
-  user "$HOME/.dotfiles folder already exist. ${BOLD}[D]${RESET}elete, ${BOLD}[a]${RESET}bort"
+  user "$HOME/.dotfiles folder already exist. ${BOLD}${GREEN}[D]${RESET}elete, ${BOLD}${GREEN}[a]${RESET}bort"
   read -n 1 action
 
   case "$action" in
@@ -195,7 +195,7 @@ if [ -d "$HOME/.dotfiles" ]; then
   esac
 fi
 
-user 'Clone repo via ${BOLD}[h]${RESET}ttp or via ${BOLD}[g]${RESET}it (ssh key required)?'
+user 'Clone repo via ${BOLD}${GREEN}[h]${RESET}ttp or via ${BOLD}${GREEN}[g]${RESET}it (ssh key required)?'
 read -n 1 action
 case "$action" in
 g ) success 'Repo will be cloned via git protocol.'

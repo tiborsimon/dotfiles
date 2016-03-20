@@ -68,7 +68,7 @@ install_homebrew () {
 }
 
 update_homebrew () {
-  user 'Do you want to update Homebrew?  ${BOLD}[y]${RESET}es, ${BOLD}[s]${RESET}kip'
+  user 'Do you want to update Homebrew?  ${BOLD}${GREEN}[y]${RESET}es, ${BOLD}${GREEN}[s]${RESET}kip'
   read -n 1 action
 
   case "$action" in
@@ -85,7 +85,7 @@ update_homebrew () {
 }
 
 excute_brewfile () {
-  user 'Do you want to execute the Brewfile to install all your programs?  ${BOLD}[y]${RESET}es, ${BOLD}[s]${RESET}kip'
+  user 'Do you want to execute the Brewfile to install all your programs?  ${BOLD}${GREEN}[y]${RESET}es, ${BOLD}${GREEN}[s]${RESET}kip'
   read -n 1 action
 
   case "$action" in
@@ -103,7 +103,7 @@ excute_brewfile () {
 #----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-  user "Do you want to install software packages?  ${BOLD}[y]${RESET}es, ${BOLD}[s]${RESET}kip"
+  user "Do you want to install software packages?  ${BOLD}${GREEN}[y]${RESET}es, ${BOLD}${GREEN}[s]${RESET}kip"
   read -n 1 action
   case "$action" in
   y ) user 'What is the package manager for this platform?'
