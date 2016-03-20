@@ -106,16 +106,16 @@ excute_linux_packages_file () {
   user "Do you want to install packages?  [y]es, [s]kip"
   read -n 1 action
   case "$action" in
-  y ) info 'Executing yum file..'
-      user 'What is the package manager for this platform?'
+  y ) user 'What is the package manager for this platform?'
       read -e LINUX_PACKAGE_MANAGER
       for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
         info "Installing $app.."
-        if out=$(sudo $LINUX_PACKAGE_MANAGER install -y $app); then
+        if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
           success "$app installed."
         else
-          warning "$app installation failed! Error: \n$out"
+          warning "$app installation failed! Error: \n$(cat pof)"
         fi
+        rm -f pof
       done
       success 'All apps are installed.'
       ;;
