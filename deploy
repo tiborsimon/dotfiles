@@ -111,10 +111,10 @@ excute_linux_packages_file () {
       read -e LINUX_PACKAGE_MANAGER
       for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
         info "Installing $app.."
-        if sudo $LINUX_PACKAGE_MANAGER install -y $app; then
+        if out=$(sudo $LINUX_PACKAGE_MANAGER install -y $app); then
           success "$app installed."
         else
-          warning "$app installation failed!"
+          warning "$app installation failed! Error: \n$out"
         fi
       done
       success 'All apps are installed.'
