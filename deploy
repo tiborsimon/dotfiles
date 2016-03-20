@@ -105,7 +105,8 @@ excute_brewfile () {
 excute_linux_packages_file () {
   user "Do you want to install packages via $LINUX_PACKAGE_MANAGER?  [y]es, [s]kip"
   read -n 1 action
-
+  user 'What is the package manager for this platform?'
+  read -e LINUX_PACKAGE_MANAGER
   case "$action" in
   y ) info 'Executing yum file..'
       for app in $(cat $HOME/.dotfiles/linux/packages.txt); do info "Installing $app.."; done
