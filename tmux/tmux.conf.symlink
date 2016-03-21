@@ -30,7 +30,7 @@ unbind C-Down
 unbind C-Left 
 unbind C-Right
 
-et -g utf8
+set -g utf8
 set-window-option -g utf8 on
 
 # make tmux display things in 256 colors
