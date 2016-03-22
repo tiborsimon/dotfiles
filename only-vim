@@ -32,6 +32,10 @@ info () {
   printf "\r  [ ${BOLD}${LBLUE}..${RESET} ] $1\n"
 }
 
+user () {
+  printf "\r  [ ${BOLD}${CYAN}??${RESET} ] $1\n"
+}
+
 success () {
   printf "\r  [ ${BOLD}${GREEN}OK${RESET} ] $1\n"
 }
@@ -51,24 +55,26 @@ echo "      T I B O R   S I M O N ' S   V I M   C O N F I G U R A T I O N"
 echo '---------------------------------------------------------------------------------'
 echo ''
 
-# Backing up old .vimrc file
-info 'Backing up old config..'
-if [ -f ~/.vimrc ]; then
-  mv ~/.vimrc ~/.vimrc.old
+if [ -f ~/.vimrc ] || [ -d ~/.vim ]; then
+  user "Old vim configuration already exist. [${BOLD}${GREEN}D${RESET}]elete, [${BOLD}${GREEN}a${RESET}]bort"
+  read -n 1 action
+
+  case "$action" in
+  D ) success "Old $HOME/.dotfiles folder deleted."
+      rm -rf $HOME/.vim
+      rm -f $HOME/.vimrc
+      ;;
+  * ) success 'Bootstrap script aborted.'
+      echo ''
+      exit
+      ;;
+  esac
 fi
-success 'Old config backed up.'
 
 # Loading .vimrc file
 info 'Downloading .vimrc file..'
 curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/vim/vimrc.symlink> ~/.vimrc
 success '.vimrc file downloaded.'
-
-# Backing up old .vim folder
-info 'Backing up old .vim folder..'
-if [ -d ~/.vim ]; then
-  mv ~/.vim ~/.vim.old
-fi
-success 'Old .vim folder backed up.'
 
 # Loading Vim-Plug package manager to the .vim folder
 info 'Installing vim-lug..'
