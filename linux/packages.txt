@@ -4,4 +4,10 @@ vim
 tmux
 mc
 nc
+cmake
+make
+automake
+gcc
+gcc-c++
+kernel-devel
 
