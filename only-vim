@@ -60,7 +60,7 @@ echo '--------------------------------------------------------------------------
 echo ''
 
 user_answered=0
-until [ $user_answered -eq 1 ]; do
+until [ $user_answered = 1 ]; do
   if [ -f ~/.vimrc ] || [ -d ~/.vim ]; then
     user "Old vim configuration already exist. This script will override it! [${BOLD}${GREEN}D${RESET}]o it, [${BOLD}${GREEN}a${RESET}]bort"
     read -n 1 action
