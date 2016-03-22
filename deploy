@@ -84,7 +84,7 @@ update_homebrew () {
     s ) success 'Skipped..'
         user_answered=1
         ;;
-    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}.'
+    * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
     esac
   done
@@ -105,7 +105,7 @@ excute_brewfile () {
     s ) success 'Skipped..'
         user_answered=1
         ;;
-    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}.'
+    * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
     esac
   done
@@ -138,7 +138,7 @@ excute_linux_packages_file () {
     s ) success 'Skipped..'
         user_answered=1
         ;;
-    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}.'
+    * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
     esac
   done

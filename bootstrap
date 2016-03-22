@@ -101,7 +101,7 @@ prepare_ssh_key () {
       k ) success 'SSH key generation skipped. Existing key will be used.'
           user_answered=1
           ;;
-      * ) warning 'Wrong answer! Type ${BOLD}${GREEN}C${RESET} or ${BOLD}${GREEN}k${RESET}.'
+      * ) warning "Wrong answer! Type ${BOLD}${GREEN}C${RESET} or ${BOLD}${GREEN}k${RESET}."
           ;;
       esac
     done
@@ -149,7 +149,7 @@ add_ssh_key_to_github () {
     s ) info 'Skipped uploading SSH key to GitHub.'
         user_answered=1
         ;;
-    * ) info 'Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or  ${BOLD}${GREEN}s${RESET}.'
+    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or  ${BOLD}${GREEN}s${RESET}."
         ;;
     esac
   done
@@ -208,7 +208,7 @@ until [ $user_answered = 1 ]; do
         echo ''
         exit
         ;;
-    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}D${RESET} or ${BOLD}${GREEN}a${RESET}.'
+    * ) warning "Wrong answer! Type ${BOLD}${GREEN}D${RESET} or ${BOLD}${GREEN}a${RESET}."
         ;;
     esac
   fi
@@ -230,8 +230,7 @@ until [ $user_answered = 1 ]; do
       clone_via_http
       user_answered=1
       ;;
-  * ) warning 'Wrong answer. Type ${BOLD}${GREEN}h${RESET} or ${BOLD}${GREEN}g${RESET}.'
-      clone_via_http
+  * ) warning "Wrong answer. Type ${BOLD}${GREEN}h${RESET} or ${BOLD}${GREEN}g${RESET}."
       ;;
   esac
 done
