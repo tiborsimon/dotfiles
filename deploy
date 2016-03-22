@@ -68,34 +68,47 @@ install_homebrew () {
 }
 
 update_homebrew () {
-  user "Do you want to update Homebrew?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
-  read -n 1 action
-
-  case "$action" in
-  y ) info 'Updating Homebrew..'
-      if brew update > brew-update.log; then
-        success 'Homebrew is up-to-date!'
-      else
-        fail 'Error during Homebrew update!'
-      fi
-      ;;
-  * ) success 'Skipped..'
-      ;;
-  esac
+  user_answered=0
+  until [ $user_answered = 1 ]; do
+    user "Do you want to update Homebrew?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
+    read -n 1 action
+    case "$action" in
+    y ) info 'Updating Homebrew..'
+        if brew update > brew-update.log; then
+          success 'Homebrew is up-to-date!'
+        else
+          fail 'Error during Homebrew update!'
+        fi
+        user_answered=1
+        ;;
+    s ) success 'Skipped..'
+        user_answered=1
+        ;;
+    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}.'
+        ;;
+    esac
+  done
 }
 
 excute_brewfile () {
-  user "Do you want to execute the Brewfile to install all your programs?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
-  read -n 1 action
+  user_answered=0
+  until [ $user_answered = 1 ]; do
+    user "Do you want to execute the Brewfile to install all your programs?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
+    read -n 1 action
 
-  case "$action" in
-  y ) info 'Executing Brewfile..'
-      brew bundle -v  --file=brew/Brewfile > brew-install.log
-      success 'Brewfile executed. All apps are installed.'
-      ;;
-  * ) success 'Skipped..'
-      ;;
-  esac
+    case "$action" in
+    y ) info 'Executing Brewfile..'
+        brew bundle -v  --file=brew/Brewfile > brew-install.log
+        success 'Brewfile executed. All apps are installed.'
+        user_answered=1
+        ;;
+    s ) success 'Skipped..'
+        user_answered=1
+        ;;
+    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}.'
+        ;;
+    esac
+  done
 }
 
 #----------------------------------------------------------------------------------------
@@ -103,25 +116,32 @@ excute_brewfile () {
 #----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-  user "Do you want to install software packages?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
-  read -n 1 action
-  case "$action" in
-  y ) user 'What is the package manager for this platform?'
-      read -e LINUX_PACKAGE_MANAGER
-      for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
-        info "Installing $app.."
-        if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
-          success "$app installed."
-        else
-          warning "$app installation failed! Error: \n$(cat pof)"
-        fi
-        rm -f pof
-      done
-      success 'Done'
-      ;;
-  * ) success 'Skipped..'
-      ;;
-  esac
+  user_answered=0
+  until [ $user_answered = 1 ]; do
+    user "Do you want to install software packages?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
+    read -n 1 action
+    case "$action" in
+    y ) user 'What is the package manager for this platform?'
+        read -e LINUX_PACKAGE_MANAGER
+        for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
+          info "Installing $app.."
+          if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
+            success "$app installed."
+          else
+            warning "$app installation failed! Error: \n$(cat pof)"
+          fi
+          rm -f pof
+        done
+        success 'Done'
+        user_answered=1
+        ;;
+    s ) success 'Skipped..'
+        user_answered=1
+        ;;
+    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}.'
+        ;;
+    esac
+  done
 }
 
 #----------------------------------------------------------------------------------------

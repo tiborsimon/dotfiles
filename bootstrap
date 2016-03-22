@@ -85,20 +85,26 @@ generate_ssh_key () {
   success 'SSH key generated.'
 }
 
-
 prepare_ssh_key () {
   info 'Looking for SSH key..'
   
   if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then 
-    user "SSH key is detected. Do you want to create a new one? [${BOLD}${GREEN}C${RESET}]reate, [${BOLD}${GREEN}k${RESET}]eep"
-    read -n 1 action
-    case "$action" in
-    C ) info 'Generating SSH key..'
-        generate_ssh_key
-        ;;
-    * ) success 'SSH key generation skipped. Existing key will be used.'
-        ;;
-    esac
+    user_answered=0
+    until [ $user_answered = 1 ]; do
+      user "SSH key is detected. Do you want to create a new one? [${BOLD}${GREEN}C${RESET}]reate, [${BOLD}${GREEN}k${RESET}]eep"
+      read -n 1 action
+      case "$action" in
+      C ) info 'Generating SSH key..'
+          generate_ssh_key
+          user_answered=1
+          ;;
+      k ) success 'SSH key generation skipped. Existing key will be used.'
+          user_answered=1
+          ;;
+      * ) warning 'Wrong answer! Type ${BOLD}${GREEN}C${RESET} or ${BOLD}${GREEN}k${RESET}.'
+          ;;
+      esac
+    done
   else
     user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
     generate_ssh_key
@@ -131,15 +137,22 @@ upload_key_to_github () {
 }
 
 add_ssh_key_to_github () {
-  user "Do you want to add the SSH key to your GitHub account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
-  read -n 1 action
-  case "$action" in
-  Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
-      upload_key_to_github
-      ;;
-  * ) info 'Skipped uploading SSH key to GitHub.'
-      ;;
-  esac
+  user_answered=0
+  until [ $user_answered = 1 ]; do
+    user "Do you want to add the SSH key to your GitHub account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
+    read -n 1 action
+    case "$action" in
+    Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
+        upload_key_to_github
+        user_answered=1
+        ;;
+    s ) info 'Skipped uploading SSH key to GitHub.'
+        user_answered=1
+        ;;
+    * ) info 'Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or  ${BOLD}${GREEN}s${RESET}.'
+        ;;
+    esac
+  done
 }
 
 clone_via_git () {
@@ -180,33 +193,48 @@ info 'Installing dotfiles system..'
 
 assert_for_git
 
-if [ -d "$HOME/.dotfiles" ]; then
-  user "$HOME/.dotfiles folder already exist. [${BOLD}${GREEN}D${RESET}]elete, [${BOLD}${GREEN}a${RESET}]bort"
-  read -n 1 action
+user_answered=0
+until [ $user_answered = 1 ]; do
+  if [ -d "$HOME/.dotfiles" ]; then
+    user "$HOME/.dotfiles folder already exist. [${BOLD}${GREEN}D${RESET}]elete, [${BOLD}${GREEN}a${RESET}]bort"
+    read -n 1 action
 
+    case "$action" in
+    D ) success "Old $HOME/.dotfiles folder deleted."
+        rm -rf $HOME/.dotfiles
+        user_answered=1
+        ;;
+    a ) success 'Bootstrap script aborted.'
+        echo ''
+        exit
+        ;;
+    * ) warning 'Wrong answer! Type ${BOLD}${GREEN}D${RESET} or ${BOLD}${GREEN}a${RESET}.'
+        ;;
+    esac
+  fi
+done
+
+
+user_answered=0
+until [ $user_answered = 1 ]; do
+  user "Clone repo via [${BOLD}${GREEN}h${RESET}]ttp or via [${BOLD}${GREEN}g${RESET}]it (ssh key required)?"
+  read -n 1 action
   case "$action" in
-  D ) success "Old $HOME/.dotfiles folder deleted."
-      rm -rf $HOME/.dotfiles
+  g ) success 'Repo will be cloned via git protocol.'
+      prepare_ssh_key
+      add_ssh_key_to_github
+      clone_via_git
+      user_answered=1
       ;;
-  * ) success 'Bootstrap script aborted.'
-      echo ''
-      exit
+  h ) success 'Repo will be cloned via http protocol.'
+      clone_via_http
+      user_answered=1
+      ;;
+  * ) warning 'Wrong answer. Type ${BOLD}${GREEN}h${RESET} or ${BOLD}${GREEN}g${RESET}.'
+      clone_via_http
       ;;
   esac
-fi
-
-user "Clone repo via [${BOLD}${GREEN}h${RESET}]ttp or via [${BOLD}${GREEN}g${RESET}]it (ssh key required)?"
-read -n 1 action
-case "$action" in
-g ) success 'Repo will be cloned via git protocol.'
-    prepare_ssh_key
-    add_ssh_key_to_github
-    clone_via_git
-    ;;
-* ) success 'Repo will be cloned via http protocol.'
-    clone_via_http
-    ;;
-esac
+done
 
 info 'Running deploy script..'
 
