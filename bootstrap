@@ -149,7 +149,7 @@ add_ssh_key_to_github () {
     s ) info 'Skipped uploading SSH key to GitHub.'
         user_answered=1
         ;;
-    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or  ${BOLD}${GREEN}s${RESET}."
+    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
     esac
   done
