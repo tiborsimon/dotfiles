@@ -1,0 +1,55 @@
+#!/usr/bin/python
+from __future__ import print_function
+import json
+import time
+import os
+from pprint import pprint
+
+WORKLOG_PATH=os.path.expanduser('~/github/tiborsimon.io/worklog/')
+
+welcome = '''
+  What do you want to add?
+    [1] - log
+    [2] - learned
+    [3] - milestone
+'''
+
+print(welcome, end='')
+
+option = raw_input()
+
+
+if option == '1':
+    key = 'log'
+elif option == '2':
+    key = 'learned'
+elif option == '3':
+    key = 'milestone'
+else:
+    print('Invalid input')
+
+print('What is the message?')
+message = raw_input()
+temp = {
+    key: message
+}
+
+temp['date'] = time.strftime('%Y-%m-%d %H:%M:%S')
+
+print('What are the tags?')
+
+tags = raw_input()
+
+temp['tags'] = [x.strip() for x in tags.split(',')]
+
+pprint(temp)
+
+with open(os.path.join(WORKLOG_PATH, 'worklog.json')) as f:
+    data = json.load(f)
+
+data.insert(0, temp)
+
+with open(os.path.join(WORKLOG_PATH, 'worklog.json'), 'w') as f:
+    data = json.dump(data, f, sort_keys = True, indent = 2, ensure_ascii=False)
+
+
