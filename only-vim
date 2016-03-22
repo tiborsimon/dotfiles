@@ -13,20 +13,59 @@
 #
 # Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/vimrc)
 
+#----------------------------------------------------------------------------------------
+#  C O M M O N   F U N C T I O N S
+#----------------------------------------------------------------------------------------
+
+RESET=$(tput sgr0)
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+
+BOLD=$(tput bold)
+
+info () {
+  printf "\r  [ ${BOLD}${LBLUE}..${RESET} ] $1\n"
+}
+
+success () {
+  printf "\r  [ ${BOLD}${GREEN}OK${RESET} ] $1\n"
+}
+
+fail () {
+  printf "\r  [${BOLD}${RED}FAIL${RESET}] $1\n"
+}
+
+
+#----------------------------------------------------------------------------------------
+#  I N S T A L L   S C R I P T
+#----------------------------------------------------------------------------------------
+
 # Backing up old .vimrc file
+info 'Backing up old config..'
 if [ -f ~/.vimrc ]; then
   mv ~/.vimrc ~/.vimrc.old
 fi
+success 'Old config backed up.'
 
 # Loading .vimrc file
+info 'Downloading .vimrc file..'
 curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/vim/vimrc.symlink> ~/.vimrc
-
+success '.vimrc file downloaded.'
 
 # Backing up old .vim folder
+info 'Backing up old .vim folder..'
 if [ -d ~/.vim ]; then
   mv ~/.vim ~/.vim.old
 fi
+success 'Old .vim folder backed up.'
 
 # Loading Vim-Plug package manager to the .vim folder
+info 'Installing vim-lug..'
 curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
+success 'Vim-plug installed.'
+success 'Finished!'
