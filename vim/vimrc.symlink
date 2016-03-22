@@ -97,3 +97,4 @@ set number
 set hls
 set incsearch
 
+let g:loaded_matchparen=1
