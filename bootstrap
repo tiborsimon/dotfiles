@@ -34,7 +34,7 @@ CYAN=$(tput setaf 6)
 BOLD=$(tput bold)
 
 info () {
-  printf "\r  [ ${BOLD}${LBLUE}..${RESET} ] $1\n"
+  printf "\r  [ ${BOLD}${BLUE}..${RESET} ] $1\n"
 }
 
 user () {
