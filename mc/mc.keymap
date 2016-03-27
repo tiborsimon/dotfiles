@@ -3,7 +3,7 @@
 Search = ctrl-s; ?
 Down = down; j
 Up = up; k
-CdParentSmart = backspace; x
-Enter = enter; o
+Enter = enter; o; l
+CdParentSmart = backspace; x; h
 Top = home; g
 Bottom = end; G
