@@ -1,0 +1,8 @@
+[panel]
+Search = ctrl-s; ?
+Down = down; j
+Up = up; k
+CdParentSmart = backspace; x
+Enter = enter; o
+Top = home; g
+Bottom = end; G
