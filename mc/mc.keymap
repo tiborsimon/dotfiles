@@ -1,3 +1,4 @@
+# http://apt-browse.org/browse/ubuntu/trusty/universe/amd64/mc/3:4.8.11-1/file/etc/mc/mc.keymap
 [panel]
 Search = ctrl-s; ?
 Down = down; j
