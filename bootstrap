@@ -116,7 +116,7 @@ upload_key_to_bitbucket () {
       success 'Key is already in use. Rerun this script if you want to add a new one.'
       rm gh-result
       break
-    elif grep -q '"verified": true' gh-result; then
+    elif grep -q "pk.*\d*" gh-result; then
       success "Key ($KEY_NAME) has been added successfully."
       rm gh-result
       break
