@@ -233,8 +233,8 @@ info 'Installing dotfiles system..'
 
 assert_for_git
 
-while true; do
-  if [ -d "$HOME/.dotfiles" ]; then
+if [ -d "$HOME/.dotfiles" ]; then
+  while true; do
     user "$HOME/.dotfiles folder already exist. [${BOLD}${GREEN}D${RESET}]elete, [${BOLD}${GREEN}a${RESET}]bort"
     read -n 1 action
 
@@ -250,12 +250,10 @@ while true; do
     * ) warning "Wrong answer! Type ${BOLD}${GREEN}D${RESET} or ${BOLD}${GREEN}a${RESET}."
         ;;
     esac
-  else
-    break
-  fi
-done
+  done
+fi
 
-while trueu; do
+while true; do
   user "Clone repo via [${BOLD}${GREEN}h${RESET}]ttp or via [${BOLD}${GREEN}g${RESET}]it (ssh key required)?"
   read -n 1 action
   case "$action" in
