@@ -22,7 +22,6 @@ source functions/commons
 #----------------------------------------------------------------------------------------
 
 is_osx () {
-  local system=
   if [ $(uname -s) = 'Darwin' ]
   then
     return 0 
@@ -33,9 +32,7 @@ is_osx () {
 
 install_dotfiles () {
   info 'Installing dotfiles..'
-
   local overwrite_all=false backup_all=false skip_all=false
-
   for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
@@ -78,8 +75,7 @@ install_homebrew () {
 }
 
 update_homebrew () {
-  user_answered=0
-  until [ $user_answered = 1 ]; do
+  while true; do
     user "Do you want to update Homebrew?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
     read -n 1 action
     case "$action" in
@@ -89,10 +85,10 @@ update_homebrew () {
         else
           fail 'Error during Homebrew update!'
         fi
-        user_answered=1
+        break
         ;;
     s ) success 'Skipped..'
-        user_answered=1
+        break
         ;;
     * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
@@ -101,8 +97,7 @@ update_homebrew () {
 }
 
 excute_brewfile () {
-  user_answered=0
-  until [ $user_answered = 1 ]; do
+  while true; do
     user "Do you want to execute the Brewfile to install all your programs?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
     read -n 1 action
 
@@ -110,10 +105,10 @@ excute_brewfile () {
     y ) info 'Executing Brewfile..'
         brew bundle -v  --file=brew/Brewfile > brew-install.log
         success 'Brewfile executed. All apps are installed.'
-        user_answered=1
+        break
         ;;
     s ) success 'Skipped..'
-        user_answered=1
+        break
         ;;
     * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
@@ -126,8 +121,7 @@ excute_brewfile () {
 #----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-  user_answered=0
-  until [ $user_answered = 1 ]; do
+  while true; do
     user "Do you want to install software packages?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
     read -n 1 action
     case "$action" in
@@ -143,10 +137,10 @@ excute_linux_packages_file () {
           rm -f pof
         done
         success 'Done'
-        user_answered=1
+        break
         ;;
     s ) success 'Skipped..'
-        user_answered=1
+        break
         ;;
     * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
@@ -176,4 +170,3 @@ else
 fi
 
 success 'Dotfiles has been deployed.'
-
