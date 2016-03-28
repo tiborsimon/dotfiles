@@ -18,40 +18,11 @@ GITHUB_USERNAME=tiborsimon
 REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
 
+source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/functions/commons)
+
 #----------------------------------------------------------------------------------------
 #  C O M M O N   F U N C T I O N S
 #----------------------------------------------------------------------------------------
-
-RESET=$(tput sgr0)
-
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-YELLOW=$(tput setaf 3)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-
-BOLD=$(tput bold)
-
-info () {
-  printf "\r  [ ${BOLD}${BLUE}..${RESET} ] $1\n"
-}
-
-user () {
-  printf "\r  [ ${BOLD}${CYAN}??${RESET} ] $1\n"
-}
-
-success () {
-  printf "\r  [ ${BOLD}${GREEN}OK${RESET} ] $1\n"
-}
-
-warning () {
-  printf "\r  [ ${BOLD}${YELLOW}!!${RESET} ] $1\n"
-}
-
-fail () {
-  printf "\r  [${BOLD}${RED}FAIL${RESET}] $1\n"
-}
 
 assert_path () {
   if [ "$(pwd)" = "$HOME/.dotfiles" ]; then
