@@ -136,7 +136,35 @@ upload_key_to_github () {
   done
 }
 
-add_ssh_key_to_github () {
+upload_key_to_bitbucket () {
+  local bitbucket_result=0
+  user 'How do you want to name the key?'
+  read -e KEY_NAME
+  until [ $bitbucket_result -eq 1 ]; do
+    curl --silent --data "{\"label\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.bitbucket.org/1.0/users/$GITHUB_USERNAME/ssh-keys > gh-result
+    if grep -q 'key is already in use' gh-result; then
+      echo gh-result
+      bitbucket_result=1
+      success 'Key is already in use. Rerun this script if you want to add a new one.'
+    elif grep -q '"verified": true' gh-result; then
+      echo gh-result
+      bitbucket_result=1
+      success "Key ($KEY_NAME) has been added successfully."
+    elif grep -q 'Bad credentials' gh-result; then
+      echo gh-result
+      fail 'Error during login: invalid username or password!'
+      info 'Try again!'
+    else
+      echo gh-result
+      fail 'A problem occured during the upload!'
+      cat gh-result
+      info 'Try again!'
+    fi
+    rm gh-result
+  done
+}
+
+upload_ssh_key () {
   user_answered=0
   until [ $user_answered = 1 ]; do
     user "Do you want to add the SSH key to your GitHub account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
@@ -147,6 +175,23 @@ add_ssh_key_to_github () {
         user_answered=1
         ;;
     s ) info 'Skipped uploading SSH key to GitHub.'
+        user_answered=1
+        ;;
+    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
+        ;;
+    esac
+  done
+
+  user_answered=0
+  until [ $user_answered = 1 ]; do
+    user "Do you want to add the SSH key to your BitBucket account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
+    read -n 1 action
+    case "$action" in
+    Y ) info "Uploading SSH key to $GITHUB_USERNAME's BitBucket account.."
+        upload_key_to_bitbucket
+        user_answered=1
+        ;;
+    s ) info 'Skipped uploading SSH key to BitBucket.'
         user_answered=1
         ;;
     * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
@@ -222,7 +267,7 @@ until [ $user_answered = 1 ]; do
   case "$action" in
   g ) success 'Repo will be cloned via git protocol.'
       prepare_ssh_key
-      add_ssh_key_to_github
+      upload_ssh_key
       clone_via_git
       user_answered=1
       ;;
