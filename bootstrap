@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This script will install the full configuration of the tiborsimon/dotfiles repo. 
 # It will use a symlinked solution: it will symlink the configuration files located in 
