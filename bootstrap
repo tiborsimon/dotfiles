@@ -54,7 +54,7 @@ fail () {
 }
 
 assert_path () {
-  if [ "$(pwd)" == "$HOME/.dotfiles" ]; then
+  if [ "$(pwd)" = "$HOME/.dotfiles" ]; then
     fail "You could't run this script from your ${BOLD}.dotfiles${RESET} folder!"
     echo ''
     exit
@@ -88,18 +88,17 @@ generate_ssh_key () {
 prepare_ssh_key () {
   info 'Looking for SSH key..'
   
-  if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then 
-    user_answered=0
-    until [ $user_answered = 1 ]; do
+  if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then
+    while true; do
       user "SSH key is detected. Do you want to create a new one? [${BOLD}${GREEN}C${RESET}]reate, [${BOLD}${GREEN}k${RESET}]eep"
       read -n 1 action
       case "$action" in
       C ) info 'Generating SSH key..'
           generate_ssh_key
-          user_answered=1
+          break
           ;;
       k ) success 'SSH key generation skipped. Existing key will be used.'
-          user_answered=1
+          break
           ;;
       * ) warning "Wrong answer! Type ${BOLD}${GREEN}C${RESET} or ${BOLD}${GREEN}k${RESET}."
           ;;
@@ -113,17 +112,16 @@ prepare_ssh_key () {
 }
 
 upload_key_to_github () {
-  local github_result=0
   user 'How do you want to name the key?'
   read -e KEY_NAME
-  until [ $github_result -eq 1 ]; do
+  while true; do
     curl --silent -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys > gh-result
     if grep -q 'key is already in use' gh-result; then
-      github_result=1
       success 'Key is already in use. Rerun this script if you want to add a new one.'
+      break
     elif grep -q '"verified": true' gh-result; then
-      github_result=1
       success "Key ($KEY_NAME) has been added successfully."
+      break
     elif grep -q 'Bad credentials' gh-result; then
       fail 'Error during login: invalid username or password!'
       info 'Try again!'
@@ -136,18 +134,60 @@ upload_key_to_github () {
   done
 }
 
-add_ssh_key_to_github () {
-  user_answered=0
-  until [ $user_answered = 1 ]; do
+upload_key_to_bitbucket () {
+  user 'How do you want to name the key?'
+  read -e KEY_NAME
+  while true; do
+    curl --silent --data "{\"label\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.bitbucket.org/1.0/users/$GITHUB_USERNAME/ssh-keys > gh-result
+    if grep -q 'key is already in use' gh-result; then
+      echo $(cat gh-result)
+      success 'Key is already in use. Rerun this script if you want to add a new one.'
+      break
+    elif grep -q '"verified": true' gh-result; then
+      echo $(cat gh-result)
+      success "Key ($KEY_NAME) has been added successfully."
+      break
+    elif grep -q 'Bad credentials' gh-result; then
+      echo $(cat gh-result)
+      fail 'Error during login: invalid username or password!'
+      info 'Try again!'
+    else
+      echo $(cat gh-result)
+      fail 'A problem occured during the upload!'
+      cat gh-result
+      info 'Try again!'
+    fi
+    rm gh-result
+  done
+}
+
+upload_ssh_key () {
+  while true; do
     user "Do you want to add the SSH key to your GitHub account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
     read -n 1 action
     case "$action" in
     Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
         upload_key_to_github
-        user_answered=1
+        break
         ;;
     s ) info 'Skipped uploading SSH key to GitHub.'
-        user_answered=1
+        break
+        ;;
+    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
+        ;;
+    esac
+  done
+
+  while true; do
+    user "Do you want to add the SSH key to your BitBucket account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
+    read -n 1 action
+    case "$action" in
+    Y ) info "Uploading SSH key to $GITHUB_USERNAME's BitBucket account.."
+        upload_key_to_bitbucket
+        break
+        ;;
+    s ) info 'Skipped uploading SSH key to BitBucket.'
+        break
         ;;
     * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
         ;;
@@ -193,8 +233,7 @@ info 'Installing dotfiles system..'
 
 assert_for_git
 
-user_answered=0
-until [ $user_answered = 1 ]; do
+while true; do
   if [ -d "$HOME/.dotfiles" ]; then
     user "$HOME/.dotfiles folder already exist. [${BOLD}${GREEN}D${RESET}]elete, [${BOLD}${GREEN}a${RESET}]bort"
     read -n 1 action
@@ -202,7 +241,7 @@ until [ $user_answered = 1 ]; do
     case "$action" in
     D ) success "Old $HOME/.dotfiles folder deleted."
         rm -rf $HOME/.dotfiles
-        user_answered=1
+        break
         ;;
     a ) success 'Bootstrap script aborted.'
         echo ''
@@ -211,24 +250,24 @@ until [ $user_answered = 1 ]; do
     * ) warning "Wrong answer! Type ${BOLD}${GREEN}D${RESET} or ${BOLD}${GREEN}a${RESET}."
         ;;
     esac
+  else
+    break
   fi
 done
 
-
-user_answered=0
-until [ $user_answered = 1 ]; do
+while trueu; do
   user "Clone repo via [${BOLD}${GREEN}h${RESET}]ttp or via [${BOLD}${GREEN}g${RESET}]it (ssh key required)?"
   read -n 1 action
   case "$action" in
   g ) success 'Repo will be cloned via git protocol.'
       prepare_ssh_key
-      add_ssh_key_to_github
+      upload_ssh_key
       clone_via_git
-      user_answered=1
+      break
       ;;
   h ) success 'Repo will be cloned via http protocol.'
       clone_via_http
-      user_answered=1
+      break
       ;;
   * ) warning "Wrong answer. Type ${BOLD}${GREEN}h${RESET} or ${BOLD}${GREEN}g${RESET}."
       ;;
