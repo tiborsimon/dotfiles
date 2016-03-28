@@ -89,19 +89,20 @@ upload_key_to_github () {
     curl --silent -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys > gh-result
     if grep -q 'key is already in use' gh-result; then
       success 'Key is already in use. Rerun this script if you want to add a new one.'
+      rm gh-result
       break
     elif grep -q '"verified": true' gh-result; then
       success "Key ($KEY_NAME) has been added successfully."
+      rm gh-result
       break
     elif grep -q 'Bad credentials' gh-result; then
       fail 'Error during login: invalid username or password!'
       info 'Try again!'
     else
-      fail 'A problem occured during the upload!'
+      fail 'A problem occured during uploading the key..'
       cat gh-result
       info 'Try again!'
     fi
-    rm gh-result
   done
 }
 
@@ -109,14 +110,16 @@ upload_key_to_bitbucket () {
   user 'How do you want to name the key?'
   read -e KEY_NAME
   while true; do
-    curl --silent --data "{\"label\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.bitbucket.org/1.0/users/$GITHUB_USERNAME/ssh-keys > gh-result
+    curl --silent -H "Content-Type: application/json" -X POST --data "{\"label\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.bitbucket.org/1.0/users/$GITHUB_USERNAME/ssh-keys > gh-result
     if grep -q 'key is already in use' gh-result; then
       echo $(cat gh-result)
       success 'Key is already in use. Rerun this script if you want to add a new one.'
+      rm gh-result
       break
     elif grep -q '"verified": true' gh-result; then
       echo $(cat gh-result)
       success "Key ($KEY_NAME) has been added successfully."
+      rm gh-result
       break
     elif grep -q 'Bad credentials' gh-result; then
       echo $(cat gh-result)
@@ -128,7 +131,6 @@ upload_key_to_bitbucket () {
       cat gh-result
       info 'Try again!'
     fi
-    rm gh-result
   done
 }
 
