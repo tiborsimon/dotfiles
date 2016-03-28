@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This script will install the vim configuration part of the tiborsimon/dotfiles repo. 
 # It won't use the symlinked solution as it will create the the .vimrc file and
