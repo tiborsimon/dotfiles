@@ -10,4 +10,5 @@ automake
 gcc
 gcc-c++
 kernel-devel
+ack
 
