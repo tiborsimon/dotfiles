@@ -103,3 +103,7 @@ set splitbelow
 set splitright
 
 let g:loaded_matchparen=1
+
+hi Search cterm=NONE ctermfg=white ctermbg=blue
+hi Visual cterm=NONE ctermfg=blue ctermbg=white
+
