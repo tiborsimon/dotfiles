@@ -6,6 +6,9 @@ export EDITOR='atom'
 export PROJECTS='github'
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+PROMPT_GIT_INTEGRATION=true
+
+source $HOME/.dotfiles/functions/commons
 
 # ==============================================================================
 #  A L I A S E S
@@ -46,22 +49,16 @@ alias g='cd ~/github'
 #  Source: https://coderwall.com/p/pn8f0g/show-your-git-status-and-branch-in-color-at-the-command-prompt
 
 function git_branch {
-  local COLOR_RED="\033[1;31m"
-  local COLOR_YELLOW="\033[0;33m"
-  local COLOR_GREEN="\033[0;32m"
-  local COLOR_WHITE="\033[0;37m"
-  local COLOR_RESET="\033[0m"
-
   local git_status="$(git status 2> /dev/null)"
 
   if [[ $git_status =~ "fatal: Not a git repository" ]]; then
-    echo -en $COLOR_WHITE
+    echo -en ${RESET}
   elif [[ $git_status =~ "Your branch is ahead of" ]]; then
-    echo -en $COLOR_YELLOW
+    echo -en ${YELLOW}
   elif [[ $git_status =~ "nothing to commit" ]]; then
-    echo -en $COLOR_GREEN
+    echo -en ${GREEN}
   else
-    echo -en $COLOR_RED
+    echo -en ${RED}
   fi
 
   local on_branch="On branch ([^${IFS}]*)"
@@ -75,33 +72,43 @@ function git_branch {
     echo -n "($commit)"
   fi
 
-  echo -en $COLOR_RESET
+  echo -en ${RESET}
 }
 
 # http://stackoverflow.com/a/20026992
 function virtualenv_info(){
-    local COLOR_YELLOW="\033[0;33m"
-    local COLOR_RESET="\033[0m"
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
-        venv="${VIRTUAL_ENV##*/}"
+        venv="\[${VIRTUAL_ENV##*/}\] "
     else
         # In case you don't have one activated
         venv=''
     fi
-    echo -en $COLOR_YELLOW
+    echo -en ${YELLOW}
     [[ -n "$venv" ]] && echo -en "(venv:$venv) "
-    echo -en $COLOR_RESET
+    echo -en ${RESET}
 }
 
 VENV="\$(virtualenv_info)";
 
-#PS1="\n[\u] @ [\w] \$(git_branch) ${VENV} $" 
+function system_status_face {
+  if [ $? -eq 0 ]
+  then 
+   echo -en "${BOLD}${GREEN}^-^${RESET}"
+  else
+   echo -en "${BOLD}${RED}O.o${RESET}"
+  fi
+}
 
-#export PS1
+if [ "$PROMPT_GIT_INTEGRATION" = true ]
+then
+  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\$(git_branch)\n${VENV}[\$(printf "%03d" \#)] → "
+else
+  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\n${VENV}[\$(printf "%03d" \#)] → "
+fi
+
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin"
-
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
 
