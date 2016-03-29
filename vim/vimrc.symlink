@@ -107,3 +107,16 @@ let g:loaded_matchparen=1
 hi Search cterm=NONE ctermfg=white ctermbg=blue
 hi Visual cterm=NONE ctermfg=blue ctermbg=white
 
+" Redefine diff colors:
+" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
+highlight DiffAdd    ctermfg=10 ctermbg=22 
+highlight DiffChange ctermfg=7 ctermbg=8 
+highlight DiffText   ctermfg=15 ctermbg=27 
+highlight DiffDelete ctermfg=9 ctermbg=88 
+
+" Move lines in all modes
+nnoremap J :m .+1<CR>==
+nnoremap K :m .-2<CR>==
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
