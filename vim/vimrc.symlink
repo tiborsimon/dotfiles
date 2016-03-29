@@ -97,4 +97,8 @@ set number
 set hls
 set incsearch
 
+set diffopt+=vertical
+set splitbelow
+set splitright
+
 let g:loaded_matchparen=1
