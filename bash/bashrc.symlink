@@ -66,10 +66,10 @@ function git_branch {
 
   if [[ $git_status =~ $on_branch ]]; then
     local branch=${BASH_REMATCH[1]}
-    echo -n "($branch)"
+    echo -n " [$branch]"
   elif [[ $git_status =~ $on_commit ]]; then
     local commit=${BASH_REMATCH[1]}
-    echo -n "($commit)"
+    echo -n " [$commit]"
   fi
 
   echo -en ${RESET}
@@ -80,17 +80,15 @@ function virtualenv_info(){
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
-        venv="\[${VIRTUAL_ENV##*/}\] "
+        venv="[${VIRTUAL_ENV##*/}] "
     else
         # In case you don't have one activated
         venv=''
     fi
     echo -en ${YELLOW}
-    [[ -n "$venv" ]] && echo -en "(venv:$venv) "
+    [[ -n "$venv" ]] && echo -en "$venv"
     echo -en ${RESET}
 }
-
-VENV="\$(virtualenv_info)";
 
 function system_status_face {
   if [ $? -eq 0 ]
@@ -103,9 +101,9 @@ function system_status_face {
 
 if [ "$PROMPT_GIT_INTEGRATION" = true ]
 then
-  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\$(git_branch)\n${VENV}[\$(printf "%03d" \#)] → "
+  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\$(git_branch)\n\$(virtualenv_info)[\$(printf "%03d" \#)] → "
 else
-  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\n${VENV}[\$(printf "%03d" \#)] → "
+  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\n\$(virtualenv_info)[\$(printf "%03d" \#)] → "
 fi
 
 
