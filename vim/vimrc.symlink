@@ -97,6 +97,7 @@ set number
 
 set hls
 set incsearch
+set rnu
 
 set diffopt+=vertical
 set splitbelow
