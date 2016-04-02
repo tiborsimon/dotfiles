@@ -8,6 +8,7 @@ Put your binary files and scripts to the `~/.dotfiles/bin` folder, and put your 
 
 ### Corresponding articles
 
+- [My dotfile system](https://tiborsimon.io/tools/my-dotfile-system/)
 - [Dotfiles with URL deployment](https://tiborsimon.io/tools/dotfiles-with-url-deployment/)
 - [Upload ssh key via Github API](https://tiborsimon.io/programming/upload-ssh-key-via-github-api/)
 
