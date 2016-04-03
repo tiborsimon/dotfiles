@@ -17,6 +17,7 @@ Plug 'kana/vim-arpeggio'
 Plug 'chrisbra/NrrwRgn' 
 Plug 'mattn/emmet-vim' 
 Plug 'mileszs/ack.vim' 
+Plug 'airblade/vim-gitgutter' 
 
 call plug#end()
 
@@ -97,6 +98,7 @@ set number
 
 set hls
 set incsearch
+set rnu
 
 set diffopt+=vertical
 set splitbelow
