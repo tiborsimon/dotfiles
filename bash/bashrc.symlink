@@ -2,8 +2,9 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:~/github/dotf
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export EDITOR='atom'
-export PROJECTS='github'
+export EDITOR='vim'
+export PROJECTS='projects'
+export CPPUTEST_HOME=$HOME/cpputest
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 PROMPT_GIT_INTEGRATION=true
