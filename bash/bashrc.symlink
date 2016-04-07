@@ -10,6 +10,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 PROMPT_GIT_INTEGRATION=true
 
 source $HOME/.dotfiles/functions/commons
+source $HOME/.dotfiles/bash/git-completion.bash
 
 # ==============================================================================
 #  A L I A S E S
@@ -108,6 +109,6 @@ else
 fi
 
 
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin"
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
 
