@@ -107,7 +107,7 @@ set splitright
 
 let g:loaded_matchparen=1
 
-hi Search cterm=NONE ctermfg=white ctermbg=blue
+hi Search cterm=NONE ctermfg=darkgrey ctermbg=yellow
 hi Visual cterm=NONE ctermfg=blue ctermbg=white
 
 " Redefine diff colors:
