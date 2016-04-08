@@ -96,6 +96,7 @@ set nosi noai
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 set number
+set cursorline
 
 set hls
 set incsearch
