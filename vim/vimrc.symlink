@@ -18,6 +18,7 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'mattn/emmet-vim' 
 Plug 'mileszs/ack.vim' 
 Plug 'airblade/vim-gitgutter' 
+Plug 'airblade/vim-rooter' 
 
 call plug#end()
 
