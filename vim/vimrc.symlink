@@ -107,7 +107,7 @@ set splitright
 
 let g:loaded_matchparen=1
 
-hi Search cterm=NONE ctermfg=darkgrey ctermbg=yellow
+hi Search cterm=NONE ctermfg=0 ctermbg=11
 hi Visual cterm=NONE ctermfg=blue ctermbg=white
 
 " Redefine diff colors:
@@ -126,4 +126,9 @@ vnoremap K :m '<-2<CR>gv=gv
 
 let g:ackhighlight = 1
 
+set fillchars+=vert:\ 
+
+hi StatusLine     ctermfg=235 ctermbg=246
+hi StatusLineNC   ctermfg=235  ctermbg=240
+hi VertSplit      ctermfg=235  ctermbg=246
 
