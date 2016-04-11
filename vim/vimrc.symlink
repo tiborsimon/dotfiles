@@ -96,7 +96,7 @@ set nosi noai
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 set number
-set cursorline
+"set cursorline
 
 set hls
 set incsearch
@@ -126,6 +126,7 @@ vnoremap K :m '<-2<CR>gv=gv
 
 
 let g:ackhighlight = 1
+noremap <Leader>a :Ack <cword><cr>
 
 set fillchars+=vert:\ 
 
