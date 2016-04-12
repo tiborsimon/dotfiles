@@ -17,7 +17,7 @@ source $HOME/.dotfiles/bash/git-completion.bash
 #
 
 alias dot='cd ~/.dotfiles'
-alias site='cd ~/github/tiborsimon.io && source site-env/bin/activate && clear'
+alias site='cd ~/$PROJECTS/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias c='cd ~/$PROJECTS'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
@@ -56,11 +56,11 @@ function git_branch {
   if [[ $git_status =~ "fatal: Not a git repository" ]]; then
     echo -en ${RESET}
   elif [[ $git_status =~ "Your branch is ahead of" ]]; then
-    echo -en ${YELLOW}
+    echo -en " on ${BOLD}${YELLOW}"
   elif [[ $git_status =~ "nothing to commit" ]]; then
-    echo -en ${GREEN}
+    echo -en " on ${BOLD}${GREEN}"
   else
-    echo -en ${RED}
+    echo -en " on ${BOLD}${RED}"
   fi
 
   local on_branch="On branch ([^${IFS}]*)"
@@ -68,28 +68,26 @@ function git_branch {
 
   if [[ $git_status =~ $on_branch ]]; then
     local branch=${BASH_REMATCH[1]}
-    echo -n " [$branch]"
+    echo -n "$branch"
   elif [[ $git_status =~ $on_commit ]]; then
     local commit=${BASH_REMATCH[1]}
-    echo -n " [$commit]"
+    echo -n "$commit"
   fi
 
   echo -en ${RESET}
 }
 
 # http://stackoverflow.com/a/20026992
-function virtualenv_info(){
+function virtualenv_info {
     # Get Virtual Env
     if [[ -n "$VIRTUAL_ENV" ]]; then
         # Strip out the path and just leave the env name
-        venv="[${VIRTUAL_ENV##*/}] "
+        venv="${VIRTUAL_ENV##*/}"
     else
         # In case you don't have one activated
         venv=''
     fi
-    echo -en ${YELLOW}
-    [[ -n "$venv" ]] && echo -en "$venv"
-    echo -en ${RESET}
+    [[ -n "$venv" ]] && echo -en " with ${BOLD}${YELLOW}venv${RESET}"
 }
 
 function system_status_face {
@@ -103,9 +101,9 @@ function system_status_face {
 
 if [ "$PROMPT_GIT_INTEGRATION" = true ]
 then
-  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\$(git_branch)\n\$(virtualenv_info)[\$(printf "%03d" \#)] → "
+  export PS1="${BOLD}\u${RESET} at ${BOLD}\h${RESET} in ${BOLD}\w${RESET}\$(git_branch)\$(virtualenv_info) $ "
 else
-  export PS1="\n[\[\$(system_status_face)\]] [\u@\h: \w]\n\$(virtualenv_info)[\$(printf "%03d" \#)] → "
+  export PS1="${BOLD}\u${RESET} at ${BOLD}\h${RESET} in ${BOLD}\w${RESET}\$(virtualenv_info) $ "
 fi
 
 

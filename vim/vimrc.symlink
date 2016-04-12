@@ -11,7 +11,7 @@ Plug 'dkprice/vim-easygrep'
 Plug 'tpope/vim-unimpaired'
 " Plug 'vim-airline/vim-airline' 
 " Plug 'vim-airline/vim-airline-themes' 
-Plug 'mhinz/vim-startify' 
+"Plug 'mhinz/vim-startify' 
 Plug 'gregsexton/gitv' 
 Plug 'kana/vim-arpeggio' 
 Plug 'chrisbra/NrrwRgn' 
@@ -96,7 +96,7 @@ set nosi noai
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 set number
-set cursorline
+"set cursorline
 
 set hls
 set incsearch
