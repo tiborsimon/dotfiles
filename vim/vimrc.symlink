@@ -126,6 +126,7 @@ vnoremap K :m '<-2<CR>gv=gv
 
 
 let g:ackhighlight = 1
+noremap <Leader>a :Ack <cword><cr>
 
 set fillchars+=vert:\ 
 
