@@ -14,7 +14,7 @@
 
 LINUX_PACKAGE_MANAGER=yum
 
-set -e
+#set -e
 source functions/commons
 
 #----------------------------------------------------------------------------------------
