@@ -6,10 +6,10 @@ if [[ -z $branch ]]; then
   exit 0
 else
   #echo -en "["
+  echo -en " on "
   if [ "$clean" == 1 ]; then
     echo -en "  ${BoldGreen}"
   else
-    echo -en " on "
     if [ "$changed" != "0" ]; then
       echo -en "${BoldRed}"
     else
