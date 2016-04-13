@@ -1,99 +1,38 @@
 #!/usr/bin/env bash
-# -*- coding: utf-8 -*-
-# gitstatus.sh -- produce the current git repo status on STDOUT
-# Functionally equivalent to 'gitstatus.py', but written in bash (not python).
-#
-# Alan K. Stebbens <aks@stebbens.org> [http://github.com/aks]
+source $HOME/.dotfiles/functions/commons
+read branch remote staged conflicts changed untracked stashed clean <<<$(python $HOME/.dotfiles/bash/gitstatus.py)
 
-gitstatus=$( LC_ALL=C git status --porcelain --branch )
-
-# if the status is fatal, exit now
-[[ "$?" -ne 0 ]] && exit 0
-
-num_staged=0
-num_changed=0
-num_conflicts=0
-num_untracked=0
-while IFS='' read -r line || [[ -n "$line" ]]; do
-  status=${line:0:2}
-  case "$status" in
-    \#\#) branch_line="${line/\.\.\./^}" ;;
-    ?M) ((num_changed++)) ;;
-    U?) ((num_conflicts++)) ;;
-    \?\?) ((num_untracked++)) ;;
-    *) ((num_staged++)) ;;
-  esac
-done <<< "$gitstatus"
-
-num_stashed=0
-stash_file="$( git rev-parse --git-dir )/logs/refs/stash"
-if [[ -e "${stash_file}" ]]; then
-  while IFS='' read -r wcline || [[ -n "$wcline" ]]; do
-    ((num_stashed++))
-  done < ${stash_file}
-fi
-
-clean=0
-if (( num_changed == 0 && num_staged == 0 && num_untracked == 0 && num_stashed == 0 && num_conflicts == 0)) ; then
-  clean=1
-fi
-
-IFS="^" read -ra branch_fields <<< "${branch_line/\#\# }"
-branch="${branch_fields[0]}"
-remote=
-upstream=
-
-if [[ "$branch" == *"Initial commit on"* ]]; then
-  IFS=" " read -ra fields <<< "$branch"
-  branch="${fields[3]}"
-  remote="_NO_REMOTE_TRACKING_"
-elif [[ "$branch" == *"no branch"* ]]; then
-  tag=$( git describe --tags --exact-match )
-  if [[ -n "$tag" ]]; then
-    branch="$tag"
-  else
-    branch="_PREHASH_$( git rev-parse --short HEAD )"
-  fi
+if [[ -z $branch ]]; then 
+  exit 0
 else
-  if [[ "${#branch_fields[@]}" -eq 1 ]]; then
-    remote="_NO_REMOTE_TRACKING_"
+  if [ "$clean" == 1 ]; then
+    echo -en "${BoldGreen}"
   else
-    IFS="[,]" read -ra remote_fields <<< "${branch_fields[1]}"
-    upstream="${remote_fields[0]}"
-    for remote_field in "${remote_fields[@]}"; do
-      if [[ "$remote_field" == *ahead* ]]; then
-        num_ahead=${remote_field:6}
-        ahead="_AHEAD_${num_ahead}"
-      fi
-      if [[ "$remote_field" == *behind* ]]; then
-        num_behind=${remote_field:7}
-        behind="_BEHIND_${num_behind# }"
-      fi
-    done
-    remote="${behind}${ahead}"
+    echo -en "${BoldRed}"
   fi
+  echo -en "$branch${ResetColor}"
 fi
 
-if [[ -z "$remote" ]] ; then
-  remote='.'
+if [ "$remote" != "." ]; then
+  echo -en " ${BoldYellow}${remote}${ResetColor}"
 fi
 
-if [[ -z "$upstream" ]] ; then
-  upstream='^'
+if [ "$staged" != "0" ]; then
+  echo -en " $staged staged"
 fi
 
-if [[ ! -z "$branch" ]]; then
-  echo -ne "$branch $remote"
+if [ "$changed" != "0" ]; then
+  echo -en " $changed changed"
 fi
-printf "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
-  "$branch" \
-  "$remote" \
-  "$upstream" \
-  $num_staged \
-  $num_conflicts \
-  $num_changed \
-  $num_untracked \
-  $num_stashed \
-  $clean
 
-exit
+if [ "$untracked" != "0" ]; then
+  echo -en " $untracked untracked"
+fi
+
+if [ "$conflicts" != "0" ]; then
+  echo -en " $conflicts conflicts"
+fi
+
+if [ "$stashed" != "0" ]; then
+  echo -en " $stashed stashed"
+fi
