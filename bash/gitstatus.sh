@@ -8,7 +8,7 @@ else
   #echo -en "["
   echo -en " on "
   if [ "$clean" == 1 ]; then
-    echo -en "  ${BoldGreen}"
+    echo -en "${BoldGreen}"
   else
     if [ "$changed" != "0" ]; then
       echo -en "${BoldRed}"
