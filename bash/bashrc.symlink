@@ -50,19 +50,25 @@ alias g='cd ~/github'
 export PROMPT_COMMAND=__prompt_command  # Func to gen PS1 after CMDs
 
 function __prompt_command() {
-    local EXIT="$(printf "%03d" $?)"
-    PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n"
-    PS1+="\t "
+  local EXIT="$(printf "%03d" $?)"
+  PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n"
+  
+  #local git_status = "$(python gitstatus.py)" 
+  #if [! -n $git_status ]; then
+  #  PS1+="${git_status}\n"
+  #fi
 
-    if [ "$EXIT" != "000" ]; then
-      PS1+="\[${Red}\]"
-    else
-      PS1+="\[${Green}\]"
-    fi
-    
-    PS1+="${EXIT}\[${ResetColor}\] "
+  PS1+="\t "
 
-    PS1+="\\$ \[$(tput sgr0)\]"
+  if [ "$EXIT" != "000" ]; then
+    PS1+="\[${BoldRed}\]"
+  else
+    PS1+="\[${BoldGreen}\]"
+  fi
+  
+  PS1+="${EXIT}\[${ResetColor}\] "
+
+  PS1+="\\$ \[$(tput sgr0)\]"
 }
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
