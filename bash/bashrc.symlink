@@ -47,7 +47,23 @@ alias g='cd ~/github'
 #  P R O M P T
 #
 
-export PS1="\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n\t \$? \\$ \[$(tput sgr0)\]"
+export PROMPT_COMMAND=__prompt_command  # Func to gen PS1 after CMDs
+
+function __prompt_command() {
+    local EXIT="$(printf "%03d" $?)"
+    PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n"
+    PS1+="\t "
+
+    if [ "$EXIT" != "000" ]; then
+      PS1+="\[${Red}\]"
+    else
+      PS1+="\[${Green}\]"
+    fi
+    
+    PS1+="${EXIT}\[${ResetColor}\] "
+
+    PS1+="\\$ \[$(tput sgr0)\]"
+}
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
