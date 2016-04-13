@@ -18,7 +18,7 @@ GITHUB_USERNAME=tiborsimon
 REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
 
-source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/functions/commons)
+source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/bash/bash-git-prompt/prompt-colors.sh)
 
 #----------------------------------------------------------------------------------------
 #  C O M M O N   F U N C T I O N S
@@ -26,7 +26,7 @@ source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master
 
 assert_path () {
   if [ "$(pwd)" = "$HOME/.dotfiles" ]; then
-    fail "You could't run this script from your ${BOLD}.dotfiles${RESET} folder!"
+    fail "You could't run this script from your ${BoldWhite}.dotfiles${ResetColor} folder!"
     echo ''
     exit
   fi
@@ -61,7 +61,7 @@ prepare_ssh_key () {
   
   if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then
     while true; do
-      user "SSH key is detected. Do you want to create a new one? [${BOLD}${GREEN}C${RESET}]reate, [${BOLD}${GREEN}k${RESET}]eep"
+      user "SSH key is detected. Do you want to create a new one? [${BoldGreen}C${ResetColor}]reate, [${BoldGreen}k${ResetColor}]eep"
       read -n 1 action
       case "$action" in
       C ) info 'Generating SSH key..'
@@ -71,7 +71,7 @@ prepare_ssh_key () {
       k ) success 'SSH key generation skipped. Existing key will be used.'
           break
           ;;
-      * ) warning "Wrong answer! Type ${BOLD}${GREEN}C${RESET} or ${BOLD}${GREEN}k${RESET}."
+      * ) warning "Wrong answer! Type ${BoldGreen}C${ResetColor} or ${BoldGreen}k${ResetColor}."
           ;;
       esac
     done
@@ -134,7 +134,7 @@ upload_key_to_bitbucket () {
 
 upload_ssh_key () {
   while true; do
-    user "Do you want to add the SSH key to your GitHub account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
+    user "Do you want to add the SSH key to your GitHub account? [${BoldGreen}Y${ResetColor}]es [${BoldGreen}s${ResetColor}]kip"
     read -n 1 action
     case "$action" in
     Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
@@ -144,13 +144,13 @@ upload_ssh_key () {
     s ) info 'Skipped uploading SSH key to GitHub.'
         break
         ;;
-    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
+    * ) info "Wrong answer! Type ${BoldGreen}Y${ResetColor} or ${BoldGreen}s${ResetColor}."
         ;;
     esac
   done
 
   while true; do
-    user "Do you want to add the SSH key to your BitBucket account? [${BOLD}${GREEN}Y${RESET}]es [${BOLD}${GREEN}s${RESET}]kip"
+    user "Do you want to add the SSH key to your BitBucket account? [${BoldGreen}Y${ResetColor}]es [${BoldGreen}s${ResetColor}]kip"
     read -n 1 action
     case "$action" in
     Y ) info "Uploading SSH key to $GITHUB_USERNAME's BitBucket account.."
@@ -160,7 +160,7 @@ upload_ssh_key () {
     s ) info 'Skipped uploading SSH key to BitBucket.'
         break
         ;;
-    * ) info "Wrong answer! Type ${BOLD}${GREEN}Y${RESET} or ${BOLD}${GREEN}s${RESET}."
+    * ) info "Wrong answer! Type ${BoldGreen}Y${ResetColor} or ${BoldGreen}s${ResetColor}."
         ;;
     esac
   done
@@ -206,7 +206,7 @@ assert_for_git
 
 if [ -d "$HOME/.dotfiles" ]; then
   while true; do
-    user "$HOME/.dotfiles folder already exist. [${BOLD}${GREEN}D${RESET}]elete, [${BOLD}${GREEN}a${RESET}]bort"
+    user "$HOME/.dotfiles folder already exist. [${BoldGreen}D${ResetColor}]elete, [${BoldGreen}a${ResetColor}]bort"
     read -n 1 action
 
     case "$action" in
@@ -218,14 +218,14 @@ if [ -d "$HOME/.dotfiles" ]; then
         echo ''
         exit
         ;;
-    * ) warning "Wrong answer! Type ${BOLD}${GREEN}D${RESET} or ${BOLD}${GREEN}a${RESET}."
+    * ) warning "Wrong answer! Type ${BoldGreen}D${ResetColor} or ${BoldGreen}a${ResetColor}."
         ;;
     esac
   done
 fi
 
 while true; do
-  user "Clone repo via [${BOLD}${GREEN}h${RESET}]ttp or via [${BOLD}${GREEN}g${RESET}]it (ssh key required)?"
+  user "Clone repo via [${BoldGreen}h${ResetColor}]ttp or via [${BoldGreen}g${ResetColor}]it (ssh key required)?"
   read -n 1 action
   case "$action" in
   g ) success 'Repo will be cloned via git protocol.'
@@ -238,7 +238,7 @@ while true; do
       clone_via_http
       break
       ;;
-  * ) warning "Wrong answer. Type ${BOLD}${GREEN}h${RESET} or ${BOLD}${GREEN}g${RESET}."
+  * ) warning "Wrong answer. Type ${BoldGreen}h${ResetColor} or ${BoldGreen}g${ResetColor}."
       ;;
   esac
 done

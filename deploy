@@ -76,7 +76,7 @@ install_homebrew () {
 
 update_homebrew () {
   while true; do
-    user "Do you want to update Homebrew?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
+    user "Do you want to update Homebrew?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
     read -n 1 action
     case "$action" in
     y ) info 'Updating Homebrew..'
@@ -90,7 +90,7 @@ update_homebrew () {
     s ) success 'Skipped..'
         break
         ;;
-    * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
+    * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
         ;;
     esac
   done
@@ -98,7 +98,7 @@ update_homebrew () {
 
 excute_brewfile () {
   while true; do
-    user "Do you want to execute the Brewfile to install all your programs?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
+    user "Do you want to execute the Brewfile to install all your programs?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
     read -n 1 action
 
     case "$action" in
@@ -110,7 +110,7 @@ excute_brewfile () {
     s ) success 'Skipped..'
         break
         ;;
-    * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
+    * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
         ;;
     esac
   done
@@ -122,7 +122,7 @@ excute_brewfile () {
 
 excute_linux_packages_file () {
   while true; do
-    user "Do you want to install software packages?  [${BOLD}${GREEN}y${RESET}]es, [${BOLD}${GREEN}s${RESET}]kip"
+    user "Do you want to install software packages?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
     read -n 1 action
     case "$action" in
     y ) user 'What is the package manager for this platform?'
@@ -142,7 +142,7 @@ excute_linux_packages_file () {
     s ) success 'Skipped..'
         break
         ;;
-    * ) warning "Wrong answer! Type ${BOLD}${GREEN}y${RESET} or ${BOLD}${GREEN}s${RESET}."
+    * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
         ;;
     esac
   done
