@@ -9,10 +9,11 @@ else
   if [ "$clean" == 1 ]; then
     echo -en "  ${BoldGreen}"
   else
+    echo -en " on "
     if [ "$changed" != "0" ]; then
-      echo -en "  ${BoldRed}"
+      echo -en "${BoldRed}"
     else
-      echo -en "  ${BoldMagenta}"
+      echo -en "${BoldMagenta}"
     fi
   fi
   echo -en "$branch${ResetColor}"
