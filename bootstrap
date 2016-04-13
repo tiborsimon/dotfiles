@@ -18,6 +18,7 @@ GITHUB_USERNAME=tiborsimon
 REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
 
+source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/functions/commons)
 source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/bash/bash-git-prompt/prompt-colors.sh)
 
 #----------------------------------------------------------------------------------------
