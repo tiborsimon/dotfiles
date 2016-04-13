@@ -6,9 +6,6 @@ export EDITOR='vim'
 export PROJECTS='projects'
 export CPPUTEST_HOME=$HOME/cpputest
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-PROMPT_GIT_INTEGRATION=true
-
 source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
 
@@ -50,9 +47,7 @@ alias g='cd ~/github'
 #  P R O M P T
 #
 
-GIT_PROMPT_ONLY_IN_REPO=0
-#GIT_PROMPT_THEME= # use custom .git-prompt-colors.sh
-source ~/.dotfiles/bash/bash-git-prompt/gitprompt.sh
+export PS1="\u at \h in \w\n\t \$? \\$\[$(tput sgr0)\]"
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
