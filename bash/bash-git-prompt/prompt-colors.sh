@@ -54,7 +54,7 @@ define_color_names() {
     else
       cv="${1}"
     fi
-    echo "\[\033[${cv}m\]"
+    echo "\033[${cv}m"
   }
 
   # def_color NAME ATTRCODE COLORCODE
