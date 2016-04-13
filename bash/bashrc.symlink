@@ -51,12 +51,16 @@ export PROMPT_COMMAND=__prompt_command  # Func to gen PS1 after CMDs
 
 function __prompt_command() {
   local EXIT="$(printf "%03d" $?)"
-  PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n"
-  
-  #local git_status = "$(python gitstatus.py)" 
-  #if [! -n $git_status ]; then
-  #  PS1+="${git_status}\n"
-  #fi
+
+  PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]"
+
+  local git_status="$($HOME/.dotfiles/bash/gitstatus.sh)" 
+  if [[ ! -z $git_status ]]; then
+    PS1+="${git_status}\n"
+  else
+    PS1+="\n"
+  fi
+
 
   PS1+="\t "
 

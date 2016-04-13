@@ -5,10 +5,15 @@ read branch remote staged conflicts changed untracked stashed clean <<<$(python 
 if [[ -z $branch ]]; then 
   exit 0
 else
+  #echo -en "["
   if [ "$clean" == 1 ]; then
-    echo -en "${BoldGreen}"
+    echo -en "  ${BoldGreen}"
   else
-    echo -en "${BoldRed}"
+    if [ "$changed" != "0" ]; then
+      echo -en "  ${BoldRed}"
+    else
+      echo -en "  ${BoldMagenta}"
+    fi
   fi
   echo -en "$branch${ResetColor}"
 fi
@@ -18,21 +23,22 @@ if [ "$remote" != "." ]; then
 fi
 
 if [ "$staged" != "0" ]; then
-  echo -en " $staged staged"
+  echo -en " ${DimGreen}$staged staged${ResetColor}"
 fi
 
 if [ "$changed" != "0" ]; then
-  echo -en " $changed changed"
+  echo -en " ${DimRed}$changed changed${ResetColor}"
 fi
 
 if [ "$untracked" != "0" ]; then
-  echo -en " $untracked untracked"
+  echo -en " ${DimMagenta}$untracked untracked${ResetColor}"
 fi
 
 if [ "$conflicts" != "0" ]; then
-  echo -en " $conflicts conflicts"
+  echo -en " ${BoldRed}$conflicts conflicts${ResetColor}"
 fi
 
 if [ "$stashed" != "0" ]; then
-  echo -en " $stashed stashed"
+  echo -en " ${DimBlue}$stashed stashed${ResetColor}"
 fi
+#echo -en "]"
