@@ -47,65 +47,12 @@ alias g='cd ~/github'
 
 
 # ==============================================================================
-#  G I T   P R O M P T
-#  Source: https://coderwall.com/p/pn8f0g/show-your-git-status-and-branch-in-color-at-the-command-prompt
+#  P R O M P T
+#
 
-function git_branch {
-  local git_status="$(git status 2> /dev/null)"
-
-  if [[ $git_status =~ "fatal: Not a git repository" ]]; then
-    echo -en ${RESET}
-  elif [[ $git_status =~ "Your branch is ahead of" ]]; then
-    echo -en " on ${BOLD}${YELLOW}"
-  elif [[ $git_status =~ "nothing to commit" ]]; then
-    echo -en " on ${BOLD}${GREEN}"
-  else
-    echo -en " on ${BOLD}${RED}"
-  fi
-
-  local on_branch="On branch ([^${IFS}]*)"
-  local on_commit="HEAD detached at ([^${IFS}]*)"
-
-  if [[ $git_status =~ $on_branch ]]; then
-    local branch=${BASH_REMATCH[1]}
-    echo -n "$branch"
-  elif [[ $git_status =~ $on_commit ]]; then
-    local commit=${BASH_REMATCH[1]}
-    echo -n "$commit"
-  fi
-
-  echo -en ${RESET}
-}
-
-# http://stackoverflow.com/a/20026992
-function virtualenv_info {
-    # Get Virtual Env
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        # Strip out the path and just leave the env name
-        venv="${VIRTUAL_ENV##*/}"
-    else
-        # In case you don't have one activated
-        venv=''
-    fi
-    [[ -n "$venv" ]] && echo -en " with ${BOLD}${YELLOW}venv${RESET}"
-}
-
-function system_status_face {
-  if [ $? -eq 0 ]
-  then 
-   echo -en "${BOLD}${GREEN}^-^${RESET}"
-  else
-   echo -en "${BOLD}${RED}O.o${RESET}"
-  fi
-}
-
-if [ "$PROMPT_GIT_INTEGRATION" = true ]
-then
-  export PS1="${BOLD}\u${RESET} at ${BOLD}\h${RESET} in ${BOLD}\w${RESET}\$(git_branch)\$(virtualenv_info) $ "
-else
-  export PS1="${BOLD}\u${RESET} at ${BOLD}\h${RESET} in ${BOLD}\w${RESET}\$(virtualenv_info) $ "
-fi
-
+GIT_PROMPT_ONLY_IN_REPO=0
+#GIT_PROMPT_THEME= # use custom .git-prompt-colors.sh
+source ~/.dotfiles/bash/bash-git-prompt/gitprompt.sh
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
