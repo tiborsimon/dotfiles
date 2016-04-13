@@ -47,7 +47,7 @@ alias g='cd ~/github'
 #  P R O M P T
 #
 
-export PS1="\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n\t \$? \\$\[$(tput sgr0)\]"
+export PS1="\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]\n\t \$? \\$ \[$(tput sgr0)\]"
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
