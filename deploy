@@ -16,7 +16,6 @@ LINUX_PACKAGE_MANAGER=yum
 
 set -e
 source functions/commons
-source bash/bash-git-prompt/prompt-colors.sh
 
 #----------------------------------------------------------------------------------------
 #  C O M M O N   F U N C T I O N S
