@@ -1,3 +1,7 @@
+" Vimrc of Tibor Simon
+" Started on 2016-03-14
+
+" Plugin management {{{
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-surround'
@@ -21,6 +25,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter' 
 
 call plug#end()
+" Plugin management }}}
 
 " change the mapleader from \ to ,
 let mapleader=","
@@ -93,8 +98,10 @@ set pastetoggle=
 set nosi noai
 
 " Tab management: http://stackoverflow.com/a/1878983/1565331
-set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab smartindent
 
+set foldmethod=markers
+set foldmarker={{{,}}}
 set number
 "set cursorline
 
