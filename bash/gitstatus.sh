@@ -24,15 +24,15 @@ if [ "$remote" != "." ]; then
 fi
 
 if [ "$staged" != "0" ]; then
-  echo -en " ${DimGreen}$staged staged${ResetColor}"
+  echo -en " ${Green}$staged staged${ResetColor}"
 fi
 
 if [ "$changed" != "0" ]; then
-  echo -en " ${DimRed}$changed changed${ResetColor}"
+  echo -en " ${Red}$changed changed${ResetColor}"
 fi
 
 if [ "$untracked" != "0" ]; then
-  echo -en " ${DimMagenta}$untracked untracked${ResetColor}"
+  echo -en " ${Magenta}$untracked untracked${ResetColor}"
 fi
 
 if [ "$conflicts" != "0" ]; then
@@ -40,6 +40,6 @@ if [ "$conflicts" != "0" ]; then
 fi
 
 if [ "$stashed" != "0" ]; then
-  echo -en " ${DimBlue}$stashed stashed${ResetColor}"
+  echo -en " ${Blue}$stashed stashed${ResetColor}"
 fi
 #echo -en "]"
