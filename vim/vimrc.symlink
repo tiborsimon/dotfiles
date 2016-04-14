@@ -1,143 +1,154 @@
 " Vimrc of Tibor Simon
 " Started on 2016-03-14
 
-" Plugin management {{{
-call plug#begin('~/.vim/plugged')
+"General Vim config {{{
+  " Solving paste issue with comments
+  set pastetoggle=
+  set nosi noai
 
-Plug 'tpope/vim-surround'
-Plug 'mbbill/undotree'
-Plug 'scrooloose/nerdtree'
-Plug 'easymotion/vim-easymotion'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-fugitive'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'dkprice/vim-easygrep'
-Plug 'tpope/vim-unimpaired'
-" Plug 'vim-airline/vim-airline' 
-" Plug 'vim-airline/vim-airline-themes' 
-"Plug 'mhinz/vim-startify' 
-Plug 'gregsexton/gitv' 
-Plug 'kana/vim-arpeggio' 
-Plug 'chrisbra/NrrwRgn' 
-Plug 'mattn/emmet-vim' 
-Plug 'mileszs/ack.vim' 
-Plug 'airblade/vim-gitgutter' 
-Plug 'airblade/vim-rooter' 
+  " Tab management: http://stackoverflow.com/a/1878983/1565331
+  set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab smartindent
 
-call plug#end()
-" Plugin management }}}
+  set foldmethod=marker
+  set foldmarker={{{,}}}
+  set number
+  "set cursorline
 
-" change the mapleader from \ to ,
-let mapleader=","
+  set hls
+  set incsearch
+  set rnu
 
-" Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e ~/.vimrc<CR>
-vmap <silent> <leader>sv :so ~/.vimrc<CR>
+  set diffopt+=vertical
+  set splitbelow
+  set splitright
 
-set noswapfile
+  let g:loaded_matchparen=1
 
-set pastetoggle=<F8>
-nnoremap ; :
-nnoremap j gj
-nnoremap k gk
+  set noswapfile
+  set lazyredraw
+  set ttyfast
+"}}} General Vim config
 
-set lazyredraw
-set ttyfast
+"Basic keyboard remappings {{{
+  let mapleader=","
 
-" Window related remappings
-nnoremap <leader>v <C-w>v<C-w>l
-nnoremap <leader>s <C-w>s
-nnoremap <leader>vsa :vert sba<cr>
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+  " Quickly edit/reload the vimrc file
+  nmap <silent> <leader>ev :e ~/.vimrc<CR>
+  vmap <silent> <leader>sv :so ~/.vimrc<CR>
 
-" Tab related remappings
-map <leader>tn :tabnew<CR>
-map <leader>tc :tabclose<CR>
+  set pastetoggle=<F8>
+  nnoremap ; :
+  nnoremap j gj
+  nnoremap k gk
 
-" Motion in insert mode
-inoremap <C-h> <left>
-inoremap <C-l> <right>
-inoremap <C-j> <down>
-inoremap <C-k> <up>
+  " Window related remappings
+  nnoremap <leader>v <C-w>v<C-w>l
+  nnoremap <leader>s <C-w>s
+  nnoremap <leader>vsa :vert sba<cr>
+  nnoremap <C-h> <C-w>h
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-l> <C-w>l
 
-" Smash esc :D
-call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+  " Tab related remappings
+  map <leader>tn :tabnew<CR>
+  map <leader>tc :tabclose<CR>
 
-" NERDTree remap
-nnoremap <F2> :NERDTreeToggle<CR>
-nnoremap <F3> :NERDTreeFind<CR>
-let NERDTreeShowBookmarks=1
+  " Motion in insert mode
+  inoremap <C-h> <left>
+  inoremap <C-l> <right>
+  inoremap <C-j> <down>
+  inoremap <C-k> <up>
 
-" Undotree config
-nnoremap <F5> :UndotreeToggle<cr>
+  " Move lines in all modes
+  nnoremap J :m .+1<CR>==
+  nnoremap K :m .-2<CR>==
+  vnoremap J :m '>+1<CR>gv=gv
+  vnoremap K :m '<-2<CR>gv=gv
+"}}} Basic keyboard remappings
 
-" Fugitive remaps
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>
-nnoremap <silent> <leader>gr :Gremove<CR>
+"GUI settings {{{
+  set fillchars+=vert:\ 
+  hi StatusLine     ctermfg=235 ctermbg=246
+  hi StatusLineNC   ctermfg=235  ctermbg=240
+  hi VertSplit      ctermfg=235  ctermbg=246
 
-" Gitv mapping
-nnoremap <silent> <leader>gv :Gitv<CR>
+  hi Folded         ctermfg=241 ctermbg=233
 
-" CtrlP remap
-nnoremap <F7> :CtrlP ~<CR>
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPLastMode'
-let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
+  hi Search cterm=NONE ctermfg=0 ctermbg=11
+  hi Visual cterm=NONE ctermfg=blue ctermbg=white
 
-" Solving paste issue with comments
-set pastetoggle=
-set nosi noai
+  " Redefine diff colors:
+  " http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
+  highlight DiffAdd    ctermfg=10 ctermbg=22 
+  highlight DiffChange ctermfg=7 ctermbg=8 
+  highlight DiffText   ctermfg=15 ctermbg=27 
+  highlight DiffDelete ctermfg=9 ctermbg=88 
+"}}} GUI settings
 
-" Tab management: http://stackoverflow.com/a/1878983/1565331
-set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab smartindent
+"Plugins {{{
+  "Plugin management {{{
+    call plug#begin('~/.vim/plugged')
+      Plug 'mileszs/ack.vim' 
+      " Plug 'vim-airline/vim-airline' 
+      " Plug 'vim-airline/vim-airline-themes' 
+      Plug 'kana/vim-arpeggio' 
+      Plug 'ctrlpvim/ctrlp.vim'
+      Plug 'dkprice/vim-easygrep'
+      Plug 'easymotion/vim-easymotion'
+      Plug 'mattn/emmet-vim' 
+      Plug 'tpope/vim-fugitive'
+      Plug 'airblade/vim-gitgutter' 
+      Plug 'gregsexton/gitv' 
+      Plug 'terryma/vim-multiple-cursors'
+      Plug 'chrisbra/NrrwRgn' 
+      Plug 'scrooloose/nerdtree'
+      Plug 'airblade/vim-rooter' 
+      "Plug 'mhinz/vim-startify' 
+      Plug 'tpope/vim-surround'
+      Plug 'mbbill/undotree'
+      Plug 'tpope/vim-unimpaired'
+    call plug#end()
+  "Plugin management }}}
 
-set foldmethod=markers
-set foldmarker={{{,}}}
-set number
-"set cursorline
+  "Plugin: Ack {{{
+    let g:ackhighlight = 1
+    noremap <Leader>a :Ack <cword><cr>
+  "}}} Plugin: Ack
 
-set hls
-set incsearch
-set rnu
+  "Plugin: Arpeggio {{{
+  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+  "}}} Plugin: Arpeggio
 
-set diffopt+=vertical
-set splitbelow
-set splitright
+  "Plugin: CtrlP {{{
+  nnoremap <F7> :CtrlP ~<CR>
+  let g:ctrlp_map = '<c-p>'
+  let g:ctrlp_cmd = 'CtrlPLastMode'
+  let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
+  "}}} Plugin: CtrlP
 
-let g:loaded_matchparen=1
+  "Plugin: Fugitive {{{
+  nnoremap <silent> <leader>gs :Gstatus<CR>
+  nnoremap <silent> <leader>gd :Gdiff<CR>
+  nnoremap <silent> <leader>gc :Gcommit<CR>
+  nnoremap <silent> <leader>gb :Gblame<CR>
+  nnoremap <silent> <leader>gl :Glog<CR>
+  nnoremap <silent> <leader>gp :Git push<CR>
+  nnoremap <silent> <leader>gw :Gwrite<CR>
+  nnoremap <silent> <leader>gr :Gremove<CR>
+  "}}} Plugin: Fugitive
 
-hi Search cterm=NONE ctermfg=0 ctermbg=11
-hi Visual cterm=NONE ctermfg=blue ctermbg=white
+  "Plugin: Gitv {{{
+  nnoremap <silent> <leader>gv :Gitv<CR>
+  "}}} Plugin: Gitv
 
-" Redefine diff colors:
-" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
-highlight DiffAdd    ctermfg=10 ctermbg=22 
-highlight DiffChange ctermfg=7 ctermbg=8 
-highlight DiffText   ctermfg=15 ctermbg=27 
-highlight DiffDelete ctermfg=9 ctermbg=88 
+  "Plugin: NERDTree {{{
+    nnoremap <F2> :NERDTreeToggle<CR>
+    nnoremap <F3> :NERDTreeFind<CR>
+    let NERDTreeShowBookmarks=1
+  "}}} Plugin: NERDTree
 
-" Move lines in all modes
-nnoremap J :m .+1<CR>==
-nnoremap K :m .-2<CR>==
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-
-let g:ackhighlight = 1
-noremap <Leader>a :Ack <cword><cr>
-
-set fillchars+=vert:\ 
-
-hi StatusLine     ctermfg=235 ctermbg=246
-hi StatusLineNC   ctermfg=235  ctermbg=240
-hi VertSplit      ctermfg=235  ctermbg=246
-
+  "Plugin: UndoTree {{{
+    nnoremap <F5> :UndotreeToggle<cr>
+  "}}} Plugin: UndoTree
+"}}} Plugins
