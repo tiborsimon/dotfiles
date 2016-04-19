@@ -103,7 +103,7 @@ excute_brewfile () {
 
     case "$action" in
     y ) info 'Executing Brewfile..'
-        brew bundle -v  --file=brew/Brewfile > brew-install.log
+        brew bundle -v  --file=osx/Brewfile > brew-install.log
         success 'Brewfile executed. All apps are installed.'
         break
         ;;
