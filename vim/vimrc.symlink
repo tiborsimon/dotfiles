@@ -32,7 +32,7 @@
 "}}} General Vim config
 
 "Basic keyboard remappings {{{
-  let mapleader=","
+  let mapleader="\<Space>"
 
   " Quickly edit/reload the vimrc file
   nmap <silent> <leader>ev :e ~/.vimrc<CR>
@@ -97,6 +97,7 @@
       Plug 'kana/vim-arpeggio' 
       Plug 'ctrlpvim/ctrlp.vim'
       Plug 'dkprice/vim-easygrep'
+      Plug 'terryma/vim-expand-region'
       Plug 'easymotion/vim-easymotion'
       Plug 'mattn/emmet-vim' 
       Plug 'tpope/vim-fugitive'
