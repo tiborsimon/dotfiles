@@ -26,6 +26,8 @@
 
   let g:loaded_matchparen=1
 
+  set scrolloff=4
+
   set noswapfile
   set lazyredraw
   set ttyfast
