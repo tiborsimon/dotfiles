@@ -1,7 +1,7 @@
 # Redefine prefix to C-a
-set -g prefix C-a
+set -g prefix C-Space
 unbind-key C-b
-bind-key C-a send-prefix
+bind-key C-Space send-prefix
 
 # Start windows and panes at 1, not 0
 set -g base-index 1
