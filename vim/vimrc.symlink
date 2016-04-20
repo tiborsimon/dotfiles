@@ -36,7 +36,10 @@
 
   " Quickly edit/reload the vimrc file
   nmap <silent> <leader>ev :e ~/.vimrc<CR>
-  vmap <silent> <leader>sv :so ~/.vimrc<CR>
+  map <leader>l :so ~/.vimrc<CR>
+
+  nnoremap <leader>w :w<cr>
+  nnoremap <leader>q :q<cr>
 
   set pastetoggle=<F8>
   nnoremap ; :
@@ -75,7 +78,7 @@
   hi StatusLineNC   ctermfg=235  ctermbg=240
   hi VertSplit      ctermfg=235  ctermbg=246
 
-  hi Folded         ctermfg=241 ctermbg=233
+  hi Folded         ctermfg=241 ctermbg=235
 
   hi Search cterm=NONE ctermfg=0 ctermbg=11
   hi Visual cterm=NONE ctermfg=blue ctermbg=white
@@ -92,9 +95,10 @@
   "Plugin management {{{
     call plug#begin('~/.vim/plugged')
       Plug 'mileszs/ack.vim' 
-      " Plug 'vim-airline/vim-airline' 
-      " Plug 'vim-airline/vim-airline-themes' 
+      Plug 'vim-airline/vim-airline' 
+      Plug 'vim-airline/vim-airline-themes' 
       Plug 'kana/vim-arpeggio' 
+      Plug 'tpope/vim-commentary' 
       Plug 'ctrlpvim/ctrlp.vim'
       Plug 'dkprice/vim-easygrep'
       Plug 'terryma/vim-expand-region'
@@ -107,7 +111,8 @@
       Plug 'chrisbra/NrrwRgn' 
       Plug 'scrooloose/nerdtree'
       Plug 'airblade/vim-rooter' 
-      "Plug 'mhinz/vim-startify' 
+      " Plug 'tpope/vim-rsi' 
+      " Plug 'mhinz/vim-startify' 
       Plug 'tpope/vim-surround'
       Plug 'mbbill/undotree'
       Plug 'tpope/vim-unimpaired'
@@ -119,6 +124,13 @@
     noremap <Leader>a :Ack <cword><cr>
   "}}} Plugin: Ack
 
+  "Plugin: Airline {{{
+    let g:airline_theme='powerlineish'
+    let g:airline_left_sep=''
+    let g:airline_right_sep=''
+    let g:airline_section_z=''
+  "}}} Plugin: Airline
+ 
   "Plugin: Arpeggio {{{
   call arpeggio#map('i', '', 0, 'jk', '<Esc>')
   "}}} Plugin: Arpeggio
