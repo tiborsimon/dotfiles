@@ -116,7 +116,7 @@
       Plug 'chrisbra/NrrwRgn' 
       Plug 'scrooloose/nerdtree'
       Plug 'airblade/vim-rooter' 
-      " Plug 'tpope/vim-rsi' 
+      Plug 'tpope/vim-rsi' 
       " Plug 'mhinz/vim-startify' 
       Plug 'tpope/vim-surround'
       Plug 'mbbill/undotree'
@@ -173,4 +173,5 @@
     nnoremap <F5> :UndotreeToggle<cr>
   "}}} Plugin: UndoTree
 "}}} Plugins
+
 
