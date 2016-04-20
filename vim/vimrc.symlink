@@ -37,8 +37,11 @@
   let mapleader="\<Space>"
 
   " Quickly edit/reload the vimrc file
-  nmap <silent> <leader>ev :e ~/.vimrc<CR>
+  nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
   map <leader>l :so ~/.vimrc<CR>
+
+  " Scroll toggle
+  map <leader>sb :set scb!<cr>
 
   nnoremap <leader>w :w<cr>
   nnoremap <leader>q :q<cr>
