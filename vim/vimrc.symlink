@@ -128,7 +128,8 @@
     let g:airline_theme='powerlineish'
     let g:airline_left_sep=''
     let g:airline_right_sep=''
-    let g:airline_section_z=''
+    let g:airline_section_z='%3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#/%L:%3v'
+    let g:airline_section_warning=''
   "}}} Plugin: Airline
  
   "Plugin: Arpeggio {{{
@@ -167,3 +168,4 @@
     nnoremap <F5> :UndotreeToggle<cr>
   "}}} Plugin: UndoTree
 "}}} Plugins
+
