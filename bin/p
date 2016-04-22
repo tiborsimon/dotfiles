@@ -1,0 +1,38 @@
+#!/bin/bash
+
+handle_project_root () {
+  echo ''
+  echo 'You are in your project root. Which project do you want to enter?'
+  echo ''
+  counter=1
+  for p in $(ls); do
+    echo "  [$counter] $p"
+    counter=$((counter + 1))
+  done
+  
+  echo ''
+  echo -en 'Which project do you want to enter? '
+
+  read project
+  project=$((10#$project))
+  counter=1
+  for p in $(ls); do
+    if [ $counter -eq $project ]; then
+      cd $p
+    fi
+    counter=$((counter + 1))
+  done
+}
+
+handle_in_project_dir () {
+  echo 'In project'
+}
+
+if [ "$(pwd)" = "$PROJECTS" ]; then
+  handle_project_root
+elif  echo $(pwd)|grep -q $PROJECTS ; then 
+  handle_in_project_dir
+else
+  echo 'You are not in your projects directory..'
+fi
+

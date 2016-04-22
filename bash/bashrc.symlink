@@ -1,10 +1,9 @@
 export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:~/github/dotfiles-osx/bin:${PATH}"
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
+#export LANG=en_US.UTF-8
 export EDITOR='vim'
-export PROJECTS='projects'
-export CPPUTEST_HOME=$HOME/cpputest
+export PROJECTS="$HOME/projects"
 
 source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
@@ -16,7 +15,8 @@ source $HOME/.dotfiles/bash/git-completion.bash
 alias dot='cd ~/.dotfiles'
 alias site='cd ~/$PROJECTS/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
-alias c='cd ~/$PROJECTS'
+alias p='. p'
+alias pp='cd $PROJECTS'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
 alias appserver='ssh tibor@ts-centos-02'
