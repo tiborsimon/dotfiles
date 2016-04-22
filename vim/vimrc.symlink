@@ -46,7 +46,8 @@
   nnoremap <leader>w :w<cr>
   nnoremap <leader>q :q<cr>
 
-  set pastetoggle=<F8>
+  set pastetoggle=<leader><F2>
+
   nnoremap ; :
   nnoremap j gj
   nnoremap k gk
