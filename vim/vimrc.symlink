@@ -98,7 +98,7 @@
 "}}} GUI settings
 
 "Plugins {{{
-  "Plugin management {{{
+
     call plug#begin('~/.vim/plugged')
       Plug 'mileszs/ack.vim' 
       Plug 'vim-airline/vim-airline' 
@@ -123,7 +123,6 @@
       Plug 'mbbill/undotree'
       Plug 'tpope/vim-unimpaired'
     call plug#end()
-  "Plugin management }}}
 
   "Plugin: Ack {{{
     let g:ackhighlight = 1
