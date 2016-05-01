@@ -11,7 +11,7 @@ Shamelessly ripped from
 http://www.daniweb.com/software-development/python/code/217214/a-print-function-for-different-versions-of-python
 """
 # change those symbols to whatever you prefer
-symbols = {'ahead of': '↑', 'behind': '↓', 'prehash': ':'}
+symbols = {'ahead of': u'↑', 'behind': u'↓', 'prehash': ':'}
 
 import sys
 import re
@@ -128,7 +128,7 @@ if remote == "":
 
 out = ' '.join([
     branch,
-    remote.decode('utf-8'),
+    remote,
     str(len(staged)),
     str(len(conflicts)),
     str(len(changed)),
@@ -136,4 +136,5 @@ out = ' '.join([
     str(stashed),
     str(clean)
 ])
+
 Print(out.encode('utf-8'))
