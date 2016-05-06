@@ -40,7 +40,9 @@
   nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
   map <leader>l :so ~/.vimrc<CR>
 
-  nnoremap <leader>u :! clear && python -m unittest discover<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
 
   " Scroll toggle
   map <leader>sb :set scb!<cr>
