@@ -40,6 +40,10 @@
   nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
   map <leader>l :so ~/.vimrc<CR>
 
+  autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
+
   " Scroll toggle
   map <leader>sb :set scb!<cr>
 
@@ -107,12 +111,13 @@
       Plug 'tpope/vim-commentary' 
       Plug 'ctrlpvim/ctrlp.vim'
       Plug 'dkprice/vim-easygrep'
-      Plug 'terryma/vim-expand-region'
+      " Plug 'terryma/vim-expand-region'
       Plug 'easymotion/vim-easymotion'
       Plug 'mattn/emmet-vim' 
       Plug 'tpope/vim-fugitive'
+      Plug 'fidian/hexmode'
       Plug 'airblade/vim-gitgutter' 
-      Plug 'gregsexton/gitv' 
+      Plug 'tiborsimon/gitv' 
       Plug 'terryma/vim-multiple-cursors'
       Plug 'chrisbra/NrrwRgn' 
       Plug 'scrooloose/nerdtree'
@@ -160,7 +165,13 @@
   "}}} Plugin: Fugitive
 
   "Plugin: Gitv {{{
-  nnoremap <silent> <leader>gv :Gitv<CR>
+    nmap <leader>gv :Gitv --all<cr>
+    nmap <leader>gV :Gitv! --all<cr>
+    vmap <leader>gV :Gitv! --all<cr>
+    let g:Gitv_DoNotMapCtrlKey = 1
+    let g:Gitv_OpenHorizontal = 1
+    let g:Gitv_WrapLines = 0
+    let g:Gitv_OpenPreviewOnLaunch = 1
   "}}} Plugin: Gitv
 
   "Plugin: NERDTree {{{
