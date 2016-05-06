@@ -40,6 +40,8 @@
   nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
   map <leader>l :so ~/.vimrc<CR>
 
+  nnoremap <leader>u :! clear && python -m unittest discover<cr>
+
   " Scroll toggle
   map <leader>sb :set scb!<cr>
 
@@ -111,6 +113,7 @@
       Plug 'easymotion/vim-easymotion'
       Plug 'mattn/emmet-vim' 
       Plug 'tpope/vim-fugitive'
+      Plug 'fidian/hexmode'
       Plug 'airblade/vim-gitgutter' 
       Plug 'tiborsimon/gitv' 
       Plug 'terryma/vim-multiple-cursors'
