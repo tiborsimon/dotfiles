@@ -44,6 +44,8 @@
   autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
   autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
 
+  autocmd Filetype python nnoremap <buffer> <leader>db oimport pdb; pdb.set_trace()<esc>j^
+
   " Scroll toggle
   map <leader>sb :set scb!<cr>
 
