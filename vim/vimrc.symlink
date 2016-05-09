@@ -105,6 +105,7 @@
 
     call plug#begin('~/.vim/plugged')
       Plug 'mileszs/ack.vim' 
+      Plug '907th/vim-auto-save' 
       Plug 'vim-airline/vim-airline' 
       Plug 'vim-airline/vim-airline-themes' 
       Plug 'kana/vim-arpeggio' 
@@ -117,7 +118,7 @@
       Plug 'tpope/vim-fugitive'
       Plug 'fidian/hexmode'
       Plug 'airblade/vim-gitgutter' 
-      Plug 'tiborsimon/gitv' 
+      Plug 'gregsexton/gitv' 
       Plug 'terryma/vim-multiple-cursors'
       Plug 'chrisbra/NrrwRgn' 
       Plug 'scrooloose/nerdtree'
@@ -133,6 +134,10 @@
     let g:ackhighlight = 1
     noremap <Leader>a :Ack <cword><cr>
   "}}} Plugin: Ack
+
+  "Plugin: AutoSave {{{
+    let g:auto_save = 1
+  "}}} Plugin: AutoSave
 
   "Plugin: Airline {{{
     let g:airline_theme='powerlineish'
@@ -175,8 +180,8 @@
   "}}} Plugin: Gitv
 
   "Plugin: NERDTree {{{
-    nnoremap <F2> :NERDTreeToggle<CR>
-    nnoremap <F3> :NERDTreeFind<CR>
+    nnoremap <silent> <F2> :NERDTreeToggle<CR>
+    nnoremap <silent> <F3> :NERDTreeFind<CR>
     let NERDTreeShowBookmarks=1
   "}}} Plugin: NERDTree
 
