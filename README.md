@@ -19,7 +19,7 @@ This is __exactly__ what I wanted to achieve with this project.
 Bootstrap your dotfiles by running the following command __on__ your __virgin system__:
 
 ```
-sh <(curl -fsSL tiborsimon.io/dotfiles)
+bash <(curl -fsSL tiborsimon.io/dotfiles)
 ```
 _You can use your own domain and a simple redirection to your own bootstrap script as well._
 
