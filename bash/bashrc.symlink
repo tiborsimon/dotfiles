@@ -29,14 +29,14 @@ alias ga='git add --all'
 alias ..='cd ..'
 
 function commitFunction {
-  git commit -m $1
+    git commit -m $1
 }
 alias gc=commitFunction
 
 function cloneFunction {
-  cd ~/$PROJECTS
-  git clone $1
-  cd $(python -c "import re, sys; m=re.search('([-\w]+)\.git', sys.argv[1]); print(m.group(1))" $1)
+    cd ~/$PROJECTS
+    git clone $1
+    cd $(python -c "import re, sys; m=re.search('([-\w]+)\.git', sys.argv[1]); print(m.group(1))" $1)
 }
 alias gclone=cloneFunction
 
@@ -50,31 +50,36 @@ alias g='cd ~/github'
 export PROMPT_COMMAND=__prompt_command  # Func to gen PS1 after CMDs
 
 function __prompt_command() {
-  local EXIT="$(printf "%03d" $?)"
+    local EXIT="$(printf "%03d" $?)"
 
-  PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]"
+    PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]"
 
-  local git_status="$($HOME/.dotfiles/bash/gitstatus.sh)" 
-  if [[ ! -z $git_status ]]; then
-    PS1+="${git_status}\n"
-  else
-    PS1+="\n"
-  fi
+    local git_status="$($HOME/.dotfiles/bash/gitstatus.sh)" 
+    if [[ ! -z $git_status ]]; then
+        PS1+="${git_status}\n"
+    else
+        PS1+="\n"
+    fi
 
 
-  PS1+="\t "
+    PS1+="\t "
 
-  if [ "$EXIT" != "000" ]; then
-    PS1+="\[${BoldRed}\]"
-  else
-    PS1+="\[${BoldGreen}\]"
-  fi
-  
-  PS1+="${EXIT}\[${ResetColor}\] "
+    if [ "$EXIT" != "000" ]; then
+        PS1+="\[${BoldRed}\]"
+    else
+        PS1+="\[${BoldGreen}\]"
+    fi
 
-  PS1+="\\$ \[$(tput sgr0)\]"
+    PS1+="${EXIT}\[${ResetColor}\] "
+
+    PS1+="\\$ \[$(tput sgr0)\]"
 }
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
 
+export PATH=~/bin:$PATH
+alias build="~/bin/build"
+function ue { uex $@ >/dev/null 2>&1 & }
+alias discovery="sh -c \"cd ~/discovery; bin/discovery >/dev/null 2>&1 &\""
+alias doublecmd="doublecmd >/dev/null 2>&1 &"

@@ -22,37 +22,37 @@ source functions/commons
 #----------------------------------------------------------------------------------------
 
 is_osx () {
-  if [ $(uname -s) = 'Darwin' ]
-  then
-    return 0 
-  else
-    return 1
-  fi
+    if [ $(uname -s) = 'Darwin' ]
+    then
+        return 0 
+    else
+        return 1
+    fi
 }
 
 install_dotfiles () {
-  info 'Installing dotfiles..'
-  local overwrite_all=false backup_all=false skip_all=false
-  for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
-    dst="$HOME/.$(basename "${src%.*}")"
-    link_file "$src" "$dst"
-  done
+    info 'Installing dotfiles..'
+    local overwrite_all=false backup_all=false skip_all=false
+    for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
+        dst="$HOME/.$(basename "${src%.*}")"
+        link_file "$src" "$dst"
+    done
 }
 
 install_mc () {
-  info 'Installing mc config..'
-  if [ ! -d "$HOME/.config" ]; then
-    mkdir $HOME/.config
-  fi
-  local overwrite_all=false backup_all=false skip_all=false
-  link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
-  success 'Mc config installed'
+    info 'Installing mc config..'
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir $HOME/.config
+    fi
+    local overwrite_all=false backup_all=false skip_all=false
+    link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
+    success 'Mc config installed'
 }
 
 install_vimplug () {
-  info 'Installing VimPlug..'
-  curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  success 'VimPlug installed!'
+    info 'Installing VimPlug..'
+    curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    success 'VimPlug installed!'
 }
 
 #----------------------------------------------------------------------------------------
@@ -60,60 +60,60 @@ install_vimplug () {
 #----------------------------------------------------------------------------------------
 
 set_up_osx () {
-  info 'Configuring OSX..'
-  source osx/set-defaults.sh
-  success 'OSX configured!'
+    info 'Configuring OSX..'
+    source osx/set-defaults.sh
+    success 'OSX configured!'
 }
 
 install_homebrew () {
-  if test ! $(which brew); then
-    info 'Installing Homebrew..'
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  else
-    success 'Homebrew is installed!'
-  fi
+    if test ! $(which brew); then
+        info 'Installing Homebrew..'
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    else
+        success 'Homebrew is installed!'
+    fi
 }
 
 update_homebrew () {
-  while true; do
-    user "Do you want to update Homebrew?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-    y ) info 'Updating Homebrew..'
-        if brew update > brew-update.log; then
-          success 'Homebrew is up-to-date!'
-        else
-          fail 'Error during Homebrew update!'
-        fi
-        break
-        ;;
-    s ) success 'Skipped..'
-        break
-        ;;
-    * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
+    while true; do
+        user "Do you want to update Homebrew?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+        read -n 1 action
+        case "$action" in
+            y ) info 'Updating Homebrew..'
+                if brew update > brew-update.log; then
+                    success 'Homebrew is up-to-date!'
+                else
+                    fail 'Error during Homebrew update!'
+                fi
+                break
+                ;;
+            s ) success 'Skipped..'
+                break
+                ;;
+            * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+                ;;
+        esac
+    done
 }
 
 excute_brewfile () {
-  while true; do
-    user "Do you want to execute the Brewfile to install all your programs?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
+    while true; do
+        user "Do you want to execute the Brewfile to install all your programs?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+        read -n 1 action
 
-    case "$action" in
-    y ) info 'Executing Brewfile..'
-        brew bundle -v  --file=osx/Brewfile > brew-install.log
-        success 'Brewfile executed. All apps are installed.'
-        break
-        ;;
-    s ) success 'Skipped..'
-        break
-        ;;
-    * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
+        case "$action" in
+            y ) info 'Executing Brewfile..'
+                brew bundle -v  --file=osx/Brewfile > brew-install.log
+                success 'Brewfile executed. All apps are installed.'
+                break
+                ;;
+            s ) success 'Skipped..'
+                break
+                ;;
+            * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+                ;;
+        esac
+    done
 }
 
 #----------------------------------------------------------------------------------------
@@ -121,31 +121,31 @@ excute_brewfile () {
 #----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-  while true; do
-    user "Do you want to install software packages?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-    y ) user 'What is the package manager for this platform?'
-        read -e LINUX_PACKAGE_MANAGER
-        for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
-          info "Installing $app.."
-          if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
-            success "$app installed."
-          else
-            warning "$app installation failed! Error: \n$(cat pof)"
-          fi
-          rm -f pof
-        done
-        success 'Done'
-        break
-        ;;
-    s ) success 'Skipped..'
-        break
-        ;;
-    * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
+    while true; do
+        user "Do you want to install software packages?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+        read -n 1 action
+        case "$action" in
+            y ) user 'What is the package manager for this platform?'
+                read -e LINUX_PACKAGE_MANAGER
+                for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
+                    info "Installing $app.."
+                    if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
+                        success "$app installed."
+                    else
+                        warning "$app installation failed! Error: \n$(cat pof)"
+                    fi
+                    rm -f pof
+                done
+                success 'Done'
+                break
+                ;;
+            s ) success 'Skipped..'
+                break
+                ;;
+            * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+                ;;
+        esac
+    done
 }
 
 #----------------------------------------------------------------------------------------
@@ -153,20 +153,20 @@ excute_linux_packages_file () {
 #----------------------------------------------------------------------------------------
 
 if is_osx; then
-  info "Installing OS X related config"
-  install_dotfiles
-  set_up_osx
-  install_homebrew
-  update_homebrew
-  excute_brewfile
-  install_mc
-  install_vimplug
+    info "Installing OS X related config"
+    install_dotfiles
+    set_up_osx
+    install_homebrew
+    update_homebrew
+    excute_brewfile
+    install_mc
+    install_vimplug
 else
-  info "Installing Linux related config"
-  install_dotfiles
-  excute_linux_packages_file
-  install_mc
-  install_vimplug
+    info "Installing Linux related config"
+    install_dotfiles
+    excute_linux_packages_file
+    install_mc
+    install_vimplug
 fi
 
 success 'Dotfiles has been deployed.'

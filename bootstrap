@@ -25,167 +25,167 @@ source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master
 #----------------------------------------------------------------------------------------
 
 assert_path () {
-  if [ "$(pwd)" = "$HOME/.dotfiles" ]; then
-    fail "You could't run this script from your ${BoldWhite}.dotfiles${ResetColor} folder!"
-    echo ''
-    exit
-  fi
+    if [ "$(pwd)" = "$HOME/.dotfiles" ]; then
+        fail "You could't run this script from your ${BoldWhite}.dotfiles${ResetColor} folder!"
+        echo ''
+        exit
+    fi
 }
 
 assert_for_git () {
-  if [ ! $(which git) ]; then
-    fail 'Could not find git. You have to install it manually!'
-    echo ''
-    exit
-  fi
+    if [ ! $(which git) ]; then
+        fail 'Could not find git. You have to install it manually!'
+        echo ''
+        exit
+    fi
 }
 
 add_key_to_ssh_agent () {
-  info 'Adding SSH key to ssh-agent..'
-  eval $(ssh-agent)>/dev/null
-  ssh-add
-  success 'SSH key added to ssh-agent.'
+    info 'Adding SSH key to ssh-agent..'
+    eval $(ssh-agent)>/dev/null
+    ssh-add
+    success 'SSH key added to ssh-agent.'
 }
 
 generate_ssh_key () {
-  user 'What is your email address?' 
-  read -e USER_EMAIL
-  until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do 
-    fail 'key generation failed. try again..'
-  done
-  success 'SSH key generated.'
+    user 'What is your email address?' 
+    read -e USER_EMAIL
+    until ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL" -f $SSH_KEY; do 
+        fail 'key generation failed. try again..'
+    done
+    success 'SSH key generated.'
 }
 
 prepare_ssh_key () {
-  info 'Looking for SSH key..'
-  
-  if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then
-    while true; do
-      user "SSH key is detected. Do you want to create a new one? [${BoldGreen}C${ResetColor}]reate, [${BoldGreen}k${ResetColor}]eep"
-      read -n 1 action
-      case "$action" in
-      C ) info 'Generating SSH key..'
-          generate_ssh_key
-          break
-          ;;
-      k ) success 'SSH key generation skipped. Existing key will be used.'
-          break
-          ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}C${ResetColor} or ${BoldGreen}k${ResetColor}."
-          ;;
-      esac
-    done
-  else
-    user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
-    generate_ssh_key
-  fi
-  add_key_to_ssh_agent
+    info 'Looking for SSH key..'
+
+    if [ -f $SSH_KEY ] && [ -f $SSH_KEY.pub ]; then
+        while true; do
+            user "SSH key is detected. Do you want to create a new one? [${BoldGreen}C${ResetColor}]reate, [${BoldGreen}k${ResetColor}]eep"
+            read -n 1 action
+            case "$action" in
+                C ) info 'Generating SSH key..'
+                    generate_ssh_key
+                    break
+                    ;;
+                k ) success 'SSH key generation skipped. Existing key will be used.'
+                    break
+                    ;;
+                * ) warning "Wrong answer! Type ${BoldGreen}C${ResetColor} or ${BoldGreen}k${ResetColor}."
+                    ;;
+            esac
+        done
+    else
+        user "SSH key ($SSH_KEY) cannot be found. Generating a new one.."
+        generate_ssh_key
+    fi
+    add_key_to_ssh_agent
 }
 
 upload_key_to_github () {
-  user 'How do you want to name the key?'
-  read -e KEY_NAME
-  while true; do
-    curl --silent -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys > gh-result
-    if grep -q 'key is already in use' gh-result; then
-      success 'Key is already in use. Rerun this script if you want to add a new one.'
-      rm gh-result
-      break
-    elif grep -q '"verified": true' gh-result; then
-      success "Key ($KEY_NAME) has been added successfully."
-      rm gh-result
-      break
-    elif grep -q 'Bad credentials' gh-result; then
-      fail 'Error during login: invalid username or password!'
-      info 'Try again!'
-    else
-      fail 'A problem occured during uploading the key..'
-      cat gh-result
-      info 'Make sure you have internet connectoion.'
-      break
-    fi
-  done
+    user 'How do you want to name the key?'
+    read -e KEY_NAME
+    while true; do
+        curl --silent -u "$GITHUB_USERNAME" --data "{\"title\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.github.com/user/keys > gh-result
+        if grep -q 'key is already in use' gh-result; then
+            success 'Key is already in use. Rerun this script if you want to add a new one.'
+            rm gh-result
+            break
+        elif grep -q '"verified": true' gh-result; then
+            success "Key ($KEY_NAME) has been added successfully."
+            rm gh-result
+            break
+        elif grep -q 'Bad credentials' gh-result; then
+            fail 'Error during login: invalid username or password!'
+            info 'Try again!'
+        else
+            fail 'A problem occured during uploading the key..'
+            cat gh-result
+            info 'Make sure you have internet connectoion.'
+            break
+        fi
+    done
 }
 
 upload_key_to_bitbucket () {
-  user 'How do you want to name the key?'
-  read -e KEY_NAME
-  while true; do
-    curl --silent -H "Content-Type: application/json" -X POST -u "$GITHUB_USERNAME" --data "{\"label\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.bitbucket.org/1.0/users/$GITHUB_USERNAME/ssh-keys > gh-result
-    if grep -q 'already registered' gh-result; then
-      success 'Key is already in use. Rerun this script if you want to add a new one.'
-      rm gh-result
-      break
-    elif grep -q "pk.*\d*" gh-result; then
-      success "Key ($KEY_NAME) has been added successfully."
-      rm gh-result
-      break
-    elif grep -q 'Bad credentials' gh-result; then
-      fail 'Error during login: invalid username or password!'
-      info 'Try again!'
-    else
-      fail 'A problem occured during the upload!'
-      cat gh-result
-      info 'Make sure you have internet connectoion.'
-      break
-    fi
-  done
+    user 'How do you want to name the key?'
+    read -e KEY_NAME
+    while true; do
+        curl --silent -H "Content-Type: application/json" -X POST -u "$GITHUB_USERNAME" --data "{\"label\":\"$KEY_NAME\",\"key\":\"$(cat $SSH_KEY.pub)\"}" https://api.bitbucket.org/1.0/users/$GITHUB_USERNAME/ssh-keys > gh-result
+        if grep -q 'already registered' gh-result; then
+            success 'Key is already in use. Rerun this script if you want to add a new one.'
+            rm gh-result
+            break
+        elif grep -q "pk.*\d*" gh-result; then
+            success "Key ($KEY_NAME) has been added successfully."
+            rm gh-result
+            break
+        elif grep -q 'Bad credentials' gh-result; then
+            fail 'Error during login: invalid username or password!'
+            info 'Try again!'
+        else
+            fail 'A problem occured during the upload!'
+            cat gh-result
+            info 'Make sure you have internet connectoion.'
+            break
+        fi
+    done
 }
 
 upload_ssh_key () {
-  while true; do
-    user "Do you want to add the SSH key to your GitHub account? [${BoldGreen}Y${ResetColor}]es [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-    Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
-        upload_key_to_github
-        break
-        ;;
-    s ) info 'Skipped uploading SSH key to GitHub.'
-        break
-        ;;
-    * ) info "Wrong answer! Type ${BoldGreen}Y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
+    while true; do
+        user "Do you want to add the SSH key to your GitHub account? [${BoldGreen}Y${ResetColor}]es [${BoldGreen}s${ResetColor}]kip"
+        read -n 1 action
+        case "$action" in
+            Y ) info "Uploading SSH key to $GITHUB_USERNAME's GitHub account.."
+                upload_key_to_github
+                break
+                ;;
+            s ) info 'Skipped uploading SSH key to GitHub.'
+                break
+                ;;
+            * ) info "Wrong answer! Type ${BoldGreen}Y${ResetColor} or ${BoldGreen}s${ResetColor}."
+                ;;
+        esac
+    done
 
-  while true; do
-    user "Do you want to add the SSH key to your BitBucket account? [${BoldGreen}Y${ResetColor}]es [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-    Y ) info "Uploading SSH key to $GITHUB_USERNAME's BitBucket account.."
-        upload_key_to_bitbucket
-        break
-        ;;
-    s ) info 'Skipped uploading SSH key to BitBucket.'
-        break
-        ;;
-    * ) info "Wrong answer! Type ${BoldGreen}Y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
+    while true; do
+        user "Do you want to add the SSH key to your BitBucket account? [${BoldGreen}Y${ResetColor}]es [${BoldGreen}s${ResetColor}]kip"
+        read -n 1 action
+        case "$action" in
+            Y ) info "Uploading SSH key to $GITHUB_USERNAME's BitBucket account.."
+                upload_key_to_bitbucket
+                break
+                ;;
+            s ) info 'Skipped uploading SSH key to BitBucket.'
+                break
+                ;;
+            * ) info "Wrong answer! Type ${BoldGreen}Y${ResetColor} or ${BoldGreen}s${ResetColor}."
+                ;;
+        esac
+    done
 }
 
 clone_via_git () {
-  info 'Cloning dotfiles repository..'
-  if git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $HOME/.dotfiles; then
-    success 'Dotfiles repository cloned.'
-  else
-    fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
-    echo ''
-    exit
-  fi
+    info 'Cloning dotfiles repository..'
+    if git clone --depth 1 git@github.com:$GITHUB_USERNAME/$REPO_NAME $HOME/.dotfiles; then
+        success 'Dotfiles repository cloned.'
+    else
+        fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
+        echo ''
+        exit
+    fi
 }
 
 clone_via_http () {
-  info 'Cloning dotfiles repository..'
-  if git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $HOME/.dotfiles; then
-    success 'Dotfiles repository cloned.'
-  else
-    fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
-    echo ''
-    exit
-  fi
+    info 'Cloning dotfiles repository..'
+    if git clone  --depth 1 https://github.com/$GITHUB_USERNAME/$REPO_NAME $HOME/.dotfiles; then
+        success 'Dotfiles repository cloned.'
+    else
+        fail "Couldn't clone the repo. Make sure the repo link is correct and you have sufficient rights to access it."
+        echo ''
+        exit
+    fi
 }
 
 #----------------------------------------------------------------------------------------
@@ -205,42 +205,42 @@ info 'Installing dotfiles system..'
 assert_for_git
 
 if [ -d "$HOME/.dotfiles" ]; then
-  while true; do
-    user "$HOME/.dotfiles folder already exist. [${BoldGreen}D${ResetColor}]elete, [${BoldGreen}a${ResetColor}]bort"
-    read -n 1 action
+    while true; do
+        user "$HOME/.dotfiles folder already exist. [${BoldGreen}D${ResetColor}]elete, [${BoldGreen}a${ResetColor}]bort"
+        read -n 1 action
 
-    case "$action" in
-    D ) success "Old $HOME/.dotfiles folder deleted."
-        rm -rf $HOME/.dotfiles
-        break
-        ;;
-    a ) success 'Bootstrap script aborted.'
-        echo ''
-        exit
-        ;;
-    * ) warning "Wrong answer! Type ${BoldGreen}D${ResetColor} or ${BoldGreen}a${ResetColor}."
-        ;;
-    esac
-  done
+        case "$action" in
+            D ) success "Old $HOME/.dotfiles folder deleted."
+                rm -rf $HOME/.dotfiles
+                break
+                ;;
+            a ) success 'Bootstrap script aborted.'
+                echo ''
+                exit
+                ;;
+            * ) warning "Wrong answer! Type ${BoldGreen}D${ResetColor} or ${BoldGreen}a${ResetColor}."
+                ;;
+        esac
+    done
 fi
 
 while true; do
-  user "Clone repo via [${BoldGreen}h${ResetColor}]ttp or via [${BoldGreen}g${ResetColor}]it (ssh key required)?"
-  read -n 1 action
-  case "$action" in
-  g ) success 'Repo will be cloned via git protocol.'
-      prepare_ssh_key
-      upload_ssh_key
-      clone_via_git
-      break
-      ;;
-  h ) success 'Repo will be cloned via http protocol.'
-      clone_via_http
-      break
-      ;;
-  * ) warning "Wrong answer. Type ${BoldGreen}h${ResetColor} or ${BoldGreen}g${ResetColor}."
-      ;;
-  esac
+    user "Clone repo via [${BoldGreen}h${ResetColor}]ttp or via [${BoldGreen}g${ResetColor}]it (ssh key required)?"
+    read -n 1 action
+    case "$action" in
+        g ) success 'Repo will be cloned via git protocol.'
+            prepare_ssh_key
+            upload_ssh_key
+            clone_via_git
+            break
+            ;;
+        h ) success 'Repo will be cloned via http protocol.'
+            clone_via_http
+            break
+            ;;
+        * ) warning "Wrong answer. Type ${BoldGreen}h${ResetColor} or ${BoldGreen}g${ResetColor}."
+            ;;
+    esac
 done
 
 info 'Running deploy script..'
