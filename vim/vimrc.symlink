@@ -135,6 +135,7 @@
   "Plugin: Ack {{{
     let g:ackhighlight = 1
     noremap <Leader>a :Ack <cword><cr>
+    noremap <C-a> :Ack 
   "}}} Plugin: Ack
 
   "Plugin: Airline {{{
@@ -181,6 +182,7 @@
     nnoremap <F2> :NERDTreeToggle<CR>
     nnoremap <F3> :NERDTreeFind<CR>
     let NERDTreeShowBookmarks=1
+    let NERDTreeMinimalUI=1
   "}}} Plugin: NERDTree
 
   "Plugin: Tmuxline {{{
