@@ -11,8 +11,8 @@ WORKLOG_PATH=sys.argv[1]
 print('What is the message?')
 message = raw_input()
 temp = {
-    'log': message
-}
+        'log': message
+        }
 
 temp['date'] = time.strftime('%Y-%m-%d %H:%M:%S')
 

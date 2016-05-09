@@ -6,7 +6,7 @@ cd $WORKLOG_PATH
 git commit -am "Worklog entry added."
 git push
 if [ $? -ne 0 ]; then
-  echo "Something went wrong.."
+    echo "Something went wrong.."
 else
-  echo "Done"
+    echo "Done"
 fi

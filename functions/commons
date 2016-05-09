@@ -3,183 +3,183 @@
 
 define_color_names() {
 
-  ColorNames=( Black Red Green Yellow Blue Magenta Cyan White )
-  FgColors=(    30   31   32    33     34   35      36   37  )
-  BgColors=(    40   41   42    43     44   45      46   47  )
+    ColorNames=( Black Red Green Yellow Blue Magenta Cyan White )
+    FgColors=(    30   31   32    33     34   35      36   37  )
+    BgColors=(    40   41   42    43     44   45      46   47  )
 
-  local AttrNorm=0
-  local AttrBright=1
-  local AttrDim=2
-  local AttrUnder=4
-  local AttrBlink=5
-  local AttrRev=7
-  local AttrHide=8
+    local AttrNorm=0
+    local AttrBright=1
+    local AttrDim=2
+    local AttrUnder=4
+    local AttrBlink=5
+    local AttrRev=7
+    local AttrHide=8
 
-  # define "BoldCOLOR", "BrightCOLOR", and "DimCOLOR" names
+    # define "BoldCOLOR", "BrightCOLOR", and "DimCOLOR" names
 
-  # _map_colors ATTRNAME ATTRVALUE
-  #
-  # Defines three names for every color, attribute combintaion:
-  #    {ATTRNAME}{COLORNAME}
-  #    {ATTRNAME}{COLORNAME}Fg
-  #    {ATTRNAME}{COLORNAME}Bg
-  #
-  # Example: BoldRed, BoldRedFg, BoldRedBg
+    # _map_colors ATTRNAME ATTRVALUE
+    #
+    # Defines three names for every color, attribute combintaion:
+    #    {ATTRNAME}{COLORNAME}
+    #    {ATTRNAME}{COLORNAME}Fg
+    #    {ATTRNAME}{COLORNAME}Bg
+    #
+    # Example: BoldRed, BoldRedFg, BoldRedBg
 
-  _map_colors() {
-    local x=0
-    local attrname="$1"
-    local attrcode=$2
-    while (( x < 8 )) ; do
-      local colorname=${ColorNames[x]}
-      local fgcolorcode=${FgColors[x]}
-      local bgcolorcode=${BgColors[x]}
-      longcolorname="${attrname}${colorname}"
-      _def_color $longcolorname     $attrcode $fgcolorcode
-      _def_color ${longcolorname}Fg $attrcode $fgcolorcode
-      _def_color ${longcolorname}Bg $attrcode $bgcolorcode
-      (( x++ ))
-    done
-  }
+    _map_colors() {
+        local x=0
+        local attrname="$1"
+        local attrcode=$2
+        while (( x < 8 )) ; do
+            local colorname=${ColorNames[x]}
+            local fgcolorcode=${FgColors[x]}
+            local bgcolorcode=${BgColors[x]}
+            longcolorname="${attrname}${colorname}"
+            _def_color $longcolorname     $attrcode $fgcolorcode
+            _def_color ${longcolorname}Fg $attrcode $fgcolorcode
+            _def_color ${longcolorname}Bg $attrcode $bgcolorcode
+            (( x++ ))
+        done
+    }
 
-  # _term_color [ N | N M ]
-  _term_color() {
-    local cv
-    if (( $# > 1 )); then
-      cv="${1};${2}"
-    else
-      cv="${1}"
-    fi
-    echo "\033[${cv}m"
-  }
+    # _term_color [ N | N M ]
+    _term_color() {
+        local cv
+        if (( $# > 1 )); then
+            cv="${1};${2}"
+        else
+            cv="${1}"
+        fi
+        echo "\033[${cv}m"
+    }
 
-  # def_color NAME ATTRCODE COLORCODE
-  _def_color() {
-    local def="$1=\"\`_term_color $2 $3\`\""
-    if [[ -n "$debug$verbose" ]]; then
-      echo 1>&2 "+ $def"
-    fi
-    eval "$def"
-  }
+    # def_color NAME ATTRCODE COLORCODE
+    _def_color() {
+        local def="$1=\"\`_term_color $2 $3\`\""
+        if [[ -n "$debug$verbose" ]]; then
+            echo 1>&2 "+ $def"
+        fi
+        eval "$def"
+    }
 
-  _map_colors Bold   $AttrBright
-  _map_colors Bright $AttrBright
-  _map_colors Dim    $AttrDim
-  _map_colors ''     $AttrNorm
+    _map_colors Bold   $AttrBright
+    _map_colors Bright $AttrBright
+    _map_colors Dim    $AttrDim
+    _map_colors ''     $AttrNorm
 
-  _def_color IntenseBlack 0 90
-  _def_color ResetColor   0 0
+    _def_color IntenseBlack 0 90
+    _def_color ResetColor   0 0
 
 }
 
 # do the color definitions only once
 if [[ ${#ColorNames[*]} = 0 || -z "$IntenseBlack" || -z "$ResetColor" ]]; then
-  define_color_names
+    define_color_names
 fi
 
 # Prompt definitions
 
 info () {
-  printf "\r  [ ${BoldBlue}..${ResetColor} ] $1\n"
+    printf "\r  [ ${BoldBlue}..${ResetColor} ] $1\n"
 }
 
 user () {
-  printf "\r  [ ${BoldCyan}??${ResetColor} ] $1\n"
+    printf "\r  [ ${BoldCyan}??${ResetColor} ] $1\n"
 }
 
 success () {
-  printf "\r  [ ${BoldGreen}OK${ResetColor} ] $1\n"
+    printf "\r  [ ${BoldGreen}OK${ResetColor} ] $1\n"
 }
 
 warning () {
-  printf "\r  [ ${BoldYellow}!!${ResetColor} ] $1\n"
+    printf "\r  [ ${BoldYellow}!!${ResetColor} ] $1\n"
 }
 
 fail () {
-  printf "\r  [${BoldRed}FAIL${ResetColor}] $1\n"
+    printf "\r  [${BoldRed}FAIL${ResetColor}] $1\n"
 }
 
 link_file () {
-  local src=$1 dst=$2
+    local src=$1 dst=$2
 
-  local overwrite= backup= skip=
-  local action=
+    local overwrite= backup= skip=
+    local action=
 
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
-  then
-
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+    if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
     then
 
-      local currentSrc="$(readlink $dst)"
+        if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+        then
 
-      if [ "$currentSrc" == "$src" ]
-      then
+            local currentSrc="$(readlink $dst)"
 
-        skip=true;
+            if [ "$currentSrc" == "$src" ]
+            then
 
-      else
+                skip=true;
 
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
+            else
 
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
+                user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+                    [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+                read -n 1 action
 
-      fi
+                case "$action" in
+                    o )
+                        overwrite=true;;
+                    O )
+                        overwrite_all=true;;
+                    b )
+                        backup=true;;
+                    B )
+                        backup_all=true;;
+                    s )
+                        skip=true;;
+                    S )
+                        skip_all=true;;
+                    * )
+                        ;;
+                esac
 
+            fi
+
+        fi
+
+        overwrite=${overwrite:-$overwrite_all}
+        backup=${backup:-$backup_all}
+        skip=${skip:-$skip_all}
+
+        if [ "$overwrite" == "true" ]
+        then
+            rm -rf "$dst"
+            success "removed $dst"
+        fi
+
+        if [ "$backup" == "true" ]
+        then
+            mv "$dst" "${dst}.backup"
+            success "moved $dst to ${dst}.backup"
+        fi
+
+        if [ "$skip" == "true" ]
+        then
+            success "Skipped $src"
+        fi
     fi
 
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
+    if [ "$skip" != "true" ]  # "false" or empty
     then
-      rm -rf "$dst"
-      success "removed $dst"
+        ln -s "$1" "$2"
+        success "linked $1 to $2"
     fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      success "moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      success "Skipped $src"
-    fi
-  fi
-
-  if [ "$skip" != "true" ]  # "false" or empty
-  then
-    ln -s "$1" "$2"
-    success "linked $1 to $2"
-  fi
 }
 
 is_symlink () {
-  local file=$1
-  if [ -L "$file" ]
-  then
-    return 0
-  else
-    return 1
-  fi
+    local file=$1
+    if [ -L "$file" ]
+    then
+        return 0
+    else
+        return 1
+    fi
 }

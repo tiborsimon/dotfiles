@@ -22,24 +22,24 @@ echo '--------------------------------------------------------------------------
 echo ''
 
 if [ -f ~/.vimrc ] || [ -d ~/.vim ]; then
-  while true; do
-    warning "Old vim config will be overridden! [${BOLD}${GREEN}D${RESET}]o it, [${BOLD}${GREEN}a${RESET}]bort"
-    read -n 1 action
-  
-    case "$action" in
-    D ) rm -rf $HOME/.vim
-        rm -f $HOME/.vimrc
-        success "Old vim config deleted."
-        break
-        ;;
-    a ) success 'Bootstrap script aborted.'
-        echo ''
-        exit
-        ;;
-    * ) warning 'Wrong answer!'
-        ;;
-    esac
-  done  
+    while true; do
+        warning "Old vim config will be overridden! [${BOLD}${GREEN}D${RESET}]o it, [${BOLD}${GREEN}a${RESET}]bort"
+        read -n 1 action
+
+        case "$action" in
+            D ) rm -rf $HOME/.vim
+                rm -f $HOME/.vimrc
+                success "Old vim config deleted."
+                break
+                ;;
+            a ) success 'Bootstrap script aborted.'
+                echo ''
+                exit
+                ;;
+            * ) warning 'Wrong answer!'
+                ;;
+        esac
+    done  
 fi
 
 # Loading .vimrc file

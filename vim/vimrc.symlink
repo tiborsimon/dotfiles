@@ -2,192 +2,215 @@
 " Started on 2016-03-14
 
 "General Vim config {{{
-  " Solving paste issue with comments
-  set pastetoggle=
-  set nosi noai
+    " Solving paste issue with comments
+    set pastetoggle=
+    set nosi noai
 
-  runtime macros/matchit.vim
+    runtime macros/matchit.vim
 
-  " Tab management: http://stackoverflow.com/a/1878983/1565331
-  set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab smartindent
+    " Tab management: http://stackoverflow.com/a/1878983/1565331
+    set tabstop=4
+    set softtabstop=4
+    set expandtab
+    set shiftwidth=4
+    set smarttab
+    set smartindent
+    set autoindent
 
-  set foldmethod=marker
-  set foldmarker={{{,}}}
-  set number
-  "set cursorline
+    set foldmethod=marker
+    set foldmarker={{{,}}}
+    set number
+    "set cursorline
 
-  set hls
-  set incsearch
-  set rnu
+    set hls
+    set incsearch
+    set rnu
 
-  set diffopt+=vertical
-  set splitbelow
-  set splitright
+    set diffopt+=vertical
+    set splitbelow
+    set splitright
 
-  let g:loaded_matchparen=1
+    let g:loaded_matchparen=1
 
-  set scrolloff=4
+    set scrolloff=4
 
-  set noswapfile
-  set lazyredraw
-  set ttyfast
+    set noswapfile
+    set lazyredraw
+    set ttyfast
 "}}} General Vim config
 
 "Basic keyboard remappings {{{
-  let mapleader="\<Space>"
+    let mapleader="\<Space>"
 
-  " Quickly edit/reload the vimrc file
-  nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
-  map <leader>l :so ~/.vimrc<CR>
+    " Quickly edit/reload the vimrc file
+    nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
+    map <leader>l :so ~/.vimrc<CR>
 
-  autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
 
-  " Scroll toggle
-  map <leader>sb :set scb!<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>db oimport pdb; pdb.set_trace()<esc>j^
 
-  nnoremap <leader>w :w<cr>
-  nnoremap <leader>q :q<cr>
+    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
-  set pastetoggle=<leader><F2>
+    " Scroll toggle
+    map <leader>sb :set scb!<cr>
 
-  nnoremap ; :
-  nnoremap j gj
-  nnoremap k gk
+    nnoremap <leader>w :w<cr>
+    nnoremap <leader>q :q<cr>
 
-  " Window related remappings
-  nnoremap <leader>v <C-w>v<C-w>l
-  nnoremap <leader>s <C-w>s
-  nnoremap <leader>vsa :vert sba<cr>
-  nnoremap <C-h> <C-w>h
-  nnoremap <C-j> <C-w>j
-  nnoremap <C-k> <C-w>k
-  nnoremap <C-l> <C-w>l
+    set pastetoggle=<leader><F2>
 
-  " Tab related remappings
-  map <leader>tn :tabnew<CR>
-  map <leader>tc :tabclose<CR>
+    nnoremap ; :
+    nnoremap j gj
+    nnoremap k gk
 
-  " Motion in insert mode
-  inoremap <C-h> <left>
-  inoremap <C-l> <right>
-  inoremap <C-j> <down>
-  inoremap <C-k> <up>
+    " Window related remappings
+    nnoremap <leader>v <C-w>v<C-w>l
+    nnoremap <leader>s <C-w>s
+    nnoremap <leader>vsa :vert sba<cr>
+    nnoremap <C-h> <C-w>h
+    nnoremap <C-j> <C-w>j
+    nnoremap <C-k> <C-w>k
+    nnoremap <C-l> <C-w>l
 
-  " Move lines in all modes
-  nnoremap J :m .+1<CR>==
-  nnoremap K :m .-2<CR>==
-  vnoremap J :m '>+1<CR>gv=gv
-  vnoremap K :m '<-2<CR>gv=gv
+    " Tab related remappings
+    map <leader>tn :tabnew<CR>
+    map <leader>tc :tabclose<CR>
+
+    " Motion in insert mode
+    inoremap <C-h> <left>
+    inoremap <C-l> <right>
+    inoremap <C-j> <down>
+    inoremap <C-k> <up>
+
+    " Move lines in all modes
+    nnoremap J :m .+1<CR>==
+    nnoremap K :m .-2<CR>==
+    vnoremap J :m '>+1<CR>gv=gv
+    vnoremap K :m '<-2<CR>gv=gv
 "}}} Basic keyboard remappings
 
 "GUI settings {{{
-  set fillchars+=vert:\ 
-  hi StatusLine     ctermfg=235 ctermbg=246
-  hi StatusLineNC   ctermfg=235  ctermbg=240
-  hi VertSplit      ctermfg=235  ctermbg=246
+    set fillchars+=vert:\ 
+    hi StatusLine     ctermfg=235 ctermbg=246
+    hi StatusLineNC   ctermfg=235  ctermbg=240
+    hi VertSplit      ctermfg=235  ctermbg=246
 
-  hi Folded         ctermfg=241 ctermbg=235
+    hi Folded         ctermfg=241 ctermbg=235
 
-  hi Search cterm=NONE ctermfg=0 ctermbg=11
-  hi Visual cterm=NONE ctermfg=blue ctermbg=white
+    hi Search cterm=NONE ctermfg=0 ctermbg=11
+    hi Visual cterm=NONE ctermfg=blue ctermbg=white
 
-  " Redefine diff colors:
-  " http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
-  highlight DiffAdd    ctermfg=10 ctermbg=22 
-  highlight DiffChange ctermfg=7 ctermbg=8 
-  highlight DiffText   ctermfg=15 ctermbg=27 
-  highlight DiffDelete ctermfg=9 ctermbg=88 
+    " Redefine diff colors:
+    " http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
+    highlight DiffAdd    ctermfg=10 ctermbg=22 
+    highlight DiffChange ctermfg=7 ctermbg=8 
+    highlight DiffText   ctermfg=15 ctermbg=27 
+    highlight DiffDelete ctermfg=9 ctermbg=88 
 "}}} GUI settings
 
 "Plugins {{{
 
     call plug#begin('~/.vim/plugged')
-      Plug 'mileszs/ack.vim' 
-      Plug '907th/vim-auto-save' 
-      Plug 'vim-airline/vim-airline' 
-      Plug 'vim-airline/vim-airline-themes' 
-      Plug 'kana/vim-arpeggio' 
-      Plug 'tpope/vim-commentary' 
-      Plug 'ctrlpvim/ctrlp.vim'
-      Plug 'dkprice/vim-easygrep'
-      " Plug 'terryma/vim-expand-region'
-      Plug 'easymotion/vim-easymotion'
-      Plug 'mattn/emmet-vim' 
-      Plug 'tpope/vim-fugitive'
-      Plug 'fidian/hexmode'
-      Plug 'airblade/vim-gitgutter' 
-      Plug 'gregsexton/gitv' 
-      Plug 'terryma/vim-multiple-cursors'
-      Plug 'chrisbra/NrrwRgn' 
-      Plug 'scrooloose/nerdtree'
-      Plug 'airblade/vim-rooter' 
-      Plug 'tpope/vim-rsi' 
-      " Plug 'mhinz/vim-startify' 
-      Plug 'tpope/vim-surround'
-      Plug 'mbbill/undotree'
-      Plug 'tpope/vim-unimpaired'
+        Plug 'mileszs/ack.vim' 
+        Plug '907th/vim-auto-save' 
+        Plug 'vim-airline/vim-airline' 
+        Plug 'vim-airline/vim-airline-themes' 
+        Plug 'kana/vim-arpeggio' 
+        Plug 'tpope/vim-commentary' 
+        Plug 'ctrlpvim/ctrlp.vim'
+        Plug 'dkprice/vim-easygrep'
+        " Plug 'terryma/vim-expand-region'
+        Plug 'easymotion/vim-easymotion'
+        Plug 'mattn/emmet-vim' 
+        Plug 'tpope/vim-fugitive'
+        Plug 'fidian/hexmode'
+        Plug 'airblade/vim-gitgutter' 
+        Plug 'gregsexton/gitv' 
+        Plug 'terryma/vim-multiple-cursors'
+        Plug 'chrisbra/NrrwRgn' 
+        Plug 'scrooloose/nerdtree'
+        Plug 'airblade/vim-rooter' 
+        Plug 'tpope/vim-rsi' 
+        Plug 'edkolev/tmuxline.vim' 
+        " Plug 'mhinz/vim-startify' 
+        Plug 'tpope/vim-surround'
+        Plug 'mbbill/undotree'
+        Plug 'tpope/vim-unimpaired'
     call plug#end()
 
-  "Plugin: Ack {{{
-    let g:ackhighlight = 1
-    noremap <Leader>a :Ack <cword><cr>
-  "}}} Plugin: Ack
+    "Plugin: Ack {{{
+        let g:ackhighlight = 1
+        noremap <Leader>a :Ack <cword><cr>
+        noremap <C-a> :Ack 
+    "}}} Plugin: Ack
 
-  "Plugin: AutoSave {{{
-    let g:auto_save = 1
-  "}}} Plugin: AutoSave
+    "Plugin: AutoSave {{{
+        let g:auto_save = 1
+    "}}} Plugin: AutoSave
 
-  "Plugin: Airline {{{
-    let g:airline_theme='powerlineish'
-    let g:airline_left_sep=''
-    let g:airline_right_sep=''
-    let g:airline_section_z='%3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#/%L:%3v'
-    let g:airline_section_warning=''
-  "}}} Plugin: Airline
- 
-  "Plugin: Arpeggio {{{
-  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
-  "}}} Plugin: Arpeggio
+    "Plugin: Airline {{{
+        let g:airline_theme='powerlineish'
+        let g:airline_left_sep=''
+        let g:airline_right_sep=''
+        let g:airline_section_z='%3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#/%L:%3v'
+        let g:airline_section_warning=''
+    "}}} Plugin: Airline
 
-  "Plugin: CtrlP {{{
-  nnoremap <F7> :CtrlP ~<CR>
-  let g:ctrlp_map = '<c-p>'
-  let g:ctrlp_cmd = 'CtrlPLastMode'
-  let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
-  "}}} Plugin: CtrlP
+    "Plugin: Arpeggio {{{
+        call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+    "}}} Plugin: Arpeggio
 
-  "Plugin: Fugitive {{{
-  nnoremap <silent> <leader>gs :Gstatus<CR>
-  nnoremap <silent> <leader>gd :Gdiff<CR>
-  nnoremap <silent> <leader>gc :Gcommit<CR>
-  nnoremap <silent> <leader>gb :Gblame<CR>
-  nnoremap <silent> <leader>gl :Glog<CR>
-  nnoremap <silent> <leader>gp :Git push<CR>
-  nnoremap <silent> <leader>gw :Gwrite<CR>
-  nnoremap <silent> <leader>gr :Gremove<CR>
-  "}}} Plugin: Fugitive
+    "Plugin: CtrlP {{{
+        nnoremap <F7> :CtrlP ~<CR>
+        let g:ctrlp_map = '<c-p>'
+        let g:ctrlp_cmd = 'CtrlPLastMode'
+        let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
+    "}}} Plugin: CtrlP
 
-  "Plugin: Gitv {{{
-    nmap <leader>gv :Gitv --all<cr>
-    nmap <leader>gV :Gitv! --all<cr>
-    vmap <leader>gV :Gitv! --all<cr>
-    let g:Gitv_DoNotMapCtrlKey = 1
-    let g:Gitv_OpenHorizontal = 1
-    let g:Gitv_WrapLines = 0
-    let g:Gitv_OpenPreviewOnLaunch = 1
-  "}}} Plugin: Gitv
+    "Plugin: Fugitive {{{
+        nnoremap <silent> <leader>gs :Gstatus<CR>
+        nnoremap <silent> <leader>gd :Gdiff<CR>
+        nnoremap <silent> <leader>gc :Gcommit<CR>
+        nnoremap <silent> <leader>gb :Gblame<CR>
+        nnoremap <silent> <leader>gl :Glog<CR>
+        nnoremap <silent> <leader>gp :Git push<CR>
+        nnoremap <silent> <leader>gw :Gwrite<CR>
+        nnoremap <silent> <leader>gr :Gremove<CR>
+    "}}} Plugin: Fugitive
 
-  "Plugin: NERDTree {{{
-    nnoremap <silent> <F2> :NERDTreeToggle<CR>
-    nnoremap <silent> <F3> :NERDTreeFind<CR>
-    let NERDTreeShowBookmarks=1
-  "}}} Plugin: NERDTree
+    "Plugin: Gitv {{{
+        nmap <leader>gv :Gitv --all<cr>
+        nmap <leader>gV :Gitv! --all<cr>
+        vmap <leader>gV :Gitv! --all<cr>
+        let g:Gitv_DoNotMapCtrlKey = 1
+        let g:Gitv_OpenHorizontal = 1
+        let g:Gitv_WrapLines = 0
+        let g:Gitv_OpenPreviewOnLaunch = 1
+    "}}} Plugin: Gitv
 
-  "Plugin: UndoTree {{{
-    nnoremap <F5> :UndotreeToggle<cr>
-  "}}} Plugin: UndoTree
+    "Plugin: NERDTree {{{
+        nnoremap <silent> <F2> :NERDTreeToggle<CR>
+        nnoremap <silent> <F3> :NERDTreeFind<CR>
+        let NERDTreeShowBookmarks=1
+        let NERDTreeMinimalUI=1
+    "}}} Plugin: NERDTree
+
+    "Plugin: Tmuxline {{{
+        let g:tmuxline_separators = {
+            \ 'left' : '',
+            \ 'left_alt': '',
+            \ 'right' : '',
+            \ 'right_alt' : '',
+            \ 'space' : ' '}
+    "}}} Plugin: Tmuxline
+
+    "Plugin: UndoTree {{{
+        nnoremap <F5> :UndotreeToggle<cr>
+    "}}} Plugin: UndoTree
+
 "}}} Plugins
 
 
