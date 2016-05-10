@@ -26,6 +26,8 @@
     set incsearch
     set rnu
 
+    set backspace=indent,eol,start
+
     set diffopt+=vertical
     set splitbelow
     set splitright
