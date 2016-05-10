@@ -115,7 +115,7 @@
 
     call plug#begin('~/.vim/plugged')
         Plug 'mileszs/ack.vim' 
-        Plug '907th/vim-auto-save' 
+        " Plug '907th/vim-auto-save' 
         Plug 'vim-airline/vim-airline' 
         Plug 'vim-airline/vim-airline-themes' 
         Plug 'kana/vim-arpeggio' 
@@ -148,7 +148,7 @@
     "}}} Plugin: Ack
 
     "Plugin: AutoSave {{{
-        let g:auto_save = 1
+        " let g:auto_save = 1
     "}}} Plugin: AutoSave
 
     "Plugin: Airline {{{
