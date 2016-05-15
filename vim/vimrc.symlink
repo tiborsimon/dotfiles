@@ -56,6 +56,8 @@
 
     autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
+    nnoremap <leader>b :!make local<cr>
+
     " Scroll toggle
     map <leader>sb :set scb!<cr>
 
