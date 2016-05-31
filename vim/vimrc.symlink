@@ -142,6 +142,7 @@
         " Plug 'mhinz/vim-startify' 
         Plug 'tpope/vim-surround'
         Plug 'mbbill/undotree'
+        Plug 'nathanalderson/yang.vim'
         Plug 'tpope/vim-unimpaired'
     call plug#end()
 
@@ -194,6 +195,10 @@
         let g:Gitv_WrapLines = 0
         let g:Gitv_OpenPreviewOnLaunch = 1
     "}}} Plugin: Gitv
+
+    "Plugin: GitGutter {{{
+        let g:gitgutter_max_signs = 2000
+    "}}} Plugin: GitGutter
 
     "Plugin: NERDTree {{{
         nnoremap <silent> <F2> :NERDTreeToggle<CR>
