@@ -11,6 +11,17 @@ source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
 
 # ==============================================================================
+#  S S H   H A N D L I N G
+#
+
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+  eval `ssh-agent`
+  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+ssh-add -l | grep "The agent has no identities" && ssh-add
+
+# ==============================================================================
 #  A L I A S E S
 #
 
