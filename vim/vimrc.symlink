@@ -136,7 +136,8 @@
         Plug 'terryma/vim-multiple-cursors'
         Plug 'chrisbra/NrrwRgn' 
         Plug 'scrooloose/nerdtree'
-        Plug 'airblade/vim-rooter' 
+        " Plug 'airblade/vim-rooter' 
+        Plug 'dbakker/vim-projectroot' 
         Plug 'tpope/vim-rsi' 
         Plug 'edkolev/tmuxline.vim' 
         " Plug 'mhinz/vim-startify' 
@@ -206,6 +207,20 @@
         let NERDTreeShowBookmarks=1
         let NERDTreeMinimalUI=1
     "}}} Plugin: NERDTree
+
+    "Plugin: ProjectRoot {{{
+        function! <SID>AutoProjectRootCD()
+          try
+            if &ft != 'help'
+              ProjectRootCD
+            endif
+          catch
+            " Silently ignore invalid buffers
+          endtry
+        endfunction
+
+        autocmd BufEnter * call <SID>AutoProjectRootCD()
+    "}}} Plugin: ProjectRoot
 
     "Plugin: Tmuxline {{{
         let g:tmuxline_separators = {
