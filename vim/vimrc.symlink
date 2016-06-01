@@ -145,6 +145,7 @@
         Plug 'edkolev/tmuxline.vim' 
         " Plug 'mhinz/vim-startify' 
         Plug 'tpope/vim-surround'
+        Plug 'kshenoy/vim-signature'
         Plug 'mbbill/undotree'
         Plug 'nathanalderson/yang.vim'
         Plug 'tpope/vim-unimpaired'
