@@ -70,6 +70,9 @@
     nnoremap j gj
     nnoremap k gk
 
+    nnoremap <leader>dt :diffthis<cr>
+    nnoremap <leader>do :diffoff!<cr>
+    
     " Window related remappings
     nnoremap <leader>v <C-w>v<C-w>l
     nnoremap <leader>s <C-w>s
