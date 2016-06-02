@@ -128,6 +128,7 @@
         Plug 'kana/vim-arpeggio' 
         Plug 'tpope/vim-commentary' 
         Plug 'ctrlpvim/ctrlp.vim'
+        Plug 'chrisbra/vim-diff-enhanced'
         Plug 'dkprice/vim-easygrep'
         " Plug 'terryma/vim-expand-region'
         Plug 'easymotion/vim-easymotion'
@@ -136,6 +137,7 @@
         Plug 'fidian/hexmode'
         Plug 'airblade/vim-gitgutter' 
         Plug 'gregsexton/gitv' 
+        Plug 'Yggdroot/indentLine' 
         Plug 'terryma/vim-multiple-cursors'
         Plug 'chrisbra/NrrwRgn' 
         Plug 'scrooloose/nerdtree'
@@ -206,6 +208,13 @@
     "Plugin: GitGutter {{{
         let g:gitgutter_max_signs = 2000
     "}}} Plugin: GitGutter
+
+    "Plugin: IndentLine {{{
+        let g:indentLine_enabled = 1
+        nnoremap <Leader>il :IndentLinesToggle<cr>
+        let g:indentLine_color_term = 236
+        let g:indentLine_char = '|'
+    "}}} Plugin: IndentLine
 
     "Plugin: NERDTree {{{
         nnoremap <silent> <F2> :NERDTreeToggle<CR>
