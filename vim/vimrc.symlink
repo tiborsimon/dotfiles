@@ -151,11 +151,13 @@
         Plug 'mbbill/undotree'
         Plug 'nathanalderson/yang.vim'
         Plug 'tpope/vim-unimpaired'
+        Plug 'sukima/xmledit'
     call plug#end()
 
     "Plugin: Ack {{{
         let g:ackhighlight = 1
         let g:ackpreview = 1
+        let g:ack_autofold_results = 1
         " let g:ack_use_dispatch = 1
         noremap <Leader>a :Ack <cword><cr>
         noremap <C-a> :Ack 
@@ -210,7 +212,7 @@
     "}}} Plugin: GitGutter
 
     "Plugin: IndentLine {{{
-        let g:indentLine_enabled = 1
+        let g:indentLine_enabled = 0
         nnoremap <Leader>il :IndentLinesToggle<cr>
         let g:indentLine_color_term = 236
         let g:indentLine_char = '|'
