@@ -141,7 +141,7 @@
         Plug 'terryma/vim-multiple-cursors'
         Plug 'chrisbra/NrrwRgn' 
         Plug 'scrooloose/nerdtree'
-        " Plug 'airblade/vim-rooter' 
+        Plug 'nvie/vim-flake8' 
         Plug 'dbakker/vim-projectroot' 
         Plug 'tpope/vim-rsi' 
         Plug 'edkolev/tmuxline.vim' 
@@ -176,11 +176,11 @@
     "}}} Plugin: Airline
 
     "Plugin: Arpeggio {{{
-        call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+        call arpeggio#map('ivn', '', 0, 'jk', '<Esc>')
     "}}} Plugin: Arpeggio
 
     "Plugin: CtrlP {{{
-        nnoremap <F7> :CtrlP ~<CR>
+        nnoremap <F8> :CtrlP ~<CR>
         let g:ctrlp_map = '<c-p>'
         let g:ctrlp_cmd = 'CtrlPLastMode'
         let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
