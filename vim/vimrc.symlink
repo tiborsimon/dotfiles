@@ -100,7 +100,7 @@
 "}}} Basic keyboard remappings
 
 "GUI settings {{{
-    set fillchars+=vert:\
+    set fillchars+=vert:\ "space
     hi StatusLine     ctermfg=235 ctermbg=246
     hi StatusLineNC   ctermfg=235  ctermbg=240
     hi VertSplit      ctermfg=235  ctermbg=246
