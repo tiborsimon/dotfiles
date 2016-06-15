@@ -157,8 +157,8 @@
 
     "Plugin: Ack {{{
         let g:ackhighlight = 1
-        let g:ackpreview = 1
-        let g:ack_autofold_results = 1
+        let g:ackpreview = 0
+        let g:ack_autofold_results = 0
         " let g:ack_use_dispatch = 1
         noremap <Leader>a :Ack <cword><cr>
         noremap <C-a> :Ack
@@ -227,7 +227,7 @@
         nnoremap <silent> <F2> :NERDTreeToggle<CR>
         nnoremap <silent> <F3> :NERDTreeFind<CR>
         let NERDTreeShowBookmarks=1
-        let NERDTreeMinimalUI=1
+        let NERDTreeMinimalUI=0
     "}}} Plugin: NERDTree
 
     "Plugin: ProjectRoot {{{
