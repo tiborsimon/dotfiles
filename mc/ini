@@ -80,6 +80,8 @@ ignore_ftp_chattr_errors=true
 keymap=
 skin=default
 
+filepos_max_saved_entries=1024
+
 [Layout]
 message_visible=1
 keybar_visible=1
@@ -111,6 +113,8 @@ base_color=normal=,default:marked=yellow,black:input=,green:menu=black:menusel=w
 
 screen-256color=
 color_terminals=
+
+xterm=
 
 [Panels]
 show_mini_info=true

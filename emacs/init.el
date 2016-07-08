@@ -9,7 +9,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(evil company))
+(defvar my-packages '(evil evil-leader company))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -18,3 +18,11 @@
 (require 'evil)
 ; (require 'init-evil)
 (evil-mode 1)
+
+(global-evil-leader-mode)
+(evil-leader/set-leader "<SPC>")
+(setq evil-leader/in-all-states 1)
+(evil-leader/set-key
+    "e" 'find-file
+    "b" 'switch-to-buffer
+    "q" 'kill-buffer)
