@@ -35,8 +35,6 @@ fi
 alias dot='cd ~/.dotfiles'
 alias site='cd ~/$PROJECTS/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
-alias p='. p'
-alias pp='cd $PROJECTS'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
 alias appserver='ssh tibor@ts-centos-02'
@@ -97,3 +95,5 @@ function __prompt_command() {
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
 export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
 export PATH=~/bin:$PATH
+
+alias p='. p'

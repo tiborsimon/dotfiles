@@ -3,14 +3,4 @@
 WORKLOG_PATH="$HOME/projects/worklog/"
 python ~/.dotfiles/bin/wl.py $WORKLOG_PATH
 cd $WORKLOG_PATH
-python render.py
-git commit -am "Worklog entry added."
-git checkout gh-pages
-git merge master
-git checkout master
-git push --all
-if [ $? -ne 0 ]; then
-    echo "Something went wrong.."
-else
-    echo "Done"
-fi
+p pb
