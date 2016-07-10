@@ -1,0 +1,81 @@
+;; Essential settings.
+(setq inhibit-splash-screen t
+      inhibit-startup-message t
+      inhibit-startup-echo-area-message t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(when (boundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
+(show-paren-mode 1)
+
+;; Smooth scrolling
+(setq scroll-margin 5
+      scroll-conservatively 9999
+      scroll-step 1)
+
+
+(require 'cl)
+(require 'package)
+
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")))
+
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+(package-initialize)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar my-packages '(evil evil-leader powerline key-chord elisp-slime-nav))
+
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
+;; EVIL MODE
+(require 'evil)
+; (require 'init-evil)
+(evil-mode 1)
+
+(global-evil-leader-mode)
+(evil-leader/set-leader "<SPC>")
+(setq evil-leader/in-all-states 1)
+(evil-leader/set-key
+    "e" 'find-file
+    "b" 'switch-to-buffer
+    "w" 'evil-save
+    "q" 'evil-window-delete)
+
+(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+(define-key evil-motion-state-map ";" 'evil-ex)
+
+(require 'key-chord)
+(key-chord-mode 1)
+(key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
+(key-chord-define evil-visual-state-map  "jk" 'evil-normal-state)
+
+;; POWERLINE
+(require 'powerline)
+; (powerline-evil-vim-color-theme)
+(display-time-mode t)
+
+
+(load-theme 'aurora t)
+
+(progn
+  (require 'elisp-slime-nav)
+  (defun my-lisp-hook ()
+    (elisp-slime-nav-mode)
+    (turn-on-eldoc-mode)
+    )
+  (add-hook 'emacs-lisp-mode-hook 'my-lisp-hook)
+)
+(evil-define-key 'normal emacs-lisp-mode-map (kbd "K")
+  'elisp-slime-nav-describe-elisp-thing-at-point)

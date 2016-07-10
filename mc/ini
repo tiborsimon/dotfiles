@@ -82,6 +82,12 @@ skin=default
 
 filepos_max_saved_entries=1024
 
+editor_drop_selection_on_copy=1
+editor_state_full_filename=0
+editor_ask_filename_before_edit=0
+editor_filesize_threshold=64M
+editor_stop_format_chars=-+*\\,.;:&>
+
 [Layout]
 message_visible=1
 keybar_visible=1
@@ -92,7 +98,7 @@ menubar_visible=1
 free_space=1
 horizontal_split=0
 vertical_equal=1
-left_panel_size=99
+left_panel_size=104
 horizontal_equal=1
 top_panel_size=1
 
@@ -134,6 +140,8 @@ filetype_mode=true
 permission_mode=false
 torben_fj_mode=false
 quick_search_mode=2
+
+select_flags=6
 
 [Panelize]
 Find *.orig after patching=find . -name \\*.orig -print
