@@ -3,7 +3,7 @@
 (add-to-list 'load-path (concat user-emacs-directory "config/languages"))
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+(setq package-archives '(("melpa-stable" . "http://melpa.milkbox.net/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 
@@ -19,6 +19,8 @@
 
 (require 'my-core)
 (require 'my-evil)
+(require 'my-helm)
+(require 'my-buffers)
 (require 'my-eyecandy)
 
 ; ;; Essential settings.
