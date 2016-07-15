@@ -16,109 +16,39 @@
 
 (require 'use-package)
 
-
 (require 'my-core)
 (require 'my-evil)
-(require 'my-helm)
-(require 'my-buffers)
 (require 'my-eyecandy)
+(require 'my-dired)
+(require 'my-buffers)
+(require 'my-helm)
+; (require 'my-env)
+; (require 'my-functions)
+; (require 'my-keychain)
+; (require 'my-bookmarks)
+; (require 'my-elisp)
+; (require 'my-tags)
+; (require 'my-autocomplete)
+; (require 'my-ido)
+; (require 'my-projects)
+; (require 'my-ag)
+; (require 'my-interaction)
+; (require 'my-flycheck)
+; (require 'my-woman)
+; (require 'my-comint)
+; (require 'my-unbound-keys)
+; (require 'my-languages)
+; (require 'my-shell)
+; (require 'my-filetypes)
+; (require 'my-term)
+; (require 'my-magit)
+; (require 'my-android)
+; (require 'my-eshell)
+; (require 'my-ielm)
+; (require 'my-package-list)
+; (require 'my-help)
+; (require 'my-god)
+; (require 'my-sessions)
+; (require 'my-leader-keys)
 
-; ;; Essential settings.
-; (setq inhibit-splash-screen t
-;       inhibit-startup-message t
-;       inhibit-startup-echo-area-message t)
-; (menu-bar-mode -1)
-; (tool-bar-mode -1)
-; (when (boundp 'scroll-bar-mode)
-;   (scroll-bar-mode -1))
-; (show-paren-mode 1)
-; (visual-line-mode 1)
-; (setq require-final-newline t)
-
-; ;; Smooth scrolling
-; (setq scroll-margin 5
-;       scroll-conservatively 9999
-;       scroll-step 1)
-
-
-
-; ;; EVIL MODE
-; (require 'evil)
-; ; (require 'init-evil)
-; (evil-mode 1)
-; (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-; (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-; (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-; (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-; (define-key evil-motion-state-map ";" 'evil-ex)
-
-
-; (use-package evil-leader
-;       :commands (evil-leader-mode)
-;       :ensure evil-leader
-;       :demand evil-leader
-;       :init
-;       (global-evil-leader-mode)
-;       :config
-;       (progn
-; 	(evil-leader/set-leader "<SPC>")
-; 	(setq evil-leader/in-all-states 1)
-; 	(evil-leader/set-key "e" 'find-file)
-; 	(evil-leader/set-key "b" 'switch-to-buffer)
-; 	(evil-leader/set-key "w" 'save-buffer)
-; 	(evil-leader/set-key "q" 'kill-buffer-and-window)
-; 	(evil-leader/set-key "h" 'dired-jump)
-; 	(evil-leader/set-key "v" 'split-window-right)
-; 	(evil-leader/set-key "e" 'pp-eval-last-sexp)
-; 	(evil-leader/set-key "," 'other-window)
-; 	(evil-leader/set-key "b" 'ibuffer)
-; 	(evil-leader/set-key "x" 'helm-M-x)
-;         )
-;       )
-
-
-; (use-package evil-leader
-;       :commands (evil-leader-mode)
-;       :ensure key-chord
-;       :demand key-chord
-;       :config
-;       (progn
-; 	(key-chord-mode 1)
-; 	(key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
-; 	(key-chord-define evil-visual-state-map  "jk" 'evil-normal-state)
-;         )
-;       )
-
-
-; ;; POWERLINE
-; (require 'powerline)
-; ; (powerline-evil-vim-color-theme)
-; (display-time-mode t)
-
-
-; ; (load-theme 'aurora t)
-
-; ;; Elisp navigation speedup
-; (progn
-;   (require 'elisp-slime-nav)
-;   (defun my-lisp-hook ()
-;     (elisp-slime-nav-mode)
-;     (turn-on-eldoc-mode)
-;     )
-;   (add-hook 'emacs-lisp-mode-hook 'my-lisp-hook)
-; )
-; (evil-define-key 'normal emacs-lisp-mode-map (kbd "K")
-;   'elisp-slime-nav-describe-elisp-thing-at-point)
-
-; (require 'dired-x)
-; (evil-define-key 'normal dired-mode-map "h" 'dired-up-directory)
-; (evil-define-key 'normal dired-mode-map "l" 'dired-find-alternate-file)
-; (evil-define-key 'normal dired-mode-map "o" 'dired-sort-toggle-or-edit)
-; (evil-define-key 'normal dired-mode-map "v" 'dired-toggle-marks)
-; (evil-define-key 'normal dired-mode-map "m" 'dired-mark)
-; (evil-define-key 'normal dired-mode-map "u" 'dired-unmark)
-; (evil-define-key 'normal dired-mode-map "U" 'dired-unmark-all-marks)
-; (evil-define-key 'normal dired-mode-map "c" 'dired-create-directory)
-; (evil-define-key 'normal dired-mode-map "n" 'evil-search-next)
-; (evil-define-key 'normal dired-mode-map "N" 'evil-search-previous)
-; (evil-define-key 'normal dired-mode-map "q" 'kill-this-buffer)
+(provide 'init)

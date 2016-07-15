@@ -1,5 +1,6 @@
 elpa/
 auto-save-list/
 .saves/
+.cache/
 recentf
 

@@ -17,9 +17,10 @@
     (global-evil-leader-mode t)
 	(evil-leader/set-key "e" 'find-file)
 	(evil-leader/set-key "w" 'save-buffer)
-	(evil-leader/set-key "q" 'kill-buffer-and-window)
+	(evil-leader/set-key "q" 'delete-window)
 	(evil-leader/set-key "h" 'dired-jump)
-	(evil-leader/set-key "v" 'split-window-right)
+	(evil-leader/set-key "sh" 'split-window-vertically)
+	(evil-leader/set-key "sv" 'split-window-horizontally)
 	(evil-leader/set-key "," 'other-window)
 	(evil-leader/set-key "b" 'ibuffer)
 	(evil-leader/set-key "x" 'helm-M-x)))
@@ -38,7 +39,7 @@
     (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
     (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
     (define-key evil-motion-state-map ";" 'evil-ex)
-    
+
     (use-package key-chord
           :ensure key-chord
           :demand key-chord
@@ -61,25 +62,37 @@
     ; (setq evil-want-change-word-to-end t)
 
 
-    ; (use-package evil-nerd-commenter
-    ;   :ensure evil-nerd-commenter
-    ;   :commands (evilnc-comment-or-uncomment-lines))
+    (use-package evil-nerd-commenter
+      :ensure evil-nerd-commenter
+      :commands (evilnc-comment-or-uncomment-lines)
+      :config
+      (progn
+        (evil-leader/set-key
+            "ci" 'evilnc-comment-or-uncomment-lines
+            "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+            "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+            "cc" 'evilnc-copy-and-comment-lines
+            "cp" 'evilnc-comment-or-uncomment-paragraphs
+            "cr" 'comment-or-uncomment-region
+            "cv" 'evilnc-toggle-invert-comment-line-by-line
+            "\\" 'evilnc-comment-operator ; if you prefer backslash key
+         )))
 
 
-    ; (use-package evil-matchit
-    ;   :ensure evil-matchit
-    ;   :commands evilmi-jump-items
-    ;   :init
-    ;   (progn
-    ;     (setq global-evil-matchit-mode t)
-    ;     (define-key evil-normal-state-map "%" 'evilmi-jump-items)))
+    (use-package evil-matchit
+      :ensure evil-matchit
+      :commands evilmi-jump-items
+      :init
+      (progn
+        (setq global-evil-matchit-mode t)
+        (define-key evil-normal-state-map "%" 'evilmi-jump-items)))
 
 
-    ; (use-package evil-surround
-    ;   :ensure evil-surround
-    ;   :config
-    ;   (progn
-    ;     (global-evil-surround-mode 1)))
+    (use-package evil-surround
+      :ensure evil-surround
+      :config
+      (progn
+        (global-evil-surround-mode 1)))
 
     ; (evil-set-initial-state 'flycheck-error-list-mode 'normal)
     ; (evil-set-initial-state 'git-commit-mode 'insert)
@@ -88,12 +101,6 @@
     ; (evil-set-initial-state 'diff-mode 'emacs)
     ; (evil-set-initial-state 'term-mode 'emacs)
     ; (evil-set-initial-state 'multi-term-mode 'emacs)
-
-    ; (use-package key-chord
-    ;   :ensure key-chord
-    ;   :config
-    ;   (progn
-    ;     (key-chord-mode 1)))
 
     ; (evil-define-text-object my-evil-next-match (count &optional beg end type)
     ;   "Select next match."
