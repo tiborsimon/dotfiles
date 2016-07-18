@@ -122,6 +122,7 @@ Otherwise, returns nil."
   (evil-define-key 'normal dired-mode-map "u" 'dired-unmark)
   (evil-define-key 'normal dired-mode-map "U" 'dired-unmark-all-marks)
   (evil-define-key 'normal dired-mode-map "c" 'dired-create-directory)
+  (evil-define-key 'normal dired-mode-map "f" 'dired-find-file)
   (evil-define-key 'normal dired-mode-map "q" 'kill-this-buffer)
   (evil-define-key 'normal dired-mode-map "/" 'evil-search-forward)
   (evil-define-key 'normal dired-mode-map "n" 'evil-search-next)
