@@ -12,11 +12,11 @@ Put your binary files and scripts to the `~/.dotfiles/bin` folder, and put your 
 - [Dotfiles with URL deployment](https://tiborsimon.io/tools/dotfiles-with-url-deployment/)
 - [Upload ssh key via Github API](https://tiborsimon.io/programming/upload-ssh-key-via-github-api/)
 
-# I have a virgin system and I want my config with ease!
+# I have a fresh system and I want my config with ease!
 
 This is __exactly__ what I wanted to achieve with this project.
 
-Bootstrap your dotfiles by running the following command __on__ your __virgin system__:
+Bootstrap your dotfiles by running the following command __on__ your __freshly installed system system__:
 
 ```
 bash <(curl -fsSL tiborsimon.io/dotfiles)
@@ -54,7 +54,7 @@ Good. Then go to your `~/.dotfiles` folder and run the  `./deploy` script to do 
 
 - __HTTPS__
 - __SSH__ with existing __SSH KEY__
-- __SSH__ on __virgin system__
+- __SSH__ on __freshly installed system__
 
 
 ### Bootstrapping via HTTPS
@@ -141,7 +141,7 @@ Receiving objects: 100% (32/32), 12.55 KiB | 6.00 KiB/s, done.
 
 ```
 
-### Botstrapping via SSH on a virgin machine
+### Botstrapping via SSH on a fresh machine
 
 ```
 -bash-4.2$ bash <(curl -fsSL tiborsimon.io/dotfiles)
