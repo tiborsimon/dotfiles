@@ -29,3 +29,5 @@
 
 [color "branch"]
     remote = yellow
+[merge]
+	tool = kdiff3

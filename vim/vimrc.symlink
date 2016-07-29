@@ -19,12 +19,12 @@
 
     set foldmethod=marker
     set foldmarker={{{,}}}
-    set number
-    "set cursorline
+    " set number
+    " set rnu
+    " set cursorline
 
     set hls
     set incsearch
-    set rnu
 
     set backspace=indent,eol,start
 
@@ -127,6 +127,7 @@
         Plug 'vim-airline/vim-airline-themes'
         Plug 'kana/vim-arpeggio'
         Plug 'ntpeters/vim-better-whitespace'
+        Plug 'jeetsukumaran/vim-buffergator'
         Plug 'tpope/vim-commentary'
         Plug 'ctrlpvim/ctrlp.vim'
         Plug 'chrisbra/vim-diff-enhanced'
@@ -174,6 +175,7 @@
         let g:airline_right_sep=''
         let g:airline_section_z='%3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#/%L:%3v'
         let g:airline_section_warning=''
+        set laststatus=2
     "}}} Plugin: Airline
 
     "Plugin: Arpeggio {{{

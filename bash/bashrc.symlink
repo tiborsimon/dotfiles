@@ -97,3 +97,10 @@ export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
 export PATH=~/bin:$PATH
 
 alias p='. p'
+function gedit { /usr/bin/gedit $@ >/dev/null 2>&1 & }
+alias build="~/bin/build"
+function ue { uex $@ >/dev/null 2>&1 & }
+function geany { /usr/bin/geany $@ >/dev/null 2>&1 & }
+alias discovery="sh -c \"cd ~/discovery; bin/discovery >/dev/null 2>&1 &\""
+function codeblocks { /usr/bin/codeblocks \$@ >/dev/null 2>&1 & }
+alias doublecmd="doublecmd >/dev/null 2>&1 &"
