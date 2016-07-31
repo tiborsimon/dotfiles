@@ -172,4 +172,32 @@ Require `font-lock'."
   (cl-dolist (elem a)
     (setq a (delete elem a))))
 
+
+;;;; Support
+(defmacro my-without-evil-mode (&rest do-this)
+  ;; Check if evil-mode is on, and disable it temporarily
+  `(let ((evil-mode-is-on (evil-mode?)))
+     (if evil-mode-is-on
+         (disable-evil-mode))
+     (ignore-errors
+       ,@do-this)
+     (if evil-mode-is-on
+         (enable-evil-mode))))
+
+(defmacro my-evil-mode? ()
+  "Checks if evil-mode is active. Uses Evil's state to check."
+  `evil-state)
+
+(defmacro my-disable-evil-mode ()
+  "Disable evil-mode with visual cues."
+  `(progn
+     (evil-mode 0)
+     (message "Evil mode disabled")))
+
+(defmacro my-enable-evil-mode ()
+  "Enable evil-mode with visual cues."
+  `(progn
+     (evil-mode 1)
+     (message "Evil mode enabled")))
+
 (provide 'my-functions)
