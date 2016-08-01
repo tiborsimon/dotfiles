@@ -199,10 +199,10 @@ This command only has an effect on graphical frames."
 (add-hook 'after-make-frame-functions 'my-use-default-font)
 (my-use-default-font)
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x C-k") 'kill-this-buffer)
-(global-set-key (kbd "C-x g") 'my-google)
-(global-set-key (kbd "C-c e") 'my-eval-and-replace)
+;; (global-set-key (kbd "C-x C-b") 'ibuffer)
+;; (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
+;; (global-set-key (kbd "C-x g") 'my-google)
+;; (global-set-key (kbd "C-c e") 'my-eval-and-replace)
 
 (defun my-setup-help-mode ()
   "Setup help mode the way I like it."

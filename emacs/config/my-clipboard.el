@@ -1,15 +1,4 @@
 (after 'evil
-    (defun djoyner/evil-shift-left-visual ()
-      (interactive)
-      (evil-shift-left (region-beginning) (region-end))
-      (evil-normal-state)
-      (evil-visual-restore))
-
-    (defun djoyner/evil-shift-right-visual ()
-      (interactive)
-      (evil-shift-right (region-beginning) (region-end))
-      (evil-normal-state)
-      (evil-visual-restore))
 
     ;;;; Support
     ;;;; http://stackoverflow.com/questions/26472216/how-to-copy-text-in-emacs-evil-mode-without-overwriting-the-clipboard

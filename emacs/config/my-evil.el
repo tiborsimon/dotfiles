@@ -22,6 +22,7 @@
     (evil-leader/set-key "sv" 'split-window-horizontally)
     (evil-leader/set-key "," 'other-window)
     (evil-leader/set-key "b" 'ibuffer)
+    (evil-leader/set-key "gg" 'my-google)
     (evil-leader/set-key "x" 'helm-M-x)))
 
 ;; Here's what we've all been waiting for. 
@@ -57,10 +58,23 @@
         (drag-stuff-global-mode 1)
         (define-key drag-stuff-mode-map (kbd "M-k") 'drag-stuff-up)
         (define-key drag-stuff-mode-map (kbd "M-j") 'drag-stuff-down)
-        (define-key evil-visual-state-map (kbd "M-l") 'djoyner/evil-shift-right-visual)
-        (define-key evil-visual-state-map (kbd "M-h") 'djoyner/evil-shift-left-visual)
+        (define-key evil-visual-state-map (kbd "M-l") 'my-shift-right-visual)
+        (define-key evil-visual-state-map (kbd "M-h") 'my-shift-left-visual)
         )
       )
+
+    (defun my-shift-left-visual ()
+      (interactive)
+      (indent-rigidly-left (region-beginning) (region-end))
+      (evil-normal-state)
+      (evil-visual-restore))
+
+    (defun my-shift-right-visual ()
+      (interactive)
+      (indent-rigidly-right (region-beginning) (region-end))
+      (evil-normal-state)
+      (evil-visual-restore))
+
 
     ;; (setq evil-want-C-u-scroll t)
     ;; (setq evil-want-C-w-in-emacs-state t)
@@ -278,7 +292,7 @@
     ;;   'electric-indent-just-newline)
 
     ;; (define-key evil-normal-state-map (kbd "SPC a") 'ag)
-    ;; (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
+    (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
 
     ;; (define-key evil-normal-state-map (kbd "C-q")   'universal-argument)
 
