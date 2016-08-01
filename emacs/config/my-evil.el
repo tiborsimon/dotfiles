@@ -25,7 +25,7 @@
     (evil-leader/set-key "gg" 'my-google)
     (evil-leader/set-key "x" 'helm-M-x)))
 
-;; Here's what we've all been waiting for. 
+;; Here's what we've all been waiting for.
 ;; Recreate Vim inside Emacs.
 (use-package evil
   :ensure evil
@@ -123,13 +123,42 @@
       (progn
         (global-evil-surround-mode 1)))
 
-    (use-package multiple-cursors
-      :ensure multiple-cursors
-      :init
+    (use-package evil-multiedit
+      :ensure evil-multiedit
+      :config
       (progn
-        (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-        (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-        (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+        ;; Highlights all matches of the selection in the buffer.
+        (define-key evil-visual-state-map "R" 'evil-multiedit-match-all)
+        ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
+        ;; incrementally add the next unmatched match.
+        (define-key evil-normal-state-map (kbd "M-d") 'evil-multiedit-match-and-next)
+        ;; Match selected region.
+        (define-key evil-visual-state-map (kbd "M-d") 'evil-multiedit-match-and-next)
+
+        ;; Same as M-d but in reverse.
+        (define-key evil-normal-state-map (kbd "M-D") 'evil-multiedit-match-and-prev)
+        (define-key evil-visual-state-map (kbd "M-D") 'evil-multiedit-match-and-prev)
+
+        ;; OPTIONAL: If you prefer to grab symbols rather than words, use
+        ;; `evil-multiedit-match-symbol-and-next` (or prev).
+
+        ;; Restore the last group of multiedit regions.
+        (define-key evil-visual-state-map (kbd "C-M-D") 'evil-multiedit-restore)
+
+        ;; RET will toggle the region under the cursor
+        (define-key evil-multiedit-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
+
+        ;; ...and in visual mode, RET will disable all fields outside the selected region
+        (define-key evil-motion-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
+
+        ;; For moving between edit regions
+        (define-key evil-multiedit-state-map (kbd "C-n") 'evil-multiedit-next)
+        (define-key evil-multiedit-state-map (kbd "C-p") 'evil-multiedit-prev)
+        (define-key evil-multiedit-insert-state-map (kbd "C-n") 'evil-multiedit-next)
+        (define-key evil-multiedit-insert-state-map (kbd "C-p") 'evil-multiedit-prev)
+
+        ;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
+        (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)
         )
       )
 
@@ -292,7 +321,7 @@
     ;;   'electric-indent-just-newline)
 
     ;; (define-key evil-normal-state-map (kbd "SPC a") 'ag)
-    (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
+    ; (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
 
     ;; (define-key evil-normal-state-map (kbd "C-q")   'universal-argument)
 
