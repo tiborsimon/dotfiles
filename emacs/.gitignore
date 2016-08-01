@@ -4,4 +4,5 @@ auto-save-list/
 .cache/
 recentf
 projectile-bookmarks.eld
+.mc-lists.el
 
