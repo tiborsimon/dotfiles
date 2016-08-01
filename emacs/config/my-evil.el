@@ -153,6 +153,8 @@
     (define-key evil-visual-state-map "P" 'evil-destroy-paste-before)
     (define-key evil-visual-state-map "p" 'evil-destroy-paste-after)
 
+    ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard/15054#15054
+    (fset 'evil-visual-update-x-selection 'ignore)
 
     (use-package key-chord
       :ensure key-chord
@@ -182,6 +184,19 @@
       :config
       )
 
+    (use-package elisp-slime-nav
+      :ensure elisp-slime-nav
+      :config
+      (progn
+        (require 'elisp-slime-nav)
+        (defun my-lisp-hook ()
+            (elisp-slime-nav-mode)
+            (turn-on-eldoc-mode)
+            )
+        (add-hook 'emacs-lisp-mode-hook 'my-lisp-hook)
+        (evil-define-key 'normal emacs-lisp-mode-map (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
+      )
+    )
 
     (use-package evil-matchit
       :ensure evil-matchit
