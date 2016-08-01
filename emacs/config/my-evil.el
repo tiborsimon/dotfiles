@@ -24,8 +24,7 @@
     (evil-leader/set-key "b" 'ibuffer)
     (evil-leader/set-key "x" 'helm-M-x)))
 
-
-;; Here's what we've all been waiting for.
+;; Here's what we've all been waiting for. 
 ;; Recreate Vim inside Emacs.
 (use-package evil
   :ensure evil
@@ -37,168 +36,7 @@
     (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
     (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
     (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-    (define-key evil-motion-state-map "J" 'my-move-text-down)
-    (define-key evil-motion-state-map "K" 'my-move-text-up)
     (define-key evil-motion-state-map ";" 'evil-ex)
-
-    (use-package move-text
-      :ensure move-text
-      :config
-      (progn
-        ;; Text moving helper functions
-        (defun my-move-text-internal (arg)
-          (cond
-           ((and mark-active transient-mark-mode)
-            (if (> (point) (mark))
-                (exchange-point-and-mark))
-            (let ((column (current-column))
-                  (text (delete-and-extract-region (point) (mark))))
-              (forward-line arg)
-              (move-to-column column t)
-              (set-mark (point))
-              (insert text)
-              (exchange-point-and-mark)
-              (setq deactivate-mark nil)))
-           (t
-            (let ((column (current-column)))
-              (beginning-of-line)
-              (when (or (> arg 0) (not (bobp)))
-                (forward-line)
-                (when (or (< arg 0) (not (eobp)))
-                  (transpose-lines arg)
-                  (when (and (eval-when-compile
-                               '(and (>= emacs-major-version 24)
-                                     (>= emacs-minor-version 3)))
-                             (< arg 0))
-                    (forward-line -1)))
-                (forward-line -1))
-              (move-to-column column t)))))
-
-        (defun my-move-text-down (arg)
-          "Move region (transient-mark-mode active) or current line
-  arg lines down."
-          (interactive "*p")
-          (my-move-text-internal arg))
-
-        (defun my-move-text-up (arg)
-          "Move region (transient-mark-mode active) or current line
-  arg lines up."
-          (interactive "*p")
-          (my-move-text-internal (- arg)))
-        ))
-
-                                        ; Overload shifts so that they don't lose the selection
-    (define-key evil-visual-state-map (kbd ">") 'djoyner/evil-shift-right-visual)
-    (define-key evil-visual-state-map (kbd "<") 'djoyner/evil-shift-left-visual)
-    (define-key evil-visual-state-map [tab] 'djoyner/evil-shift-right-visual)
-    (define-key evil-visual-state-map [S-tab] 'djoyner/evil-shift-left-visual)
-
-    (defun djoyner/evil-shift-left-visual ()
-      (interactive)
-      (evil-shift-left (region-beginning) (region-end))
-      (evil-normal-state)
-      (evil-visual-restore))
-
-    (defun djoyner/evil-shift-right-visual ()
-      (interactive)
-      (evil-shift-right (region-beginning) (region-end))
-      (evil-normal-state)
-      (evil-visual-restore))
-
-    ;;;; Support
-    ;;;; http://stackoverflow.com/questions/26472216/how-to-copy-text-in-emacs-evil-mode-without-overwriting-the-clipboard
-
-    (defmacro without-evil-mode (&rest do-this)
-      ;; Check if evil-mode is on, and disable it temporarily
-      `(let ((evil-mode-is-on (evil-mode?)))
-         (if evil-mode-is-on
-             (disable-evil-mode))
-         (ignore-errors
-           ,@do-this)
-         (if evil-mode-is-on
-             (enable-evil-mode))))
-
-    (defmacro evil-mode? ()
-      "Checks if evil-mode is active. Uses Evil's state to check."
-      `evil-state)
-
-    (defmacro disable-evil-mode ()
-      "Disable evil-mode with visual cues."
-      `(progn
-         (evil-mode 0)
-         (message "Evil mode disabled")))
-
-    (defmacro enable-evil-mode ()
-      "Enable evil-mode with visual cues."
-      `(progn
-         (evil-mode 1)
-         (message "Evil mode enabled")))
-
-    ;;;; Clipboard bypass
-
-    ;; delete: char
-    (evil-define-operator evil-destroy-char (beg end type register yank-handler)
-      :motion evil-forward-char
-      (evil-delete-char beg end type ?_))
-
-    ;; delete: char (backwards)
-    (evil-define-operator evil-destroy-backward-char (beg end type register yank-handler)
-      :motion evil-forward-char
-      (evil-delete-backward-char beg end type ?_))
-
-    ;; delete: text object
-    (evil-define-operator evil-destroy (beg end type register yank-handler)
-      "Vim's 's' without clipboard."
-      (evil-delete beg end type ?_ yank-handler))
-
-    ;; delete: to end of line
-    (evil-define-operator evil-destroy-line (beg end type register yank-handler)
-      :motion nil
-      :keep-visual t
-      (interactive "<R><x>")
-      (evil-delete-line beg end type ?_ yank-handler))
-
-    ;; delete: whole line
-    (evil-define-operator evil-destroy-whole-line (beg end type register yank-handler)
-      :motion evil-line
-      (interactive "<R><x>")
-      (evil-delete-whole-line beg end type ?_ yank-handler))
-
-    ;; change: text object
-    (evil-define-operator evil-destroy-change (beg end type register yank-handler delete-func)
-      (evil-change beg end type ?_ yank-handler delete-func))
-
-    ;; paste: before
-    (defun evil-destroy-paste-before ()
-      (interactive)
-      (without-evil-mode
-       (delete-region (point) (mark))
-       (evil-paste-before 1)))
-
-    ;; paste: after
-    (defun evil-destroy-paste-after ()
-      (interactive)
-      (without-evil-mode
-       (delete-region (point) (mark))
-       (evil-paste-after 1)))
-
-    ;; paste: text object
-    (evil-define-operator evil-destroy-replace (beg end type register yank-handler)
-      (evil-destroy beg end type register yank-handler)
-      (evil-paste-before 1 register))
-
-    ;; Clipboard bypass key rebindings
-    (define-key evil-normal-state-map "s" 'evil-destroy)
-    (define-key evil-normal-state-map "S" 'evil-destroy-line)
-    (define-key evil-normal-state-map "c" 'evil-destroy-change)
-    (define-key evil-normal-state-map "x" 'evil-destroy-char)
-    (define-key evil-normal-state-map "X" 'evil-destroy-whole-line)
-    (define-key evil-normal-state-map "Y" 'evil-copy-to-end-of-line)
-    (define-key evil-visual-state-map "P" 'evil-destroy-paste-before)
-    (define-key evil-visual-state-map "p" 'evil-destroy-paste-after)
-
-    ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard/15054#15054
-    (fset 'evil-visual-update-x-selection 'ignore)
 
     (use-package key-chord
       :ensure key-chord
@@ -210,17 +48,30 @@
         (key-chord-define evil-visual-state-map  "jk" 'evil-normal-state)
         )
       )
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-w-in-emacs-state t)
-    (setq evil-search-module        'isearch)
-    (setq evil-magic                'very-magic)
-    (setq evil-emacs-state-cursor   '("#dfaf8f" box))
-    (setq evil-normal-state-cursor  '("#f8f893" box))
-    (setq evil-insert-state-cursor  '("#f8f893" bar))
-    (setq evil-replace-state-cursor '("#cc9393" box))
-    (setq evil-want-fine-undo t)
-    (setq evil-want-change-word-to-end t)
 
+    (use-package drag-stuff
+      :ensure drag-stuff
+      :demand drag-stuff
+      :config
+      (progn
+        (drag-stuff-global-mode 1)
+        (define-key drag-stuff-mode-map (kbd "M-k") 'drag-stuff-up)
+        (define-key drag-stuff-mode-map (kbd "M-j") 'drag-stuff-down)
+        (define-key evil-visual-state-map (kbd "M-l") 'djoyner/evil-shift-right-visual)
+        (define-key evil-visual-state-map (kbd "M-h") 'djoyner/evil-shift-left-visual)
+        )
+      )
+
+    ;; (setq evil-want-C-u-scroll t)
+    ;; (setq evil-want-C-w-in-emacs-state t)
+    ;; (setq evil-search-module        'isearch)
+    ;; (setq evil-magic                'very-magic)
+    ;; (setq evil-emacs-state-cursor   '("#dfaf8f" box))
+    ;; (setq evil-normal-state-cursor  '("#f8f893" box))
+    ;; (setq evil-insert-state-cursor  '("#f8f893" bar))
+    ;; (setq evil-replace-state-cursor '("#cc9393" box))
+    ;; (setq evil-want-fine-undo t)
+    ;; (setq evil-want-change-word-to-end t)
 
     (use-package evil-nerd-commenter
       :ensure evil-nerd-commenter
@@ -252,13 +103,11 @@
         (setq global-evil-matchit-mode t)
         (define-key evil-normal-state-map "%" 'evilmi-jump-items)))
 
-
     (use-package evil-surround
       :ensure evil-surround
       :config
       (progn
         (global-evil-surround-mode 1)))
-
 
     (use-package multiple-cursors
       :ensure multiple-cursors
