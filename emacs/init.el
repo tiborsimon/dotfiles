@@ -22,7 +22,7 @@
 (require 'my-evil)
 (require 'my-eyecandy)
 (require 'my-dired)
-(require 'my-buffers)
+;; (require 'my-buffers)
 (require 'my-projects)
 (require 'my-helm)
 (require 'my-org-mode)
