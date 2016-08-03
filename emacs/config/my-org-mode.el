@@ -52,9 +52,11 @@
       :config
       (progn
         ; (setq org-download-image-width 150)
+        (setq org-download-image-dir ".")
+        (setq org-download-heading-lvl nil)
         ))
 
-    (setq org-image-actual-width nil)
+    (setq org-image-actual-width 350)
 
     (require 'epa)
     (epa-file-enable)

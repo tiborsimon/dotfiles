@@ -221,5 +221,16 @@ This command only has an effect on graphical frames."
   (interactive)
   (string-equal system-type "gnu/linux"))
 
+;; Change color if exceeds 80 characters.
+;; http://emacsredux.com/blog/2013/05/31/highlight-lines-that-exceed-a-certain-length-limit/
+(require 'whitespace)
+(global-whitespace-mode +1)
+(setq whitespace-line-column 80) ;; limit line length
+(setq whitespace-style '(face lines-tail))
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
+;; Remove trailing whitespace on save
+;; https://www.emacswiki.org/emacs/DeletingWhitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (provide 'my-core)
