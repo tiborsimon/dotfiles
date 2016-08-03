@@ -51,8 +51,10 @@
       :ensure org-download
       :config
       (progn
-        (setq org-download-image-width 600)
+        ; (setq org-download-image-width 150)
         ))
+
+    (setq org-image-actual-width nil)
 
     (require 'org-crypt)
     (org-crypt-use-before-save-magic)
@@ -175,6 +177,7 @@
       "c"  'org-archive-subtree
       "l"  'evil-org-open-links
       "o"  'evil-org-recompute-clocks
+      "i"  'org-toggle-inline-images
     )
 
     ;; normal & insert state shortcuts.

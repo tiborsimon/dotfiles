@@ -27,6 +27,7 @@
 (require 'my-helm)
 (require 'my-clipboard)
 (require 'my-org-mode)
+(require 'my-encryption)
 ;; (require 'my-move-line-region)
 ; (require 'my-move-text)
 ; (require 'my-env)
