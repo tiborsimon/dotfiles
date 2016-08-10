@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-WORKLOG_PATH="$HOME/projects/worklog/"
-python ~/.dotfiles/bin/wl.py $WORKLOG_PATH
-cd $WORKLOG_PATH
-p pb
