@@ -40,7 +40,7 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 alias appserver='ssh tibor@ts-centos-02'
 alias proxyserver='ssh tibor@ts-centos-01'
 
-#alias ls='ls -lahpTG'
+alias ls='ls -G'
 
 alias gs='git status'
 alias ga='git add --all'
