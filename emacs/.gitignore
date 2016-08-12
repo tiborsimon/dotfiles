@@ -5,4 +5,5 @@ auto-save-list/
 recentf
 projectile-bookmarks.eld
 .mc-lists.el
+custom.el
 

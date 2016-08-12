@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# This script will install the full configuration of the tiborsimon/dotfiles repo. 
-# It will use a symlinked solution: it will symlink the configuration files located in 
+# This script will install the full configuration of the tiborsimon/dotfiles repo.
+# It will use a symlinked solution: it will symlink the configuration files located in
 # the .dotfiles folder's subfolders. With this approach, you will be able to separate
 # the configurations from each others.
 #
@@ -24,7 +24,7 @@ source functions/commons
 is_osx () {
     if [ $(uname -s) = 'Darwin' ]
     then
-        return 0 
+        return 0
     else
         return 1
     fi
@@ -49,17 +49,25 @@ install_mc () {
     success 'Mc config installed'
 }
 
-install_emacs () {
-    info 'Installing emacs config..'
-    local overwrite_all=false backup_all=false skip_all=false
-    link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
-    success 'Emacs config installed'
-}
-
 install_vimplug () {
     info 'Installing VimPlug..'
     curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     success 'VimPlug installed!'
+}
+
+install_projects () {
+    info 'Installing projects..'
+    pip install projects
+    success 'Projects installed!'
+}
+
+clone_essential_projects () {
+    info 'Cloning essential repositories..'
+    mkdir ~/projects
+    git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
+    git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
+    git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
+    success 'Essential repositories cloned.'
 }
 
 #----------------------------------------------------------------------------------------
@@ -87,7 +95,7 @@ update_homebrew () {
         read -n 1 action
         case "$action" in
             y ) info 'Updating Homebrew..'
-                if brew update > brew-update.log; then
+                if brew update; then
                     success 'Homebrew is up-to-date!'
                 else
                     fail 'Error during Homebrew update!'
@@ -110,7 +118,7 @@ excute_brewfile () {
 
         case "$action" in
             y ) info 'Executing Brewfile..'
-                brew bundle -v  --file=osx/Brewfile > brew-install.log
+                brew bundle -v  --file=osx/Brewfile
                 success 'Brewfile executed. All apps are installed.'
                 break
                 ;;
@@ -121,6 +129,17 @@ excute_brewfile () {
                 ;;
         esac
     done
+}
+
+install_emacs () {
+    info 'Installing emacs..'
+    brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
+    brew linkapps emacs
+    success 'Emacs installed'
+    info 'Installing emacs config..'
+    local overwrite_all=false backup_all=false skip_all=false
+    link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
+    success 'Emacs config installed'
 }
 
 #----------------------------------------------------------------------------------------
@@ -134,7 +153,7 @@ excute_linux_packages_file () {
         case "$action" in
             y ) user 'What is the package manager for this platform?'
                 read -e LINUX_PACKAGE_MANAGER
-                for app in $(cat $HOME/.dotfiles/linux/packages.txt); do 
+                for app in $(cat $HOME/.dotfiles/linux/packages.txt); do
                     info "Installing $app.."
                     if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
                         success "$app installed."
@@ -162,13 +181,15 @@ excute_linux_packages_file () {
 if is_osx; then
     info "Installing OS X related config"
     install_dotfiles
-    install_emacs
     set_up_osx
     install_homebrew
     update_homebrew
     excute_brewfile
+    install_emacs
     install_mc
     install_vimplug
+    install_projects
+    clone_essential_projects
 else
     info "Installing Linux related config"
     install_dotfiles

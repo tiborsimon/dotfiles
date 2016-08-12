@@ -9,11 +9,11 @@
 (defvar my-terminal-emulator "urxvt"
   "Terminal emulator to be spawned with my-spawn-terminal-here.")
 
-(defvar my-graphical-font
-  (if (eq system-type 'darwin)
-      "Terminus 12"
-    "Terminus-12")
-  "Font used for graphical editing sessions.")
+; (defvar my-graphical-font
+;   (if (eq system-type 'darwin)
+;       "Terminus 12"
+;     "Terminus-12")
+;   "Font used for graphical editing sessions.")
 
 ;; Don't show those horrible buttons
 (tool-bar-mode -1)
@@ -197,7 +197,7 @@ This command only has an effect on graphical frames."
   (when window-system (my-set-window-font my-graphical-font)))
 
 (add-hook 'after-make-frame-functions 'my-use-default-font)
-(my-use-default-font)
+; (my-use-default-font)
 
 ;; (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;; (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
