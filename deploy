@@ -55,18 +55,27 @@ install_vimplug () {
     success 'VimPlug installed!'
 }
 
-install_projects () {
-    info 'Installing projects..'
+install_pip_tools () {
+    info 'Installing pip tools..'
     pip install projects
-    success 'Projects installed!'
+    pip install bpython
+    success 'Pip tools installed!'
 }
 
 clone_essential_projects () {
     info 'Cloning essential repositories..'
-    mkdir ~/projects
-    git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
-    git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
-    git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
+    if [ ! -d ~/projects ]; then
+        mkdir ~/projects
+    fi
+    if [ ! -d ~/projects/notebook ]; then
+        git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
+    fi
+    if [ ! -d ~/projects/worklog ]; then
+        git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
+    fi
+    if [ ! -d ~/projects/site ]; then
+        git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
+    fi
     success 'Essential repositories cloned.'
 }
 
@@ -188,7 +197,7 @@ if is_osx; then
     install_emacs
     install_mc
     install_vimplug
-    install_projects
+    install_pip_tools
     clone_essential_projects
 else
     info "Installing Linux related config"
