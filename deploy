@@ -59,6 +59,10 @@ install_pip_tools () {
     info 'Installing pip tools..'
     pip install projects
     pip install bpython
+    pip install exifread
+    pip install hachoir-metadata
+    pip install hachoir-core
+    pip install hachoir_parser
     success 'Pip tools installed!'
 }
 
