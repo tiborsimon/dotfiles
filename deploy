@@ -132,6 +132,7 @@ excute_brewfile () {
         case "$action" in
             y ) info 'Executing Brewfile..'
                 brew bundle -v  --file=osx/Brewfile
+                brew install ffmpeg --with-ffplay
                 success 'Brewfile executed. All apps are installed.'
                 break
                 ;;

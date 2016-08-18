@@ -7,31 +7,31 @@ bind-key C-Space send-prefix
 set -g base-index 1
 setw -g pane-base-index 1
 
-# vim-like pane resizing  
+# vim-like pane resizing
 bind -r C-k resize-pane -U
 bind -r C-j resize-pane -D
 bind -r C-h resize-pane -L
 bind -r C-l resize-pane -R
 
 # vim-like pane switching
-bind -r k select-pane -U 
-bind -r j select-pane -D 
-bind -r h select-pane -L 
-bind -r l select-pane -R 
+bind -r k select-pane -U
+bind -r j select-pane -D
+bind -r h select-pane -L
+bind -r l select-pane -R
 
 # and now unbind keys
-unbind Up     
-unbind Down   
-unbind Left   
-unbind Right  
+unbind Up
+unbind Down
+unbind Left
+unbind Right
 
-unbind C-Up   
-unbind C-Down 
-unbind C-Left 
+unbind C-Up
+unbind C-Down
+unbind C-Left
 unbind C-Right
 
-set -g utf8
-set-window-option -g utf8 on
+# set -g utf8
+# set-window-option -g utf8 on
 
 # make tmux display things in 256 colors
 set -g default-terminal "screen-256color"
@@ -51,7 +51,7 @@ set -g status-right-attr "none"
 set -g message-fg "colour247"
 set -g message-command-bg "colour236"
 set -g status-attr "none"
-set -g status-utf8 "on"
+# set -g status-utf8 "on"
 set -g pane-border-fg "colour236"
 set -g status-left-attr "none"
 setw -g window-status-fg "colour231"
