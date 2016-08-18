@@ -43,5 +43,3 @@ if __name__ == '__main__':
         print('{} -> {}'.format(rd['old'], rd['new']))
         os.rename(rd['old'], rd['new'])
     print('Done')
-
-

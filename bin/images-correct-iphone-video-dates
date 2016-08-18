@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+direction=${1:-+}
+
+if [ "$direction" == "+" ]; then
+    exiftool -alldates+=2 -if '$model eq "iPhone 6s"' -if '$filetype eq "MOV"' .
+elif [ "$direction" == "-" ]; then
+    exiftool -alldates-=2 -if '$model eq "iPhone 6s"' -if '$filetype eq "MOV"' .
+else
+    echo "Invalid input argument! [+|-]"
+    exit 1
+fi
+rm *_original
