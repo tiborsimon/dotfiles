@@ -16,6 +16,8 @@ rm -f *_original
 echo "Renaming files.."
 exiftool -P -d "%Y%m%d-%H%M%S%%-c.%%e" '-FileName<DateTimeOriginal' .
 
+# AVI support
+# http://u88.n24.queensu.ca/exiftool/forum/index.php?topic=3061.0
 if ls *.AVI > /dev/null 2>&1; then
     echo "Separate AVI processing.."
     echo "Updating missing metadata.."
