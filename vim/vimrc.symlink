@@ -101,11 +101,11 @@
 
 "GUI settings {{{
     set fillchars+=vert:\ "space
-    hi StatusLine     ctermfg=235 ctermbg=246
-    hi StatusLineNC   ctermfg=235  ctermbg=240
-    hi VertSplit      ctermfg=235  ctermbg=246
+    hi StatusLine     ctermfg=233 ctermbg=246
+    hi StatusLineNC   ctermfg=233 ctermbg=240
+    hi VertSplit      ctermfg=233 ctermbg=248
 
-    hi Folded         ctermfg=241 ctermbg=235
+    hi Folded         ctermfg=241 ctermbg=233
 
     hi Search cterm=NONE ctermfg=0 ctermbg=11
     hi Visual cterm=NONE ctermfg=blue ctermbg=white
@@ -237,6 +237,7 @@
         nnoremap <silent> <F3> :NERDTreeFind<CR>
         let NERDTreeShowBookmarks=1
         let NERDTreeMinimalUI=0
+        let NERDTreeIgnore = ['\.pyc$']
     "}}} Plugin: NERDTree
 
     "Plugin: ProjectRoot {{{

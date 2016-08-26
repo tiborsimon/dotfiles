@@ -33,33 +33,15 @@ fi
 #
 
 alias dot='cd ~/.dotfiles'
-alias site='cd ~/$PROJECTS/tiborsimon.io && source site-env/bin/activate && clear'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
-alias appserver='ssh tibor@ts-centos-02'
-alias proxyserver='ssh tibor@ts-centos-01'
-
-alias ls='ls -G'
+alias ls='ls --color -h --group-directories-first -i'
 
 alias gs='git status'
-alias ga='git add --all'
 alias ..='cd ..'
 
-function commitFunction {
-    git commit -m $1
-}
-alias gc=commitFunction
-
-function cloneFunction {
-    cd ~/$PROJECTS
-    git clone $1
-    cd $(python -c "import re, sys; m=re.search('([-\w]+)\.git', sys.argv[1]); print(m.group(1))" $1)
-}
-alias gclone=cloneFunction
-
-alias g='cd ~/github'
-
+alias p='. p'
 
 # ==============================================================================
 #  P R O M P T
@@ -92,8 +74,5 @@ function __prompt_command() {
     PS1+="\\$ \[$(tput sgr0)\]"
 }
 
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin"
-export PATH="$PATH:"/Applications/microchip/xc8/v1.36/bin""
-export PATH=~/bin:$PATH
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin:$HOME/bin"
 
-alias p='. p'
