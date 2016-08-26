@@ -172,6 +172,14 @@ Require `font-lock'."
   (cl-dolist (elem a)
     (setq a (delete elem a))))
 
+(defun my-insert-date ()
+  "Inserting current timestamp into buffer"
+  (interactive)
+  (evil-goto-first-line)
+  (evil-open-above 0)
+  (insert (shell-command-to-string "printf \"* $(date +\"%Y-%m-%d %T\")\""))
+  (evil-goto-first-line)
+  (evil-open-below 0))
 
 ;;;; Support
 (defmacro my-without-evil-mode (&rest do-this)

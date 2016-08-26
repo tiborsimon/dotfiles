@@ -182,6 +182,7 @@
       "l"  'evil-org-open-links
       "o"  'evil-org-recompute-clocks
       "i"  'org-toggle-inline-images
+      "d" 'my-insert-date
     )
 
     ;; normal & insert state shortcuts.
