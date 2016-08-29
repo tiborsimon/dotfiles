@@ -2,6 +2,7 @@
 import os
 import subprocess
 import commands
+import re
 
 def get_file_list():
     return os.listdir(os.getcwd())
@@ -33,13 +34,29 @@ def construct_rename_data(files):
         i += 1
     return ret
 
-if __name__ == '__main__':
+
+def prepare_files():
     os.system("dot_clean .")
     files = get_file_list()
-    print('Collecting metadata..')
-    rename_data = construct_rename_data(files)
-    print('Renaming files..')
-    for rd in rename_data:
-        print('{} -> {}'.format(rd['old'], rd['new']))
-        os.rename(rd['old'], rd['new'])
-    print('Done')
+    data = {
+        'images': [],
+        'videos': []
+    }
+    for file in files:
+        if re.search('\.(jpg|jpeg|cr2|png)$', file.lower()):
+            data['images'].append(file)
+        if re.search('\.(mov|mp4)$', file.lower()):
+            data['videos'].append(file)
+    print('There are {0} files: {1} images, {2} videos.'.format(len(files), len(data['images']), len(data['videos'])))
+    return data
+
+def prompt_for_action():
+    try:
+        input = raw_input
+    except NameError:
+        pass
+
+
+if __name__ == '__main__':
+    prepare_files()
+    prompt_for_action()
