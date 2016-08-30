@@ -154,6 +154,7 @@
         Plug 'kshenoy/vim-signature'
         Plug 'mbbill/undotree'
         Plug 'nathanalderson/yang.vim'
+        Plug 'Valloric/YouCompleteMe'
         Plug 'tpope/vim-unimpaired'
         Plug 'sukima/xmledit'
     call plug#end()
