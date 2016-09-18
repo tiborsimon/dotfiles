@@ -37,6 +37,7 @@ alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
 alias ls='ls -G'
+alias subl='reattach-to-user-namespace subl'
 
 alias gs='git status'
 alias ..='cd ..'
