@@ -9,10 +9,10 @@
     runtime macros/matchit.vim
 
     " Tab management: http://stackoverflow.com/a/1878983/1565331
-    set tabstop=4
-    set softtabstop=4
+    set tabstop=2
+    set softtabstop=2
     set expandtab
-    set shiftwidth=4
+    set shiftwidth=2
     set smarttab
     set smartindent
     set autoindent
@@ -22,7 +22,6 @@
     set number
     set ruler
     set hidden
-    " set cursorline
 
     " Encoding
     set encoding=utf-8
@@ -30,13 +29,12 @@
 
     set backspace=indent,eol,start
 
+    " Diff options
     set diffopt+=vertical
     set splitbelow
     set splitright
 
-    let g:loaded_matchparen=1
-
-    set scrolloff=4
+    " let g:loaded_matchparen=1
 
     " Backup and Swap
     set nobackup
@@ -46,19 +44,16 @@
     " Genral UI settings
     set laststatus=2       " Always show the statusline
     set noshowmode         " Hide the default mode text (e.g. -- INSERT -- below the statusline)
-
     set showmatch          " Shows matching brackets when text indicator is over them
     set scrolloff=5        " Show 5 lines of context around the cursor
     set sidescrolloff=20
     set lazyredraw         " The screen won't be redrawn unless actions took place
-    " set cursorline
-    set scrolljump=10
+    set scrolljump=0
     set showcmd
     set ttyfast            " Improves redrawing for newer computers
     set pumheight=10       " Max number of popup menu items
     set diffopt+=context:3
-    set nostartofline      " when moving thru the lines, the cursor will try to stay in the previous columns"
-
+    set nostartofline      " When moving thru the lines, the cursor will try to stay in the previous columns"
 
     " Search Options
     set hlsearch   " Highlight search
@@ -248,6 +243,13 @@
         nnoremap <silent> <leader>gw :Gwrite<CR>
         nnoremap <silent> <leader>gr :Gremove<CR>
     "}}} Plugin: Fugitive
+
+    "Plugin: Emmet {{{
+        let g:emmet_html5 = 1
+        let g:user_emmet_settings = {
+        \    'indentation' : '  '
+        \}
+    "}}} Plugin: Emmet
 
     "Plugin: Enchanced diff {{{
         " started In Diff-Mode set diffexpr (plugin not loaded yet)
