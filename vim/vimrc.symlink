@@ -19,12 +19,14 @@
 
     set foldmethod=marker
     set foldmarker={{{,}}}
-    " set number
-    " set rnu
+    set number
+    set ruler
+    set hidden
     " set cursorline
 
-    set hls
-    set incsearch
+    " Encoding
+    set encoding=utf-8
+    set termencoding=utf-8
 
     set backspace=indent,eol,start
 
@@ -36,40 +38,66 @@
 
     set scrolloff=4
 
+    " Backup and Swap
+    set nobackup
+    set nowritebackup
     set noswapfile
-    set lazyredraw
-    set ttyfast
+
+    " Genral UI settings
+    set laststatus=2       " Always show the statusline
+    set noshowmode         " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+
+    set showmatch          " Shows matching brackets when text indicator is over them
+    set scrolloff=5        " Show 5 lines of context around the cursor
+    set sidescrolloff=20
+    set lazyredraw         " The screen won't be redrawn unless actions took place
+    " set cursorline
+    set scrolljump=10
+    set showcmd
+    set ttyfast            " Improves redrawing for newer computers
+    set pumheight=10       " Max number of popup menu items
+    set diffopt+=context:3
+    set nostartofline      " when moving thru the lines, the cursor will try to stay in the previous columns"
+
+
+    " Search Options
+    set hlsearch   " Highlight search
+    set incsearch  " Incremental search
+    set magic      " Set magic on, for regular expressions
+    set ignorecase " Searches are Non Case-sensitive
+    set smartcase  " Overrides ignorecase, if search contains uppercase character
+
 "}}} General Vim config
 
 "Basic keyboard remappings {{{
+    " Essentials
     let mapleader="\<Space>"
-
-    " Quickly edit/reload the vimrc file
-    nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
-    map <leader>l :so ~/.vimrc<CR>
-
-    autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
-    autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
-    autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
-
-    autocmd Filetype python nnoremap <buffer> <leader>db oimport pdb; pdb.set_trace()<esc>j^
-
-    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-
-    nnoremap <leader>b :!make local<cr>
-
-    " Scroll toggle
-    map <leader>sb :set scb!<cr>
-
-    nnoremap <leader>w :w<cr>
-    nnoremap <leader>q :q<cr>
-
-    set pastetoggle=<leader><F2>
-
     nnoremap ; :
     nnoremap j gj
     nnoremap k gk
+    set pastetoggle=<leader><F2>
 
+    " Vimrc handling
+    nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
+    nnoremap <leader>l :so ~/.vimrc<CR>
+
+    " Language specific mappings
+    autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
+    autocmd Filetype python nnoremap <buffer> <leader>db oimport pdb; pdb.set_trace()<esc>j^
+    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+
+    " Scroll toggle
+    nnoremap <leader>w :w<cr>
+    nnoremap <leader>q :q<cr>
+
+    " Toggle wrap mode
+    nnoremap <leader>tw :set wrap!<cr>
+    " Toggle scroll bind
+    nnoremap <leader>ts :set scb!<cr>
+
+    " Diff handling
     nnoremap <leader>dt :diffthis<cr>
     nnoremap <leader>do :diffoff!<cr>
 
@@ -83,8 +111,8 @@
     nnoremap <C-l> <C-w>l
 
     " Tab related remappings
-    map <leader>tn :tabnew<CR>
-    map <leader>tc :tabclose<CR>
+    map <leader>Tn :tabnew<CR>
+    map <leader>Tc :tabclose<CR>
 
     " Motion in insert mode
     inoremap <C-h> <left>
@@ -97,6 +125,7 @@
     nnoremap K :m .-2<CR>==
     vnoremap J :m '>+1<CR>gv=gv
     vnoremap K :m '<-2<CR>gv=gv
+
 "}}} Basic keyboard remappings
 
 "GUI settings {{{
@@ -125,6 +154,7 @@
         " Plug '907th/vim-auto-save'
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
+        Plug 'jiangmiao/auto-pairs'
         Plug 'kana/vim-arpeggio'
         Plug 'ntpeters/vim-better-whitespace'
         Plug 'jeetsukumaran/vim-buffergator'
@@ -141,20 +171,32 @@
         Plug 'gregsexton/gitv'
         Plug 'jamessan/vim-gnupg'
         Plug 'Yggdroot/indentLine'
+        Plug 'jelera/vim-javascript-syntax'
         Plug 'terryma/vim-multiple-cursors'
         Plug 'chrisbra/NrrwRgn'
         Plug 'scrooloose/nerdtree'
+        Plug 'scrooloose/nerdcommenter'
+        Plug 'elzr/vim-json'
+        Plug 'scrooloose/syntastic'
+        Plug 'garbas/vim-snipmate'
+        Plug 'godlygeek/tabular'
+        Plug 'MarcWeber/vim-addon-mw-utils'
+        Plug 'vim-scripts/tlib'
+        Plug 'honza/vim-snippets'
         Plug 'jceb/vim-orgmode'
         Plug 'nvie/vim-flake8'
         Plug 'dbakker/vim-projectroot'
         Plug 'tpope/vim-rsi'
         Plug 'edkolev/tmuxline.vim'
+        Plug 'gregsexton/MatchTag'
         " Plug 'mhinz/vim-startify'
         Plug 'tpope/vim-surround'
         Plug 'kshenoy/vim-signature'
         Plug 'mbbill/undotree'
+        Plug 'ervandew/supertab'
         Plug 'nathanalderson/yang.vim'
-        Plug 'Valloric/YouCompleteMe'
+        Plug 'tpope/vim-repeat'
+        " Plug 'Valloric/YouCompleteMe'
         Plug 'tpope/vim-unimpaired'
         Plug 'sukima/xmledit'
     call plug#end()
@@ -190,7 +232,7 @@
     "}}} Plugin: BetterWhitespace
 
     "Plugin: CtrlP {{{
-        nnoremap <F8> :CtrlP ~<CR>
+        nnoremap <F8> :CtrlP<CR>
         let g:ctrlp_map = '<c-p>'
         let g:ctrlp_cmd = 'CtrlPLastMode'
         let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
@@ -238,10 +280,38 @@
     "Plugin: NERDTree {{{
         nnoremap <silent> <F2> :NERDTreeToggle<CR>
         nnoremap <silent> <F3> :NERDTreeFind<CR>
-        let NERDTreeShowBookmarks=1
-        let NERDTreeMinimalUI=0
+        let g:NERDTreeChristmasTree = 1
+        let g:NERDTreeCaseSensitiveSort = 1
+        let g:NERDTreeQuitOnOpen = 1
+        let g:NERDTreeWinPos = 'left'
+        let g:NERDTreeShowBookmarks = 1
+        let g:NERDTreeDirArrows=0
+        let NERDTreeMinimalUI=1
         let NERDTreeIgnore = ['\.pyc$']
     "}}} Plugin: NERDTree
+
+    "Plugin: NERDCommenter {{{
+        " Add spaces after comment delimiters by default
+        let g:NERDSpaceDelims = 1
+
+        " Use compact syntax for prettified multi-line comments
+        let g:NERDCompactSexyComs = 1
+
+        " Align line-wise comment delimiters flush left instead of following code indentation
+        let g:NERDDefaultAlign = 'left'
+
+        " Set a language to use its alternate delimiters by default
+        let g:NERDAltDelims_java = 1
+
+        " Add your own custom formats or override the defaults
+        let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+        " Allow commenting and inverting empty lines (useful when commenting a region)
+        let g:NERDCommentEmptyLines = 1
+
+        " Enable trimming of trailing whitespace when uncommenting
+        let g:NERDTrimTrailingWhitespace = 1
+    "}}} Plugin: NERDCommenter
 
     "Plugin: ProjectRoot {{{
         function! <SID>AutoProjectRootCD()

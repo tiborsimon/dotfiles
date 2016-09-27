@@ -1,4 +1,3 @@
-epel-release
 git
 vim
 tmux

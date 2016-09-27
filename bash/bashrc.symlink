@@ -36,7 +36,7 @@ alias dot='cd ~/.dotfiles'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
-alias ls='ls --color'
+alias ls='ls --color --group-directories-first'
 
 alias gs='git status'
 alias ..='cd ..'
@@ -54,11 +54,15 @@ function __prompt_command() {
 
     PS1="\n\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]"
 
-    local git_status="$($HOME/.dotfiles/bash/gitstatus.sh)"
-    if [[ ! -z $git_status ]]; then
-        PS1+="${git_status}\n"
+    if [[ ! -f .ignore-git-status ]]; then
+        local git_status="$($HOME/.dotfiles/bash/gitstatus.sh)"
+        if [[ ! -z $git_status ]]; then
+            PS1+="${git_status}\n"
+        else
+            PS1+="\n"
+        fi
     else
-        PS1+="\n"
+        PS1+="git status ignored\n"
     fi
 
     PS1+="\t "
