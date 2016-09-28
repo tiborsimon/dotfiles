@@ -83,18 +83,23 @@
   autocmd Filetype python nnoremap <buffer> <leader>db oimport pdb; pdb.set_trace()<esc>j^
   autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
-  " Scroll toggle
+  " Convenient mappings
   nnoremap <leader>w :w<cr>
   nnoremap <leader>q :q<cr>
 
   " Toggle wrap mode
   nnoremap <leader>tw :set wrap!<cr>
+
   " Toggle scroll bind
   nnoremap <leader>ts :set scb!<cr>
 
   " Diff handling
   nnoremap <leader>dt :diffthis<cr>
   nnoremap <leader>do :diffoff!<cr>
+
+  " Tab size changind - default is 2
+  nnoremap <leader><f4> :set ts=4 sw=4<cr>
+  nnoremap <leader><F2> :set ts=2 sw=2<cr>
 
   " Window related remappings
   nnoremap <leader>v <C-w>v<C-w>l
