@@ -203,6 +203,7 @@
     Plug 'kshenoy/vim-signature'
     Plug 'mbbill/undotree'
     Plug 'ervandew/supertab'
+    Plug 'joeytwiddle/sexy_scroller.vim'
     Plug 'nathanalderson/yang.vim'
     Plug 'tpope/vim-repeat'
     " Plug 'Valloric/YouCompleteMe'
