@@ -70,7 +70,7 @@
   nnoremap ; :
   nnoremap j gj
   nnoremap k gk
-  set pastetoggle=<leader><F2>
+  set pastetoggle=<leader><F3>
 
   " Vimrc handling
   nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
@@ -161,6 +161,7 @@
     Plug 'kana/vim-arpeggio'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'jeetsukumaran/vim-buffergator'
+    Plug 'vim-scripts/utl.vim'
     Plug 'tpope/vim-commentary'
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'chrisbra/vim-diff-enhanced'
