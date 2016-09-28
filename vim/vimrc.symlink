@@ -111,7 +111,7 @@
   nnoremap <C-l> <C-w>l
 
   " Insert date
-  nnoremap <leader>id :0read !insert-date<cr>
+  nnoremap <leader>id :0read !insert-date<cr>o
 
   " Tab related remappings
   map <leader>Tn :tabnew<CR>
@@ -190,6 +190,7 @@
     Plug 'nvie/vim-flake8'
     Plug 'dbakker/vim-projectroot'
     Plug 'tpope/vim-rsi'
+    Plug 'tpope/vim-speeddating'
     Plug 'edkolev/tmuxline.vim'
     Plug 'gregsexton/MatchTag'
     " Plug 'mhinz/vim-startify'
