@@ -164,6 +164,7 @@
     Plug 'kana/vim-arpeggio'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'jeetsukumaran/vim-buffergator'
+    Plug 'MattesGroeger/vim-bookmarks'
     Plug 'vim-scripts/utl.vim'
     Plug 'tpope/vim-commentary'
     Plug 'ctrlpvim/ctrlp.vim'
@@ -238,6 +239,15 @@
   "Plugin: BetterWhitespace {{{
     nnoremap <leader>sw :StripWhitespace<cr>
   "}}} Plugin: BetterWhitespace
+
+  "Plugin: Bookmarks {{{
+    let g:bookmark_sign = '>>'
+    let g:bookmark_annotation_sign = '##'
+    let g:bookmark_auto_close = 1
+    let g:bookmark_highlight_lines = 1
+    let g:bookmark_save_per_working_dir = 1
+    let g:bookmark_auto_save = 1
+  "}}} Plugin: Bookmarks
 
   "Plugin: CtrlP {{{
     nnoremap <F8> :CtrlP<CR>
