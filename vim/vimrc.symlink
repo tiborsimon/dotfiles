@@ -362,6 +362,11 @@
       \ 'space' : ' '}
   "}}} Plugin: Tmuxline
 
+  "Plugin: SexyScroller {{{
+    let g:SexyScroller_MaxTime = 400
+    let g:SexyScroller_EasingStyle = 3
+  "}}} Plugin: SexyScroller
+
   "Plugin: UndoTree {{{
     nnoremap <F5> :UndotreeToggle<cr>
   "}}} Plugin: UndoTree
