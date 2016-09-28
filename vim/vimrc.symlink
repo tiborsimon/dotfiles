@@ -110,6 +110,9 @@
   nnoremap <C-k> <C-w>k
   nnoremap <C-l> <C-w>l
 
+  " Insert date
+  nnoremap <leader>id :0read !insert-date<cr>
+
   " Tab related remappings
   map <leader>Tn :tabnew<CR>
   map <leader>Tc :tabclose<CR>
