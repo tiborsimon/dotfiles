@@ -76,6 +76,9 @@
   nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
   nnoremap <leader>l :so ~/.vimrc<CR>
 
+  "General make mapping
+  nnoremap <leader>m :!clear && make<cr>
+
   " Language specific mappings
   autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
   autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
