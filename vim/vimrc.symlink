@@ -105,8 +105,12 @@
   nnoremap <leader><F2> :set ts=2 sw=2<cr>
 
   " Window related remappings
-  nnoremap <leader>v <C-w>v<C-w>l
-  nnoremap <leader>s <C-w>s
+  nnoremap <leader>sv <C-w>v
+  nnoremap <leader>sh <C-w>s
+  nnoremap <F7> :vertical resize +1<cr>
+  nnoremap <F6> :vertical resize -1<cr>
+  nnoremap <F9> :resize +1<cr>
+  nnoremap <F8> :resize -1<cr>
   nnoremap <leader>vsa :vert sba<cr>
   nnoremap <C-h> <C-w>h
   nnoremap <C-j> <C-w>j
@@ -252,7 +256,6 @@
   "}}} Plugin: Bookmarks
 
   "Plugin: CtrlP {{{
-    nnoremap <F8> :CtrlP<CR>
     let g:ctrlp_map = '<c-p>'
     let g:ctrlp_cmd = 'CtrlPLastMode'
     let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
