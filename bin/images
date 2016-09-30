@@ -135,36 +135,31 @@ cat <<EOF
 
 
     Usage: images [help|-h|--help]
-           images export
            images rename
-           images (memfile|m) (summon|s|put|p|show|sh) <memfile_name>
-           images (memfile|m) (list|ls)
-           images dsl (summon|s|put|p) <memfile_name>
-           images dsl (list|ls)
-           images dat (summon|s|put|p) <memfile_name>
-           images dat (list|ls)
-
+           images export <quality> <max-dimmension> <files wildcard>
+           images ios-video-time-shift
+           images reduce-videos
 
     cm [help|-h|--help]
         Prints out this help.
 
-    cm up
-        Deploys the uTAS with the latest CM ralated settings.
-        --cm_adaptor_tag latest --cm_server_tag latest --redis_tag latest
+    cm rename
+        Renames all images in the current directory with the following format:
+        yyyymmdd-hhmmss-<incremental number if timestamp is equal>.<extension>
 
-    cm halt
-        Shuts down the deployed uTAS.
+    cm export <quality> <max-dimmension> [files-wildcard] [destination]
+        Export the files defined with the <files wildcard> parameter into <destination> in JPEG.
+        quality [80] - Quality of the exported JPG images.
+        max-dimmension [original] - Max dimmension of the exported images.
+        files-wildcard [*] - Files wildcard.
+        destination [~/Desktop/export] - Export destination.
 
-    cm [(memfile|m)|dsl|dat] <memfile_name>
-        Memory file handling operations.
-        summon - copies the given file from the cm-adaptor container to the current directory with the same name
-        put    - copies the given file to the cm-adaptor container from the curent directory with the same name
+    cm ios-video-time-shift [amount]
+        Shifts all time related metadata by the specified amount.
+        amount [+2] - Shifted amount.
 
-    cm [(memfile|m)|dsl|dat] (list|ls)
-        Lists the available files from the cm-adaptor container.
-
-    cm (memfile|m) (show|sh) <memfile_name>
-        Displays the given memory file with the hexdump command in a pager.
+    cm reduce-videos
+        Reduces all video files in the current directory.
 
 EOF
     exit 0
