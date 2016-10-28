@@ -77,7 +77,9 @@
   nnoremap <leader>l :so ~/.vimrc<CR>
 
   "General make mapping
-  nnoremap <leader>m :!clear && make<cr>
+  nnoremap <leader>mm :!clear && make<cr>
+  nnoremap <leader>mt :!clear && make test<cr>
+  nnoremap <leader>m<leader> :!clear && make 
 
   " Language specific mappings
   autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
