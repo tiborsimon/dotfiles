@@ -1,14 +1,11 @@
-export PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:~/github/dotfiles-osx/bin:${PATH}"
-
-# for pelican
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
 export EDITOR='vim'
 export PROJECTS="$HOME/projects"
 
 source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
+
+xset r rate 170 33 > /dev/null
+xgamma -bgamma 0.9 > /dev/null
 
 # ==============================================================================
 #  S S H   H A N D L I N G
@@ -36,8 +33,7 @@ alias dot='cd ~/.dotfiles'
 alias buspirate='screen /dev/tty.usbserial-AD01W63E 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
-# alias ls='ls --color --group-directories-first'
-alias ls='ls -G'
+alias ls='ls -h --color --group-directories-first'
 
 alias gs='git status'
 alias ..='cd ..'
