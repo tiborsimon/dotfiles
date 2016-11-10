@@ -66,6 +66,14 @@ install_pip_tools () {
     success 'Pip tools installed!'
 }
 
+deploy_x240_touchpad_config () {
+    if [ $(hostname) = 'x240' ]; then
+        info 'Deploying x240 touchpad config..'
+        curl -fsSL https://gist.githubusercontent.com/tiborsimon/0c3f3de3e7accac0a7216214765bab99/raw/888144c608042e2faa82990d57cb9410a80e1268/touchpad.conf > /etc/X11/xorg.conf.d/touchpad.conf
+        success 'Touchpad config deployed.'
+    fi
+}
+
 clone_essential_projects () {
     info 'Cloning essential repositories..'
     if [ ! -d ~/projects ]; then
@@ -208,6 +216,7 @@ else
     info "Installing Linux related config"
     install_dotfiles
     install_emacs
+    deploy_x240_touchpad_config
     excute_linux_packages_file
     install_mc
     install_vimplug
