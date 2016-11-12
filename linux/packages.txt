@@ -9,5 +9,6 @@ automake
 gcc
 gcc-c++
 kernel-devel
+python-devel
 ack
-
+libtool

@@ -5,7 +5,7 @@ source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
 
 xset r rate 170 33 > /dev/null
-xgamma -q -rgamma 0.8 -ggamma 0.8 -bgamma 0.7
+xgamma -q -rgamma 0.7 -ggamma 0.7 -bgamma 0.5
 
 # ==============================================================================
 #  S S H   H A N D L I N G
