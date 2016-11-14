@@ -4,8 +4,11 @@ export PROJECTS="$HOME/projects"
 source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
 
+
+if [ $(hostname) = 'x240' ]; then
+  xgamma -q -rgamma 0.7 -ggamma 0.6 -bgamma 0.5
+fi
 xset r rate 170 33 > /dev/null
-xgamma -q -rgamma 0.7 -ggamma 0.6 -bgamma 0.5
 
 # ==============================================================================
 #  M A K E F I L E   A U T O C O M P L E T E
