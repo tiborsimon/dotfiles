@@ -8,6 +8,13 @@ xset r rate 170 33 > /dev/null
 xgamma -q -rgamma 0.7 -ggamma 0.6 -bgamma 0.5
 
 # ==============================================================================
+#  M A K E F I L E   A U T O C O M P L E T E
+#
+
+complete -W "\`grep -oE '^[a-zA-Z0-9_-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_-]*$//'\`" make
+
+
+# ==============================================================================
 #  S S H   H A N D L I N G
 #
 
