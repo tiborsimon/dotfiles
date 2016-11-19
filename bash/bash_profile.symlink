@@ -2,7 +2,7 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
-if [ $(hostname) = 'tibor-x240' ]; then
-   xgamma -q -rgamma 0.8 -ggamma 0.7 -bgamma 0.6
-fi
+#if [ $(hostname) = 'tibor-x240' ]; then
+#   xgamma -q -rgamma 0.8 -ggamma 0.7 -bgamma 0.6
+#fi
 
