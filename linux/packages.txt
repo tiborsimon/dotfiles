@@ -4,8 +4,9 @@ tmux
 mc
 cmake
 automake
-python-pip 
-python-dev 
+python-pip
+python-dev
+python-setuptools
 build-essential
 ack-grep
 tlp
