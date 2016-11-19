@@ -38,6 +38,7 @@ if [ "$?" == 2 ]; then
   fi
 fi
 
+
 # ==============================================================================
 #  A L I A S E S
 #
@@ -52,6 +53,7 @@ alias gs='git status'
 alias ..='cd ..'
 
 alias p='. p'
+
 
 # ==============================================================================
 #  P R O M P T
@@ -87,6 +89,11 @@ function __prompt_command() {
 
     PS1+="\\$ \[$(tput sgr0)\]"
 }
+
+
+# ==============================================================================
+#  P A T H   D E F I N I T I O N
+#
 
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin:$HOME/bin"
 

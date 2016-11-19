@@ -11,5 +11,6 @@ build-essential
 ack-grep
 tlp
 powertop
+htop
 acpi-call
 smartmontools
