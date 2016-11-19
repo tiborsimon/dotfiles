@@ -18,208 +18,126 @@ LINUX_PACKAGE_MANAGER=yum
 source functions/commons
 
 #----------------------------------------------------------------------------------------
-#  C O M M O N   F U N C T I O N S
+#  F U N C T I O N S
 #----------------------------------------------------------------------------------------
 
-is_osx () {
-    if [ $(uname -s) = 'Darwin' ]
-    then
-        return 0
-    else
-        return 1
-    fi
-}
-
 install_dotfiles () {
-    info 'Installing dotfiles..'
-    local overwrite_all=false backup_all=false skip_all=false
-    for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
-        dst="$HOME/.$(basename "${src%.*}")"
-        link_file "$src" "$dst"
-    done
+  info 'Installing dotfiles..'
+  local overwrite_all=false backup_all=false skip_all=false
+  for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
+    dst="$HOME/.$(basename "${src%.*}")"
+    link_file "$src" "$dst"
+  done
 }
 
 install_mc () {
-    info 'Installing mc config..'
-    if [ ! -d "$HOME/.config" ]; then
-        mkdir $HOME/.config
-    fi
-    local overwrite_all=false backup_all=false skip_all=false
-    link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
-    success 'Mc config installed'
+  info 'Installing mc config..'
+  if [ ! -d "$HOME/.config" ]; then
+    mkdir $HOME/.config
+  fi
+  local overwrite_all=false backup_all=false skip_all=false
+  link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
+  success 'Mc config installed'
 }
 
 install_vimplug () {
-    info 'Installing VimPlug..'
-    curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    success 'VimPlug installed!'
+  info 'Installing VimPlug..'
+  curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  success 'VimPlug installed!'
 }
 
 install_pip_tools () {
-    info 'Installing pip tools..'
-    pip install projects
-    pip install bpython
-    pip install exifread
-    pip install hachoir-metadata
-    pip install hachoir-core
-    pip install hachoir_parser
-    success 'Pip tools installed!'
+  info 'Installing pip tools..'
+  pip install projects
+  pip install bpython
+  success 'Pip tools installed!'
 }
 
 deploy_x240_touchpad_config () {
-    if [ $(hostname) = 'x240' ]; then
-        info 'Deploying x240 touchpad config..'
-        curl -fsSL https://gist.githubusercontent.com/tiborsimon/0c3f3de3e7accac0a7216214765bab99/raw/888144c608042e2faa82990d57cb9410a80e1268/touchpad.conf > /etc/X11/xorg.conf.d/touchpad.conf
-        success 'Touchpad config deployed.'
-    fi
+  if [ $(hostname) = 'x240' ]; then
+    info 'Deploying x240 touchpad config..'
+    curl -fsSL https://gist.githubusercontent.com/tiborsimon/0c3f3de3e7accac0a7216214765bab99/raw/888144c608042e2faa82990d57cb9410a80e1268/touchpad.conf > /etc/X11/xorg.conf.d/touchpad.conf
+    success 'Touchpad config deployed.'
+  fi
 }
 
 clone_essential_projects () {
-    info 'Cloning essential repositories..'
-    if [ ! -d ~/projects ]; then
-        mkdir ~/projects
-    fi
-    if [ ! -d ~/projects/notebook ]; then
-        git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
-    fi
-    if [ ! -d ~/projects/worklog ]; then
-        git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
-    fi
-    if [ ! -d ~/projects/site ]; then
-        git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
-    fi
-    success 'Essential repositories cloned.'
+  info 'Cloning essential repositories..'
+  if [ ! -d ~/projects ]; then
+    mkdir ~/projects
+  fi
+  if [ ! -d ~/projects/notebook ]; then
+    git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
+  fi
+  if [ ! -d ~/projects/worklog ]; then
+    git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
+  fi
+  if [ ! -d ~/projects/site ]; then
+    git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
+  fi
+  success 'Essential repositories cloned.'
 }
-
-#----------------------------------------------------------------------------------------
-#  O S X   R E L A T E D   F U N C T I O N S
-#----------------------------------------------------------------------------------------
-
-set_up_osx () {
-    info 'Configuring OSX..'
-    source osx/set-defaults.sh
-    success 'OSX configured!'
-}
-
-install_homebrew () {
-    if test ! $(which brew); then
-        info 'Installing Homebrew..'
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    else
-        success 'Homebrew is installed!'
-    fi
-}
-
-update_homebrew () {
-    while true; do
-        user "Do you want to update Homebrew?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-        read -n 1 action
-        case "$action" in
-            y ) info 'Updating Homebrew..'
-                if brew update; then
-                    success 'Homebrew is up-to-date!'
-                else
-                    fail 'Error during Homebrew update!'
-                fi
-                break
-                ;;
-            s ) success 'Skipped..'
-                break
-                ;;
-            * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-                ;;
-        esac
-    done
-}
-
-excute_brewfile () {
-    while true; do
-        user "Do you want to execute the Brewfile to install all your programs?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-        read -n 1 action
-
-        case "$action" in
-            y ) info 'Executing Brewfile..'
-                brew bundle -v  --file=osx/Brewfile
-                brew install ffmpeg --with-ffplay
-                success 'Brewfile executed. All apps are installed.'
-                break
-                ;;
-            s ) success 'Skipped..'
-                break
-                ;;
-            * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-                ;;
-        esac
-    done
-}
-
-install_emacs () {
-    info 'Installing emacs..'
-    brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
-    brew linkapps emacs
-    success 'Emacs installed'
-    info 'Installing emacs config..'
-    local overwrite_all=false backup_all=false skip_all=false
-    link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
-    success 'Emacs config installed'
-}
-
-#----------------------------------------------------------------------------------------
-#  L I N U X   R E L A T E D   F U N C T I O N S
-#----------------------------------------------------------------------------------------
 
 excute_linux_packages_file () {
-    while true; do
-        user "Do you want to install software packages?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-        read -n 1 action
-        case "$action" in
-            y ) user 'What is the package manager for this platform?'
-                read -e LINUX_PACKAGE_MANAGER
-                for app in $(cat $HOME/.dotfiles/linux/packages.txt); do
-                    info "Installing $app.."
-                    if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
-                        success "$app installed."
-                    else
-                        warning "$app installation failed! Error: \n$(cat pof)"
-                    fi
-                    rm -f pof
-                done
-                success 'Done'
-                break
-                ;;
-            s ) success 'Skipped..'
-                break
-                ;;
-            * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-                ;;
-        esac
-    done
+  while true; do
+    user "Do you want to install software packages?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) user 'What is the package manager for this platform?'
+        read -e LINUX_PACKAGE_MANAGER
+        for app in $(cat $HOME/.dotfiles/linux/packages.txt); do
+          info "Installing $app.."
+          if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
+            success "$app installed."
+          else
+            warning "$app installation failed! Error: \n$(cat pof)"
+          fi
+          rm -f pof
+        done
+        success 'Done'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
+
+deploy_synaptic_config_file () {
+  while true; do
+    user "Do you want to deploy the Synaptic Touchpad configuration file? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info "Deploying synaptic configuration file."
+        test -d /etc/X11/xorg.conf.d || sudo mkdir /etc/X11/xorg.conf.d
+        sudo ln -s ~/.dotfiles/xorg/50-synaptic.conf /etc/X11/xorg.conf.d/50-synaptic.conf
+        success "Synaptic configuration file deployed."
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
+}
+
 
 #----------------------------------------------------------------------------------------
 #  F U N C T I O N S   C A L L S
 #----------------------------------------------------------------------------------------
 
-if is_osx; then
-    info "Installing OS X related config"
-    install_dotfiles
-    set_up_osx
-    install_homebrew
-    update_homebrew
-    excute_brewfile
-    install_emacs
-    install_mc
-    install_vimplug
-    install_pip_tools
-    clone_essential_projects
-else
-    info "Installing Linux related config"
-    install_dotfiles
-    install_emacs
-    deploy_x240_touchpad_config
-    excute_linux_packages_file
-    install_mc
-    install_vimplug
-fi
+info "Installing Linux related config"
+install_dotfiles
+install_emacs
+deploy_x240_touchpad_config
+excute_linux_packages_file
+install_mc
+install_vimplug
+deploy_synaptic_config_file
 
 success 'Dotfiles has been deployed.'
