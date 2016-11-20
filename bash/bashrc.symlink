@@ -6,7 +6,7 @@ source $HOME/.dotfiles/bash/git-completion.bash
 
 
 if [ $(hostname) = 'tibor-x240' ]; then
-  xgamma -q -rgamma 0.8 -ggamma 0.7 -bgamma 0.6
+  xgamma -q -rgamma 0.9 -ggamma 0.8 -bgamma 0.7
 fi
 # typing repetion speed icrease
 xset r rate 200 53 > /dev/null
