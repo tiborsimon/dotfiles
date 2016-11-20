@@ -37,7 +37,15 @@ install_mc () {
   fi
   local overwrite_all=false backup_all=false skip_all=false
   link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
-  success 'Mc config installed'
+  success 'Mc config installed!'
+}
+
+install_kicad () {
+  info 'Installing KiCad..'
+  sudo add-apt-repository --yes ppa:js-reynaud/kicad-4
+  sudo apt update
+  sudo apt install kicad
+  success 'KiCad installed!'
 }
 
 install_vimplug () {
@@ -60,12 +68,12 @@ install_node_js () {
     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     sudo apt-get install -y nodejs
     success 'Node.js installed!'
+    info 'Installing global Node.js packages..'
+    sudo npm install --silent -g local-web-server
+    info 'Global Node.js packages installed!'
   else
     warning 'Node.js was already installed.. Nothing to do.'
   fi
-  info 'Installing global Node.js packages..'
-	sudo npm install --silent -g local-web-server
-  info 'Global Node.js packages installed!'
 }
 
 clone_essential_projects () {
@@ -145,5 +153,6 @@ install_node_js
 install_mc
 install_vimplug
 deploy_synaptic_config_file
+install_kicad
 
 success 'Dotfiles has been deployed.'

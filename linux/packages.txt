@@ -4,6 +4,7 @@ tmux
 mc
 cmake
 automake
+libtool
 python-pip
 python-dev
 python-setuptools
@@ -14,3 +15,4 @@ powertop
 htop
 acpi-call
 smartmontools
+libimage-exiftool-perl
