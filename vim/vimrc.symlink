@@ -220,6 +220,7 @@
     " Plug 'Valloric/YouCompleteMe'
     Plug 'tpope/vim-unimpaired'
     Plug 'sukima/xmledit'
+    Plug 'plasticboy/vim-markdown'
   call plug#end()
 
   "Plugin: Ack {{{
@@ -310,6 +311,10 @@
   "Plugin: GitGutter {{{
     let g:gitgutter_max_signs = 2000
   "}}} Plugin: GitGutter
+
+  "Plugin: Markdown {{{
+    let g:vim_markdown_folding_disabled = 1
+  "}}} Plugin: Markdown
 
   "Plugin: IndentLine {{{
     let g:indentLine_enabled = 0
