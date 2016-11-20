@@ -53,12 +53,19 @@ install_pip_tools () {
   success 'Pip tools installed!'
 }
 
-deploy_x240_touchpad_config () {
-  if [ $(hostname) = 'x240' ]; then
-    info 'Deploying x240 touchpad config..'
-    curl -fsSL https://gist.githubusercontent.com/tiborsimon/0c3f3de3e7accac0a7216214765bab99/raw/888144c608042e2faa82990d57cb9410a80e1268/touchpad.conf > /etc/X11/xorg.conf.d/touchpad.conf
-    success 'Touchpad config deployed.'
+install_node_js () {
+  info 'Installing Node.js..'
+	which node > /dev/null
+  if [[ $? != 0 ]]; then
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    success 'Node.js installed!'
+  else
+    warning 'Node.js was already installed.. Nothing to do.'
   fi
+  info 'Installing global Node.js packages..'
+	sudo npm install --silent -g local-web-server
+  info 'Global Node.js packages installed!'
 }
 
 clone_essential_projects () {
@@ -133,9 +140,8 @@ deploy_synaptic_config_file () {
 
 info "Installing Linux related config"
 install_dotfiles
-install_emacs
-deploy_x240_touchpad_config
 excute_linux_packages_file
+install_node_js
 install_mc
 install_vimplug
 deploy_synaptic_config_file
