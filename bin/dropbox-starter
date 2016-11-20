@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script is intended to reinitialize the dropbox client on startup.
+
+dropbox stop && DBUS_SESSION_BUS_ADDRESS="" dropbox start

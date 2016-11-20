@@ -5,13 +5,6 @@ source $HOME/.dotfiles/functions/commons
 source $HOME/.dotfiles/bash/git-completion.bash
 
 
-if [ $(hostname) = 'tibor-x240' ]; then
-  xgamma -q -rgamma 0.9 -ggamma 0.8 -bgamma 0.7
-fi
-# typing repetion speed icrease
-xset r rate 200 53 > /dev/null
-# map caps lock to ctrl
-setxkbmap -option ctrl:nocaps
 
 # ==============================================================================
 #  M A K E F I L E   A U T O C O M P L E T E
