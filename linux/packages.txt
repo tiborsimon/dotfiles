@@ -5,9 +5,6 @@ mc
 cmake
 automake
 libtool
-python-pip
-python-dev
-python-setuptools
 build-essential
 ack-grep
 tlp
@@ -16,3 +13,4 @@ htop
 acpi-call
 smartmontools
 libimage-exiftool-perl
+xbacklight

@@ -30,6 +30,23 @@ install_dotfiles () {
   done
 }
 
+install_python () {
+  info 'Installing pip and python dev tools..'
+  sudo apt-get install python-pip python-dev python-setuptools
+  success 'pip and python dev tools installed!'
+  info 'Installing pip3..'
+  sudo apt-get install python3-pip
+  success 'pip3 installed!'
+  info 'Upgrading pip and pip3..'
+  sudo -H pip2 install --upgrade pip
+  sudo -H pip3 install --upgrade pip
+  success 'pip and pip3 upgraded!'
+  info 'Installing necessary packages..'
+  sudo -H pip2 install setuptools virtualenv projects
+  sudo -H pip3 install setuptools virtualenv jupyter
+  success 'Packages installed!'
+}
+
 install_mc () {
   info 'Installing mc config..'
   if [ ! -d "$HOME/.config" ]; then
@@ -149,10 +166,10 @@ deploy_synaptic_config_file () {
 info "Installing Linux related config"
 install_dotfiles
 excute_linux_packages_file
+install_python
 install_node_js
 install_mc
 install_vimplug
-deploy_synaptic_config_file
 install_kicad
 
 success 'Dotfiles has been deployed.'
