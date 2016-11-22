@@ -1,9 +1,9 @@
 if [ $(hostname) = 'tibor-x240' ]; then
-  xgamma -q -rgamma 0.9 -ggamma 0.8 -bgamma 0.7
+  xgamma -q -rgamma 1.5 -ggamma 1.2 -bgamma 1.1
 fi
 
 # typing repetion speed icrease
-xset r rate 200 53 > /dev/null
+xset r rate 200 73 > /dev/null
 
 # map caps lock to ctrl
 setxkbmap -option ctrl:nocaps
