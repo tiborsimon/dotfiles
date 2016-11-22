@@ -47,6 +47,9 @@ alias ..='cd ..'
 
 alias p='. p'
 
+alias bpython2='python2 -m bpython'
+alias bpython3='python3 -m bpython'
+
 
 # ==============================================================================
 #  P R O M P T
