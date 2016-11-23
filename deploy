@@ -45,7 +45,7 @@ install_python () {
   sudo -H pip2 install setuptools
   sudo -H pip3 install setuptools
   sudo -H pip2 install setuptools virtualenv projects bpython
-  sudo -H pip3 install setuptools virtualenv jupyter bpython
+  sudo -H pip3 install setuptools virtualenv jupyter bpython matplotlib
   success 'Packages installed!'
 }
 
