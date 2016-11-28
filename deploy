@@ -173,5 +173,5 @@ install_node_js
 install_mc
 install_vimplug
 install_kicad
-
+deploy_synaptic_config_file
 success 'Dotfiles has been deployed.'
