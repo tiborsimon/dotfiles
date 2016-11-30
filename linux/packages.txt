@@ -1,4 +1,3 @@
-git
 vim
 tmux
 mc
@@ -14,3 +13,6 @@ acpi-call
 smartmontools
 libimage-exiftool-perl
 xbacklight
+compiz
+compiz-plugins
+compizconfig-settings-manager
