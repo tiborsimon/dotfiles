@@ -1,3 +1,5 @@
+tree
+screen
 vim
 tmux
 mc
