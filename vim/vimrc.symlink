@@ -8,6 +8,8 @@
   set pastetoggle=
   set nosi noai
 
+  set clipboard=unnamedplus
+
   runtime macros/matchit.vim
 
   " Tab management: http://stackoverflow.com/a/1878983/1565331
