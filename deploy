@@ -140,15 +140,16 @@ excute_linux_packages_file () {
   done
 }
 
-deploy_synaptic_config_file () {
+deploy_xorg_config_files () {
   while true; do
-    user "Do you want to deploy the Synaptic Touchpad configuration file? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    user "Do you want to deploy the Xorg configuration files? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
     read -n 1 action
     case "$action" in
-      y ) info "Deploying synaptic configuration file."
+      y ) info "Deploying xorg configuration files."
         test -d /etc/X11/xorg.conf.d || sudo mkdir /etc/X11/xorg.conf.d
+        sudo ln -s ~/.dotfiles/xorg/20-intel.conf /etc/X11/xorg.conf.d/20-intel.conf
         sudo ln -s ~/.dotfiles/xorg/50-synaptic.conf /etc/X11/xorg.conf.d/50-synaptic.conf
-        success "Synaptic configuration file deployed."
+        success "Xorg configuration files deployed."
         break
         ;;
       s ) success 'Skipped..'
@@ -173,5 +174,5 @@ install_node_js
 install_mc
 install_vimplug
 install_kicad
-deploy_synaptic_config_file
+deploy_xorg_config_files
 success 'Dotfiles has been deployed.'
