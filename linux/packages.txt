@@ -1,6 +1,6 @@
 tree
 screen
-vim
+vim-gtk
 tmux
 mc
 cmake
