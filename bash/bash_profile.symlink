@@ -1,5 +1,5 @@
 if [ $(hostname) = 'tibor-ThinkPad-X240' ]; then
-  xgamma -q -rgamma 1.1 -ggamma 0.9 -bgamma 0.9
+  xgamma -q -rgamma 0.93 -ggamma 0.9 -bgamma 0.76
 fi
 
 # typing repetion speed icrease
