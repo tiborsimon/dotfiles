@@ -20,7 +20,7 @@
 (require 'my-core)
 (require 'my-functions)
 (require 'my-evil)
-(require 'my-eyecandy)
+; (require 'my-eyecandy)
 (require 'my-dired)
 ;; (require 'my-buffers)
 (require 'my-projects)

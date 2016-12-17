@@ -45,7 +45,7 @@ install_python () {
   sudo -H pip2 install setuptools
   sudo -H pip3 install setuptools
   sudo -H pip2 install setuptools virtualenv projects bpython
-  sudo -H pip3 install setuptools virtualenv jupyter bpython matplotlib
+  sudo -H pip3 install setuptools virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
   success 'Packages installed!'
 }
 
@@ -161,6 +161,16 @@ deploy_xorg_config_files () {
   done
 }
 
+install_emacs () {
+    info 'Installing emacs..'
+    brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
+    brew linkapps emacs
+    success 'Emacs installed'
+    info 'Installing emacs config..'
+    local overwrite_all=false backup_all=false skip_all=false
+    link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
+    success 'Emacs config installed'
+}
 
 #----------------------------------------------------------------------------------------
 #  F U N C T I O N S   C A L L S
@@ -172,6 +182,7 @@ excute_linux_packages_file
 install_python
 install_node_js
 install_mc
+install_emacs
 install_vimplug
 install_kicad
 deploy_xorg_config_files
