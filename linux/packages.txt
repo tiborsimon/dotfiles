@@ -18,3 +18,4 @@ xbacklight
 compiz
 compiz-plugins
 compizconfig-settings-manager
+python3-tk
