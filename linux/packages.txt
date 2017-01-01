@@ -19,3 +19,8 @@ compiz
 compiz-plugins
 compizconfig-settings-manager
 python3-tk
+tuxguitar
+tuxguitar-alsa
+tuxguitar-oss
+tuxguitar-jsa
+timidity
