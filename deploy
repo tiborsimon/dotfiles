@@ -44,8 +44,8 @@ install_python () {
   info 'Installing necessary packages..'
   pip2 install --user setuptools
   pip3 install --user setuptools
-  pip2 install --user setuptools virtualenv projects bpython
-  pip3 install --user setuptools virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
+  pip2 install --user wheel virtualenv bpython projects
+  pip3 install --user wheel twine virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
   success 'Packages installed!'
 }
 
@@ -63,7 +63,7 @@ install_kicad () {
   info 'Installing KiCad..'
   sudo add-apt-repository --yes ppa:js-reynaud/kicad-4
   sudo apt update
-  sudo apt install kicad
+  sudo apt install kicad kicad-libraries
   success 'KiCad installed!'
 }
 
