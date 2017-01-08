@@ -20,3 +20,8 @@ compiz-plugins
 compizconfig-settings-manager
 python3-tk
 ffmpeg
+tuxguitar
+tuxguitar-alsa
+tuxguitar-oss
+tuxguitar-jsa
+timidity
