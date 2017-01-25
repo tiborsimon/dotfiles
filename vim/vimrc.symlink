@@ -61,11 +61,11 @@
   set nostartofline      " When moving thru the lines, the cursor will try to stay in the previous columns"
 
   " Search Options
-  set hlsearch   " Highlight search
-  set incsearch  " Incremental search
-  set magic      " Set magic on, for regular expressions
-  set ignorecase " Searches are Non Case-sensitive
-  set smartcase  " Overrides ignorecase, if search contains uppercase character
+  set hlsearch           " Highlight search
+  set incsearch          " Incremental search
+  set magic              " Set magic on, for regular expressions
+  set ignorecase         " Searches are Non Case-sensitive
+  set smartcase          " Overrides ignorecase, if search contains uppercase character
 
 "}}} General Vim config
 
@@ -91,8 +91,10 @@
   autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
   autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
   autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>db oimport pdb; pdb.set_trace()<esc>j^
-  autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd Filetype python nnoremap <buffer> <leader>pdb oimport pdb; pdb.set_trace()<esc>j^
+  autocmd Filetype python nnoremap <buffer> <leader>pudb oimport pudb; pudb.set_trace()<esc>j^
+  autocmd Filetype python nnoremap <buffer> <leader>ipdb oimport ipdb; ipdb.set_trace()<esc>j^
+  autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
 
   " Convenient mappings
   nnoremap <leader>w :w<cr>
