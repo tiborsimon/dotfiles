@@ -12,7 +12,7 @@
 #
 # Usage: run the script from the ~/.dotfiles folder.
 
-LINUX_PACKAGE_MANAGER=yum
+LINUX_PACKAGE_MANAGER=apt-get
 
 #set -e
 source functions/commons
@@ -31,85 +31,157 @@ install_dotfiles () {
 }
 
 install_python () {
-  info 'Installing pip and python dev tools..'
-  sudo apt-get install python-pip python-dev python-setuptools
-  success 'pip and python dev tools installed!'
-  info 'Installing pip3..'
-  sudo apt-get install python3-pip
-  success 'pip3 installed!'
-  info 'Upgrading pip and pip3..'
-  pip2 install --user --upgrade pip
-  pip3 install --user --upgrade pip
-  success 'pip and pip3 upgraded!'
-  info 'Installing necessary packages..'
-  pip2 install --user setuptools
-  pip3 install --user setuptools
-  pip2 install --user wheel virtualenv bpython projects
-  pip3 install --user wheel twine virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
-  success 'Packages installed!'
+  while true; do
+    user "Do you want setup the Python environment? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info 'Installing Python environment..'
+        info 'Installing pip and python dev tools..'
+        sudo apt-get install python-pip python-dev python-setuptools
+        success 'pip and python dev tools installed!'
+        info 'Installing pip3..'
+        sudo apt-get install python3-pip
+        success 'pip3 installed!'
+        info 'Upgrading pip and pip3..'
+        pip2 install --user --upgrade pip
+        pip3 install --user --upgrade pip
+        success 'pip and pip3 upgraded!'
+        info 'Installing necessary packages..'
+        pip2 install --user setuptools
+        pip3 install --user setuptools
+        pip2 install --user wheel virtualenv bpython projects
+        pip3 install --user wheel twine virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
+        success 'Packages installed!'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 install_mc () {
-  info 'Installing mc config..'
-  if [ ! -d "$HOME/.config" ]; then
-    mkdir $HOME/.config
-  fi
-  local overwrite_all=false backup_all=false skip_all=false
-  link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
-  success 'Mc config installed!'
+  while true; do
+    user "Do you want deploy MC configuration? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info 'Deploying MC configuration..'
+        if [ ! -d "$HOME/.config" ]; then
+          mkdir $HOME/.config
+        fi
+        local overwrite_all=false backup_all=false skip_all=false
+        link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
+        success 'Mc config installed!'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 install_kicad () {
-  info 'Installing KiCad..'
-  sudo add-apt-repository --yes ppa:js-reynaud/kicad-4
-  sudo apt update
-  sudo apt install kicad kicad-libraries
-  success 'KiCad installed!'
+  while true; do
+    user "Do you want to KiCad? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info 'Installing KiCad..'
+        sudo add-apt-repository --yes ppa:js-reynaud/kicad-4
+        sudo apt update
+        sudo apt install kicad kicad-libraries
+        success 'KiCad installed!'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 install_vimplug () {
-  info 'Installing VimPlug..'
-  curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  success 'VimPlug installed!'
-}
-
-install_pip_tools () {
-  info 'Installing pip tools..'
-  pip install projects
-  pip install bpython
-  success 'Pip tools installed!'
+  while true; do
+    user "Do you want to install VimPlug? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info "Installing VimPlug.."
+        curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        success 'VimPlug installed!'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 install_node_js () {
-  info 'Installing Node.js..'
-	which node > /dev/null
-  if [[ $? != 0 ]]; then
-    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    success 'Node.js installed!'
-    info 'Installing global Node.js packages..'
-    sudo npm install --silent -g local-web-server
-    info 'Global Node.js packages installed!'
-  else
-    warning 'Node.js was already installed.. Nothing to do.'
-  fi
+  while true; do
+    user "Do you want to install Node.js and the essential npm tools? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info "Installing Node.js and essential tools with it.."
+        which node > /dev/null
+        if [[ $? != 0 ]]; then
+          curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          success 'Node.js installed!'
+          info 'Installing global Node.js packages..'
+          sudo npm install --silent -g local-web-server
+          info 'Global Node.js packages installed!'
+        else
+          warning 'Node.js was already installed.. Nothing to do.'
+        fi
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 clone_essential_projects () {
-  info 'Cloning essential repositories..'
-  if [ ! -d ~/projects ]; then
-    mkdir ~/projects
-  fi
-  if [ ! -d ~/projects/notebook ]; then
-    git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
-  fi
-  if [ ! -d ~/projects/worklog ]; then
-    git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
-  fi
-  if [ ! -d ~/projects/site ]; then
-    git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
-  fi
-  success 'Essential repositories cloned.'
+  while true; do
+    user "Do you want to clone the essential repositories?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info 'Cloning essential repositories..'
+        if [ ! -d ~/projects ]; then
+          mkdir ~/projects
+        fi
+        if [ ! -d ~/projects/notebook ]; then
+          git clone --depth 1 git@github.com:tiborsimon/notebook.git ~/projects/notebook
+        fi
+        if [ ! -d ~/projects/worklog ]; then
+          git clone --depth 1 git@github.com:tiborsimon/worklog.git ~/projects/worklog
+        fi
+        if [ ! -d ~/projects/site ]; then
+          git clone --depth 1 git@github.com:tiborsimon/tiborsimon.io-core.git ~/projects/site
+        fi
+        success 'Essential repositories cloned.'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 excute_linux_packages_file () {
@@ -162,14 +234,27 @@ deploy_xorg_config_files () {
 }
 
 install_emacs () {
-    info 'Installing emacs..'
-    brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
-    brew linkapps emacs
-    success 'Emacs installed'
-    info 'Installing emacs config..'
-    local overwrite_all=false backup_all=false skip_all=false
-    link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
-    success 'Emacs config installed'
+  while true; do
+    user "Do you want to install emacs and its configuration? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
+    read -n 1 action
+    case "$action" in
+      y ) info "Installing emacs and its configuration.."
+        brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
+        brew linkapps emacs
+        success 'Emacs installed'
+        info 'Installing emacs config..'
+        local overwrite_all=false backup_all=false skip_all=false
+        link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
+        success 'Emacs config installed'
+        break
+        ;;
+      s ) success 'Skipped..'
+        break
+        ;;
+      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
+        ;;
+    esac
+  done
 }
 
 #----------------------------------------------------------------------------------------
