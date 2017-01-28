@@ -20,8 +20,10 @@ from subprocess import Popen, PIPE
 __all__ = ["Print"]
 
 try:
+    python3 = True
     Print = eval("print")  # python 3.0 case
 except SyntaxError:
+    python3 = False
     D = dict()
     try:
         exec ("from __future__ import print_function\np=print", D)
@@ -137,4 +139,7 @@ out = ' '.join([
     str(clean)
 ])
 
-Print(out.encode('utf-8'))
+if python3:
+    Print(out)
+else:
+    Print(out.encode('utf-8'))
