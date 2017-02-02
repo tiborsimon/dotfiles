@@ -2,7 +2,7 @@
 " Started on 2016-03-14
 
 "General Vim config {{{
-  colorscheme slate
+  colorscheme torte
 
   " Solving paste issue with comments
   set pastetoggle=
