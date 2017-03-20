@@ -16,7 +16,14 @@ def main():
     parser.add_argument('-o', dest='oname', default='bookmarks.md', help='output file name, default is "bookmarks.md"')
     args = parser.parse_args()
 
-    files = glob.glob('.vim-bookmarks')
+    import fnmatch
+    import os
+
+    files = []
+    for root, dirnames, filenames in os.walk('.'):
+          for filename in fnmatch.filter(filenames, '.vim-bookmarks'):
+                    files.append(os.path.join(root, filename))
+    # files = glob.iglob('**/.vim-bookmarks', recursive=True)
     if not files:
         print('No .vim-bookmarks files were found. Nothing to do..')
         sys.exit(1)
@@ -36,7 +43,8 @@ def main():
                     output.append('')
                     output.append('|@|Current content of line|Comment|')
                     output.append('|:--:|:---|:---|')
-                    for bookmark in data[main_key][path]:
+                    bookmarks = sorted(data[main_key][path], key=lambda i: i['line_nr'])
+                    for bookmark in bookmarks:
                         output.append('|{}|`{}`|{}|'.format(
                             bookmark['line_nr'],
                             bookmark['content'],
