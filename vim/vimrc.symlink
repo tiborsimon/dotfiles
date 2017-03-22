@@ -73,6 +73,7 @@
   " Essentials
   let mapleader="\<Space>"
   nnoremap ; :
+  vnoremap ; :
   nnoremap j gj
   nnoremap k gk
   set pastetoggle=<leader><F3>
@@ -122,9 +123,9 @@
   " Window related remappings
   nnoremap <leader>sv <C-w>v
   nnoremap <leader>sh <C-w>s
-  nnoremap <F7> :vertical resize +1<cr>
+  nnoremap <F9> :vertical resize +1<cr>
   nnoremap <F6> :vertical resize -1<cr>
-  nnoremap <F9> :resize +1<cr>
+  nnoremap <F7> :resize +1<cr>
   nnoremap <F8> :resize -1<cr>
   nnoremap <leader>vsa :vert sba<cr>
   nnoremap <C-h> <C-w>h
