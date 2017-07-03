@@ -96,7 +96,8 @@
   autocmd Filetype python nnoremap <buffer> <leader>pdb oimport pdb; pdb.set_trace()<esc>j^
   autocmd Filetype python nnoremap <buffer> <leader>pudb oimport pudb; pudb.set_trace()<esc>j^
   autocmd Filetype python nnoremap <buffer> <leader>ipdb oimport ipdb; ipdb.set_trace()<esc>j^
-  autocmd Filetype python nnoremap <buffer> <leader>py :! clear && python %<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>p3 :! clear && python3 %<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>p2 :! clear && python2 %<cr>
   autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
 
   " Convenient mappings
