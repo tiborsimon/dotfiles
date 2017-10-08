@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-dot_clean .
-
 for file in $(find . \( -name "*.mp4" -o -name "*.MP4" -o -name "*.mov" -o -name "*.MOV" \)); do
     printf "Processing ${file}.."
     mv ${file} "${file}_original"

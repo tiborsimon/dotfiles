@@ -38,14 +38,14 @@ install_python () {
   sudo apt-get install python3-pip
   success 'pip3 installed!'
   info 'Upgrading pip and pip3..'
-  sudo -H pip2 install --upgrade pip
-  sudo -H pip3 install --upgrade pip
+  pip2 install --user --upgrade pip
+  pip3 install --user --upgrade pip
   success 'pip and pip3 upgraded!'
   info 'Installing necessary packages..'
-  sudo -H pip2 install setuptools
-  sudo -H pip3 install setuptools
-  sudo -H pip2 install setuptools virtualenv projects bpython
-  sudo -H pip3 install setuptools virtualenv jupyter bpython matplotlib
+  pip2 install --user setuptools
+  pip3 install --user setuptools
+  pip2 install --user wheel virtualenv bpython projects
+  pip3 install --user wheel twine virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
   success 'Packages installed!'
 }
 
@@ -63,7 +63,7 @@ install_kicad () {
   info 'Installing KiCad..'
   sudo add-apt-repository --yes ppa:js-reynaud/kicad-4
   sudo apt update
-  sudo apt install kicad
+  sudo apt install kicad kicad-libraries
   success 'KiCad installed!'
 }
 
@@ -161,6 +161,16 @@ deploy_xorg_config_files () {
   done
 }
 
+install_emacs () {
+    info 'Installing emacs..'
+    brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
+    brew linkapps emacs
+    success 'Emacs installed'
+    info 'Installing emacs config..'
+    local overwrite_all=false backup_all=false skip_all=false
+    link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
+    success 'Emacs config installed'
+}
 
 #----------------------------------------------------------------------------------------
 #  F U N C T I O N S   C A L L S
@@ -172,6 +182,7 @@ excute_linux_packages_file
 install_python
 install_node_js
 install_mc
+install_emacs
 install_vimplug
 install_kicad
 deploy_xorg_config_files

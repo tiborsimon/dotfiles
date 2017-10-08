@@ -18,7 +18,7 @@ GITHUB_USERNAME=tiborsimon
 REPO_NAME=dotfiles
 SSH_KEY=~/.ssh/id_rsa
 
-source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/functions/commons)
+source <(curl -fsSLk https://raw.githubusercontent.com/tiborsimon/dotfiles/master/functions/commons)
 
 #----------------------------------------------------------------------------------------
 #  C O M M O N   F U N C T I O N S

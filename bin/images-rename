@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Clean up the OSX turd..
-dot_clean .
-
 # Update missing DateOriginalDate if missing
 # https://gist.github.com/rjames86/33b9af12548adf091a26
 echo "Updating missing metadata.."
