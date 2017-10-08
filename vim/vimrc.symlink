@@ -79,7 +79,7 @@
 
   " Vimrc handling
   nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
-  nnoremap <leader>l :so ~/.vimrc<CR>
+  nnoremap <leader>l :so ~/.vimrc<cr>
 
   "General make mapping
   nnoremap <leader>mm :!clear && make<cr>
@@ -180,7 +180,7 @@
     Plug 'vim-scripts/utl.vim'
     Plug 'tpope/vim-commentary'
     Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'chrisbra/vim-diff-enhanced'
+    " Plug 'chrisbra/vim-diff-enhanced'
     Plug 'dkprice/vim-easygrep'
     " Plug 'terryma/vim-expand-region'
     Plug 'easymotion/vim-easymotion'
@@ -198,14 +198,14 @@
     Plug 'scrooloose/nerdcommenter'
     Plug 'elzr/vim-json'
     Plug 'pangloss/vim-javascript'
-    Plug 'scrooloose/syntastic'
+    " Plug 'scrooloose/syntastic'
     Plug 'garbas/vim-snipmate'
     Plug 'godlygeek/tabular'
     Plug 'MarcWeber/vim-addon-mw-utils'
     Plug 'vim-scripts/tlib'
     Plug 'honza/vim-snippets'
     Plug 'jceb/vim-orgmode'
-    Plug 'nvie/vim-flake8'
+    " Plug 'nvie/vim-flake8'
     Plug 'dbakker/vim-projectroot'
     Plug 'tpope/vim-rsi'
     Plug 'tpope/vim-speeddating'
