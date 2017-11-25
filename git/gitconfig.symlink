@@ -3,7 +3,7 @@
     name = Tibor Simon
 
 [push]
-    default = matching
+	default = simple
 
 [alias]
     lg   = !"git lg-specific"

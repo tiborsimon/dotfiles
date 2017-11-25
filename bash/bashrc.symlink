@@ -45,10 +45,14 @@ alias ls='ls -h --color --group-directories-first'
 alias gs='git status'
 alias ..='cd ..'
 
-alias p='. p'
+alias r='ranger'
 
 alias bpython2='python2 -m bpython'
 alias bpython3='python3 -m bpython'
+
+mkdc() {
+  mkdir "$1" && cd "$1"
+}
 
 
 # ==============================================================================
