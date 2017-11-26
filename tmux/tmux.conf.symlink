@@ -13,36 +13,18 @@ set -g prefix C-Space
 unbind-key C-b
 bind-key C-Space send-prefix
 
+# reload configuration
+bind r source-file ~/.tmux.conf
+
+# history limit
 set -g history-limit 10240
-
-# Start windows and panes at 1, not 0
-set -g base-index 1
-setw -g pane-base-index 1
-
-# split panes using | and -
-bind | split-window -h
-bind - split-window -v
-unbind '"'
-unbind %
-
-# vim-like pane resizing
-bind -r C-k resize-pane -U
-bind -r C-j resize-pane -D
-bind -r C-h resize-pane -L
-bind -r C-l resize-pane -R
-bind -n M-z resize-pane -Z
-
-# vim-like pane switching
-bind -r k select-pane -U
-bind -r j select-pane -D
-bind -r h select-pane -L
-bind -r l select-pane -R
 
 # Enable mouse control (clickable windows, panes, resizable panes)
 set -g mouse on
 
-# reload configuration
-bind r source-file ~/.tmux.conf
+# Start windows and panes at 1, not 0
+set -g base-index 1
+setw -g pane-base-index 1
 
 # Pane switching
 bind -n M-h select-pane -L
@@ -53,6 +35,13 @@ bind -n M-j select-pane -D
 # Moving between windows
 bind -n C-M-h previous-window
 bind -n C-M-l next-window
+
+# vim-like pane resizing
+bind -r C-k resize-pane -U
+bind -r C-j resize-pane -D
+bind -r C-h resize-pane -L
+bind -r C-l resize-pane -R
+bind -n M-z resize-pane -Z
 
 # Clipboard settings
 bind P paste-buffer
@@ -79,6 +68,7 @@ unbind C-Right
 # make tmux display things in 256 colors
 set -g default-terminal "screen-256color"
 
+# Appearance settings
 set -g status-bg "colour233"
 set -g message-command-fg "colour247"
 set -g status-justify "left"
