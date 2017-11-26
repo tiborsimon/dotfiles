@@ -8,6 +8,8 @@ OS X and Linux configurations. This project is partially based on
 
 # TMUX
 
+
+| --------------------------------- | ---------------------- |
 | <kbd>prefix</kbd> + <kbd>I</kbd>  | Install tmux plugins.  |
 | Content Cell  | Content Cell  |
 
