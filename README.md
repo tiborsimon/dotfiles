@@ -39,7 +39,7 @@ New faster navigation added.
 | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>h</kbd>  | Switch to previous window.  |
 | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>l</kbd>  | Switch to next window.  |
 | <kbd>Alt</kbd> + <kbd>z</kbd>  | Zoom into pane.  |
-| <kbd>prefix</kbd> + <kbd>|</kbd>  | Divide pane vertically. |
+| <kbd>prefix</kbd> + <kbd>\|</kbd>  | Divide pane vertically. |
 | <kbd>prefix</kbd> + <kbd>-</kbd>  | Divide pane horizontally.  |
 | <kbd>prefix</kbd> + <kbd>Ctrl</kbd> + <kbd>h</kbd> | Resize pane left. |
 | <kbd>prefix</kbd> + <kbd>Ctrl</kbd> + <kbd>j</kbd> | Resize pane down. |
