@@ -106,6 +106,63 @@ function __prompt_command() {
 
 
 # ==============================================================================
+#  V I R T U A L E N V W R A P P E R   C O N F I G
+#
+
+export WORKON_HOME=~/Envs
+mkdir -p $WORKON_HOME
+source $(which virtualenvwrapper.sh)
+
+myenv-make() {
+  mkvirtualenv $@
+}
+
+myenv-maketemp() {
+  mktmpenv $@
+}
+
+myenv-ls() {
+  lsvirtualenv $@
+}
+
+myenv-show() {
+  showvirtualenv $@
+}
+
+myenv-rm() {
+  rmvirtualenv $@
+}
+
+myenv-cp() {
+  cpvirtualenv $@
+}
+
+myenv-all() {
+  allvirtualenv $@
+}
+
+myenv-workon() {
+  workon $@
+}
+
+myenv-deactivate() {
+  deactivate $@
+}
+
+myenv-cd() {
+  cdvirtualenv $@
+}
+
+myenv-cdsite() {
+  cdsitepackages $@
+}
+
+myenv-lssite() {
+  lssitepackages $@
+}
+
+
+# ==============================================================================
 #  P A T H   D E F I N I T I O N
 #
 
