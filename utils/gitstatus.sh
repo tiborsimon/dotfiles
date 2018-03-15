@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-source $HOME/.dotfiles/functions/commons
-read branch remote staged conflicts changed untracked stashed clean <<<$(python $HOME/.dotfiles/bash/gitstatus.py)
+source $HOME/.dotfiles/utils/commons
+read branch remote staged conflicts changed untracked stashed clean <<<$(python $HOME/.dotfiles/utils/gitstatus.py)
 
 if [[ -z $branch ]]; then 
   exit 0

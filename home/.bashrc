@@ -1,9 +1,8 @@
 export EDITOR='vim'
 export PROJECTS="$HOME/projects"
 
-source $HOME/.dotfiles/functions/commons
-source $HOME/.dotfiles/bash/git-completion.bash
-
+source $HOME/.dotfiles/utils/commons
+source $HOME/.dotfiles/utils/git-completion.bash
 
 
 # ==============================================================================
@@ -51,13 +50,6 @@ alias ..='cd ..'
 
 alias r='ranger'
 
-alias bpython2='python2 -m bpython'
-alias bpython3='python3 -m bpython'
-
-mkdc() {
-  mkdir "$1" && cd "$1"
-}
-
 
 # ==============================================================================
 #  P R O M P T
@@ -81,7 +73,7 @@ function __prompt_command() {
     PS1="\n${PYTHON_VIRTUALENV}\[${BoldWhite}\]\u\[${ResetColor}\] at \[${BoldWhite}\]\h\[${ResetColor}\] in \[${BoldWhite}\]\w\[${ResetColor}\]"
 
     if [[ ! -f .ignore-git-status ]]; then
-        local git_status="$($HOME/.dotfiles/bash/gitstatus.sh)"
+        local git_status="$($HOME/.dotfiles/utils/gitstatus.sh)"
         if [[ ! -z $git_status ]]; then
             PS1+="${git_status}\n"
         else

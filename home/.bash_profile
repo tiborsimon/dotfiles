@@ -1,7 +1,3 @@
-# if [ $(hostname) = 'x240' ]; then
-#   xgamma -q -rgamma 0.93 -ggamma 0.9 -bgamma 0.76
-# fi
-
 # typing repetion speed icrease
 xset r rate 250 83 > /dev/null
 

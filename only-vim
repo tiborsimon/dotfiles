@@ -13,7 +13,7 @@
 #
 # Usage: issue the following command on your machine: sh <(curl -fsSL tiborsimon.io/vimrc)
 
-source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/functions/commons)
+source <(curl -fsSL https://raw.githubusercontent.com/tiborsimon/dotfiles/master/utils/commons)
 
 echo ''
 echo '---------------------------------------------------------------------------------'

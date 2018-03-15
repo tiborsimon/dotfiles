@@ -12,10 +12,8 @@
 #
 # Usage: run the script from the ~/.dotfiles folder.
 
-LINUX_PACKAGE_MANAGER=apt-get
-
 #set -e
-source functions/commons
+source utils/commons
 
 #----------------------------------------------------------------------------------------
 #  F U N C T I O N S
@@ -24,107 +22,12 @@ source functions/commons
 install_dotfiles () {
   info 'Installing dotfiles..'
   local overwrite_all=false backup_all=false skip_all=false
-  for src in $(find -H "$HOME/.dotfiles" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
-    dst="$HOME/.$(basename "${src%.*}")"
+  for src in $(find -H "$HOME/.dotfiles/home" -mindepth 1 -maxdepth 1); do
+    dst="$HOME/$(basename "${src}")"
     link_file "$src" "$dst"
   done
 }
 
-install_python () {
-  while true; do
-    user "Do you want setup the Python environment? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) info 'Installing Python environment..'
-        info 'Installing pip and python dev tools..'
-        sudo apt-get install python-pip python-dev python-setuptools
-        success 'pip and python dev tools installed!'
-        info 'Installing pip3..'
-        sudo apt-get install python3-pip
-        success 'pip3 installed!'
-        info 'Upgrading pip and pip3..'
-        pip2 install --user --upgrade pip
-        pip3 install --user --upgrade pip
-        success 'pip and pip3 upgraded!'
-        info 'Installing necessary packages..'
-        pip2 install --user setuptools
-        pip3 install --user setuptools
-        pip2 install --user wheel virtualenv bpython projects
-        pip3 install --user wheel twine virtualenv bpython numpy scipy matplotlib ipython jupyter pandas sympy nose
-        success 'Packages installed!'
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
-
-install_mc () {
-  while true; do
-    user "Do you want deploy MC configuration? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) info 'Deploying MC configuration..'
-        if [ ! -d "$HOME/.config" ]; then
-          mkdir $HOME/.config
-        fi
-        local overwrite_all=false backup_all=false skip_all=false
-        link_file "$HOME/.dotfiles/mc" "$HOME/.config/mc"
-        success 'Mc config installed!'
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
-
-install_kicad () {
-  while true; do
-    user "Do you want to KiCad? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) info 'Installing KiCad..'
-        sudo add-apt-repository --yes ppa:js-reynaud/kicad-4
-        sudo apt update
-        sudo apt install kicad kicad-libraries
-        success 'KiCad installed!'
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
-
-install_vimplug () {
-  while true; do
-    user "Do you want to install VimPlug? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) info "Installing VimPlug.."
-        curl -sSfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        success 'VimPlug installed!'
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
 
 install_node_js () {
   while true; do
@@ -184,91 +87,10 @@ clone_essential_projects () {
   done
 }
 
-excute_linux_packages_file () {
-  while true; do
-    user "Do you want to install software packages?  [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) user 'What is the package manager for this platform?'
-        read -e LINUX_PACKAGE_MANAGER
-        for app in $(cat $HOME/.dotfiles/linux/packages.txt); do
-          info "Installing $app.."
-          if sudo $LINUX_PACKAGE_MANAGER install -y $app>pof 2>&1; then
-            success "$app installed."
-          else
-            warning "$app installation failed! Error: \n$(cat pof)"
-          fi
-          rm -f pof
-        done
-        success 'Done'
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
-
-deploy_xorg_config_files () {
-  while true; do
-    user "Do you want to deploy the Xorg configuration files? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) info "Deploying xorg configuration files."
-        test -d /etc/X11/xorg.conf.d || sudo mkdir /etc/X11/xorg.conf.d
-        sudo ln -s ~/.dotfiles/xorg/20-intel.conf /etc/X11/xorg.conf.d/20-intel.conf
-        sudo ln -s ~/.dotfiles/xorg/50-synaptic.conf /etc/X11/xorg.conf.d/50-synaptic.conf
-        success "Xorg configuration files deployed."
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
-
-install_emacs () {
-  while true; do
-    user "Do you want to install emacs and its configuration? [${BoldGreen}y${ResetColor}]es, [${BoldGreen}s${ResetColor}]kip"
-    read -n 1 action
-    case "$action" in
-      y ) info "Installing emacs and its configuration.."
-        brew install emacs --HEAD --use-git-head --with-cocoa --with-gnutls --with-rsvg --with-imagemagick --with-ns
-        brew linkapps emacs
-        success 'Emacs installed'
-        info 'Installing emacs config..'
-        local overwrite_all=false backup_all=false skip_all=false
-        link_file "$HOME/.dotfiles/emacs" "$HOME/.emacs.d"
-        success 'Emacs config installed'
-        break
-        ;;
-      s ) success 'Skipped..'
-        break
-        ;;
-      * ) warning "Wrong answer! Type ${BoldGreen}y${ResetColor} or ${BoldGreen}s${ResetColor}."
-        ;;
-    esac
-  done
-}
 
 #----------------------------------------------------------------------------------------
 #  F U N C T I O N S   C A L L S
 #----------------------------------------------------------------------------------------
 
-info "Installing Linux related config"
 install_dotfiles
-excute_linux_packages_file
-install_python
-install_node_js
-install_mc
-install_emacs
-install_vimplug
-install_kicad
-deploy_xorg_config_files
 success 'Dotfiles has been deployed.'
