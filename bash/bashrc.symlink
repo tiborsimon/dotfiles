@@ -40,7 +40,7 @@ alias dot='cd ~/.dotfiles'
 alias pro='cd ~/projects; ls -la'
 alias site='cd ~/projects/site'
 alias note='cd ~/notebook; make serve'
-alias sand='cd ~/sandbox'
+alias sand='cd ~/sandbox; ls -la'
 alias buspirate='sudo screen /dev/ttyUSB0 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
