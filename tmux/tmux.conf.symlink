@@ -98,8 +98,8 @@ setw -g window-status-separator ""
 setw -g window-status-bg "colour233"
 set -g status-left "#[fg=colour22,bg=colour148,bold] #S #[fg=colour148,bg=colour232,nobold,nounderscore,noitalics]"
 set -g status-right "#[fg=colour236,bg=colour232]#[fg=colour247,bg=colour236] #{battery_percentage} #[fg=colour232,bg=colour236]#[fg=colour236,bg=colour232]#[fg=colour247,bg=colour236] %H:%M #[fg=colour232,bg=colour236]#[fg=colour236,bg=colour232]#[fg=colour247,bg=colour236] %Y-%m-%d #[fg=colour148,bg=colour236,nobold,nounderscore,noitalics]#[fg=colour22,bg=colour148] #h "
-setw -g window-status-format " #[fg=colour231,bg=colour233] #I #[fg=colour231,bg=colour233]#W  "
-setw -g window-status-current-format "#[fg=colour232,bg=colour236]#[fg=colour247,bg=colour236,bold] #I #W #[fg=colour236,bg=colour232]#[fg=colour236,bg=colour233,nobold,nounderscore,noitalics]"
+setw -g window-status-format " #[fg=colour231,bg=colour233] #I #[fg=colour231,bg=colour233]#W #F  "
+setw -g window-status-current-format "#[fg=colour232,bg=colour236]#[fg=colour247,bg=colour236,bold] #I #W #F #[fg=colour236,bg=colour232]#[fg=colour236,bg=colour233,nobold,nounderscore,noitalics]"
 
 # Run Tmux plugin manager
 run '~/.tmux/plugins/tpm/tpm'
