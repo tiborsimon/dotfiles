@@ -22,8 +22,14 @@ source utils/commons
 install_dotfiles () {
   info 'Installing dotfiles..'
   local overwrite_all=false backup_all=false skip_all=false
-  for src in $(find -H "$HOME/.dotfiles/home" -mindepth 1 -maxdepth 1); do
+  for src in $(find -H "$HOME/.dotfiles/home" -mindepth 1 -maxdepth 1 -not -name ".config"); do
     dst="$HOME/$(basename "${src}")"
+    link_file "$src" "$dst"
+  done
+  
+  local overwrite_all=false backup_all=false skip_all=false
+  for src in $(find -H "$HOME/.dotfiles/home/.config" -mindepth 1 -maxdepth 1); do
+    dst="$HOME/.config/$(basename "${src}")"
     link_file "$src" "$dst"
   done
 }
