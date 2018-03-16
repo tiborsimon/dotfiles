@@ -32,6 +32,7 @@ install_dotfiles () {
     dst="$HOME/.config/$(basename "${src}")"
     link_file "$src" "$dst"
   done
+
 }
 
 

@@ -1,16 +1,9 @@
-mkdir ranger_test
-touch imre
-meta title hello imre
-meta title
-flat 1
-flat 0
 linemode metatitle
 mkdir hello
 touch hello
 mkdir imreimre
 vim imreimre
 touch imreimre
-open_with vim
 set show_hidden=true
 search whiplash
 search Bilder
@@ -42,9 +35,16 @@ cd /usr/local/bin/
 search pyt
 search site
 rename anagramsi.json
-mkdir pack
-mkdir my-plugins
-mkdir start
 mkdir opt
 mkdir ranger
+mkdir my-plugins
+mkdir start
+mkdir pack
+rename my-pluginsbase
+rename base
+mkdir after
+mkdir plugin
+touch plugin-config.vim
+open_with vim
+rename .git
 delete
