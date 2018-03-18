@@ -17,7 +17,6 @@
       kept-old-versions 2
       version-control t)
 
-
 ;; Package management
 (require 'package)
 
@@ -65,15 +64,10 @@
     `evil-state)
 
   (defmacro disable-evil-mode ()
-    "Disable evil-mode with visual cues."
     (evil-mode 0))
 
   (defmacro enable-evil-mode ()
-    "Enable evil-mode with visual cues."
     (evil-mode 1))
-
-
-  ;; Clipboard bypass
 
   ;; delete: char
   (evil-define-operator evil-destroy-char (beg end type register yank-handler)
@@ -126,6 +120,26 @@
     (evil-destroy beg end type register yank-handler)
     (evil-paste-before 1 register))
 
+  ;; Clipboard bypass key rebindings
+  (define-key evil-normal-state-map "s" 'evil-destroy)
+  (define-key evil-normal-state-map "S" 'evil-destroy-line)
+  (define-key evil-visual-state-map "c" 'evil-destroy-change)
+  (define-key evil-normal-state-map "x" 'evil-destroy-char)
+  (define-key evil-normal-state-map "X" 'evil-destroy-whole-line)
+  (define-key evil-normal-state-map "Y" 'evil-copy-to-end-of-line)
+  (define-key evil-visual-state-map "p" 'evil-destroy-paste-before)
+  (define-key evil-visual-state-map "P" 'evil-destroy-paste-after)
+
+  ;; esc quits
+  (defun minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+  In Delete Selection mode, if the mark is active, just deactivate it;
+  then it takes a second \\[keyboard-quit] to abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
 
   ;; Make escape quit everything, whenever possible.
   (define-key evil-normal-state-map (kbd "<escape>") 'keyboard-escape-quit)
@@ -135,16 +149,6 @@
   (define-key minibuffer-local-completion-map (kbd "<escape>") 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-must-match-map (kbd "<escape>") 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-isearch-map (kbd "<escape>") 'minibuffer-keyboard-quit)
-
-  ;; Clipboard bypass key rebindings
-  (define-key evil-normal-state-map "s" 'evil-destroy)
-  (define-key evil-normal-state-map "S" 'evil-destroy-line)
-  (define-key evil-normal-state-map "c" 'evil-destroy-change)
-  (define-key evil-normal-state-map "x" 'evil-destroy-char)
-  (define-key evil-normal-state-map "X" 'evil-destroy-whole-line)
-  (define-key evil-normal-state-map "Y" 'evil-copy-to-end-of-line)
-  (define-key evil-visual-state-map "p" 'evil-destroy-paste-before)
-  (define-key evil-visual-state-map "P" 'evil-destroy-paste-after)
 
   ;; Define window switching
   (global-set-key (kbd "C-h") nil)
@@ -213,12 +217,89 @@
   (use-package evil-indent-textobject
     :ensure t))
 
+(use-package powerline
+  :ensure t
+  :config
+  (defface my-pl-segment1-active
+    '((t (:foreground "#000000" :background "#E1B61A")))
+    "Powerline first segment active face.")
+  (defface my-pl-segment1-inactive
+    '((t (:foreground "#CEBFF3" :background "#3A2E58")))
+    "Powerline first segment inactive face.")
+  (defface my-pl-segment2-active
+    '((t (:foreground "#F5E39F" :background "#8A7119")))
+    "Powerline second segment active face.")
+  (defface my-pl-segment2-inactive
+    '((t (:foreground "#CEBFF3" :background "#3A2E58")))
+    "Powerline second segment inactive face.")
+  (defface my-pl-segment3-active
+    '((t (:foreground "#CEBFF3" :background "#3A2E58")))
+    "Powerline third segment active face.")
+  (defface my-pl-segment3-inactive
+    '((t (:foreground "#CEBFF3" :background "#3A2E58")))
+    "Powerline third segment inactive face.")
+
+  (defun my-powerline-default-theme ()
+    "Set up my custom Powerline with Evil indicators."
+    (setq-default mode-line-format
+     '("%e"
+        (:eval
+          (let* ((active (powerline-selected-window-active))
+            (seg1 (if active 'my-pl-segment1-active 'my-pl-segment1-inactive))
+            (seg2 (if active 'my-pl-segment2-active 'my-pl-segment2-inactive))
+            (seg3 (if active 'my-pl-segment3-active 'my-pl-segment3-inactive))
+            (separator-left (intern (format "powerline-%s-%s"
+                                            (powerline-current-separator)
+                                            (car powerline-default-separator-dir))))
+            (separator-right (intern (format "powerline-%s-%s"
+                                             (powerline-current-separator)
+                                             (cdr powerline-default-separator-dir))))
+            (lhs (list
+              (let ((evil-face (powerline-evil-face)))
+                 (if evil-mode (powerline-raw (powerline-evil-tag) evil-face)))
+                 (if evil-mode (funcall separator-left (powerline-evil-face) seg1))
+                 (powerline-buffer-id seg1 'l)
+                 (powerline-raw "[%*]" seg1 'l)
+                 (when (and (boundp 'which-func-mode) which-func-mode)
+                   (powerline-raw which-func-format seg1 'l))
+                 (powerline-raw " " seg1)
+                 (funcall separator-left seg1 seg2)
+                 (when (boundp 'erc-modified-channels-object)
+                   (powerline-raw erc-modified-channels-object seg2 'l))
+                 (powerline-major-mode seg2 'l)
+                 (powerline-process seg2)
+                 (powerline-minor-modes seg2 'l)
+                 (powerline-narrow seg2 'l)
+                 (powerline-raw " " seg2)
+                 (funcall separator-left seg2 seg3)
+                 (powerline-vc seg3 'r)
+                 (when (bound-and-true-p nyan-mode)
+                   (powerline-raw (list (nyan-create)) seg3 'l))))
+            (rhs (list
+              (powerline-raw global-mode-string seg3 'r)
+              (funcall separator-right seg3 seg2)
+              (unless window-system
+                (powerline-raw (char-to-string #xe0a1) seg2 'l))
+              (powerline-raw "%4l" seg2 'l)
+              (powerline-raw ":" seg2 'l)
+              (powerline-raw "%3c" seg2 'r)
+              (funcall separator-right seg2 seg1)
+              (powerline-raw " " seg1)
+              (powerline-raw "%6p" seg1 'r)
+              (when powerline-display-hud
+                (powerline-hud seg1 seg3)))))
+            (concat (powerline-render lhs)
+              (powerline-fill seg3 (powerline-width rhs))
+              (powerline-render rhs)))))))
+  (my-powerline-default-theme)
+  (use-package powerline-evil
+    :ensure t))
 
 ;; Essential settings.
 (setq inhibit-splash-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message t)
-; (menu-bar-mode -1)
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 (when (boundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
@@ -229,7 +310,7 @@
 (setq-default indicate-empty-lines t)
 (setq-default indent-tabs-mode nil)
 
-;(setq visible-bell t)
+(setq visible-bell t)
 (setq make-pointer-invisible t)
 (setq vc-follow-symlinks t)
 (setq large-file-warning-threshold nil)
