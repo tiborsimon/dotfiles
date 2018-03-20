@@ -1,5 +1,6 @@
 # Elisp byte code
 *.elc
+*.dat
 
 # Customization settings.  We ignore these because they are automatically
 # generated, contain “local” information (e.g. safe themes, automatically
@@ -16,6 +17,9 @@
 # Recovery and backup directories
 /auto-save-list/
 /.backup/
+
+# Python IDE stuff
+.python-environments
 
 # Cache files and settings for packages
 /tutorial/

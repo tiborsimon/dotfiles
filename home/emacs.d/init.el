@@ -174,7 +174,8 @@
     :config
     (key-chord-mode 1)
     (key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
-    (key-chord-define evil-visual-state-map  "jk" 'evil-normal-state))
+    (key-chord-define evil-visual-state-map  "jk" 'evil-normal-state)
+    (key-chord-define evil-motion-state-map  "fj" 'recenter))
 
   (use-package evil-leader
     :ensure t
@@ -182,6 +183,7 @@
     (global-evil-leader-mode)
     (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
+      "<SPC>"  'recenter
       "#"  'server-edit
       ","  'other-window
       "."  'mode-line-other-buffer
@@ -201,6 +203,7 @@
       "o"  'delete-other-windows  ;; C-w o
       "p"  'yank
       "q"  'kill-this-buffer
+      "r"  'ranger-mode
       "s"  'ag-project            ;; Ag search from project's root
       "S"  'delete-trailing-whitespace
       "t"  'gtags-reindex
@@ -290,10 +293,31 @@
                 (powerline-hud seg1 seg3)))))
             (concat (powerline-render lhs)
               (powerline-fill seg3 (powerline-width rhs))
-              (powerline-render rhs)))))))
-  (my-powerline-default-theme)
+              (powerline-render rhs))
+              )))))
+  ; (my-powerline-default-theme)
   (use-package powerline-evil
-    :ensure t))
+    :ensure t
+    :config
+    ; (setq-default powerline-display-hud nil)
+    ; (powerline-center-evil-theme)
+    ))
+
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+(setq smooth-scroll-margin 3)
+
+ ; (use-package sublimity
+ ;   :ensure t
+ ;   :config
+ ;   (require 'sublimity-scroll)
+ ;   (setq sublimity-scroll-weight 10
+ ;         sublimity-scroll-drift-length 20)
+ ;   ;; (require 'sublimity-attractive)
+ ;   ;; (setq sublimity-attractive-centering-width 130)
+ ;   ;; (sublimity-attractive-hide-fringes)
+ ;   (sublimity-mode 1))
+
 
 ;; Essential settings.
 (setq inhibit-splash-screen t
@@ -319,6 +343,7 @@
 (column-number-mode t)
 (setq tab-width 2)
 (setq tramp-default-method "ssh")
+(setq-default show-trailing-whitespace t)
 
 ;; Basic cosmetic changes
 (set-default 'cursor-type 'hbar)
@@ -326,12 +351,79 @@
 (column-number-mode)
 (blink-cursor-mode 0)
 
+(use-package multi-term
+  :ensure t
+  :config
+  (add-hook 'term-mode-hook
+    (lambda ()
+      (setq show-trailing-whitespace nil)
+      (setq term-buffer-maximum-size 10000)
+      (electric-pair-mode -1)))
+  )
 
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode 1)
+  (defun org-keyword-backend (command &optional arg &rest ignored)
+    "Company backend for org keywords.
+COMMAND, ARG, IGNORED are the arguments required by the variable
+`company-backends', which see."
+    (interactive (list 'interactive))
+    (cl-case command
+      (interactive (company-begin-backend 'org-keyword-backend))
+      (prefix (and (eq major-mode 'org-mode)
+                   (let ((p (company-grab-line "^#\\+\\(\\w*\\)" 1)))
+                     (if p (cons p t)))))
+      (candidates (mapcar #'upcase
+                          (cl-remove-if-not
+                           (lambda (c) (string-prefix-p arg c))
+                           (pcomplete-completions))))
+      (ignore-case t)
+      (duplicates t)))
+  (add-to-list 'company-backends 'org-keyword-backend)
 
+  (setq company-idle-delay 0.1)
+  (setq company-selection-wrap-around t)
+  (define-key company-active-map (kbd "ESC") 'company-abort)
+  (define-key company-active-map [tab] 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
 
-(require 'smooth-scrolling)
-(smooth-scrolling-mode 1)
-(setq smooth-scroll-margin 3)
+(use-package helm
+  :ensure t
+  :config
+  (helm-mode 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; >> Python IDE like settings
+;;
+
+(use-package epc
+  :ensure t)
+
+(use-package projectile
+  :ensure t)
+
+(use-package jedi
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'jedi:setup))
+  (use-package company-jedi
+    :ensure t
+    :requires company
+    :config
+    (defun my-python-mode-hook ()
+      (add-to-list 'company-backends 'company-jedi))
+    (add-hook 'python-mode-hook 'my-python-mode-hook))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; >> Navigation
+;;
+(use-package ranger
+  :ensure t)
 
 ;; Considerable IDO vs Helm discussion https://www.reddit.com/r/emacs/comments/3o36sc/what_do_you_prefer_ido_or_helm/
 ;; (setq x-select-enable-clipboard t)
