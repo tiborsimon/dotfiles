@@ -105,51 +105,51 @@ export WORKON_HOME=~/Envs
 mkdir -p $WORKON_HOME
 source $(which virtualenvwrapper.sh)
 
-myenv-make() {
+my-env-make() {
   mkvirtualenv $@
 }
 
-myenv-maketemp() {
+my-env-maketemp() {
   mktmpenv $@
 }
 
-myenv-ls() {
+my-env-ls() {
   lsvirtualenv $@
 }
 
-myenv-show() {
+my-env-show() {
   showvirtualenv $@
 }
 
-myenv-rm() {
+my-env-rm() {
   rmvirtualenv $@
 }
 
-myenv-cp() {
+my-env-cp() {
   cpvirtualenv $@
 }
 
-myenv-all() {
+my-env-all() {
   allvirtualenv $@
 }
 
-myenv-workon() {
+my-env-workon() {
   workon $@
 }
 
-myenv-deactivate() {
+my-env-deactivate() {
   deactivate $@
 }
 
-myenv-cd() {
+my-env-cd() {
   cdvirtualenv $@
 }
 
-myenv-cdsite() {
+my-env-cdsite() {
   cdsitepackages $@
 }
 
-myenv-lssite() {
+my-env-lssite() {
   lssitepackages $@
 }
 
