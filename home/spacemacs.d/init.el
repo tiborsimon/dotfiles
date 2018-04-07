@@ -31,6 +31,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
+     markdown
      javascript
      python
      ;; ----------------------------------------------------------------
@@ -337,34 +339,75 @@ you should place your code here."
   ;; Remap semicolon
   (define-key evil-motion-state-map ";" 'evil-ex)
 
-  ;; (setq-default dotspacemacs-configuration-layers
-  ;;               '())
 
-  ;; ORG mode config
+  (display-time-mode t)
+  (setq display-time-format "%m-%d %a %H:%M")
+
+  (setq auto-save-default nil)
+
+  ;; ============================== ORG mode ==============================
+
   (setq spacemacs-theme-org-agenda-height nil)
   (setq org-priority-faces
         '((?A . (:foreground "red" :weight 'bold))
           (?B . (:foreground "yellow"))
           (?C . (:foreground "green"))))
+
   (custom-set-faces
    '(org-agenda-done ((t (:foreground "#86dc2f" :height 1.0)))))
   (custom-set-faces
    '(org-scheduled-today ((t (:foreground "DodgerBlue2" :height 1.0)))))
 
   (setq org-log-into-drawer t)
-
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "z" 'org-add-note)
+
+  ; timer related config
+  (spacemacs/declare-prefix-for-mode 'org-mode "mo" "timers")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "op" 'org-timer-pause-or-continue)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "oc" 'org-timer-set-timer)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ot" 'org-timer-start)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ox" 'org-timer-stop)
+
+  ; clocking related config
+  (defun my-org-clock-select-task ()
+    (interactive)
+    (org-clock-select-task))
+  (setq org-clock-into-drawer "CLOCKING"
+        spaceline-org-clock-p t)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "c" nil)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "I" nil)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "O" nil)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
+  (spacemacs/declare-prefix-for-mode 'org-mode "mc" "clocking")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ci" 'org-clock-in)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "cl" 'org-clock-in-last)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "cm" 'my-org-clock-select-task)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "co" 'org-clock-out)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "cc" 'org-clock-cancel)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "cg" 'org-clock-goto)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "cd" 'org-clock-display)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "cr" 'org-clock-report)
+
+  ; column view config
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" 'org-columns)
+
   (setq org-log-done "note"
         org-log-reschedule "note")
 
-  (display-time-mode t)
-  (setq display-time-format "%m-%d %a %I:%M")
+  (with-eval-after-load 'org (setq org-agenda-files
+                                   '("~/org/")))
 
-  (require 'org-crypt)
-  (org-crypt-use-before-save-magic)
-  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-  (setq org-crypt-key "test@imre.com")
-  (setq auto-save-default nil)
+  ;; Capture templates
+  (global-set-key (kbd "<f6>") 'org-capture)
+
+  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+  (setq org-default-notes-file "~/notes.org")
+
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/org/refile.org" "Tasks")
+           "* TODO %^{title}\n  CREATED: %U\n   %?" :clock-in t :clock-resume t)
+          ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
+           "* %<%H:%M>\n   %?")))
 
   ;; Lastly, load custom-file (but only if the file exists).
   (when (file-exists-p custom-file)
