@@ -344,8 +344,21 @@ you should place your code here."
   (setq display-time-format "%m-%d %a %H:%M")
 
   (setq auto-save-default nil)
+  (setq-default fill-column 100)
 
-  ;; ============================== ORG mode ==============================
+  ;;; scroll margin settings
+  (setq scroll-conservatively 101
+        scroll-margin 3
+        scroll-preserve-screen-position 't)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;
+  ;;; ORG MODE CONFIG
+  ;;
+
+  ;;; Agenda view customizations
+  (with-eval-after-load 'org (setq org-agenda-files
+                                   '("~/org/")))
 
   (setq spacemacs-theme-org-agenda-height nil)
   (setq org-priority-faces
@@ -358,17 +371,45 @@ you should place your code here."
   (custom-set-faces
    '(org-scheduled-today ((t (:foreground "DodgerBlue2" :height 1.0)))))
 
+
+  ;;; ToDo related configuration
+  (setq org-log-done "note"
+        org-log-reschedule "note")
+
+
+  ;;; Source code config
+  (org-babel-do-load-languages 'org-babel-load-languages
+      '(
+        (shell . t)
+        (python . t)
+       ))
+
+  ;;; Habits
+  (add-to-list 'org-modules 'org-habit t)
+  (setq org-habit-show-habits-only-for-today t)
+
+
+  ;;; Drawer settings
   (setq org-log-into-drawer t)
+
+
+  ;;; Note taking
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "z" 'org-add-note)
 
-  ; timer related config
+
+  ;;; Insert prefix extension
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ic" 'org-insert-columns-dblock)
+
+
+  ;;; Timer prefix customization
   (spacemacs/declare-prefix-for-mode 'org-mode "mo" "timers")
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "op" 'org-timer-pause-or-continue)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "oc" 'org-timer-set-timer)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "ot" 'org-timer-start)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "ox" 'org-timer-stop)
 
-  ; clocking related config
+
+  ;;; Clocking related configuration
   (defun my-org-clock-select-task ()
     (interactive)
     (org-clock-select-task))
@@ -388,16 +429,12 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "cd" 'org-clock-display)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "cr" 'org-clock-report)
 
-  ; column view config
+
+  ;;; Column view config
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" 'org-columns)
 
-  (setq org-log-done "note"
-        org-log-reschedule "note")
 
-  (with-eval-after-load 'org (setq org-agenda-files
-                                   '("~/org/")))
-
-  ;; Capture templates
+  ;;; Capture templates
   (global-set-key (kbd "<f6>") 'org-capture)
 
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
@@ -409,10 +446,13 @@ you should place your code here."
           ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
            "* %<%H:%M>\n   %?")))
 
+
+  ;; ============================== CUSTOM FILE HANDLING ==============================
+
   ;; Lastly, load custom-file (but only if the file exists).
   (when (file-exists-p custom-file)
         (load-file custom-file))
 
   (message "User init finished!")
-  )
+)
 
