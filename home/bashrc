@@ -36,6 +36,7 @@ fi
 #
 
 alias dot='cd ~/.dotfiles'
+alias org='cd ~/org'
 alias pro='cd ~/projects; ls -la'
 alias site='cd ~/projects/site'
 alias note='cd ~/notebook; make serve'
