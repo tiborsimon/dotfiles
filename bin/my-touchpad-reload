@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "Reloading touchpad driver.."
+modprobe -r psmouse
+modprobe psmouse
+

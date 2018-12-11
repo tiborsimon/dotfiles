@@ -5,17 +5,14 @@ source $HOME/.dotfiles/utils/commons
 source $HOME/.dotfiles/utils/git-completion.bash
 
 
-# ==============================================================================
-#  M A K E F I L E   A U T O C O M P L E T E
-#
+stty -ixon # Disable ctrl-s and ctrl-q.
+shopt -s autocd #Allows you to cd into directory merely by typing the directory name.
+HISTSIZE= HISTFILESIZE= # Infinite history.
 
+# Makefile autocomplete
 complete -W "\`grep -oE '^[a-zA-Z0-9_-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_-]*$//'\`" make
 
-
-# ==============================================================================
-#  S S H   H A N D L I N G
-#
-
+# SSH handling
 # http://rabexc.org/posts/pitfalls-of-ssh-agents
 ssh-add -l &>/dev/null
 if [ "$?" == 2 ]; then
@@ -30,36 +27,49 @@ if [ "$?" == 2 ]; then
   fi
 fi
 
-
-# ==============================================================================
-#  A L I A S E S
-#
-
+# Some aliases
 alias dot='cd ~/.dotfiles'
 alias org='cd ~/org'
 alias pro='cd ~/projects; ls -la'
-alias site='cd ~/projects/site'
-alias note='cd ~/notebook; make serve'
 alias sand='cd ~/sandbox; ls -la'
 alias buspirate='sudo screen /dev/ttyUSB0 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
-
-alias ls='ls -h --color --group-directories-first'
-
+alias weather="curl wttr.in"
+alias ls='ls --human-readable --color --group-directories-first'
 alias gs='git status'
 alias ..='cd ..'
+alias SS="sudo systemctl"
+alias v="vim"
+alias sv="sudo vim"
+alias r="ranger"
+alias sr="sudo ranger"
+# alias ka="killall"
+# alias g="git"
+# alias trem="transmission-remote"
+alias mkd="mkdir -pv"
+alias ref="shortcuts.sh && source ~/.bashrc" # Refresh shortcuts manually and reload bashrc
+# alias bw="wal -i ~/.config/wall.png" # Rerun pywal
+# alias pi="bash ~/.larbs/wizard/wizard.sh"
 
-alias r='ranger'
+# Adding color
+alias ls='ls -hN --color=auto --group-directories-first'
+alias grep="grep --color=auto" # Color grep - highlight desired sequence.
+alias ccat="highlight --out-format=ansi" # Color cat - print file with syntax highlighting.
+
+# Internet
+alias yd="youtube-dl --add-metadata -ic" # Download video link
+alias yda="youtube-dl --extract-audio --audio-quality 0 --audio-format flac --ignore-errors --continue" # Download only audio
+alias YT="youtube-viewer"
+alias ethspeed="speedometer -r enp0s25"
+alias wifispeed="speedometer -r wlp3s0"
+alias starwars="telnet towel.blinkenlights.nl"
 
 
-# ==============================================================================
-#  P R O M P T
-#
-
+# Prompt handling
 export PROMPT_COMMAND=__prompt_command  # Func to gen PS1 after CMDs
 
-# Determine active Python virtualenv details.
 function set_virtualenv () {
+  # Determine active Python virtualenv details.
   if test -z "$VIRTUAL_ENV" ; then
       PYTHON_VIRTUALENV=""
   else
@@ -97,67 +107,15 @@ function __prompt_command() {
     PS1+="\\$ \[$(tput sgr0)\]"
 }
 
-
-# ==============================================================================
-#  V I R T U A L E N V W R A P P E R   C O N F I G
-#
-
-export WORKON_HOME=~/Envs
-mkdir -p $WORKON_HOME
-source $(which virtualenvwrapper.sh)
-
-my-env-make() {
-  mkvirtualenv $@
-}
-
-my-env-maketemp() {
-  mktmpenv $@
-}
-
-my-env-ls() {
-  lsvirtualenv $@
-}
-
-my-env-show() {
-  showvirtualenv $@
-}
-
-my-env-rm() {
-  rmvirtualenv $@
-}
-
-my-env-cp() {
-  cpvirtualenv $@
-}
-
-my-env-all() {
-  allvirtualenv $@
-}
-
-my-env-workon() {
-  workon $@
-}
-
-my-env-deactivate() {
-  deactivate $@
-}
-
-my-env-cd() {
-  cdvirtualenv $@
-}
-
-my-env-cdsite() {
-  cdsitepackages $@
-}
-
-my-env-lssite() {
-  lssitepackages $@
-}
+# npm config
+export NPM_CONFIG_PREFIX=~/.npm-global
 
 
-# ==============================================================================
-#  P A T H   D E F I N I T I O N
-#
+# Path
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin:$HOME/bin:$HOME/.npm-global"
 
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH:$HOME/.dotfiles/bin:$HOME/.local/bin:$HOME/bin"
+
+# PipEnv config
+eval "$(pipenv --completion)"
+
 

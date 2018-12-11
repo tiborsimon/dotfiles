@@ -34,6 +34,7 @@ values."
      html
      markdown
      javascript
+     react
      python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -46,6 +47,7 @@ values."
      emacs-lisp
      git
      finance
+     plantuml
      ;; markdown
      org
      ;; (shell :variables
@@ -72,6 +74,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
+   ;; dotspacemacs-excluded-packages '(org-bullets)
    dotspacemacs-excluded-packages '()
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -329,6 +332,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+
   (setq create-lockfiles nil)
 
   ;; Configuring key chord mode
@@ -351,6 +355,37 @@ you should place your code here."
         scroll-margin 3
         scroll-preserve-screen-position 't)
 
+  (defun my-setup-indent (n)
+     ; java/c/c++
+    (setq-local standard-indent n)
+    (setq-local c-basic-offset n)
+    ;; web development
+    (setq-local javascript-indent-level n) ; javascript-mode
+    (setq-local js-indent-level n) ; js-mode
+    (setq-local react-indent-level n) ; react-mode
+    (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+    (setq-local web-mode-attr-indent-offset n) ; web-mode
+    (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
+    (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
+    (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+    (setq-local web-mode-sql-indent-offset n) ; web-mode
+    (setq-local web-mode-attr-value-indent-offset n) ; web-mode
+    (setq-local css-indent-offset n) ; css-mode
+    (setq-local sh-basic-offset n) ; shell scripts
+    (setq-local sh-indentation n))
+
+  (setq-default
+   ;; js2-mode
+   js2-basic-offset 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2)
+
+  ;; (my-setup-indent 2)
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;
   ;;; ORG MODE CONFIG
@@ -358,7 +393,7 @@ you should place your code here."
 
   ;;; Agenda view customizations
   (with-eval-after-load 'org (setq org-agenda-files
-                                   '("~/org/")))
+                                   '("~/org/orgbook/")))
 
   (setq spacemacs-theme-org-agenda-height nil)
   (setq org-priority-faces
@@ -366,22 +401,44 @@ you should place your code here."
           (?B . (:foreground "yellow"))
           (?C . (:foreground "green"))))
 
+  ;;; NO CLEAN look config
+  ;; (setq org-indent-mode-turns-on-hiding-stars nil)
+  ;; (setq org-adapt-indentation nil)
+  ;; (setq org-hide-leading-stars t)
+  ;; (setq org-hide-leading-stars nil)
+
+  ;; (add-hook 'org-mode-hook (lambda ()
+  ;;   (set-face-attribute 'org-level-1 nil :height 1.3)
+  ;;   (set-face-attribute 'org-level-2 nil :height 1.25)
+  ;;   (set-face-attribute 'org-level-3 nil :height 1.2)
+  ;;   (set-face-attribute 'org-level-4 nil :height 1.15)
+  ;;   (set-face-attribute 'org-level-5 nil :height 1.1)
+  ;;   (set-face-attribute 'org-level-6 nil :height 1.1)
+  ;;   (set-face-attribute 'org-level-7 nil :height 1.1)
+  ;;   (set-face-attribute 'org-level-8 nil :height 1.1)))
+
+  ;;; custom org agenda colors
   (custom-set-faces
    '(org-agenda-done ((t (:foreground "#86dc2f" :height 1.0)))))
   (custom-set-faces
    '(org-scheduled-today ((t (:foreground "DodgerBlue2" :height 1.0)))))
 
+  ;;; Auto fill
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
   ;;; ID handling
 
-  (defun my/org-add-ids-to-headlines-in-file ()
-    "Add ID properties to all headlines in the current file which
-     do not already have one."
-    (interactive)
-    (unless (string= (buffer-name) "journal.org") (org-map-entries 'org-id-get-create)))
+  ;;; removed on 2018-12-04, as it littered every header in my org files
+  ;;; I can call manually the org-id-get-create command anytime
+  ;; (defun my/org-add-ids-to-headlines-in-file ()
+  ;;   "Add ID properties to all headlines in the current file which
+  ;;    do not already have one."
+  ;;   (interactive)
+  ;;   (unless (string= (buffer-name) "journal.org") (org-map-entries 'org-id-get-create)))
 
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
+  ;; (add-hook 'org-mode-hook
+  ;;           (lambda ()
+  ;;             (add-hook 'before-save-hook 'my/org-add-ids-to-headlines-in-file nil 'local)))
 
   (defun my/copy-id-to-clipboard() "Copy the ID property value to killring,
      if no ID is there then create a new unique ID.
@@ -409,11 +466,16 @@ you should place your code here."
       '(
         (shell . t)
         (python . t)
+        (C . t)
+        (plantuml . t)
        ))
 
+  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  (add-to-list 'org-structure-template-alist '("u" "#+BEGIN_SRC plantuml :file \"/tmp/org-babel-uml-?.png\" \n\n#+END_SRC"))
+
   ;;; Habits
-  (add-to-list 'org-modules 'org-habit t)
-  ; (setq org-habit-show-habits-only-for-today t)
+  ;; (add-to-list 'org-modules 'org-habit t)
+  ;; (setq org-habit-show-habits-only-for-today t)
 
 
   ;;; Drawer settings
@@ -456,6 +518,27 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "cd" 'org-clock-display)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "cr" 'org-clock-report)
 
+  ;;; Clocktable custom columns
+  (defun my-minutes-in-org-time (time)
+    (let ((re  "\\(\\([0-9]+\\)d \\)?\\([0-9]+\\):\\([0-9]+\\)")
+          (values '(2 3 4)))
+      (save-match-data
+        (catch 'exit
+          (if (not (string-match re time))
+              (throw 'exit 0.)))
+        (let ((values (mapcar (lambda (num)
+                                (string-to-number ;; convert to number
+                                 (or (match-string num time) ;; the part of the regex that matches
+                                     "0"))) ;; or zero in case no days exist, then match-string is nil
+                              values)))
+          (let ((days (nth 0 values))
+                (hours (nth 1 values))
+                (minutes (nth 2 values)))
+            (+ (* 60
+                  (+ (* 24 days)
+                     hours))
+               minutes))))))
+
 
   ;;; Column view config
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" 'org-columns)
@@ -468,10 +551,12 @@ you should place your code here."
   (setq org-default-notes-file "~/notes.org")
 
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/refile.org" "Tasks")
+        '(("t" "Todo" entry (file+headline "~/org/orgbook/refile.org" "Tasks")
            "* TODO %^{title}\n  CREATED: %U\n   %?" :clock-in t :clock-resume t)
-          ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
-           "* %<%H:%M>\n   %?")))
+          ("j" "Journal" entry (file+olp+datetree "~/org/orgbook/journal.org")
+           "* %<%Y-%m-%d %A>\n   %?" :clock-in t :clock-resume t)
+          ("w" "Work journal" entry (file+olp+datetree "~/org/orgbook/work.org")
+          "* %<%Y-%m-%d %a %H:%M>\n   %?")))
 
 
   ;; ============================== CUSTOM FILE HANDLING ==============================

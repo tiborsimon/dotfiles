@@ -76,17 +76,23 @@
   vnoremap ; :
   nnoremap j gj
   nnoremap k gk
+  nnoremap * *``
   set pastetoggle=<leader><F3>
 
   " Vimrc handling
   nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
   nnoremap <leader>l :so ~/.vimrc<cr>
 
+  " Accessing the clipboard
+  vnoremap <C-c> "*y :let @+=@*<CR>
+  map <C-P> "+P
+
   "General make mapping
   nnoremap <leader>mm :!clear && make<cr>
   nnoremap <leader>mt :!clear && make test<cr>
   nnoremap <leader>mc :!clear && make clean<cr>
   nnoremap <leader>mb :!clear && make build<cr>
+  nnoremap <leader>md :!clear && make debug<cr>
   nnoremap <leader>m<leader> :!clear && make 
   nnoremap <leader>p8 :BookmarkAnnotate pep8<cr>
 
@@ -101,6 +107,11 @@
   autocmd Filetype python nnoremap <buffer> <leader>p3 :! clear && python3 %<cr>
   autocmd Filetype python nnoremap <buffer> <leader>p2 :! clear && python2 %<cr>
   autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
+
+  autocmd Filetype rust nnoremap <buffer> <leader>cr :! clear && cargo run<cr>
+  autocmd Filetype rust nnoremap <buffer> <leader>cb :! clear && cargo build<cr>
+  autocmd Filetype rust nnoremap <buffer> <leader>cc :! clear && cargo check<cr>
+  autocmd Filetype rust nnoremap <buffer> <leader>ct :! clear && cargo test<cr>
 
   " Convenient mappings
   nnoremap <leader>w :w<cr>
@@ -202,11 +213,11 @@
     Plug 'fidian/hexmode'
     Plug 'garbas/vim-snipmate'
     Plug 'godlygeek/tabular'
-    Plug 'gregsexton/MatchTag'
+    " Plug 'gregsexton/MatchTag'
     Plug 'gregsexton/gitv'
     Plug 'honza/vim-snippets'
     Plug 'jamessan/vim-gnupg'
-    Plug 'jceb/vim-orgmode'
+    " Plug 'jceb/vim-orgmode'
     Plug 'jeetsukumaran/vim-buffergator'
     Plug 'jelera/vim-javascript-syntax'
     Plug 'jiangmiao/auto-pairs'
