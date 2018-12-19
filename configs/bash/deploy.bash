@@ -9,3 +9,4 @@ link_package bash \
              ./scripts/git-completion.bash ${HOME}/.scripts/git-completion.bash \
              ./scripts/gitstatus.bash ${HOME}/.scripts/gitstatus.bash \
              ./scripts/gitstatus.py ${HOME}/.scripts/gitstatus.py \
+             ./scripts/define-colors.bash ${HOME}/.scripts/define-colors.bash
