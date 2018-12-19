@@ -1,0 +1,26 @@
+#                     __ _ _
+#                    / _(_) |
+#    _ __  _ __ ___ | |_ _| | ___
+#   | '_ \| '__/ _ \|  _| | |/ _ \
+#  _| |_) | | | (_) | | | | |  __/
+# (_) .__/|_|  \___/|_| |_|_|\___|
+#   | |
+#   |_|
+#
+
+# ============================================================================
+#  P A T H   H A N D L I N G
+PATH="${HOME}/.cargo/bin:${PATH}"
+PATH="${HOME}/.npm-global:${PATH}"
+PATH="${HOME}/.scripts:${PATH}"
+PATH="${HOME}/.local/bin:${PATH}"
+export PATH
+
+
+# ============================================================================
+#  G L O B A L   V A R I A B L E   H A N D L I N G
+export TERMINAL=''
+export EDITOR='vim'
+export PROJECTS="$HOME/projects"
+export NPM_CONFIG_PREFIX=~/.npm-global
+export W3MIMGDISPLAY_PATH=~/.dotfiles/bin/my-w3m-delay

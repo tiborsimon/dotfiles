@@ -1,0 +1,40 @@
+#         _ _
+#        (_) |
+#    __ _ _| |_
+#   / _` | | __|
+#  | (_| | | |_
+#   \__, |_|\__|
+#    __/ |
+#   |___/
+#
+
+[user]
+    email = tibor@tiborsimon.io
+    name = Tibor Simon
+
+[push]
+    default = simple
+
+[alias]
+    lg   = !"git lg-specific"
+    lga  = !"git lg-specific --all"
+    lgd  = !"git lgd-specific"
+    lgda = !"git lgd-specific --all"
+    lg-specific  = log --graph --abbrev-commit --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset) %C(bold white)[%an]%C(reset) - %C(white)%s%C(reset) '
+    lgd-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold green)(%aD)%C(reset)%C(bold yellow)%d%C(reset) %C(bold white)[%an]%C(reset) - %C(white)%s%C(reset) '
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = true
+    pager = true
+
+[color "status"]
+    added = green
+    changed = red bold
+    untracked = magenta bold
+
+[color "branch"]
+    remote = yellow
