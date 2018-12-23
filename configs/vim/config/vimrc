@@ -197,6 +197,7 @@
     " Plug 'nvie/vim-flake8'
     " Plug 'scrooloose/syntastic'
     " Plug 'terryma/vim-expand-region'
+    Plug 'sgur/vim-editorconfig'
     Plug 'MarcWeber/vim-addon-mw-utils'
     Plug 'MattesGroeger/vim-bookmarks'
     Plug 'Yggdroot/indentLine'
