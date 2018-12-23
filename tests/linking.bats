@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-load ../utils/common
+load ../utils/lib/libdeploy
 
 
 LINK_TARGET='../../sandbox/a/file'

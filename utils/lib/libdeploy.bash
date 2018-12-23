@@ -64,6 +64,7 @@ function link_package {
 #==============================================================================
 
 RED=$(tput setaf 1)
+RED_BG=$(tput setab 1)
 GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
 BLUE=$(tput setaf 4)
@@ -217,7 +218,16 @@ function link_file {
   fi
 
   if [ "$skip" == "false" ]; then
-    ln -s "$target" "$link_name"
+
+    # test if the link can be created
+    if touch "$link_name" &>/dev/null; then
+      rm $link_name
+      ln -s "$target" "$link_name"
+    else
+      # propably there is no permission to create the link, so use sudo..
+      sudo --prompt="           |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " ln -s "$target" "$link_name"
+    fi
+
     echo linked
   else
     echo skipped
