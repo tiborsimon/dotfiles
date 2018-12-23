@@ -1,9 +1,17 @@
-# typing repetion speed icrease
-xset r rate 250 83 > /dev/null
+#    _               _                          __ _ _
+#   | |             | |                        / _(_) |
+#   | |__   __ _ ___| |__      _ __  _ __ ___ | |_ _| | ___
+#   | '_ \ / _` / __| '_ \    | '_ \| '__/ _ \|  _| | |/ _ \
+#  _| |_) | (_| \__ \ | | |   | |_) | | | (_) | | | | |  __/
+# (_)_.__/ \__,_|___/_| |_|   | .__/|_|  \___/|_| |_|_|\___|
+#                       ______| |
+#                      |______|_|
 
-# map caps lock to ctrl
-setxkbmap -option ctrl:nocaps
+# ============================================================================
+#  S O U R C I N G   M A S T E R   P R O F I L E
+[ -f ~/.profile ] && source ~/.profile
 
-if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
-fi
+
+# ============================================================================
+#  L O A D   S P E C I F I C   C O N F I G U R A T I O N
+[ -f ~/.bashrc ] && source ~/.bashrc

@@ -5,7 +5,7 @@ source ../../utils/common.bash
 
 link_package bash \
              ./config/bashrc ${HOME}/.bashrc \
-             ${HOME}/.profile ${HOME}/.bash_profile \
+             ./config/bash_profile ${HOME}/.bash_profile \
              ./scripts/git-completion.bash ${HOME}/.scripts/git-completion.bash \
              ./scripts/gitstatus.bash ${HOME}/.scripts/gitstatus.bash \
              ./scripts/gitstatus.py ${HOME}/.scripts/gitstatus.py \
