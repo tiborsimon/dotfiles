@@ -2,3 +2,6 @@
 *.log
 *.DS_Store
 
+# ctags generatted index
+tags
+
