@@ -75,7 +75,7 @@ BOLD=$(tput bold)
 
 function print_package {
   local package=$1
-  echo "${BOLD}$(printf '%10s' $package)${RESET}"
+  echo "${BOLD}$(printf '%13s' $package)${RESET}"
 }
 
 function task {
@@ -207,12 +207,16 @@ function link_file {
     fi
 
     if [ "$overwrite" == "true" ]; then
-      rm -rf "$link_name"
+      if ! rm -rf "$link_name" &>/dev/null; then
+        sudo --prompt="              |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " rm -rf "$link_name"
+      fi
       echo deleted
     fi
 
     if [ "$backup" == "true" ]; then
-      mv "$link_name" "${link_name}.backup"
+      if ! mv "$link_name" "${link_name}.backup"; then
+        sudo --prompt="              |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " mv "$link_name" "${link_name}.backup"
+      fi
       echo moved
     fi
   fi
@@ -225,7 +229,7 @@ function link_file {
       ln -s "$target" "$link_name"
     else
       # propably there is no permission to create the link, so use sudo..
-      sudo --prompt="           |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " ln -s "$target" "$link_name"
+      sudo --prompt="              |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " ln -s "$target" "$link_name"
     fi
 
     echo linked
