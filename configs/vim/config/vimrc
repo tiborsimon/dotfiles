@@ -43,9 +43,9 @@ set noswapfile
 " Splits open at the bottom and right, which is non-retarded
 set splitbelow splitright
 
-" Accessing the clipboard
+" Accessing the system clipboard
 vnoremap <C-c> "*y :let @+=@*<CR>
-map <C-P> "+P
+nnoremap <C-P> "+P
 
 
 " =============================================================================
@@ -121,7 +121,7 @@ nnoremap k gk
 nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
 
 " Source vimrc
-nnoremap <leader>l :so ~/.vimrc<cr>
+nnoremap <leader>l :source $MYVIMRC<cr>
 
 nnoremap * *``
 
@@ -238,11 +238,16 @@ call plug#begin('~/.vim/plugged')
 Plug 'MattesGroeger/vim-bookmarks'    " better bookmarks
 Plug 'itchyny/lightline.vim'          " status line
 Plug 'itchyny/vim-gitbranch'          " minimal git for the status line
+Plug 'jeetsukumaran/vim-buffergator'  " fast buffer management
+Plug 'joeytwiddle/sexy_scroller.vim'  " fancy scroll animator
 Plug 'junegunn/goyo.vim'              " distraction free mode
 Plug 'kana/vim-arpeggio'              " key chords
 Plug 'scrooloose/nerdtree'            " file browser
-Plug 'jeetsukumaran/vim-buffergator'  " fast buffer management
-Plug 'ctrlpvim/ctrlp.vim'             " fuzzy file search
+Plug 'terryma/vim-multiple-cursors'   " multiple cursor editing
+Plug 'airblade/vim-gitgutter'         " git gutter column
+Plug 'tpope/vim-surround'             " fast wrapping
+Plug 'ledger/vim-ledger'              " ledger plugin for syntax only
+Plug 'junegunn/vim-easy-align'        " fast align plugin
 call plug#end()
 
 
@@ -308,9 +313,24 @@ let NERDTreeIgnore = ['\.pyc$']
 
 " =============================================================================
 " PLUGIN: CTRLP
-nnoremap <leader>p :CtrlP<CR>
-let g:ctrlp_map = ''
-let g:ctrlp_cmd = 'CtrlP'
+" nnoremap <leader>p :CtrlP<CR>
+" let g:ctrlp_map = ''
+" let g:ctrlp_cmd = 'CtrlP'
+
+
+" =============================================================================
+" PLUGIN: SEXY SCROLLER
+let g:SexyScroller_MaxTime = 400
+let g:SexyScroller_EasingStyle = 3
+
+
+" =============================================================================
+" PLUGIN: EASY-ALIGN
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 
 " =============================================================================
@@ -354,3 +374,48 @@ autocmd Filetype rust nnoremap <buffer> <leader>cb :! clear && cargo build<cr>
 autocmd Filetype rust nnoremap <buffer> <leader>cc :! clear && cargo check<cr>
 autocmd Filetype rust nnoremap <buffer> <leader>ct :! clear && cargo test<cr>
 
+
+" =============================================================================
+" SNIPPETS: FZY
+
+" Helper function to interface the fzy command as a fuzzy choice finder.
+function! FzyCommand(choice_command, vim_command)
+  try
+    let output = system(a:choice_command . " | fzy ")
+  catch /Vim:Interrupt/
+    " Swallow errors from ^C, allow redraw! below
+  endtry
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec a:vim_command . ' ' . output
+  endif
+endfunction
+
+" Better ctrlp fuzzy file search and file open
+nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<CR>
+nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<CR>
+nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<CR>
+nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<CR>
+
+
+" =============================================================================
+" SNIPPETS: LEDGER
+" Snippets and mappings for the ledger text based accounting tools.
+
+" Create ledger file type.
+autocmd BufRead,BufNewFile *.ledger set filetype=ledger
+
+" Add posting by fuzzy completing the account.
+autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":r !echo '    ' ")<CR>o<ESC>
+
+" Add posting by fuzzy completing the account.
+autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":r !echo '    ' ")<CR>A  <ESC>a
+
+" Align postings amount to the right to the defined column.
+autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<CR>gvp0
+
+" Insert daily header with the current date.
+autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<CR><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<CR>I## <esc>0
+
+" Insert transaction with the current date.
+autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<CR>A * <esc>A
