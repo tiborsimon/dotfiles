@@ -45,6 +45,79 @@ set splitbelow splitright
 
 
 " =============================================================================
+" LEADER SETTINGS:
+" Remap the leader key to space
+let mapleader="\<Space>"
+
+" Print out every leader based mappings
+function! ListLeaders()
+   silent! redir @a
+   silent! nmap <LEADER>
+   silent! redir END
+   silent! new
+   silent! put! a
+   silent! g/^s*$/d
+   silent! %s/^.*,//
+   silent! normal ggVg
+   silent! sort
+   silent! let lines = getline(1,"$")
+endfunction
+
+
+" =============================================================================
+" KEYBOARD REMAPPINGS:
+
+" Remap the semicolon to be able to use the colon faster.
+nnoremap ; :
+vnoremap ; :
+
+" Navigate through wrapped long lines intuitively.
+nnoremap j gj
+nnoremap k gk
+
+" Save and quit fast access
+nnoremap <leader>w :write<cr>
+nnoremap <leader>q :quit<cr>
+
+" Toggle wrap mode
+nnoremap <leader>tw :set wrap!<cr>
+
+" Easyer split navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Motion in insert mode
+inoremap <C-h> <left>
+inoremap <C-l> <right>
+inoremap <C-j> <down>
+inoremap <C-k> <up>
+
+" Move lines in all modes
+nnoremap J :m .+1<CR>==
+nnoremap K :m .-2<CR>==
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+
+" =============================================================================
+" CLIPBOARD HANDLING:
+" Accessing the system clipboard
+vnoremap <C-c> "*y :let @+=@*<CR>
+nnoremap <C-P> "+p
+
+
+" =============================================================================
+" CONFIGURATION HANDLING AND RELOADING:
+" Open vimrc file
+nnoremap <leader>co :edit $MYVIMRC<CR>
+
+" Source vimrc
+nnoremap <leader>cl :source $MYVIMRC<cr>
+
+
+" =============================================================================
 " FINDING FILES:
 
 " Search down into subfolders (**)
@@ -55,7 +128,7 @@ set path+=**
 set wildmenu
 set wildmode=longest,list,full
 
-" NOW WE CAN:
+" NOW WE CAN
 " - Hit tab to :find by partial match
 " - Use the * to make it fuzzy
 " - :b lets you autocomplete any open buffer
@@ -124,75 +197,6 @@ command! MakeTags !ctags -R .
 " - Use ^n and ^p to go back and forth in the suggestion list
 
 
-" =============================================================================
-" KEYBOARD REMAPPINGS:
-
-" Remap the leader key to space
-let mapleader="\<Space>"
-
-" Print out every leader based mappings
-function! ListLeaders()
-   silent! redir @a
-   silent! nmap <LEADER>
-   silent! redir END
-   silent! new
-   silent! put! a
-   silent! g/^s*$/d
-   silent! %s/^.*,//
-   silent! normal ggVg
-   silent! sort
-   silent! let lines = getline(1,"$")
-endfunction
-
-" Remap the semicolon to be able to use the colon faster.
-nnoremap ; :
-vnoremap ; :
-
-" Navigate through wrapped long lines intuitively.
-nnoremap j gj
-nnoremap k gk
-
-
-" Save and quit fast access
-nnoremap <leader>w :write<cr>
-nnoremap <leader>q :quit<cr>
-
-" Toggle wrap mode
-nnoremap <leader>tw :set wrap!<cr>
-
-" Easyer split navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Motion in insert mode
-inoremap <C-h> <left>
-inoremap <C-l> <right>
-inoremap <C-j> <down>
-inoremap <C-k> <up>
-
-" Move lines in all modes
-nnoremap J :m .+1<CR>==
-nnoremap K :m .-2<CR>==
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-
-" =============================================================================
-" CLIPBOARD HANDLING:
-" Accessing the system clipboard
-vnoremap <C-c> "*y :let @+=@*<CR>
-nnoremap <C-P> "+p
-
-
-" =============================================================================
-" CONFIGURATION HANDLING AND RELOADING:
-" Open vimrc file
-nnoremap <leader>co :edit $MYVIMRC<CR>
-
-" Source vimrc
-nnoremap <leader>cl :source $MYVIMRC<cr>
 
 
 " =============================================================================
@@ -355,13 +359,6 @@ let NERDTreeIgnore = ['\.pyc$']
 
 
 " =============================================================================
-" PLUGIN: CTRLP
-" nnoremap <leader>p :CtrlP<CR>
-" let g:ctrlp_map = ''
-" let g:ctrlp_cmd = 'CtrlP'
-
-
-" =============================================================================
 " PLUGIN: SEXY SCROLLER
 let g:SexyScroller_MaxTime = 400
 let g:SexyScroller_EasingStyle = 3
@@ -456,3 +453,4 @@ autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<CR><esc>i## <esc>63a=<esc>:
 
 " Insert transaction with the current date.
 autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<CR>A * <esc>A
+
