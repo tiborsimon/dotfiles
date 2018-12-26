@@ -49,21 +49,6 @@ set splitbelow splitright
 " Remap the leader key to space
 let mapleader="\<Space>"
 
-" Print out every leader based mappings
-" TODO: Make this function a bit usable..
-function! ListLeaders()
-   silent! redir @a
-   silent! nmap <LEADER>
-   silent! redir END
-   silent! new
-   silent! put! a
-   silent! g/^s*$/d
-   silent! %s/^.*,//
-   silent! normal ggVg
-   silent! sort
-   silent! let lines = getline(1,"$")
-endfunction
-
 
 " =============================================================================
 " KEYBOARD REMAPPINGS:
@@ -81,7 +66,7 @@ nnoremap <leader>w :write<cr>
 nnoremap <leader>q :quit<cr>
 
 " Toggle wrap mode
-nnoremap <leader>tw :set wrap!<cr>
+nnoremap <leader>tw :setlocal wrap!<cr>
 
 " Easyer split navigation
 nnoremap <C-h> <C-w>h
@@ -96,26 +81,26 @@ inoremap <C-j> <down>
 inoremap <C-k> <up>
 
 " Move lines in all modes
-nnoremap J :m .+1<CR>==
-nnoremap K :m .-2<CR>==
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+nnoremap J :m .+1<cr>==
+nnoremap K :m .-2<cr>==
+vnoremap J :m '>+1<cr>gv=gv
+vnoremap K :m '<-2<cr>gv=gv
 
 
 " =============================================================================
 " CLIPBOARD HANDLING:
 " Accessing the system clipboard
-vnoremap <C-c> "*y :let @+=@*<CR>
+vnoremap <C-c> "*y :let @+=@*<cr>
 nnoremap <C-P> "+p
 
 
 " =============================================================================
 " CONFIGURATION HANDLING AND RELOADING:
 " Open vimrc file
-nnoremap <leader>co :edit $MYVIMRC<CR>
+nnoremap <leader>ve :edit $MYVIMRC<cr>
 
 " Source vimrc
-nnoremap <leader>cl :source $MYVIMRC<cr>
+nnoremap <leader>vs :source $MYVIMRC<cr>
 
 
 " =============================================================================
@@ -135,10 +120,10 @@ set wildmode=longest,list,full
 " - :b lets you autocomplete any open buffer
 
 " Better fuzzy file search and file open than ctrlp and :find based on *fzy*.
-nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<CR>
-nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<CR>
-nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<CR>
-nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<CR>
+nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<cr>
+nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<cr>
+nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<cr>
+nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<cr>
 
 
 " =============================================================================
@@ -152,8 +137,8 @@ set ignorecase         " Searches are Non Case-sensitive
 set smartcase          " Overrides ignorecase, if search contains uppercase character 
 
 " Do not jump if a word is selected
-nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-nnoremap <cr> :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+nnoremap * :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
+nnoremap <cr> :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
 
 " Enable visual selection search patterns
 " Source: http://vim.wikia.com/wiki/Highlight_all_search_pattern_matches
@@ -165,10 +150,10 @@ function! MakePattern(text)
   let pat = substitute(pat, '\_s\+',  '\\_s\\+', 'g')
   return '\\V' . escape(pat, '\"')
 endfunction
-vnoremap <silent> <cr> :<C-U>let @/="<C-R>=MakePattern(@*)<CR>"<CR>:set hls<CR>
+vnoremap <silent> <cr> :<C-U>let @/="<C-R>=MakePattern(@*)<cr>"<cr>:set hls<cr>
 
 " Disables the search highlight for the next search
-nnoremap <silent> <leader>/ :noh<CR>
+nnoremap <silent> <leader>/ :nohlsearch<cr>
 
 
 " =============================================================================
@@ -271,31 +256,33 @@ highlight DiffDelete   ctermfg=9   ctermbg=88
 " - This snippet downloads and install the Vim Plug plugin manager if it is
 "   not present.
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+augroup vimplug_auto_install_group
+  autocmd!
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+augroup END
 
 " =============================================================================
 " PLUGIN MANAGER AUTO INSTALL:
 " - List of installed plugins. Use 'PlugInstall|PlugUpdate' to install them.
 
 call plug#begin('~/.vim/plugged')
-Plug 'MattesGroeger/vim-bookmarks'   " better bookmarks
-Plug 'itchyny/lightline.vim'         " status line
-Plug 'itchyny/vim-gitbranch'         " minimal git for the status line
-Plug 'jeetsukumaran/vim-buffergator' " fast buffer management
-Plug 'joeytwiddle/sexy_scroller.vim' " fancy scroll animator
-Plug 'junegunn/goyo.vim'             " distraction free mode
-Plug 'kana/vim-arpeggio'             " key chords
-Plug 'scrooloose/nerdtree'           " file browser
-Plug 'terryma/vim-multiple-cursors'  " multiple cursor editing
-Plug 'airblade/vim-gitgutter'        " git gutter column
-Plug 'tpope/vim-surround'            " fast wrapping
-Plug 'ledger/vim-ledger'             " ledger plugin for syntax only
-Plug 'junegunn/vim-easy-align'       " fast align plugin
-Plug 'scrooloose/nerdcommenter'      " fast commenting
+Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
+Plug 'airblade/vim-gitgutter'                 " git gutter column
+Plug 'itchyny/lightline.vim'                  " status line
+Plug 'itchyny/vim-gitbranch'                  " minimal git for the status line
+Plug 'jeetsukumaran/vim-buffergator'          " fast buffer management
+Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
+Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
+Plug 'junegunn/vim-easy-align'                " fast align plugin
+Plug 'kana/vim-arpeggio'                      " key chords
+Plug 'ledger/vim-ledger', { 'for': 'ledger' } " ledger plugin for syntax only
+Plug 'scrooloose/nerdtree'                    " file browser
+Plug 'terryma/vim-multiple-cursors'           " multiple cursor editing
+Plug 'tpope/vim-surround'                     " fast wrapping
 call plug#end()
 
 
@@ -304,7 +291,7 @@ call plug#end()
 let g:goyo_width=80
 " Set up the Goyo mode toggle (width shouldn't be defined here, as it wont
 " toggle with it.
-nnoremap <leader>g :Goyo<CR>
+nnoremap <leader>g :Goyo<cr>
 
 
 " =============================================================================
@@ -347,7 +334,7 @@ call arpeggio#map('iv', '', 0, 'jk', '<Esc>')
 
 " =============================================================================
 " PLUGIN: NERDTREE
-nnoremap <silent> <F2> :NERDTreeToggle<CR>
+nnoremap <silent> <F2> :NERDTreeToggle<cr>
 let g:NERDTreeMapMenu = '<F3>'
 let g:NERDTreeChristmasTree = 1
 let g:NERDTreeCaseSensitiveSort = 1
@@ -368,10 +355,10 @@ let g:SexyScroller_EasingStyle = 3
 " =============================================================================
 " PLUGIN: EASY-ALIGN
 " Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+xnoremap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+nnoremap ga <Plug>(EasyAlign)
 
 
 " =============================================================================
@@ -396,24 +383,30 @@ nnoremap <leader>m<leader> :!clear && make
 
 " =============================================================================
 " SNIPPETS: PYTHON
-autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
-autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
-autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
-autocmd Filetype python nnoremap <buffer> <leader>ndb Ofrom nose.tools import set_trace; set_trace()<esc>j^:w<cr>
-autocmd Filetype python nnoremap <buffer> <leader>pdb Oimport pdb; pdb.set_trace()<esc>j^:w<cr>
-autocmd Filetype python nnoremap <buffer> <leader>pudb Oimport pudb; pudb.set_trace()<esc>j^:w<cr>
-autocmd Filetype python nnoremap <buffer> <leader>ipdb Oimport ipdb; ipdb.set_trace()<esc>j^:w<cr>
-autocmd Filetype python nnoremap <buffer> <leader>p3 :! clear && python3 %<cr>
-autocmd Filetype python nnoremap <buffer> <leader>p2 :! clear && python2 %<cr>
-autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
+augroup snippets_python_group
+  autocmd!
+  autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>ndb Ofrom nose.tools import set_trace; set_trace()<esc>j^:w<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>pdb Oimport pdb; pdb.set_trace()<esc>j^:w<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>pudb Oimport pudb; pudb.set_trace()<esc>j^:w<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>ipdb Oimport ipdb; ipdb.set_trace()<esc>j^:w<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>p3 :! clear && python3 %<cr>
+  autocmd Filetype python nnoremap <buffer> <leader>p2 :! clear && python2 %<cr>
+  autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
+augroup END
 
 
 " =============================================================================
 " SNIPPETS: RUST
-autocmd Filetype rust nnoremap <buffer> <leader>cr :! clear && cargo run<cr>
-autocmd Filetype rust nnoremap <buffer> <leader>cb :! clear && cargo build<cr>
-autocmd Filetype rust nnoremap <buffer> <leader>cc :! clear && cargo check<cr>
-autocmd Filetype rust nnoremap <buffer> <leader>ct :! clear && cargo test<cr>
+augroup snippets_rust_group
+  autocmd!
+  autocmd Filetype rust nnoremap <buffer> <leader>cr :! clear && cargo run<cr>
+  autocmd Filetype rust nnoremap <buffer> <leader>cb :! clear && cargo build<cr>
+  autocmd Filetype rust nnoremap <buffer> <leader>cc :! clear && cargo check<cr>
+  autocmd Filetype rust nnoremap <buffer> <leader>ct :! clear && cargo test<cr>
+augroup END
 
 
 " =============================================================================
@@ -437,21 +430,27 @@ endfunction
 " SNIPPETS: LEDGER
 " Snippets and mappings for the ledger text based accounting tools.
 
-" Create ledger file type.
-autocmd BufRead,BufNewFile *.ledger set filetype=ledger
+augroup snippets_ledger_group
+  autocmd!
+  " Create ledger file type.
+  autocmd BufRead,BufNewFile *.ledger set filetype=ledger
 
-" Add posting by fuzzy completing the account.
-autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":r !echo '    ' ")<CR>o<ESC>
+  " Add posting by fuzzy completing the account.
+  autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>o<ESC>
 
-" Add posting by fuzzy completing the account.
-autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":r !echo '    ' ")<CR>A  <ESC>a
+  " Add posting by fuzzy completing the account.
+  autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>A  <ESC>a
 
-" Align postings amount to the right to the defined column.
-autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<CR>gvp0
+  " Align postings amount to the right to the defined column.
+  autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<cr>gvp0
 
-" Insert daily header with the current date.
-autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<CR><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<CR>I## <esc>0
+  " Insert daily header with the current date.
+  autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<cr><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0
 
-" Insert transaction with the current date.
-autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<CR>A * <esc>A
+  " Insert transaction with the current date.
+  autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<cr>A * <esc>A
+augroup END
+
+
+
 
