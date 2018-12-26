@@ -124,25 +124,32 @@ command! MakeTags !ctags -R .
 " Remap the leader key to space
 let mapleader="\<Space>"
 
-" Remap the semicolon to be able to use the colon faster
+" Print out every leader based mappings
+function! ListLeaders()
+   silent! redir @a
+   silent! nmap <LEADER>
+   silent! redir END
+   silent! new
+   silent! put! a
+   silent! g/^s*$/d
+   silent! %s/^.*,//
+   silent! normal ggVg
+   silent! sort
+   silent! let lines = getline(1,"$")
+endfunction
+
+" Remap the semicolon to be able to use the colon faster.
 nnoremap ; :
 vnoremap ; :
 
-" Navigate through long lines intuitively
+" Navigate through wrapped long lines intuitively.
 nnoremap j gj
 nnoremap k gk
 
-" Vimrc handling: open vimrc file
-nnoremap <silent> <leader>vrc :tabe ~/.vimrc<CR>
-
-" Source vimrc
-nnoremap <leader>l :source $MYVIMRC<cr>
-
-nnoremap * *``
 
 " Save and quit fast access
-nnoremap <leader>w :w<cr>
-nnoremap <leader>q :q<cr>
+nnoremap <leader>w :write<cr>
+nnoremap <leader>q :quit<cr>
 
 " Toggle wrap mode
 nnoremap <leader>tw :set wrap!<cr>
@@ -171,6 +178,15 @@ vnoremap K :m '<-2<CR>gv=gv
 " Accessing the system clipboard
 vnoremap <C-c> "*y :let @+=@*<CR>
 nnoremap <C-P> "+p
+
+
+" =============================================================================
+" CONFIGURATION HANDLING AND RELOADING:
+" Open vimrc file
+nnoremap <leader>co :edit $MYVIMRC<CR>
+
+" Source vimrc
+nnoremap <leader>cl :source $MYVIMRC<cr>
 
 
 " =============================================================================
