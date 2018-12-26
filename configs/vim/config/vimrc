@@ -9,7 +9,6 @@
 " Major refactor on 2018-12-24
 "
 
-
 " =============================================================================
 " BASIC CONFIG:
 
@@ -46,10 +45,12 @@ set splitbelow splitright
 
 " =============================================================================
 " LEADER SETTINGS:
+
 " Remap the leader key to space
 let mapleader="\<Space>"
 
 " Print out every leader based mappings
+" TODO: Make this function a bit usable..
 function! ListLeaders()
    silent! redir @a
    silent! nmap <LEADER>
@@ -176,7 +177,7 @@ nnoremap <silent> <leader>/ :noh<CR>
 " Create the tags index file for the current project
 command! MakeTags !ctags -R .
 
-" NOW WE CAN:
+" NOW WE CAN
 " - Use ^] to jump tag under cursor
 " - Use g^] for ambiguous tags
 " - Use ^t to jump back up to the tag stack
@@ -188,16 +189,14 @@ command! MakeTags !ctags -R .
 
 " The good stuff is documented in |ins-completion|
 
-" HIGHLIGHTS:
+" SOME USEFUL MAPPINGS
 " - ^x^n for JUST this file
 " - ^x^f for filenames
 " - ^x^] for tags only
 " - ^n for anything specified in the 'complete' option
 
-" NOW WE CAN:
+" NOW WE CAN
 " - Use ^n and ^p to go back and forth in the suggestion list
-
-
 
 
 " =============================================================================
@@ -296,6 +295,7 @@ Plug 'airblade/vim-gitgutter'        " git gutter column
 Plug 'tpope/vim-surround'            " fast wrapping
 Plug 'ledger/vim-ledger'             " ledger plugin for syntax only
 Plug 'junegunn/vim-easy-align'       " fast align plugin
+Plug 'scrooloose/nerdcommenter'      " fast commenting
 call plug#end()
 
 
