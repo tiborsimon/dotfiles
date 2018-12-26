@@ -152,6 +152,7 @@ set smartcase          " Overrides ignorecase, if search contains uppercase char
 
 " Do not jump if a word is selected
 nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+nnoremap <cr> :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " Enable visual selection search patterns
 " Source: http://vim.wikia.com/wiki/Highlight_all_search_pattern_matches
@@ -163,7 +164,7 @@ function! MakePattern(text)
   let pat = substitute(pat, '\_s\+',  '\\_s\\+', 'g')
   return '\\V' . escape(pat, '\"')
 endfunction
-vnoremap <silent> * :<C-U>let @/="<C-R>=MakePattern(@*)<CR>"<CR>:set hls<CR>
+vnoremap <silent> <cr> :<C-U>let @/="<C-R>=MakePattern(@*)<CR>"<CR>:set hls<CR>
 
 " Disables the search highlight for the next search
 nnoremap <silent> <leader>/ :noh<CR>
