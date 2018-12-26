@@ -13,16 +13,16 @@
 " =============================================================================
 " BASIC CONFIG:
 
-" Drop vi compatibility -> enter the new age 
+" Drop vi compatibility -> enter the new age.
 set nocompatible
 
-" Enable syntax to produce colors
+" Enable syntax to produce colors.
 syntax enable
 
-" netrw is a plugin that comes with vim
+" netrw is a plugin that comes with vim.
 filetype plugin on
 
-" Set encoding
+" Set encoding.
 set encoding=utf-8
 set termencoding=utf-8
 
@@ -191,22 +191,21 @@ set nostartofline      " When moving thru the lines, the cursor will try to
 
 " Color definitions
 set fillchars+=vert:\ "space
-hi StatusLine     ctermfg=233 ctermbg=246
-hi StatusLineNC   ctermfg=239 ctermbg=245
-hi VertSplit      ctermfg=237 ctermbg=240
 
-hi Folded         ctermfg=241 ctermbg=233
-hi MatchParen cterm=none ctermbg=240 ctermfg=7
+highlight StatusLine   ctermfg=233 ctermbg=246
+highlight StatusLineNC ctermfg=239 ctermbg=245
+highlight VertSplit    ctermfg=237 ctermbg=240
 
-hi Search cterm=NONE ctermfg=0 ctermbg=11
-hi Visual cterm=NONE ctermfg=blue ctermbg=white
+highlight Folded       ctermfg=241 ctermbg=233
+highlight MatchParen   cterm=none  ctermbg=240  ctermfg=7
+highlight Search       cterm=NONE  ctermfg=0    ctermbg=11
+highlight Visual       cterm=NONE  ctermfg=blue ctermbg=white
 
 " Redefine diff colors:
-" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
-highlight DiffAdd    ctermfg=10 ctermbg=22
-highlight DiffChange ctermfg=7 ctermbg=8
-highlight DiffText   ctermfg=15 ctermbg=27
-highlight DiffDelete ctermfg=9 ctermbg=88
+highlight DiffAdd      ctermfg=10  ctermbg=22
+highlight DiffChange   ctermfg=7   ctermbg=8
+highlight DiffText     ctermfg=15  ctermbg=27
+highlight DiffDelete   ctermfg=9   ctermbg=88
 
 
 " =============================================================================
@@ -235,19 +234,19 @@ endif
 " - List of installed plugins. Use 'PlugInstall|PlugUpdate' to install them.
 
 call plug#begin('~/.vim/plugged')
-Plug 'MattesGroeger/vim-bookmarks'    " better bookmarks
-Plug 'itchyny/lightline.vim'          " status line
-Plug 'itchyny/vim-gitbranch'          " minimal git for the status line
-Plug 'jeetsukumaran/vim-buffergator'  " fast buffer management
-Plug 'joeytwiddle/sexy_scroller.vim'  " fancy scroll animator
-Plug 'junegunn/goyo.vim'              " distraction free mode
-Plug 'kana/vim-arpeggio'              " key chords
-Plug 'scrooloose/nerdtree'            " file browser
-Plug 'terryma/vim-multiple-cursors'   " multiple cursor editing
-Plug 'airblade/vim-gitgutter'         " git gutter column
-Plug 'tpope/vim-surround'             " fast wrapping
-Plug 'ledger/vim-ledger'              " ledger plugin for syntax only
-Plug 'junegunn/vim-easy-align'        " fast align plugin
+Plug 'MattesGroeger/vim-bookmarks'   " better bookmarks
+Plug 'itchyny/lightline.vim'         " status line
+Plug 'itchyny/vim-gitbranch'         " minimal git for the status line
+Plug 'jeetsukumaran/vim-buffergator' " fast buffer management
+Plug 'joeytwiddle/sexy_scroller.vim' " fancy scroll animator
+Plug 'junegunn/goyo.vim'             " distraction free mode
+Plug 'kana/vim-arpeggio'             " key chords
+Plug 'scrooloose/nerdtree'           " file browser
+Plug 'terryma/vim-multiple-cursors'  " multiple cursor editing
+Plug 'airblade/vim-gitgutter'        " git gutter column
+Plug 'tpope/vim-surround'            " fast wrapping
+Plug 'ledger/vim-ledger'             " ledger plugin for syntax only
+Plug 'junegunn/vim-easy-align'       " fast align plugin
 call plug#end()
 
 
