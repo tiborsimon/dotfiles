@@ -60,6 +60,12 @@ set wildmode=longest,list,full
 " - Use the * to make it fuzzy
 " - :b lets you autocomplete any open buffer
 
+" Better fuzzy file search and file open than ctrlp and :find based on *fzy*.
+nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<CR>
+nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<CR>
+nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<CR>
+nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<CR>
+
 
 " =============================================================================
 " SEARCH SETTINGS:
@@ -427,12 +433,6 @@ function! FzyCommand(choice_command, vim_command)
     exec a:vim_command . ' ' . output
   endif
 endfunction
-
-" Better ctrlp fuzzy file search and file open
-nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<CR>
-nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<CR>
-nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<CR>
-nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<CR>
 
 
 " =============================================================================
