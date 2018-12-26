@@ -43,10 +43,6 @@ set noswapfile
 " Splits open at the bottom and right, which is non-retarded
 set splitbelow splitright
 
-" Accessing the system clipboard
-vnoremap <C-c> "*y :let @+=@*<CR>
-nnoremap <C-P> "+P
-
 
 " =============================================================================
 " FINDING FILES:
@@ -149,6 +145,13 @@ nnoremap J :m .+1<CR>==
 nnoremap K :m .-2<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+
+" =============================================================================
+" CLIPBOARD HANDLING:
+" Accessing the system clipboard
+vnoremap <C-c> "*y :let @+=@*<CR>
+nnoremap <C-P> "+p
 
 
 " =============================================================================
