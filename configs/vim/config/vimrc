@@ -9,448 +9,400 @@
 " Major refactor on 2018-12-24
 "
 
-" =============================================================================
-" BASIC CONFIG:
-
-" Drop vi compatibility -> enter the new age.
-set nocompatible
-
-" Enable syntax to produce colors.
-syntax enable
-
-" netrw is a plugin that comes with vim.
-filetype plugin on
-
-" Set encoding.
-set encoding=utf-8
-set termencoding=utf-8
-
-" Tab management: http://stackoverflow.com/a/1878983/1565331
-set tabstop=2
-set softtabstop=2
-set expandtab
-set shiftwidth=2
-set smarttab
-set smartindent
-set autoindent
-
-" Disable backup and swap files as we are using version control tools
-set nobackup
-set nowritebackup
-set noswapfile
-
-" Splits open at the bottom and right, which is non-retarded
-set splitbelow splitright
-
-
-" =============================================================================
-" LEADER SETTINGS:
-
-" Remap the leader key to space
-let mapleader="\<Space>"
-
-
-" =============================================================================
-" KEYBOARD REMAPPINGS:
-
-" Remap the semicolon to be able to use the colon faster.
-nnoremap ; :
-vnoremap ; :
-
-" Navigate through wrapped long lines intuitively.
-nnoremap j gj
-nnoremap k gk
-
-" Save and quit fast access
-nnoremap <leader>w :write<cr>
-nnoremap <leader>q :quit<cr>
-
-" Toggle wrap mode
-nnoremap <leader>tw :setlocal wrap!<cr>
-
-" Easyer split navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Motion in insert mode
-inoremap <C-h> <left>
-inoremap <C-l> <right>
-inoremap <C-j> <down>
-inoremap <C-k> <up>
-
-" Move lines in all modes
-nnoremap J :m .+1<cr>==
-nnoremap K :m .-2<cr>==
-vnoremap J :m '>+1<cr>gv=gv
-vnoremap K :m '<-2<cr>gv=gv
-
-
-" =============================================================================
-" CLIPBOARD HANDLING:
-" Accessing the system clipboard
-vnoremap <C-c> "*y :let @+=@*<cr>
-nnoremap <C-P> "+p
-
-
-" =============================================================================
-" CONFIGURATION HANDLING AND RELOADING:
-" Open vimrc file
-nnoremap <leader>ve :edit $MYVIMRC<cr>
-
-" Source vimrc
-nnoremap <leader>vs :source $MYVIMRC<cr>
-
-
-" =============================================================================
-" FINDING FILES:
-
-" Search down into subfolders (**)
-" Provides tab-completion for all file-related tasks
-set path+=**
-
-" Display all matching files when we tab complete
-set wildmenu
-set wildmode=longest,list,full
-
-" NOW WE CAN
-" - Hit tab to :find by partial match
-" - Use the * to make it fuzzy
-" - :b lets you autocomplete any open buffer
-
-" Better fuzzy file search and file open than ctrlp and :find based on *fzy*.
-nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<cr>
-nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<cr>
-nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<cr>
-nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<cr>
-
-
-" =============================================================================
-" SEARCH SETTINGS:
-
-" Search options
-set hlsearch           " Highlight search
-set incsearch          " Incremental search
-set magic              " Set magic on, for regular expressions
-set ignorecase         " Searches are Non Case-sensitive
-set smartcase          " Overrides ignorecase, if search contains uppercase character 
-
-" Do not jump if a word is selected
-nnoremap * :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
-nnoremap <cr> :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
-
-" Enable visual selection search patterns
-" Source: http://vim.wikia.com/wiki/Highlight_all_search_pattern_matches
-set guioptions+=a
-function! MakePattern(text)
-  let pat = escape(a:text, '\')
-  let pat = substitute(pat, '\_s\+$', '\\s\\*', '')
-  let pat = substitute(pat, '^\_s\+', '\\s\\*', '')
-  let pat = substitute(pat, '\_s\+',  '\\_s\\+', 'g')
-  return '\\V' . escape(pat, '\"')
-endfunction
-vnoremap <silent> <cr> :<C-U>let @/="<C-R>=MakePattern(@*)<cr>"<cr>:set hls<cr>
-
-" Disables the search highlight for the next search
-nnoremap <silent> <leader>/ :nohlsearch<cr>
-
-
-" =============================================================================
-" TAG JUMPING:
-
-" Create the tags index file for the current project
-command! MakeTags !ctags -R .
-
-" NOW WE CAN
-" - Use ^] to jump tag under cursor
-" - Use g^] for ambiguous tags
-" - Use ^t to jump back up to the tag stack
-" - The places where vim looks for the tags index is in the tags variable
-
-
-" =============================================================================
-" AUTOCOMPLETE:
-
-" The good stuff is documented in |ins-completion|
-
-" SOME USEFUL MAPPINGS
-" - ^x^n for JUST this file
-" - ^x^f for filenames
-" - ^x^] for tags only
-" - ^n for anything specified in the 'complete' option
-
-" NOW WE CAN
-" - Use ^n and ^p to go back and forth in the suggestion list
-
-
-" =============================================================================
-"    _____ _    _ _____
-"   / ____| |  | |_   _|
-"  | |  __| |  | | | |
-"  | | |_ | |  | | | |
-"  | |__| | |__| |_| |_
-"   \_____|\____/|_____|
-"
-
-colors elflord         " Set the color theme
-
-" Set relative numbering on the left side
-set number relativenumber
-
-" Enable the ruler in the bottom right corner
-set ruler
-
-" Status line
-set laststatus=2       " Always show the statusline
-set noshowmode         " Hide the default mode text
-set showcmd
-
-" Scrolling
-set scrolloff=5        " Show 5 lines of context around the cursor
-set sidescrolloff=20
-set scrolljump=0
-
-" Drawing settings
-set lazyredraw         " The screen won't be redrawn unless actions took place
-set ttyfast            " Improves redrawing for newer computers
-
-" Miscellaneous
-set showmatch          " Shows matching brackets when text indicator is over them
-set pumheight=10       " Max number of popup menu items
-set diffopt+=context:3
-set nostartofline      " When moving thru the lines, the cursor will try to 
-                       " stay in the previous columns
-
-" Color definitions
-set fillchars+=vert:\ "space
-
-highlight StatusLine   ctermfg=233 ctermbg=246
-highlight StatusLineNC ctermfg=239 ctermbg=245
-highlight VertSplit    ctermfg=237 ctermbg=240
-
-highlight Folded       ctermfg=241 ctermbg=233
-highlight MatchParen   cterm=none  ctermbg=240  ctermfg=7
-highlight Search       cterm=NONE  ctermfg=0    ctermbg=11
-highlight Visual       cterm=NONE  ctermfg=blue ctermbg=white
-
-" Redefine diff colors:
-highlight DiffAdd      ctermfg=10  ctermbg=22
-highlight DiffChange   ctermfg=7   ctermbg=8
-highlight DiffText     ctermfg=15  ctermbg=27
-highlight DiffDelete   ctermfg=9   ctermbg=88
-
-
-" =============================================================================
-"   _____  _             _
-"  |  __ \| |           (_)
-"  | |__) | |_   _  __ _ _ _ __  ___
-"  |  ___/| | | | |/ _` | | '_ \/ __|
-"  | |    | | |_| | (_| | | | | \__ \
-"  |_|    |_|\__,_|\__, |_|_| |_|___/
-"                   __/ |
-"                  |___/
-
-" =============================================================================
-" PLUGIN MANAGER AUTO INSTALL:
-" - This snippet downloads and install the Vim Plug plugin manager if it is
-"   not present.
-
-augroup vimplug_auto_install_group
-  autocmd!
-  if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
-augroup END
-
-" =============================================================================
-" PLUGIN MANAGER AUTO INSTALL:
-" - List of installed plugins. Use 'PlugInstall|PlugUpdate' to install them.
-
-call plug#begin('~/.vim/plugged')
-Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
-Plug 'airblade/vim-gitgutter'                 " git gutter column
-Plug 'itchyny/lightline.vim'                  " status line
-Plug 'itchyny/vim-gitbranch'                  " minimal git for the status line
-Plug 'jeetsukumaran/vim-buffergator'          " fast buffer management
-Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
-Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
-Plug 'junegunn/vim-easy-align'                " fast align plugin
-Plug 'kana/vim-arpeggio'                      " key chords
-Plug 'ledger/vim-ledger', { 'for': 'ledger' } " ledger plugin for syntax only
-Plug 'scrooloose/nerdtree'                    " file browser
-Plug 'terryma/vim-multiple-cursors'           " multiple cursor editing
-Plug 'tpope/vim-surround'                     " fast wrapping
-call plug#end()
-
-
-" =============================================================================
-" PLUGIN: GOYO
-let g:goyo_width=80
-" Set up the Goyo mode toggle (width shouldn't be defined here, as it wont
-" toggle with it.
-nnoremap <leader>g :Goyo<cr>
-
-
-" =============================================================================
-" PLUGIN: LIGHTLINE
-let g:lightline = {
-  \ 'colorscheme': 'powerline',
-  \ 'active': {
-  \   'left': [
-  \     [ 'mode', 'paste' ],
-  \     [ 'gitbranch', 'readonly', 'filename', 'bufnum', 'modified' ],
-  \   ],
-  \   'right': [
-  \     [ 'lineinfo' ],
-  \     [ 'percent' ],
-  \     [ 'charvaluehex', 'fileformat', 'fileencoding', 'filetype' ]
-  \   ]
-  \ },
-  \ 'tabline': {
-  \   'left': [ [ 'tabs' ] ],
-  \   'right': []
-  \ },
-  \ 'tab': {
-  \   'active': [ 'tabnum', 'readonly', 'filename', 'modified' ],
-  \   'inactive': [ 'tabnum', 'readonly', 'filename', 'modified' ]
-  \ },
-  \ 'component': {
-  \   'charvaluehex': '0x%B'
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'gitbranch#name',
-  \ },
-  \ }
-
-
-" =============================================================================
-" PLUGIN: ARPEGGIO
-" Map the jk key chord to send an <Esc> key press
-call arpeggio#map('iv', '', 0, 'jk', '<Esc>')
-
-
-" =============================================================================
-" PLUGIN: NERDTREE
-nnoremap <silent> <F2> :NERDTreeToggle<cr>
-let g:NERDTreeMapMenu = '<F3>'
-let g:NERDTreeChristmasTree = 1
-let g:NERDTreeCaseSensitiveSort = 1
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeWinPos = 'left'
-let g:NERDTreeShowBookmarks = 1
-let g:NERDTreeDirArrows=0
-let NERDTreeMinimalUI=1
-let NERDTreeIgnore = ['\.pyc$']
-
-
-" =============================================================================
-" PLUGIN: SEXY SCROLLER
-let g:SexyScroller_MaxTime = 400
-let g:SexyScroller_EasingStyle = 3
-
-
-" =============================================================================
-" PLUGIN: EASY-ALIGN
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xnoremap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nnoremap ga <Plug>(EasyAlign)
-
-
-" =============================================================================
-"    _____       _                  _
-"   / ____|     (_)                | |
-"  | (___  _ __  _ _ __  _ __   ___| |_ ___
-"   \___ \| '_ \| | '_ \| '_ \ / _ \ __/ __|
-"   ____) | | | | | |_) | |_) |  __/ |_\__ \
-"  |_____/|_| |_|_| .__/| .__/ \___|\__|___/
-"                 | |   | |
-"                 |_|   |_|
-
-" =============================================================================
-" SNIPPETS: MAKE
-nnoremap <leader>mm :!clear && make<cr>
-nnoremap <leader>mt :!clear && make test<cr>
-nnoremap <leader>mc :!clear && make clean<cr>
-nnoremap <leader>mb :!clear && make build<cr>
-nnoremap <leader>md :!clear && make debug<cr>
-nnoremap <leader>m<leader> :!clear && make 
-
-
-" =============================================================================
-" SNIPPETS: PYTHON
-augroup snippets_python_group
-  autocmd!
-  autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>ndb Ofrom nose.tools import set_trace; set_trace()<esc>j^:w<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>pdb Oimport pdb; pdb.set_trace()<esc>j^:w<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>pudb Oimport pudb; pudb.set_trace()<esc>j^:w<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>ipdb Oimport ipdb; ipdb.set_trace()<esc>j^:w<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>p3 :! clear && python3 %<cr>
-  autocmd Filetype python nnoremap <buffer> <leader>p2 :! clear && python2 %<cr>
-  autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
-augroup END
-
-
-" =============================================================================
-" SNIPPETS: RUST
-augroup snippets_rust_group
-  autocmd!
-  autocmd Filetype rust nnoremap <buffer> <leader>cr :! clear && cargo run<cr>
-  autocmd Filetype rust nnoremap <buffer> <leader>cb :! clear && cargo build<cr>
-  autocmd Filetype rust nnoremap <buffer> <leader>cc :! clear && cargo check<cr>
-  autocmd Filetype rust nnoremap <buffer> <leader>ct :! clear && cargo test<cr>
-augroup END
-
-
-" =============================================================================
-" SNIPPETS: FZY
-
-" Helper function to interface the fzy command as a fuzzy choice finder.
-function! FzyCommand(choice_command, vim_command)
-  try
-    let output = system(a:choice_command . " | fzy ")
-  catch /Vim:Interrupt/
-    " Swallow errors from ^C, allow redraw! below
-  endtry
-  redraw!
-  if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . ' ' . output
-  endif
-endfunction
-
-
-" =============================================================================
-" SNIPPETS: LEDGER
-" Snippets and mappings for the ledger text based accounting tools.
-
-augroup snippets_ledger_group
-  autocmd!
-  " Create ledger file type.
-  autocmd BufRead,BufNewFile *.ledger set filetype=ledger
-
-  " Add posting by fuzzy completing the account.
-  autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>o<ESC>
-
-  " Add posting by fuzzy completing the account.
-  autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>A  <ESC>a
-
-  " Align postings amount to the right to the defined column.
-  autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<cr>gvp0
-
-  " Insert daily header with the current date.
-  autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<cr><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0
-
-  " Insert transaction with the current date.
-  autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<cr>A * <esc>A
-augroup END
-
-
-
+" BASIC SETTINGS: ========================================================= {{{
+  " Drop vi compatibility -> enter the new age.
+  set nocompatible
+
+  " Enable syntax to produce colors.
+  syntax enable
+
+  " netrw is a plugin that comes with vim.
+  filetype plugin on
+
+  " Set encoding.
+  set encoding=utf-8
+  set termencoding=utf-8
+
+  " Tab management: http://stackoverflow.com/a/1878983/1565331
+  set tabstop=2
+  set softtabstop=2
+  set expandtab
+  set shiftwidth=2
+  set smarttab
+  set smartindent
+  set autoindent
+
+  " Disable backup and swap files as we are using version control tools
+  set nobackup
+  set nowritebackup
+  set noswapfile
+
+  " Splits open at the bottom and right, which is non-retarded
+  set splitbelow splitright
+" }}} BASIC SETTINGS ==========================================================
+
+" LEADER SETTINGS: ======================================================== {{{
+  " Remap the leader key to space
+  let mapleader="\<Space>"
+" }}} LEADER SETTINGS  ========================================================
+
+" KEYBOARD REMAPPINGS: ==================================================== {{{
+  " Remap the semicolon to be able to use the colon faster.
+  nnoremap ; :
+  vnoremap ; :
+
+  " Navigate through wrapped long lines intuitively.
+  nnoremap j gj
+  nnoremap k gk
+
+  " Save and quit fast access
+  nnoremap <leader>w :write<cr>
+  nnoremap <leader>q :quit<cr>
+
+  " Toggle wrap mode
+  nnoremap <leader>tw :setlocal wrap!<cr>
+
+  " Easyer split navigation
+  nnoremap <C-h> <C-w>h
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-l> <C-w>l
+
+  " Motion in insert mode
+  inoremap <C-h> <left>
+  inoremap <C-l> <right>
+  inoremap <C-j> <down>
+  inoremap <C-k> <up>
+
+  " Move lines in all modes
+  nnoremap J :m .+1<cr>==
+  nnoremap K :m .-2<cr>==
+  vnoremap J :m '>+1<cr>gv=gv
+  vnoremap K :m '<-2<cr>gv=gv
+" }}} KEYBOARD REMAPPINGS =====================================================
+
+" CLIPBOARD HANDLING: ===================================================== {{{
+  " Accessing the system clipboard
+  vnoremap <C-c> "*y :let @+=@*<cr>
+  nnoremap <C-P> "+p
+" }}} CLIPBOARD HANDLING ======================================================
+
+" VIM CONFIGURATION HANDLING: ============================================= {{{
+  " Open vimrc file
+  nnoremap <leader>ve :edit $MYVIMRC<cr>
+
+  " Source vimrc
+  nnoremap <leader>vs :source $MYVIMRC<cr>
+
+  augroup filetype_vim
+    autocmd!
+    " Turn on folding for the vimrc file
+    autocmd FileType vim setlocal foldmethod=marker
+  augroup END
+" }}} VIM CONFIGURATION HANDLING ==============================================
+
+" FINDING FILES: ========================================================== {{{
+  " Search down into subfolders (**)
+  " Provides tab-completion for all file-related tasks
+  set path+=**
+
+  " Display all matching files when we tab complete
+  set wildmenu
+  set wildmode=longest,list,full
+
+  " NOW WE CAN
+  " - Hit tab to :find by partial match
+  " - Use the * to make it fuzzy
+  " - :b lets you autocomplete any open buffer
+
+  " Better fuzzy file search and file open than ctrlp and :find based on *fzy*.
+  nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<cr>
+  nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<cr>
+  nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<cr>
+  nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<cr>
+" }}} FINDING FILES ===========================================================
+
+" SEARCH SETTINGS: ======================================================== {{{
+  " Search options
+  set hlsearch           " Highlight search
+  set incsearch          " Incremental search
+  set magic              " Set magic on, for regular expressions
+  set ignorecase         " Searches are Non Case-sensitive
+  set smartcase          " Overrides ignorecase, if search contains uppercase character 
+
+  " Do not jump if a word is selected
+  nnoremap * :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
+  nnoremap <cr> :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
+
+  " Enable visual selection search patterns
+  " Source: http://vim.wikia.com/wiki/Highlight_all_search_pattern_matches
+  set guioptions+=a
+  function! MakePattern(text)
+    let pat = escape(a:text, '\')
+    let pat = substitute(pat, '\_s\+$', '\\s\\*', '')
+    let pat = substitute(pat, '^\_s\+', '\\s\\*', '')
+    let pat = substitute(pat, '\_s\+',  '\\_s\\+', 'g')
+    return '\\V' . escape(pat, '\"')
+  endfunction
+  vnoremap <silent> <cr> :<C-U>let @/="<C-R>=MakePattern(@*)<cr>"<cr>:set hls<cr>
+
+  " Disables the search highlight for the next search
+  nnoremap <silent> <leader>/ :nohlsearch<cr>
+" }}} SEARCH SETTINGS =========================================================
+
+" TAG JUMPING: ============================================================ {{{
+  " Create the tags index file for the current project
+  command! MakeTags !ctags -R .
+
+  " NOW WE CAN
+  " - Use ^] to jump tag under cursor
+  " - Use g^] for ambiguous tags
+  " - Use ^t to jump back up to the tag stack
+  " - The places where vim looks for the tags index is in the tags variable
+" }}} TAG JUMPING =============================================================
+
+" AUTOCOMPLETE: =========================================================== {{{
+  " The good stuff is documented in |ins-completion|
+
+  " SOME USEFUL MAPPINGS
+  " - ^x^n for JUST this file
+  " - ^x^f for filenames
+  " - ^x^] for tags only
+  " - ^n for anything specified in the 'complete' option
+
+  " NOW WE CAN
+  " - Use ^n and ^p to go back and forth in the suggestion list
+" }}} AUTOCOMPLETE ============================================================
+
+" GUI SETTINGS: =========================================================== {{{
+  colors elflord         " Set the color theme
+
+  " Set relative numbering on the left side
+  set number relativenumber
+
+  " Enable the ruler in the bottom right corner
+  set ruler
+
+  " Status line
+  set laststatus=2       " Always show the statusline
+  set noshowmode         " Hide the default mode text
+  set showcmd
+
+  " Scrolling
+  set scrolloff=5        " Show 5 lines of context around the cursor
+  set sidescrolloff=20
+  set scrolljump=0
+
+  " Drawing settings
+  set lazyredraw         " The screen won't be redrawn unless actions took place
+  set ttyfast            " Improves redrawing for newer computers
+
+  " Miscellaneous
+  set showmatch          " Shows matching brackets when text indicator is over them
+  set pumheight=10       " Max number of popup menu items
+  set diffopt+=context:3
+  set nostartofline      " When moving thru the lines, the cursor will try to 
+                         " stay in the previous columns
+
+  " Color definitions
+  set fillchars+=vert:\ "space
+
+  highlight StatusLine   ctermfg=233 ctermbg=246
+  highlight StatusLineNC ctermfg=239 ctermbg=245
+  highlight VertSplit    ctermfg=237 ctermbg=240
+
+  highlight Folded       ctermfg=246 ctermbg=237
+  highlight MatchParen   cterm=none  ctermbg=240  ctermfg=7
+  highlight Search       cterm=NONE  ctermfg=0    ctermbg=11
+  highlight Visual       cterm=NONE  ctermfg=blue ctermbg=white
+
+  " Redefine diff colors:
+  highlight DiffAdd      ctermfg=10  ctermbg=22
+  highlight DiffChange   ctermfg=7   ctermbg=8
+  highlight DiffText     ctermfg=15  ctermbg=27
+  highlight DiffDelete   ctermfg=9   ctermbg=88
+" }}} GUI SETTINGS ============================================================
+
+" PLUGINS: ================================================================ {{{
+
+  " PLUGIN MANAGER AUTO INSTALL: ========================================== {{{
+    " - This snippet downloads and install the Vim Plug plugin manager if it is
+    "   not present.
+
+    augroup vimplug_auto_install_group
+      autocmd!
+      if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+      endif
+    augroup END
+  " }}} PLUGIN MANAGER AUTO INSTALL ===========================================
+
+  " INSTALLED PLUGINS: ==================================================== {{{
+    call plug#begin('~/.vim/plugged')
+      Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
+      Plug 'airblade/vim-gitgutter'                 " git gutter column
+      Plug 'itchyny/lightline.vim'                  " status line
+      Plug 'itchyny/vim-gitbranch'                  " minimal git for the status line
+      Plug 'jeetsukumaran/vim-buffergator'          " fast buffer management
+      Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
+      Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
+      Plug 'junegunn/vim-easy-align'                " fast align plugin
+      Plug 'kana/vim-arpeggio'                      " key chords
+      Plug 'ledger/vim-ledger', { 'for': 'ledger' } " ledger plugin for syntax only
+      Plug 'scrooloose/nerdtree'                    " file browser
+      Plug 'terryma/vim-multiple-cursors'           " multiple cursor editing
+      Plug 'tpope/vim-surround'                     " fast wrapping
+    call plug#end()
+  " }}} INSTALLED PLUGINS =====================================================
+
+  " PLUGIN: GOYO ========================================================== {{{
+    let g:goyo_width=80
+    " Set up the Goyo mode toggle (width shouldn't be defined here, as it wont
+    " toggle with it.
+    nnoremap <leader>g :Goyo<cr>
+  " }}} PLUGIN: GOYO ==========================================================
+
+  " PLUGIN: LIGHTLINE ===================================================== {{{
+    let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [
+      \     [ 'mode', 'paste' ],
+      \     [ 'gitbranch', 'readonly', 'filename', 'bufnum', 'modified' ],
+      \   ],
+      \   'right': [
+      \     [ 'lineinfo' ],
+      \     [ 'percent' ],
+      \     [ 'charvaluehex', 'fileformat', 'fileencoding', 'filetype' ]
+      \   ]
+      \ },
+      \ 'tabline': {
+      \   'left': [ [ 'tabs' ] ],
+      \   'right': []
+      \ },
+      \ 'tab': {
+      \   'active': [ 'tabnum', 'readonly', 'filename', 'modified' ],
+      \   'inactive': [ 'tabnum', 'readonly', 'filename', 'modified' ]
+      \ },
+      \ 'component': {
+      \   'charvaluehex': '0x%B'
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name',
+      \ },
+      \ }
+  " }}} PLUGIN: LIGHTLINE =====================================================
+
+  " PLUGIN: ARPEGGIO ====================================================== {{{
+    " Map the jk key chord to send an <Esc> key press
+    call arpeggio#map('iv', '', 0, 'jk', '<Esc>')
+  " }}} PLUGIN: ARPEGGIO
+
+  " PLUGIN: NERDTREE ====================================================== {{{
+    nnoremap <silent> <F2> :NERDTreeToggle<cr>
+    let g:NERDTreeMapMenu = '<F3>'
+    let g:NERDTreeChristmasTree = 1
+    let g:NERDTreeCaseSensitiveSort = 1
+    let g:NERDTreeQuitOnOpen = 1
+    let g:NERDTreeWinPos = 'left'
+    let g:NERDTreeShowBookmarks = 1
+    let g:NERDTreeDirArrows=0
+    let NERDTreeMinimalUI=1
+    let NERDTreeIgnore = ['\.pyc$']
+  " }}} PLUGIN: NERDTREE ======================================================
+
+  " PLUGIN: SEXY SCROLLER ================================================= {{{
+    let g:SexyScroller_MaxTime = 400
+    let g:SexyScroller_EasingStyle = 3
+  " }}} PLUGIN: SEXY-SCROLLER =================================================
+
+  " PLUGIN: EASY-ALIGN ==================================================== {{{
+    " Start interactive EasyAlign in visual mode (e.g. vipga)
+    xnoremap ga <Plug>(EasyAlign)
+
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nnoremap ga <Plug>(EasyAlign)
+  " }}} PLUGIN: EASY-ALIGN ====================================================
+
+" }}} PLUGINS =================================================================
+
+" SNIPPETS: =============================================================== {{{
+
+  " SNIPPETS: MAKE ======================================================== {{{
+    nnoremap <leader>mm :!clear && make<cr>
+    nnoremap <leader>mt :!clear && make test<cr>
+    nnoremap <leader>mc :!clear && make clean<cr>
+    nnoremap <leader>mb :!clear && make build<cr>
+    nnoremap <leader>md :!clear && make debug<cr>
+    nnoremap <leader>m<leader> :!clear && make 
+  " }}} SNIPPETS: MAKE ========================================================
+
+  " SNIPPETS: PYTHON ====================================================== {{{
+    augroup snippets_python_group
+      autocmd!
+      autocmd Filetype python nnoremap <buffer> <leader>u :! clear && python -m unittest discover<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>vu :! clear && python -m unittest discover -v<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>fu :! clear && python -m unittest discover -f<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>ndb Ofrom nose.tools import set_trace; set_trace()<esc>j^:w<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>pdb Oimport pdb; pdb.set_trace()<esc>j^:w<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>pudb Oimport pudb; pudb.set_trace()<esc>j^:w<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>ipdb Oimport ipdb; ipdb.set_trace()<esc>j^:w<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>p3 :! clear && python3 %<cr>
+      autocmd Filetype python nnoremap <buffer> <leader>p2 :! clear && python2 %<cr>
+      autocmd BufRead *.py set smartindent cinwords=if,elif,elelsse,for,while,try,except,finally,def,class
+    augroup END
+  " }}} SNIPPETS: PYTHON ======================================================
+
+  " SNIPPETS: RUST ======================================================== {{{
+    augroup snippets_rust_group
+      autocmd!
+      autocmd Filetype rust nnoremap <buffer> <leader>cr :! clear && cargo run<cr>
+      autocmd Filetype rust nnoremap <buffer> <leader>cb :! clear && cargo build<cr>
+      autocmd Filetype rust nnoremap <buffer> <leader>cc :! clear && cargo check<cr>
+      autocmd Filetype rust nnoremap <buffer> <leader>ct :! clear && cargo test<cr>
+    augroup END
+  " }}} SNIPPETS: RUST ========================================================
+
+  " SNIPPETS: FZY ========================================================= {{{
+    " Helper function to interface the fzy command as a fuzzy choice finder.
+    function! FzyCommand(choice_command, vim_command)
+      try
+        let output = system(a:choice_command . " | fzy ")
+      catch /Vim:Interrupt/
+        " Swallow errors from ^C, allow redraw! below
+      endtry
+      redraw!
+      if v:shell_error == 0 && !empty(output)
+        exec a:vim_command . ' ' . output
+      endif
+    endfunction
+  " }}} SNIPPETS: FZY =========================================================
+
+  " SNIPPETS: LEDGER ====================================================== {{{
+    " Snippets and mappings for the ledger text based accounting tools.
+    augroup snippets_ledger_group
+      autocmd!
+      " Create ledger file type.
+      autocmd BufRead,BufNewFile *.ledger set filetype=ledger
+
+      " Add posting by fuzzy completing the account.
+      autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>o<ESC>
+
+      " Add posting by fuzzy completing the account.
+      autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>A  <ESC>a
+
+      " Align postings amount to the right to the defined column.
+      autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<cr>gvp0
+
+      " Insert daily header with the current date.
+      autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<cr><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0
+
+      " Insert transaction with the current date.
+      autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<cr>A * <esc>A
+    augroup END
+  " }}} SNIPPETS: LEDGER ======================================================
+
+" }}} SNIPPETS ================================================================
 
