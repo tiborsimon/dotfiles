@@ -180,6 +180,11 @@
   " Set relative numbering on the left side
   set number relativenumber
 
+  " Always show the top tabline row
+  set showtabline=2
+  " Don't use GUI tabline
+  set guioptions-=e
+
   " Enable the ruler in the bottom right corner
   set ruler
 
@@ -201,20 +206,18 @@
   set showmatch          " Shows matching brackets when text indicator is over them
   set pumheight=10       " Max number of popup menu items
   set diffopt+=context:3
-  set nostartofline      " When moving thru the lines, the cursor will try to 
+  set nostartofline      " When moving thru the lines, the cursor will try to
                          " stay in the previous columns
 
   " Color definitions
   set fillchars+=vert:\ "space
 
-  highlight StatusLine   ctermfg=233 ctermbg=246
-  highlight StatusLineNC ctermfg=239 ctermbg=245
-  highlight VertSplit    ctermfg=237 ctermbg=240
+  highlight VertSplit    ctermfg=237        ctermbg=240
 
-  highlight Folded       ctermfg=246 ctermbg=237
-  highlight MatchParen   cterm=none  ctermbg=240  ctermfg=7
-  highlight Search       cterm=NONE  ctermfg=0    ctermbg=11
-  highlight Visual       cterm=NONE  ctermfg=blue ctermbg=white
+  highlight Folded     ctermfg=246 ctermbg=237
+  highlight MatchParen cterm=none  ctermbg=240    ctermfg=7
+  highlight Search     cterm=NONE  ctermfg=0      ctermbg=11
+  highlight Visual     cterm=NONE  ctermfg=white ctermbg=darkblue
 
   " Redefine diff colors:
   highlight DiffAdd      ctermfg=10  ctermbg=22
@@ -225,10 +228,8 @@
 
 " PLUGINS: ================================================================ {{{
 
-  " PLUGIN MANAGER AUTO INSTALL: ========================================== {{{
-    " - This snippet downloads and install the Vim Plug plugin manager if it is
-    "   not present.
-
+  " VIMPLUG AUTO INSTALL: ================================================= {{{
+    " VimPlug auto install script.
     augroup vimplug_auto_install_group
       autocmd!
       if empty(glob('~/.vim/autoload/plug.vim'))
@@ -237,23 +238,41 @@
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
       endif
     augroup END
-  " }}} PLUGIN MANAGER AUTO INSTALL ===========================================
+  " }}} VIMPLUG AUTO INSTALL ==================================================
 
   " INSTALLED PLUGINS: ==================================================== {{{
+    " Plugin list to install
     call plug#begin('~/.vim/plugged')
-      Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
-      Plug 'airblade/vim-gitgutter'                 " git gutter column
+      " Statusline
       Plug 'itchyny/lightline.vim'                  " status line
+      Plug 'maximbaz/lightline-ale'                 " ale integration
       Plug 'itchyny/vim-gitbranch'                  " minimal git for the status line
+
+      " Visuals
+      Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
+      Plug 'ntpeters/vim-better-whitespace'         " display trailing whitespace
+
+      " Version control
+      Plug 'airblade/vim-gitgutter'                 " git gutter column
+
+      " Usability
+      Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
       Plug 'jeetsukumaran/vim-buffergator'          " fast buffer management
       Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
-      Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
-      Plug 'junegunn/vim-easy-align'                " fast align plugin
+      Plug 'junegunn/vim-easy-align'                " fast column align plugin
       Plug 'kana/vim-arpeggio'                      " key chords
-      Plug 'ledger/vim-ledger', { 'for': 'ledger' } " ledger plugin for syntax only
       Plug 'scrooloose/nerdtree'                    " file browser
       Plug 'terryma/vim-multiple-cursors'           " multiple cursor editing
       Plug 'tpope/vim-surround'                     " fast wrapping
+      Plug 'tpope/vim-commentary'                   " fast commenting out lines
+
+      " Sytax checker
+      Plug 'w0rp/ale'                               " async syntax checker framework
+
+      " File types
+      Plug 'ledger/vim-ledger', { 'for': 'ledger' } " ledger plugin for syntax only
+      Plug 'elzr/vim-json', { 'for': 'json' }       " json file type
+      Plug 'rust-lang/rust.vim', { 'for': 'rust' }  " rust file type
     call plug#end()
   " }}} INSTALLED PLUGINS =====================================================
 
@@ -264,35 +283,82 @@
     nnoremap <leader>g :Goyo<cr>
   " }}} PLUGIN: GOYO ==========================================================
 
+  " PLUGIN: ALE  ========================================================== {{{
+  let g:ale_lint_on_insert_leave=1
+  " }}} PLUGIN: ALE ===========================================================
+
   " PLUGIN: LIGHTLINE ===================================================== {{{
     let g:lightline = {
-      \ 'colorscheme': 'powerline',
-      \ 'active': {
+      \   'colorscheme': 'one',
+      \   'separator': { 'left': '', 'right': '' },
+      \   'subseparator': { 'left': '', 'right': '' }
+      \ }
+
+    let g:lightline.active = {
       \   'left': [
       \     [ 'mode', 'paste' ],
-      \     [ 'gitbranch', 'readonly', 'filename', 'bufnum', 'modified' ],
+      \     [ 'filename' ],
+      \     [ 'gitbranch', 'readonly', 'bufnum', 'modified' ],
       \   ],
       \   'right': [
-      \     [ 'lineinfo' ],
+      \     [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'lineinfo' ],
       \     [ 'percent' ],
-      \     [ 'charvaluehex', 'fileformat', 'fileencoding', 'filetype' ]
+      \     [ 'charvaluehex', 'fileencoding', 'fileformat', 'filetype' ],
       \   ]
-      \ },
-      \ 'tabline': {
-      \   'left': [ [ 'tabs' ] ],
-      \   'right': []
-      \ },
-      \ 'tab': {
-      \   'active': [ 'tabnum', 'readonly', 'filename', 'modified' ],
-      \   'inactive': [ 'tabnum', 'readonly', 'filename', 'modified' ]
-      \ },
-      \ 'component': {
-      \   'charvaluehex': '0x%B'
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name',
-      \ },
       \ }
+
+		let g:lightline.tabline = {
+      \   'left': [[ 'tabs' ]],
+      \   'right': [[ 'vimpwd' ]]
+      \ }
+
+		let g:lightline.tab = {
+		    \ 'active': [ 'tabnum', 'filename', 'modified' ],
+		    \ 'inactive': [ 'tabnum', 'filename', 'modified' ]
+      \ }
+
+    let g:lightline.component = {
+      \   'charvaluehex': '0x%B',
+      \   'lineinfo': ' %3l:%-2v',
+      \ }
+
+    let g:lightline.component_function = {
+      \   'readonly': 'LightlineReadonly',
+      \   'gitbranch': 'LightlineGitBranch',
+      \   'vimpwd': 'LightlineCurrentWorkingDirectory',
+      \ }
+
+    let g:lightline.component_expand = {
+      \   'linter_checking': 'lightline#ale#checking',
+      \   'linter_warnings': 'lightline#ale#warnings',
+      \   'linter_errors': 'lightline#ale#errors',
+      \   'linter_ok': 'lightline#ale#ok',
+      \ }
+
+    let g:lightline.component_type = {
+      \   'linter_checking': 'left',
+      \   'linter_warnings': 'warning',
+      \   'linter_errors': 'error',
+      \   'linter_ok': 'left',
+      \ }
+
+    function! LightlineReadonly()
+      return &readonly ? '' : ''
+    endfunction
+
+    function! LightlineGitBranch()
+      if exists('*gitbranch#name')
+        let branch = gitbranch#name()
+        return branch !=# '' ? ' '.branch : ''
+      endif
+      return ''
+    endfunction
+
+    function! LightlineCurrentWorkingDirectory()
+      let cwd = getcwd()
+      return cwd
+    endfunction
+
   " }}} PLUGIN: LIGHTLINE =====================================================
 
   " PLUGIN: ARPEGGIO ====================================================== {{{
@@ -319,11 +385,9 @@
   " }}} PLUGIN: SEXY-SCROLLER =================================================
 
   " PLUGIN: EASY-ALIGN ==================================================== {{{
-    " Start interactive EasyAlign in visual mode (e.g. vipga)
-    xnoremap ga <Plug>(EasyAlign)
+    " Use the plugin just in the select first then interactive align mode.
+    xmap ga <Plug>(EasyAlign)
 
-    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-    nnoremap ga <Plug>(EasyAlign)
   " }}} PLUGIN: EASY-ALIGN ====================================================
 
 " }}} PLUGINS =================================================================
