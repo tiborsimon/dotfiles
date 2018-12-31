@@ -89,7 +89,7 @@
 
 " VIM CONFIGURATION HANDLING: ============================================= {{{
   " Open vimrc file
-  nnoremap <leader>ve :edit $MYVIMRC<cr>
+  nnoremap <leader>ve :vsplit $MYVIMRC<cr>
 
   " Source vimrc
   nnoremap <leader>vs :source $MYVIMRC<cr>
