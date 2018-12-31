@@ -128,7 +128,7 @@
   set incsearch          " Incremental search
   set magic              " Set magic on, for regular expressions
   set ignorecase         " Searches are Non Case-sensitive
-  set smartcase          " Overrides ignorecase, if search contains uppercase character 
+  set smartcase          " Overrides ignorecase, if search contains uppercase character
 
   " Do not jump if a word is selected
   nnoremap * :let @/='\<<C-R>=expand("<cword>")<cr>\>'<cr>:set hls<cr>
@@ -336,7 +336,7 @@
     nnoremap <leader>mc :!clear && make clean<cr>
     nnoremap <leader>mb :!clear && make build<cr>
     nnoremap <leader>md :!clear && make debug<cr>
-    nnoremap <leader>m<leader> :!clear && make 
+    nnoremap <leader>m<leader> :!clear && make
   " }}} SNIPPETS: MAKE ========================================================
 
   " SNIPPETS: PYTHON ====================================================== {{{
