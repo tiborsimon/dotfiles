@@ -264,9 +264,11 @@
       Plug 'junegunn/vim-easy-align'                " fast column align plugin
       Plug 'kana/vim-arpeggio'                      " key chords
       Plug 'scrooloose/nerdtree'                    " file browser
+      Plug 'sgur/vim-editorconfig'                  " editorconfig integration
       Plug 'terryma/vim-multiple-cursors'           " multiple cursor editing
-      Plug 'tpope/vim-surround'                     " fast wrapping
       Plug 'tpope/vim-commentary'                   " fast commenting out lines
+      Plug 'tpope/vim-surround'                     " fast wrapping
+      Plug 'tpope/vim-speeddating'                  " fast date manipulations
 
       " Sytax checker
       Plug 'w0rp/ale'                               " async syntax checker framework
