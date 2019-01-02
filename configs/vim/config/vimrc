@@ -452,23 +452,36 @@
     " Snippets and mappings for the ledger text based accounting tools.
     augroup snippets_ledger_group
       autocmd!
+
+      " Disable auto indenting.
+      autocmd FileType ledger execute "setl noai nocin nosi inde="
       " Create ledger file type.
       autocmd BufRead,BufNewFile *.ledger set filetype=ledger
 
-      " Add posting by fuzzy completing the account.
-      autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>o<ESC>
+      " Custom speeddating format can be found at:
+      " ${HOME}/.vim/plugged/vim-speeddating/after/plugin/speeddating.vim
 
-      " Add posting by fuzzy completing the account.
-      autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":r !echo '    ' ")<cr>A  <ESC>a
+      " HEADER - insert daily header with the current date.
+      autocmd Filetype ledger nnoremap <leader>lh Vc<cr><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0o<esc>
+      " autocmd Filetype ledger iabbrev ## <esc>Vc<esc>i## <esc>63a=<esc>o<esc>Vc## <esc>:read!date '+\%F - \%A'<cr>0v$dkA <esc>P$xGddo
+
+      " TRANSACTION - insert transaction header with the current date.
+      autocmd Filetype ledger nnoremap <leader>lt :read!date '+\%F'<cr>A * <esc>A
+      " autocmd Filetype ledger iabbrev #t <esc>Vc<esc>:.-1read!date '+\%F'<cr>A *<esc>A
+
+      " POSTING - Insert posting with fuzzy account finder and stay in insert
+      " mode at the end of the line
+      autocmd Filetype ledger nnoremap <leader>lp :call FzyCommand("ledger accounts",":read!echo '   '")<cr>A  <ESC>a
+      " autocmd Filetype ledger iabbrev #p <esc>:call FzyCommand("ledger accounts",":.-1read!echo '   '")<cr>A <esc>a
+
+      " POSTING - Insert posting with fuzzy account finder finish up the
+      " transaction.
+      autocmd Filetype ledger nnoremap <leader>lP :call FzyCommand("ledger accounts",":read!echo '   '")<cr>o<esc>
+
 
       " Align postings amount to the right to the defined column.
       autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<cr>gvp0
 
-      " Insert daily header with the current date.
-      autocmd Filetype ledger nnoremap <leader>lh o<esc>Vc<cr><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0
-
-      " Insert transaction with the current date.
-      autocmd Filetype ledger nnoremap <leader>lt :r!date '+\%F'<cr>A * <esc>A
     augroup END
   " }}} SNIPPETS: LEDGER ======================================================
 
