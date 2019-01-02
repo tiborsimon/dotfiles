@@ -34,7 +34,7 @@ fi
 
 # Some aliases
 alias dot='cd ~/.dotfiles'
-alias org='cd ~/org'
+alias org='cd ~/secrets/volume/org'
 alias pro='cd ~/projects; ls -la'
 alias sand='cd ~/sandbox; ls -la'
 alias buspirate='sudo screen /dev/ttyUSB0 115200 8N1'
