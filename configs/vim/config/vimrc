@@ -115,11 +115,13 @@
   " - Use the * to make it fuzzy
   " - :b lets you autocomplete any open buffer
 
+  let searchCommand = "find -type f -not -iwholename '*.git*' -not -name '*.jpg*' -not -name '*.jpeg*' -not -name '*.png*' -not -name '*.xls*' -not -name '*.pdf*' -not -name '*.PDF*'"
+
   " Better fuzzy file search and file open than ctrlp and :find based on *fzy*.
-  nnoremap <leader>pp :call FzyCommand("find -type f -not -iwholename '*.git*'", ":edit")<cr>
-  nnoremap <leader>ps :call FzyCommand("find -type f -not -iwholename '*.git*'", ":split")<cr>
-  nnoremap <leader>pv :call FzyCommand("find -type f -not -iwholename '*.git*'", ":vsplit")<cr>
-  nnoremap <leader>pt :call FzyCommand("find -type f -not -iwholename '*.git*'", ":tabedit")<cr>
+  nnoremap <leader>pp :call FzyCommand(searchCommand, ":edit")<cr>
+  nnoremap <leader>ps :call FzyCommand(searchCommand, ":split")<cr>
+  nnoremap <leader>pv :call FzyCommand(searchCommand, ":vsplit")<cr>
+  nnoremap <leader>pt :call FzyCommand(searchCommand, ":tabedit")<cr>
 " }}} FINDING FILES ===========================================================
 
 " SEARCH SETTINGS: ======================================================== {{{
