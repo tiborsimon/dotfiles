@@ -1,1 +1,0 @@
-printf "* $(date +"%F %H-%M-%S")"

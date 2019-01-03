@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 echo "Reloading touchpad driver.."
 modprobe -r psmouse

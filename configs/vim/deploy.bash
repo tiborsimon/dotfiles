@@ -2,10 +2,12 @@
 cd $(dirname $(readlink -f $0))
 
 source ../../utils/lib/libdeploy.bash
+mkdir -p ${HOME}/.local/bin
 
 link_package vim \
              ./config/vimrc ${HOME}/.vimrc \
-             ./config/vim ${HOME}/.vim
+             ./config/vim ${HOME}/.vim \
+             ./scripts/bookmarks.py ${HOME}/.local/bin/my-vim-bookmarks
 
 VIM_SPEEDDATING_CUSTOM_PATH="${HOME}/.vim/plugged/vim-speeddating/after/plugin"
 mkdir -p ${VIM_SPEEDDATING_CUSTOM_PATH}

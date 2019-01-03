@@ -26,13 +26,14 @@ function link_package {
 
   while [[ $# -gt 0 ]]; do
     local target=$(readlink -f $1)
+    local display_target=$(basename $target)
     local link_name=$2
-    local action=x
+    local action='invalid'
     shift; shift
 
     local output=, result=
 
-    task $package_name "Linking ${YELLOW}${target}${RESET} -> ${CYAN}${link_name}${RESET}"
+    task $package_name "Linking ${YELLOW}${display_target}${RESET} to ${CYAN}${link_name}${RESET}"
 
     output=$(link_file $target $link_name)
     result=$?
@@ -127,13 +128,13 @@ function display_action {
   for out in $@; do
     case "$out" in
       deleted )
-        info $package_name "Deleted ${RED}${link_name}${RESET}";;
+        info $package_name "Old link deleted.";;
       moved )
-        info $package_name "Moved ${CYAN}${link_name}${RESET} -> ${BLUE}${link_name}.backup${RESET}";;
+        info $package_name "Moved to ${BLUE}${link_name}.backup${RESET}";;
       skipped )
-        success $package_name "Skipped ${CYAN}${link_name}${RESET}";;
+        success $package_name "Skipped.";;
       linked )
-        success $package_name "Linked ${YELLOW}${target}${RESET} -> ${CYAN}${link_name}${RESET}";;
+        success $package_name "Linked.";;
       * )
         ;;
     esac

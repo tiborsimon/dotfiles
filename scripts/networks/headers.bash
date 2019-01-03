@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # https://github.com/rtomayko/dotfiles/blob/rtomayko/bin/headers
 

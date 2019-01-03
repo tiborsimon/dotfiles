@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 { 
   while read line; do 
     firstchar=${line:0:1}

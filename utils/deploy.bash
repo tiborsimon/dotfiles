@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
+#######################################
+# Global dotfiles deployment script. It calls all subsystem's deployment
+# scripts.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+
+# Switching to the script's location.
 cd $(dirname $(readlink -f $0))
 
-configs=$(find ../configs/ -type f -name deploy.bash | sort)
+# Calling the script deployment.
+../scripts/deploy.bash
 
-for config in $configs; do
-  dir=$(dirname $config)
-  pushd $dir &> /dev/null
-  ./deploy.bash
-  popd &> /dev/null
-done
-
+# Calling the config deployment.
+../configs/deploy.bash

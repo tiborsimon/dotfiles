@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 import os
-import subprocess
 import commands
 import re
 
+
 def get_file_list():
     return os.listdir(os.getcwd())
+
 
 def get_creation_date(file):
     (status, output) = commands.getstatusoutput('hachoir-metadata {} | grep "Creation date" | head -1'.format(file))

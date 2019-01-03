@@ -6,6 +6,7 @@ import sys
 
 PATH = '~/.dotfiles/bin'
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('type', choices=['bash', 'python'], help='template type')
