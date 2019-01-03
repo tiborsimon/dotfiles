@@ -74,6 +74,12 @@
   inoremap <C-j> <down>
   inoremap <C-k> <up>
 
+  " Motion in command line
+  cnoremap <C-h> <left>
+  cnoremap <C-l> <right>
+  cnoremap <C-j> <down>
+  cnoremap <C-k> <up>
+
   " Move lines in all modes
   nnoremap J :m .+1<cr>==
   nnoremap K :m .-2<cr>==
@@ -210,7 +216,6 @@
   set diffopt+=context:3
   set nostartofline      " When moving thru the lines, the cursor will try to
                          " stay in the previous columns
-
   " Color definitions
   set fillchars+=vert:\ "space
 
