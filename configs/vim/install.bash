@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
+cd $(dirname $(readlink -f $0))
 
-# Install VimPlug to the unlinked local directory structure
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Install ctags for the system.
+echo gvim
 
-# Install ctags for the system
-sudo pacman -S ctags
+# Install ctags for the system.
+echo ctags
 
-# Install fzy as the fuzzy search driver
-sudo pacman -S ctags
+# Install fzy as the fuzzy search driver.
+echo fzy

@@ -13,17 +13,14 @@
 #######################################
 
 # Switching to the script's location.
-pushd $(dirname $(readlink -f $0)) &> /dev/null
+cd $(dirname $(readlink -f $0))
 
-# Jumping back to the directory stack on exit.
-trap "{ popd &>/dev/null }" EXIT
 
 # Getting the installable tool's name.
 tool=$1
 
 # Temporary path to download the stuff.
 TEMP_PATH='/tmp/dotfiles-sandbox'
-
 
 #######################################
 # YAY - the pacman like AUR installer

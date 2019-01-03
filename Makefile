@@ -7,7 +7,11 @@ test:
 
 .PHONY: install
 install:
-	@mkdir -p ~/.scripts
+	@./utils/install.bash
+
+.PHONY: install-aur
+install-aur:
+	@./utils/install-aur.bash
 
 .PHONY: deploy
 deploy:
