@@ -320,6 +320,15 @@
       \   ]
       \ }
 
+    let g:lightline.inactive = {
+      \   'left': [
+      \     [ 'filename', 'modified' ]
+      \   ],
+      \   'right': [
+      \     [ 'percent', 'lineinfo' ]
+      \   ]
+      \ }
+
 		let g:lightline.tabline = {
       \   'left': [[ 'tabs' ]],
       \   'right': [[ 'vimpwd' ]]
