@@ -231,6 +231,11 @@
   highlight DiffChange   ctermfg=7   ctermbg=8
   highlight DiffText     ctermfg=15  ctermbg=27
   highlight DiffDelete   ctermfg=9   ctermbg=88
+
+  " Highlight trailing whitespace: https://stackoverflow.com/a/4617156/1565331
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
+
 " }}} GUI SETTINGS ============================================================
 
 " PLUGINS: ================================================================ {{{
@@ -257,7 +262,6 @@
 
       " Visuals
       Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
-      Plug 'ntpeters/vim-better-whitespace'         " display trailing whitespace
 
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
