@@ -2,6 +2,14 @@
 # Configuration deployment functions.
 #######################################
 
+# A prefix can be specified that will be prepended to the link names to easily
+# be able to distinguish them from the system commands. This also helps to
+# search between them.
+PREFIX="my"
+
+# The preferred location is the user's local directory. Make sure that your
+# PATH contains this location.
+LINK_PATH="${HOME}/.local/bin"
 
 #==============================================================================
 #  A P I   F U N C T I O N S
@@ -56,6 +64,46 @@ function link_package {
     done
   done
 }
+
+#######################################
+# Installs the given scripts with a preconfigured prefix and location path. It
+# expects a category name as the first parameter and a list of installable
+# script paths. It constructs the final callable link name as follows:
+#
+# <PREFIX>-<CATEGORY>-<script name without extension>
+#
+# Globals:
+#   None
+# Arguments:
+#   category_name - name of the scripts category
+#   script_path - path of the linkable script
+#   [..] - repeated script_paths
+# Returns:
+#   None
+#######################################
+function link_scripts {
+  local script_category=$1
+  shift
+
+  # Making sure that the target path exists..
+  mkdir -p ${LINK_PATH}
+
+  while [[ $# -gt 0 ]]; do
+    # Getting the next script path.
+    local script_path=$1
+    shift
+
+    # Getting the name without the extension.
+    script_name=$(basename $script_path | cut -d. -f1)
+
+    # Assembling the script's full name that would be linked to.
+    script_full_name="${PREFIX}-${script_category}-${script_name}"
+
+    # Calling the library linker fuction.
+    link_package scripts ${script_path} ${LINK_PATH}/${script_full_name}
+  done
+}
+
 
 
 #==============================================================================
