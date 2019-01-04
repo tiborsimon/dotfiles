@@ -11,11 +11,13 @@
 #   None
 #######################################
 
+DEPENDENCIES_SCRIPT_NAME='dependencies.bash'
+
 # Switching to the script's location.
 cd $(dirname $(readlink -f $0))
 
 # Getting the location of the separated install scripts.
-scripts=$(find . -mindepth 2 -type f -name install.bash | sort)
+scripts=$(find . -mindepth 2 -type f -name ${DEPENDENCIES_SCRIPT_NAME} | sort)
 
 # Initialize the empty packages list.
 packages=()
@@ -29,7 +31,7 @@ for script in $scripts; do
   pushd $dir &>/dev/null
 
   # Call the install script and append its output to the packages list.
-  packages=("${packages[@]}" $(./install.bash)) 
+  packages=("${packages[@]}" $(./${DEPENDENCIES_SCRIPT_NAME}))
 
   # Jumping back to the directory stack.
   popd &>/dev/null
