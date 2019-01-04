@@ -7,12 +7,13 @@ test:
 
 .PHONY: install
 install:
-	@./utils/install.bash
+	@./configs/install.bash
 
 .PHONY: install-custom
 install-custom:
-	@./utils/install-custom.bash
+	@./configs/install-custom.bash
 
 .PHONY: deploy
 deploy:
-	@./utils/deploy.bash
+	@./scripts/deploy.bash
+	@./configs/deploy.bash
