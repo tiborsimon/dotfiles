@@ -9,9 +9,9 @@ test:
 install:
 	@./utils/install.bash
 
-.PHONY: install-aur
-install-aur:
-	@./utils/install-aur.bash
+.PHONY: install-custom
+install-custom:
+	@./utils/install-custom.bash
 
 .PHONY: deploy
 deploy:

@@ -10,11 +10,13 @@
 #   None
 #######################################
 
+CUSTOM_INSTALL_SCRIPT_NAME='install-custom.bash'
+
 # Switching to the script's location.
 cd $(dirname $(readlink -f $0))
 
 # Getting the location of the separated install scripts.
-scripts=$(find . -mindepth 2 -type f -name install-aur.bash | sort)
+scripts=$(find . -mindepth 2 -type f -name ${CUSTOM_INSTALL_SCRIPT_NAME} | sort)
 
 # Running through the list of install script locations..
 for script in $scripts; do
@@ -25,7 +27,7 @@ for script in $scripts; do
   pushd $dir &>/dev/null
 
   # Run the AUR install script in the current shell.
-  ./install-aur.bash
+  ./${CUSTOM_INSTALL_SCRIPT_NAME}
 
   # Jumping back to the directory stack.
   popd &>/dev/null

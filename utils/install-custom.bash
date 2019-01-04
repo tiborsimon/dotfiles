@@ -14,4 +14,4 @@
 cd $(dirname $(readlink -f $0))
 
 # Calling the config deployment.
-../configs/install-aur.bash
+../configs/install-custom.bash
