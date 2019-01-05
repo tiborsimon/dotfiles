@@ -1,10 +1,13 @@
 #!/usr/bin/env python
-
 import fileinput
 import pydoc
 import re
 import sys
 import unittest
+
+
+# TODO: Implement proper lexer + parser.
+# TODO: Add header date corrector, if a header date and weekday is off.
 
 # ============================================================================
 #  C O N F I G U R A T I O N
@@ -16,7 +19,7 @@ POSTING_COMMENT_INDENT_SPACES = 2
 # ============================================================================
 #  D O C U M E N T A T I O N
 
-VERSION = 'v1.1.0'
+VERSION = 'v1.1.1'
 
 HELP_STRING = """\
 
@@ -56,6 +59,9 @@ if missing stdin will be used.
 
   {bold}CHANGELOG{reset}
 
+  {bold}{yellow}v1.1.1{reset} - {bold}2019-01-05{reset}
+  Number formatting bug fixed.
+
   {bold}{yellow}v1.1.0{reset} - {bold}2019-01-05{reset}
   Standard input handling added.
 
@@ -88,6 +94,7 @@ def _only_tags(tokens):
 
 def _parse_cost(tokens):
     parsed = []
+    number_was_found = False
     for token in tokens:
         if re.match(r'^[\d\.,]+$', token):
             sanitized = token.replace(',', '')
@@ -96,8 +103,11 @@ def _parse_cost(tokens):
             else:
                 formatted = '{:,}'.format(int(sanitized))
             parsed.append(formatted)
+            number_was_found = True
         else:
             parsed.append(token)
+    if not number_was_found:
+        raise SyntaxError('No number in the posting!')
     return ' '.join(parsed)
 
 
@@ -165,9 +175,9 @@ def process(line):
                     line = (INDENT + account + ' '*padding + cost + comment)
                 else:
                     # posting without a comment
-                    rest = ' '.join(tokens)
-                    padding = WIDTH - len(INDENT) - len(account) - len(rest)
-                    line = INDENT + account + ' '*padding + rest
+                    cost = _parse_cost(tokens)
+                    padding = WIDTH - len(INDENT) - len(account) - len(cost)
+                    line = INDENT + account + ' '*padding + cost
             else:
                 # closing posting
                 # example: "    Account:Something"
@@ -341,8 +351,52 @@ class CostParsingCases(unittest.TestCase):
         self.assertEqual(expected, result)
 
 
-class ComplexCases(unittest.TestCase):
-    def test__comments_can_be_handled(self):
+class FeatureValidUseCases(unittest.TestCase):
+    def test__closing_posting(self):
+        p1 = 'Assets:Something'
+        line = '  ' + p1 + '              '
+        expected = INDENT + p1
+        result = process(line)
+        self.assertEqual(expected, result)
+
+    def test__posting_with_value_only_no_decimal_point(self):
+        p1 = 'Assets:Something'
+        p2 = '40000 '
+        p3 = 'EUR'
+        line = '  ' + p1 + '      ' + p2 + '   ' + p3
+        p2 = '40,000 '
+        padding = (WIDTH - len(INDENT+p1+p2+p3))
+        expected = INDENT + p1 + ' '*padding + p2 + p3
+        result = process(line)
+        self.assertEqual(expected, result)
+
+    def test__posting_with_value_only_decimal_point(self):
+        p1 = 'Assets:Something'
+        p2 = '40000.56 '
+        p3 = 'EUR'
+        line = '  ' + p1 + '      ' + p2 + '   ' + p3
+        p2 = '40,000.56 '
+        padding = (WIDTH - len(INDENT+p1+p2+p3))
+        expected = INDENT + p1 + ' '*padding + p2 + p3
+        result = process(line)
+        self.assertEqual(expected, result)
+
+    def test__posting_with_comment(self):
+        p1 = 'Assets:Something'
+        p2 = '40000.56 '
+        p3 = 'EUR'
+        p4 = ';comment'
+        line = ('  ' + p1 + '      ' + p2 + '   ' + p3
+                + '    ' + p4)
+        p2 = '40,000.56 '
+        p4 = '; comment'
+        padding = (WIDTH - len(INDENT+p1+p2+p3))
+        expected = (INDENT + p1 + ' '*padding + p2 + p3
+                    + POSTING_COMMENT_INDENT + p4)
+        result = process(line)
+        self.assertEqual(expected, result)
+
+    def test__posting_with_ballance_adjust_and_comment(self):
         p1 = 'Assets:Something'
         p2 = '= '
         p3 = '40000.56 '
@@ -355,9 +409,33 @@ class ComplexCases(unittest.TestCase):
         padding = (WIDTH - len(INDENT+p1+p2+p3+p4))
         expected = (INDENT + p1 + ' '*padding + p2 + p3 + p4
                     + POSTING_COMMENT_INDENT + p5)
-
         result = process(line)
         self.assertEqual(expected, result)
+
+    def test__one_tag(self):
+        t1 = '; :tag1:'
+        line = '  ' + t1 + '          '
+        expected = INDENT + t1
+        result = process(line)
+        self.assertEqual(expected, result)
+
+    def test__two_tags(self):
+        t1 = '; :tag1:tag2:'
+        line = '  ' + t1 + '        '
+        t1 = '; :tag1:tag2:'
+        expected = INDENT + t1
+        result = process(line)
+        self.assertEqual(expected, result)
+
+
+class FeatureInvalidUseCases(unittest.TestCase):
+    def test__posting_with_no_numeric_value__exception_should_raised(self):
+        p1 = 'Assets:Something'
+        p2 = 'hello '
+        p3 = 'EUR'
+        line = '  ' + p1 + '      ' + p2 + '   ' + p3
+        with self.assertRaises(SyntaxError):
+            process(line)
 
 
 # ============================================================================
