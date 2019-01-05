@@ -480,7 +480,7 @@
       " ${HOME}/.vim/plugged/vim-speeddating/after/plugin/speeddating.vim
 
       " HEADER - insert daily header with the current date.
-      autocmd Filetype ledger nnoremap <leader>lh Vc<cr><esc>i## <esc>63a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0o<esc>
+      autocmd Filetype ledger nnoremap <leader>lh Vc<cr><esc>i## <esc>77a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0o<esc>
       " autocmd Filetype ledger iabbrev ## <esc>Vc<esc>i## <esc>63a=<esc>o<esc>Vc## <esc>:read!date '+\%F - \%A'<cr>0v$dkA <esc>P$xGddo
 
       " TRANSACTION - insert transaction header with the current date.
@@ -499,6 +499,11 @@
 
       " Align postings amount to the right to the defined column.
       autocmd Filetype ledger nnoremap <leader>la $F<space>F<space>v0d:right 66<cr>gvp0
+
+
+      " Align postings amount to the right to the defined column.
+      autocmd FileType ledger autocmd BufWritePre <buffer> silent %!my-ledger-formatter
+      autocmd FileType ledger autocmd BufWritePost <buffer> :normal! G
 
     augroup END
   " }}} SNIPPETS: LEDGER ======================================================
