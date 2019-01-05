@@ -262,6 +262,7 @@
 
       " Visuals
       Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
+      " Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
 
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
@@ -269,7 +270,6 @@
       " Usability
       Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
       Plug 'jeetsukumaran/vim-buffergator'          " fast buffer management
-      Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
       Plug 'junegunn/vim-easy-align'                " fast column align plugin
       Plug 'kana/vim-arpeggio'                      " key chords
       Plug 'scrooloose/nerdtree'                    " file browser
