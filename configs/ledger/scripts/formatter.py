@@ -19,7 +19,7 @@ POSTING_COMMENT_INDENT_SPACES = 2
 # ============================================================================
 #  D O C U M E N T A T I O N
 
-VERSION = 'v1.1.1'
+VERSION = 'v1.1.2'
 
 HELP_STRING = """\
 
@@ -59,6 +59,9 @@ if missing stdin will be used.
 
   {bold}CHANGELOG{reset}
 
+  {bold}{yellow}v1.1.2{reset} - {bold}2019-01-05{reset}
+  Negative numbers can be indented.
+
   {bold}{yellow}v1.1.1{reset} - {bold}2019-01-05{reset}
   Number formatting bug fixed.
 
@@ -96,7 +99,7 @@ def _parse_cost(tokens):
     parsed = []
     number_was_found = False
     for token in tokens:
-        if re.match(r'^[\d\.,]+$', token):
+        if re.match(r'^[\d\.,-]+$', token):
             sanitized = token.replace(',', '')
             if '.' in sanitized:
                 formatted = '{:,}'.format(float(sanitized))
@@ -365,6 +368,17 @@ class FeatureValidUseCases(unittest.TestCase):
         p3 = 'EUR'
         line = '  ' + p1 + '      ' + p2 + '   ' + p3
         p2 = '40,000 '
+        padding = (WIDTH - len(INDENT+p1+p2+p3))
+        expected = INDENT + p1 + ' '*padding + p2 + p3
+        result = process(line)
+        self.assertEqual(expected, result)
+
+    def test__posting_with_negaive_value(self):
+        p1 = 'Assets:Something'
+        p2 = '-40000 '
+        p3 = 'EUR'
+        line = '  ' + p1 + '      ' + p2 + '   ' + p3
+        p2 = '-40,000 '
         padding = (WIDTH - len(INDENT+p1+p2+p3))
         expected = INDENT + p1 + ' '*padding + p2 + p3
         result = process(line)
