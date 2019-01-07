@@ -31,23 +31,23 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     html
-     markdown
-     javascript
-     react
-     python
+     ;; html
+     ;; markdown
+     ;; javascript
+     ;; react
+     ;; python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
+     ;; helm
      auto-completion
      ;; better-defaults
      emacs-lisp
-     git
-     finance
-     plantuml
+     ;; git
+     ;; finance
+     ;; plantuml
      ;; markdown
      org
      ;; (shell :variables
@@ -390,11 +390,11 @@ you should place your code here."
   ;;
   ;;; ORG MODE CONFIG
   ;;
-
+  (use-package org-tempo)
   ;;; Agenda view customizations
-  (with-eval-after-load 'org (setq org-agenda-files
-                                   '("~/secrets/volume/org/")))
-
+  ;; (with-eval-after-load 'org (setq org-agenda-files
+  ;;                                  '("~/secrets/volume/org/")))
+  (with-eval-after-load 'org (setq org-agenda-files (directory-files-recursively "~/secrets/volume/org/" "\.org$")))
   (setq spacemacs-theme-org-agenda-height nil)
   (setq org-priority-faces
         '((?A . (:foreground "red" :weight 'bold))
@@ -470,8 +470,8 @@ you should place your code here."
         (plantuml . t)
        ))
 
-  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-  (add-to-list 'org-structure-template-alist '("u" "#+BEGIN_SRC plantuml :file \"/tmp/org-babel-uml-?.png\" \n\n#+END_SRC"))
+  ;; (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  ;; (add-to-list 'org-structure-template-alist '("u" "#+BEGIN_SRC plantuml :file \"/tmp/org-babel-uml-?.png\" \n\n#+END_SRC"))
 
   ;;; Habits
   ;; (add-to-list 'org-modules 'org-habit t)
