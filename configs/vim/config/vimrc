@@ -266,6 +266,7 @@
 
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
+      Plug 'jreybert/vimagit'                       " git interaction
 
       " Usability
       Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
