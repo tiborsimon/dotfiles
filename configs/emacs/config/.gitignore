@@ -1,0 +1,49 @@
+# Elisp byte code
+*.dat
+*.elc
+
+# Customization settings.  We ignore these because they are automatically
+# generated, contain “local” information (e.g. safe themes, automatically
+# installed packages), and most importantly, hold _sensitive_ information,
+# e.g. DB connection settings, access tokens, etc.
+#
+# DO NOT UNIGNORE THIS FILE!
+/custom.el
+
+# Straight related local build files and repos
+/straight/
+
+# Recovery and backup directories
+/auto-save-list/
+/.backup/
+
+# Python IDE stuff
+.python-environments
+
+# Cache files and settings for packages
+/.emacs.desktop*
+/.mc-lists.el
+/.sx
+/abbrev_defs
+/anaconda-mode/
+/bookmarks
+/cider-repl-history
+/company-statistics-cache.el
+/ensime/
+/eshell/
+/eww-bookmarks
+/history
+/ido.last*
+/network-security.data
+/places
+/projectile-bookmarks.eld
+/projectile.cache
+/recentf
+/semanticdb/
+/session.*
+/smex-items
+/tramp
+/tramp-auto-save
+/tutorial/
+/url/
+/var/
