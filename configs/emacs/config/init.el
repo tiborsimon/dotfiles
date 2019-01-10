@@ -180,12 +180,10 @@ Inserted by installing org-mode or when a release is made."
   (setq org-default-notes-file "~/notes.org")
 
   (setq org-capture-templates
-    '(("t" "Todo" entry (file+headline "~/org/orgbook/refile.org" "Tasks")
+    '(("t" "Todo" entry (file+headline "~/secrets/volume/org/refile.org" "Tasks")
        "* TODO %^{title}\n  CREATED: %U\n   %?" :clock-in t :clock-resume t)
       ("j" "Journal" entry (file+olp+datetree "~/org/orgbook/journal.org")
-       "* %<%Y-%m-%d %A>\n   %?" :clock-in t :clock-resume t)
-      ("w" "Work journal" entry (file+olp+datetree "~/org/orgbook/work.org")
-      "* %<%Y-%m-%d %a %H:%M>\n   %?")))
+       "* %<%Y-%m-%d %A>\n   %?" :clock-in t :clock-resume t)))
 
   ;;; ToDo related configuration
   (setq org-log-done "note"
@@ -222,6 +220,15 @@ Inserted by installing org-mode or when a release is made."
            ))
 
   (global-set-key (kbd "<f5>") 'my-copy-id-to-clipboard)
+
+  ;;; Source code config
+  (org-babel-do-load-languages 'org-babel-load-languages
+      '(
+        (shell . t)
+        (python . t)
+        (C . t)
+        (plantuml . t)
+       ))
 )
 
 ;;; ===========================================================================
