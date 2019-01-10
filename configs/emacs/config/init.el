@@ -23,12 +23,8 @@
 (load custom-file)
 
 ;; Backup management - https://stackoverflow.com/a/151946/1565331
-(setq backup-directory-alist `(("." . "~/.emacs.d/.backup")))
-(setq backup-by-copying t)
-(setq delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)
+;; NO BACKUP FILES! I am using git..
+(setq make-backup-files nil)
 
 ;; Essential cosmetic settings.
 (setq inhibit-splash-screen t
