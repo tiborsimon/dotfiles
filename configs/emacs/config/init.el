@@ -76,6 +76,13 @@
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
 
+;; Fixing scroll jumps - https://stackoverflow.com/a/4160949/1565331
+(setq redisplay-dont-pause t
+  scroll-margin 1
+  scroll-step 1
+  scroll-conservatively 10000
+  scroll-preserve-screen-position 1)
+
 
 ;;; ===========================================================================
 ;;; PACKAGE MANAGEMENT
