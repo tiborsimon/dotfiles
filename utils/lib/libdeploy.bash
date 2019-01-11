@@ -122,9 +122,11 @@ CYAN=$(tput setaf 6)
 RESET=$(tput sgr0)
 BOLD=$(tput bold)
 
+PACKAGE_PRINT_WIDTH=10
+
 function print_package {
   local package=$1
-  echo "${BOLD}$(printf '%13s' $package)${RESET}"
+  echo "${BOLD}$(printf "%${PACKAGE_PRINT_WIDTH}s" $package)${RESET}"
 }
 
 function task {
@@ -257,14 +259,14 @@ function link_file {
 
     if [ "$overwrite" == "true" ]; then
       if ! rm -rf "$link_name" &>/dev/null; then
-        sudo --prompt="              |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " rm -rf "$link_name"
+        sudo -k --prompt="           |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " rm -rf "$link_name"
       fi
       echo deleted
     fi
 
     if [ "$backup" == "true" ]; then
       if ! mv "$link_name" "${link_name}.backup"; then
-        sudo --prompt="              |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " mv "$link_name" "${link_name}.backup"
+        sudo -k --prompt="           |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " mv "$link_name" "${link_name}.backup"
       fi
       echo moved
     fi
@@ -278,7 +280,7 @@ function link_file {
       ln -s "$target" "$link_name"
     else
       # propably there is no permission to create the link, so use sudo..
-      sudo --prompt="              |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " ln -s "$target" "$link_name"
+      sudo -k --prompt="           |${BOLD}${RED_BG} !! ${RESET}| Permission denied! [sudo] password for user $USER: " ln -s "$target" "$link_name"
     fi
 
     echo linked
