@@ -328,7 +328,32 @@ Inserted by installing org-mode or when a release is made."
   ;; Remap semicolon
   (define-key evil-motion-state-map ";" 'evil-ex)
 
-  )
+  ;; Some key bindings from evil-org-mode
+  (defun evil-org-eol-call (fun)
+    "Go to end of line and call provided function.
+  FUN function callback"
+    (end-of-line)
+    (funcall fun)
+    (evil-append nil)
+    )
+  ;; normal state shortcuts
+  (evil-define-key 'normal org-mode-map
+    "t" 'org-todo
+    "T" '(lambda () (interactive) (evil-org-eol-call (lambda() (org-insert-todo-heading nil))))
+    "H" 'org-shiftleft
+    "J" 'org-shiftdown
+    "K" 'org-shiftup
+    "L" 'org-shiftright
+    "o" '(lambda () (interactive) (evil-org-eol-call 'clever-insert-item))
+    "O" '(lambda () (interactive) (evil-org-eol-call 'org-insert-heading))
+    "$" 'org-end-of-line
+    "^" 'org-beginning-of-line
+    "<" 'org-metaleft
+    ">" 'org-metaright
+    "-" 'org-cycle-list-bullet
+    (kbd "<tab>") 'org-cycle)
+
+)
 
 (use-package key-chord
   :straight t
