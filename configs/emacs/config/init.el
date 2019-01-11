@@ -24,7 +24,9 @@
 
 ;; Backup management - https://stackoverflow.com/a/151946/1565331
 ;; NO BACKUP FILES! I am using git..
-(setq make-backup-files nil)
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+(setq create-lockfiles nil)  ; stop creating .#lock files
 
 ;; Essential cosmetic settings.
 (setq inhibit-splash-screen t
@@ -62,7 +64,7 @@
 (setq-default indicate-empty-lines t)
 (setq-default indent-tabs-mode nil)
 
-(setq visible-bell t)
+(setq visible-bell nil)
 (setq make-pointer-invisible t)
 (setq vc-follow-symlinks t)
 (setq large-file-warning-threshold nil)
@@ -364,6 +366,7 @@ Inserted by installing org-mode or when a release is made."
     "mz"    'org-add-note
   ))
 
+
 ;;; ===========================================================================
 ;;; HELM CONFIG
 
@@ -375,6 +378,7 @@ Inserted by installing org-mode or when a release is made."
 
 (use-package helm-descbinds
   :straight t)
+
 
 ;;; ===========================================================================
 ;;; PROJECTILE CONFIG
