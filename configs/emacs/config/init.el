@@ -12,7 +12,7 @@
 ;;; ===========================================================================
 ;;; BASIC CONFIGS
 ;; Theme and font settings.
-(load-theme 'wombat)
+(load-theme 'tango-dark)
 (set-face-attribute 'default nil :height 100)
 
 ;; Setting the default directory for my org file repo.
@@ -140,6 +140,23 @@ Inserted by installing org-mode or when a release is made."
 ;;; USE PACKAGE CONFIG
 (straight-use-package 'use-package)
 
+;;; ===========================================================================
+;;; THEME SETTINGS
+(use-package solarized-theme
+  :straight t
+  :config
+  ;; Don't change the font for some headings and titles
+  (setq solarized-use-variable-pitch nil)
+  ;; Don't change size of org-mode headlines (but keep other size-changes)
+  (setq solarized-scale-org-headlines nil)
+  ;; Avoid all font-size changes
+  (setq solarized-height-minus-1 1.0)
+  (setq solarized-height-plus-1 1.0)
+  (setq solarized-height-plus-2 1.0)
+  (setq solarized-height-plus-3 1.0)
+  (setq solarized-height-plus-4 1.0)
+  (load-theme 'solarized-dark)
+  )
 
 ;;; ===========================================================================
 ;;; ORG MODE CONFIG
@@ -229,7 +246,33 @@ Inserted by installing org-mode or when a release is made."
         (C . t)
         (plantuml . t)
        ))
+
+  ;;; Theme settings
+  ;;; Hide emphasis markers
+  (setq org-hide-emphasis-markers t)
+  ;;; Substitute list items markup
+  (font-lock-add-keywords 'org-mode
+    '(("^ *\\([-]\\) "
+     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+  ;;; Set up variable headlines sizes
+  (custom-theme-set-faces
+   'user
+   `(org-level-8 ((t (:weight bold))))
+   `(org-level-7 ((t (:weight bold))))
+   `(org-level-6 ((t (:weight bold))))
+   `(org-level-5 ((t (:weight bold))))
+   `(org-level-4 ((t (:weight bold :height 1.05))))
+   `(org-level-3 ((t (:weight bold :height 1.1))))
+   `(org-level-2 ((t (:weight bold :height 1.15))))
+   `(org-level-1 ((t (:weight bold :height 1.2))))
+   `(org-document-title ((t (:weight bold :height 1.25 :underline nil)))))
 )
+
+(use-package org-bullets
+  :straight t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 
 ;;; ===========================================================================
 ;;; EVIL MODE CONFIG
