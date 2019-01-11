@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/lib/libdeploy.bash
 
-link_package interception \
+link_package keyboard \
              ./config/udevmon.yaml /etc/udevmon.yaml
