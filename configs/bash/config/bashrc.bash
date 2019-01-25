@@ -116,4 +116,7 @@ function __prompt_command() {
 # PipEnv config
 eval "$(pipenv --completion)"
 
+# Virtualenvwrapper config
+export WORKON_HOME=~/.virtualenvs
+source ~/.local/bin/virtualenvwrapper.sh
 
