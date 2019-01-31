@@ -86,7 +86,7 @@ function run {
 #   None
 #######################################
 function install_packages {
-  info "Installing packages: ${BOLD}$@${RESET}"
+  info "Installing packages: $@"
   for package in $@; do
     if ! pacman -Qi $package &>/dev/null; then
       run run_with_privilege pacman -S --noconfirm --needed $package
@@ -106,7 +106,7 @@ function install_packages {
 #######################################
 function install_aur_packages {
   using yay
-  info "Installing AUR packages: ${BOLD}$@${RESET}"
+  info "Installing AUR packages: $@"
   for package in $@; do
     if ! yay -Qi $package &>/dev/null; then
       run yay -S --noconfirm --cleanafter $package
@@ -141,7 +141,7 @@ function link_package {
 
     local output=, result=
 
-    info "Linking ${BOLD}${display_target}${RESET} to ${BOLD}${link_name}${RESET}.."
+    info "Linking ${display_target} to ${link_name}.."
 
     output=$(link_file $target $link_name)
     result=$?

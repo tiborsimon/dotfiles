@@ -51,7 +51,12 @@ help:
 
 .PHONY: install
 install:
+	@./scripts/install.bash
 	@./configs/install.bash
+
+.PHONY: install-scripts
+install-scripts:
+	@./scripts/install.bash
 
 .PHONY: install-bash
 install-bash:

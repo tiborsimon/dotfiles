@@ -15,11 +15,15 @@
 cd $(dirname $(readlink -f $0))
 
 # Use the deployment library.
-source ../utils/lib/libdeploy.bash
+source ../utils/libdeploy.bash
 
 
 # Getting the list of the deployable scripts.
 scripts=$(find . -mindepth 2 -type f -executable | sort)
+
+echo "----+------------------------------------------------------------------------"
+task "Installing: ${BOLD}scripts${RESET}"
+echo "----+------------------------------------------------------------------------"
 
 # Running through the list of files and link them to the destination.
 for script_path in $scripts; do
