@@ -261,7 +261,7 @@ function using {
     if which pip&>/dev/null; then return 0; fi
 
     info "Installing pip.."
-    run_with_privilege pacman -S --noconfirm python-pip
+    run run_with_privilege pacman -S --noconfirm python-pip
 
     return 0
   fi
@@ -278,6 +278,18 @@ function using {
 
     info "Installing pipsi.."
     run install_pipsi
+
+    return 0
+  fi
+
+  #######################################
+  # JQ - command line json processor
+  #######################################
+  if [ "$tool" = 'jq' ]; then
+    if which jq&>/dev/null; then return 0; fi
+
+    info "Installing jq.."
+    run run_with_privilege pacman -S --noconfirm jq
 
     return 0
   fi
