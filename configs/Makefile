@@ -46,6 +46,10 @@ install-ranger:
 install-redshift:
 	@./configs/install.bash redshift
 
+.PHONY: install-rust
+install-rust:
+	@./configs/install.bash rust
+
 .PHONY: install-tmux
 install-tmux:
 	@./configs/install.bash tmux
