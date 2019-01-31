@@ -28,6 +28,12 @@ rm -rf ${OMF_INSTALLER_DIR}
 mkdir ${OMF_INSTALLER_DIR}
 pushd ${OMF_INSTALLER_DIR}&>/dev/null
 
+function finish {
+  popd &> /dev/null
+  rm -rf ${OMF_INSTALLER_DIR}
+}
+trap finish EXIT
+
 
 # =================================================================
 #  GETTING FISH INSTALLER
@@ -56,7 +62,3 @@ run fish ${OMF_INSTALLER} --uninstall --yes
 
 info "Installing OMF.. (this could take a while..)"
 run fish ${OMF_INSTALLER} --noninteractive
-
-popd&>/dev/null
-rm -rf ${OMF_INSTALLER_DIR}
-
