@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 #######################################
-# Installs dependent packages returned by the the separated install scripts
-# Each config bundle has to comply with the install API requirements. They
-# has to print out the required packe names to be collected by this script.
+# Runs the installer scripts located in the packages.
 # Globals:
 #   None
 # Arguments:
@@ -11,31 +9,39 @@
 #   None
 #######################################
 
-DEPENDENCIES_SCRIPT_NAME='dependencies.bash'
+set -e
 
 # Switching to the script's location.
 cd $(dirname $(readlink -f $0))
 
-# Getting the location of the separated install scripts.
-scripts=$(find . -mindepth 2 -type f -name ${DEPENDENCIES_SCRIPT_NAME} | sort)
+# Logfile path in the repository root.
+export DOTFILES_ERROR_LOG_PATH=$(readlink -f ../error.log)
 
-# Initialize the empty packages list.
-packages=()
+source ../utils/libdeploy.bash
 
-# Running through the list of install script locations..
-for script in $scripts; do
-  # Getting the file's directory path.
-  dir=$(dirname $script)
+mkdir -p ${HOME}/.config
+mkdir -p ${HOME}/.local/bin
+mkdir -p ${HOME}/.scripts
 
-  # Jumping to that directory through the directory stack.
-  pushd $dir &>/dev/null
+init_error_log
 
-  # Call the install script and append its output to the packages list.
-  packages=("${packages[@]}" $(./${DEPENDENCIES_SCRIPT_NAME}))
+if [ "$#" -eq 1 ]; then
+  configs=$1
+else
+  # Getting the directory names taht contains the configurations
+  configs=$(ls | grep -v bash | sort)
+fi
 
-  # Jumping back to the directory stack.
-  popd &>/dev/null
+for config in $configs; do
+  echo "----+------------------------------------------------------------------------"
+  task "Installing: ${BOLD}${config}${RESET}"
+  echo "----+------------------------------------------------------------------------"
+  scripts=$(find $config -maxdepth 1 -type f -executable | sort)
+  for script in $scripts; do
+    write_to_error_log "Running script: ./configs/$script"
+    info "Running script ${BOLD}${script}${RESET}"
+    ./$script
+  done
 done
 
-# Install the collected packages.
-sudo pacman -S ${packages[@]}
+clean_up_error_log

@@ -20,7 +20,7 @@ BOLD_NAME := $(BOLD)$(NAME)$(RESET)
 
 TASK    := [ $(BOLD)$(GREEN)>>$(RESET) ]
 OK      := [ $(BOLD)$(GREEN)OK$(RESET) ]
-USER    := [ $(BOLD)$(BLUE)??$(RESET) ]
+ASK     := [ $(BOLD)$(BLUE)??$(RESET) ]
 WARNING := [ $(BOLD)$(YELLOW)!!$(RESET) ]
 ERROR   := [$(BOLD)$(RED)FAIL$(RESET)]
 
@@ -47,28 +47,63 @@ help:
 
 
 # =======================================================================================
-#  E X E C U T E   A L L   C O M M A N D
-
-.PHONY: all
-all: install install-custom deploy
-
-
-# =======================================================================================
 #  D E P L O Y M E N T   C O M M A N D S
 
 .PHONY: install
 install:
 	@./configs/install.bash
 
-.PHONY: install-custom
-install-custom:
-	@./configs/install-custom.bash
+.PHONY: install-bash
+install-bash:
+	@./configs/install.bash bash
 
-.PHONY: deploy
-deploy:
-	@./scripts/deploy.bash
-	@./configs/deploy.bash
+.PHONY: install-emacs
+install-emacs:
+	@./configs/install.bash emacs
 
+.PHONY: install-fish
+install-fish:
+	@./configs/install.bash fish
+
+.PHONY: install-git
+install-git:
+	@./configs/install.bash git
+
+.PHONY: install-keyboard
+install-keyboard:
+	@./configs/install.bash keyboard
+
+.PHONY: install-ledger
+install-ledger:
+	@./configs/install.bash ledger
+
+.PHONY: install-moc
+install-moc:
+	@./configs/install.bash moc
+
+.PHONY: install-profile
+install-profile:
+	@./configs/install.bash profile
+
+.PHONY: install-pypi
+install-pypi:
+	@./configs/install.bash pypi
+
+.PHONY: install-python
+install-python:
+	@./configs/install.bash python
+
+.PHONY: install-ranger
+install-ranger:
+	@./configs/install.bash ranger
+
+.PHONY: install-tmux
+install-tmux:
+	@./configs/install.bash tmux
+
+.PHONY: install-vim
+install-vim:
+	@./configs/install.bash vim
 
 # =======================================================================================
 #  T E S T   C O M M A N D

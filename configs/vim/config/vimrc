@@ -128,6 +128,8 @@
   nnoremap <leader>ps :call FzyCommand(searchCommand, ":split")<cr>
   nnoremap <leader>pv :call FzyCommand(searchCommand, ":vsplit")<cr>
   nnoremap <leader>pt :call FzyCommand(searchCommand, ":tabedit")<cr>
+
+  silent !echom "File finding configured."
 " }}} FINDING FILES ===========================================================
 
 " SEARCH SETTINGS: ======================================================== {{{
@@ -238,22 +240,9 @@
   " Highlight trailing whitespace: https://stackoverflow.com/a/4617156/1565331
   highlight ExtraWhitespace ctermbg=red guibg=red
   match ExtraWhitespace /\s\+$/
-
 " }}} GUI SETTINGS ============================================================
 
 " PLUGINS: ================================================================ {{{
-
-  " VIMPLUG AUTO INSTALL: ================================================= {{{
-    " VimPlug auto install script.
-    augroup vimplug_auto_install_group
-      autocmd!
-      if empty(glob('~/.vim/autoload/plug.vim'))
-        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-      endif
-    augroup END
-  " }}} VIMPLUG AUTO INSTALL ==================================================
 
   " INSTALLED PLUGINS: ==================================================== {{{
     " Plugin list to install
@@ -265,7 +254,6 @@
 
       " Visuals
       Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
-      " Plug 'joeytwiddle/sexy_scroller.vim'          " fancy scroll animator
 
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
@@ -291,131 +279,138 @@
       Plug 'elzr/vim-json', { 'for': 'json' }       " json file type
       Plug 'rust-lang/rust.vim', { 'for': 'rust' }  " rust file type
     call plug#end()
+
+    augroup vim_enter_group
+      autocmd!
+      autocmd VimEnter * :call ExecuteAfterVimEntered()
+    augroup END
   " }}} INSTALLED PLUGINS =====================================================
 
-  " PLUGIN: GOYO ========================================================== {{{
-    let g:goyo_width=80
-    " Set up the Goyo mode toggle (width shouldn't be defined here, as it wont
-    " toggle with it.
-    nnoremap <leader>g :Goyo<cr>
-  " }}} PLUGIN: GOYO ==========================================================
+  " PLUGIN CONFIGURATION ================================================== {{{
+    function ExecuteAfterVimEntered()
 
-  " PLUGIN: ALE  ========================================================== {{{
-  let g:ale_lint_on_insert_leave=1
-  let g:ale_lint_on_text_changed="never"
-  " }}} PLUGIN: ALE ===========================================================
-
-  " PLUGIN: LIGHTLINE ===================================================== {{{
-    let g:lightline = {
-      \   'colorscheme': 'one',
-      \   'separator': { 'left': '', 'right': '' },
-      \   'subseparator': { 'left': '', 'right': '' }
-      \ }
-
-    let g:lightline.active = {
-      \   'left': [
-      \     [ 'mode', 'paste' ],
-      \     [ 'filename' ],
-      \     [ 'gitbranch', 'readonly', 'bufnum', 'modified' ],
-      \   ],
-      \   'right': [
-      \     [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'lineinfo' ],
-      \     [ 'percent' ],
-      \     [ 'charvaluehex', 'fileencoding', 'fileformat', 'filetype' ],
-      \   ]
-      \ }
-
-    let g:lightline.inactive = {
-      \   'left': [
-      \     [ 'filename', 'modified' ]
-      \   ],
-      \   'right': [
-      \     [ 'percent', 'lineinfo' ]
-      \   ]
-      \ }
-
-		let g:lightline.tabline = {
-      \   'left': [[ 'tabs' ]],
-      \   'right': [[ 'vimpwd' ]]
-      \ }
-
-		let g:lightline.tab = {
-		    \ 'active': [ 'tabnum', 'filename', 'modified' ],
-		    \ 'inactive': [ 'tabnum', 'filename', 'modified' ]
-      \ }
-
-    let g:lightline.component = {
-      \   'charvaluehex': '0x%B',
-      \   'lineinfo': ' %3l:%-2v',
-      \ }
-
-    let g:lightline.component_function = {
-      \   'readonly': 'LightlineReadonly',
-      \   'gitbranch': 'LightlineGitBranch',
-      \   'vimpwd': 'LightlineCurrentWorkingDirectory',
-      \ }
-
-    let g:lightline.component_expand = {
-      \   'linter_checking': 'lightline#ale#checking',
-      \   'linter_warnings': 'lightline#ale#warnings',
-      \   'linter_errors': 'lightline#ale#errors',
-      \   'linter_ok': 'lightline#ale#ok',
-      \ }
-
-    let g:lightline.component_type = {
-      \   'linter_checking': 'left',
-      \   'linter_warnings': 'warning',
-      \   'linter_errors': 'error',
-      \   'linter_ok': 'left',
-      \ }
-
-    function! LightlineReadonly()
-      return &readonly ? '' : ''
-    endfunction
-
-    function! LightlineGitBranch()
-      if exists('*gitbranch#name')
-        let branch = gitbranch#name()
-        return branch !=# '' ? ' '.branch : ''
+      " PLUGIN: ARPEGGIO ====================================================== {{{
+      if exists(":Arpeggio")
+        " Map the jk key chord to send an <Esc> key press
+        call arpeggio#map('iv', '', 0, 'jk', '<Esc>')
       endif
-      return ''
+      " }}} PLUGIN: ARPEGGIO
+
     endfunction
 
-    function! LightlineCurrentWorkingDirectory()
-      let cwd = getcwd()
-      return cwd
-    endfunction
+    " PLUGIN: GOYO ========================================================== {{{
+      let g:goyo_width=80
+      " Set up the Goyo mode toggle (width shouldn't be defined here, as it wont
+      " toggle with it.
+      nnoremap <leader>g :Goyo<cr>
+    " }}} PLUGIN: GOYO ==========================================================
 
-  " }}} PLUGIN: LIGHTLINE =====================================================
+    " PLUGIN: ALE  ========================================================== {{{
+      let g:ale_lint_on_insert_leave=1
+      let g:ale_lint_on_text_changed="never"
+    " }}} PLUGIN: ALE ===========================================================
 
-  " PLUGIN: ARPEGGIO ====================================================== {{{
-    " Map the jk key chord to send an <Esc> key press
-    call arpeggio#map('iv', '', 0, 'jk', '<Esc>')
-  " }}} PLUGIN: ARPEGGIO
+    " PLUGIN: LIGHTLINE ===================================================== {{{
+      let g:lightline = {
+        \   'colorscheme': 'one',
+        \   'separator': { 'left': '', 'right': '' },
+        \   'subseparator': { 'left': '', 'right': '' }
+        \ }
 
-  " PLUGIN: NERDTREE ====================================================== {{{
-    nnoremap <silent> <F2> :NERDTreeToggle<cr>
-    let g:NERDTreeMapMenu = '<F3>'
-    let g:NERDTreeChristmasTree = 1
-    let g:NERDTreeCaseSensitiveSort = 1
-    let g:NERDTreeQuitOnOpen = 1
-    let g:NERDTreeWinPos = 'left'
-    let g:NERDTreeShowBookmarks = 1
-    let g:NERDTreeDirArrows=0
-    let NERDTreeMinimalUI=1
-    let NERDTreeIgnore = ['\.pyc$']
-  " }}} PLUGIN: NERDTREE ======================================================
+      let g:lightline.active = {
+        \   'left': [
+        \     [ 'mode', 'paste' ],
+        \     [ 'filename' ],
+        \     [ 'gitbranch', 'readonly', 'bufnum', 'modified' ],
+        \   ],
+        \   'right': [
+        \     [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'lineinfo' ],
+        \     [ 'percent' ],
+        \     [ 'charvaluehex', 'fileencoding', 'fileformat', 'filetype' ],
+        \   ]
+        \ }
 
-  " PLUGIN: SEXY SCROLLER ================================================= {{{
-    let g:SexyScroller_MaxTime = 400
-    let g:SexyScroller_EasingStyle = 3
-  " }}} PLUGIN: SEXY-SCROLLER =================================================
+      let g:lightline.inactive = {
+        \   'left': [
+        \     [ 'filename', 'modified' ]
+        \   ],
+        \   'right': [
+        \     [ 'percent', 'lineinfo' ]
+        \   ]
+        \ }
 
-  " PLUGIN: EASY-ALIGN ==================================================== {{{
-    " Use the plugin just in the select first then interactive align mode.
-    xmap ga <Plug>(EasyAlign)
+      let g:lightline.tabline = {
+        \   'left': [[ 'tabs' ]],
+        \   'right': [[ 'vimpwd' ]]
+        \ }
 
-  " }}} PLUGIN: EASY-ALIGN ====================================================
+      let g:lightline.tab = {
+          \ 'active': [ 'tabnum', 'filename', 'modified' ],
+          \ 'inactive': [ 'tabnum', 'filename', 'modified' ]
+        \ }
+
+      let g:lightline.component = {
+        \   'charvaluehex': '0x%B',
+        \   'lineinfo': ' %3l:%-2v',
+        \ }
+
+      let g:lightline.component_function = {
+        \   'readonly': 'LightlineReadonly',
+        \   'gitbranch': 'LightlineGitBranch',
+        \   'vimpwd': 'LightlineCurrentWorkingDirectory',
+        \ }
+
+      let g:lightline.component_expand = {
+        \   'linter_checking': 'lightline#ale#checking',
+        \   'linter_warnings': 'lightline#ale#warnings',
+        \   'linter_errors': 'lightline#ale#errors',
+        \   'linter_ok': 'lightline#ale#ok',
+        \ }
+
+      let g:lightline.component_type = {
+        \   'linter_checking': 'left',
+        \   'linter_warnings': 'warning',
+        \   'linter_errors': 'error',
+        \   'linter_ok': 'left',
+        \ }
+
+      function! LightlineReadonly()
+        return &readonly ? '' : ''
+      endfunction
+
+      function! LightlineGitBranch()
+        if exists('*gitbranch#name')
+          let branch = gitbranch#name()
+          return branch !=# '' ? ' '.branch : ''
+        endif
+        return ''
+      endfunction
+
+      function! LightlineCurrentWorkingDirectory()
+        let cwd = getcwd()
+        return cwd
+      endfunction
+    " }}} PLUGIN: LIGHTLINE =====================================================
+
+    " PLUGIN: NERDTREE ====================================================== {{{
+      nnoremap <silent> <F2> :NERDTreeToggle<cr>
+      let g:NERDTreeMapMenu = "<F3>"
+      let g:NERDTreeChristmasTree = 1
+      let g:NERDTreeCaseSensitiveSort = 1
+      let g:NERDTreeQuitOnOpen = 1
+      let g:NERDTreeWinPos = "left"
+      let g:NERDTreeShowBookmarks = 1
+      let g:NERDTreeDirArrows=0
+      let g:NERDTreeMinimalUI=1
+      let g:NERDTreeIgnore = ["\.pyc$"]
+    " }}} PLUGIN: NERDTREE ======================================================
+
+    " PLUGIN: EASY-ALIGN ==================================================== {{{
+      " Use the plugin just in the select first then interactive align mode.
+      xmap ga <Plug>(EasyAlign)
+    " }}} PLUGIN: EASY-ALIGN ====================================================
+
+  " }}} PLUGIN CONFIGURATION ==================================================
 
 " }}} PLUGINS =================================================================
 
