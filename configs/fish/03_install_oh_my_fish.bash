@@ -4,6 +4,7 @@ cd $(dirname $(readlink -f $0))
 source ../../utils/libdeploy.bash
 
 using pip
+using jq
 
 # Installing virtualfish for python virtual env management
 info 'Installing virtualfish..'  # https://github.com/adambrenecki/virtualfish
@@ -50,15 +51,29 @@ function get_fish_installer {
   fi
 }
 
-info 'Downloading fish installer.'
+info 'Downloading fish installer..'
 run get_fish_installer
 
 
 # =================================================================
 #  CHECKING VERSION
 
-info "Uninstalling existing OMF installation.."
-run fish ${OMF_INSTALLER} --uninstall --yes
+function install_fish {
+  latest_version=$(curl -s https://api.github.com/repos/oh-my-fish/oh-my-fish/releases/latest | jq -r '.name')
+  if current_version=$(fish -c 'omf version'); then
+    latest_version=$(echo $latest_version | cut -d' ' -f2)
+    current_version=$(echo $current_version | cut -d' ' -f5)
+    if [ "$latest_version" = "$current_version" ]; then
+      return 0
+    else
+      info "Uninstalling existing OMF installation.."
+      run fish ${OMF_INSTALLER} --uninstall --yes
+    fi
+  fi
 
-info "Installing OMF.. (this could take a while..)"
-run fish ${OMF_INSTALLER} --noninteractive
+  info "Installing OMF.. (this could take a while..)"
+  run fish ${OMF_INSTALLER} --noninteractive
+}
+
+info 'Installing fish..'
+run install_fish
