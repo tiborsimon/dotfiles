@@ -29,7 +29,7 @@ if [ "$#" -eq 1 ]; then
   configs=$1
 else
   # Getting the directory names taht contains the configurations
-  configs=$(ls | grep -v bash | sort)
+  configs=$(ls | grep -v '.bash' | grep -v Makefile | sort)
 fi
 
 for config in $configs; do
