@@ -1,3 +1,7 @@
+.PHONY: install-alacritty
+install-alacritty:
+	@./configs/install.bash alacritty
+
 .PHONY: install-bash
 install-bash:
 	@./configs/install.bash bash
