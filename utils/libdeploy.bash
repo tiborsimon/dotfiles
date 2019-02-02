@@ -317,7 +317,7 @@ function info {
   echo " ${BOLD}${CYAN}..${RESET} | $@"
 }
 
-function ask {
+function user {
   echo " ${BOLD}${BLUE}??${RESET} | $@"
 }
 
