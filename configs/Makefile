@@ -10,6 +10,10 @@ install-emacs:
 install-fish:
 	@./configs/install.bash fish
 
+.PHONY: install-fonts
+install-fonts:
+	@./configs/install.bash fonts
+
 .PHONY: install-git
 install-git:
 	@./configs/install.bash git
