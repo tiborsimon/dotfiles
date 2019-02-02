@@ -19,8 +19,9 @@ export PATH
 
 # ============================================================================
 #  G L O B A L   V A R I A B L E   H A N D L I N G
-export TERMINAL=''
-export EDITOR='vim'
+export TERMINAL="alacritty"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export EDITOR="vim"
 export PROJECTS="${HOME}/projects"
 export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
 export W3MIMGDISPLAY_PATH="${HOME}/.dotfiles/bin/my-w3m-delay"
