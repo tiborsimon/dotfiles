@@ -6,6 +6,10 @@ install-alacritty:
 install-bash:
 	@./configs/install.bash bash
 
+.PHONY: install-bspwm
+install-bspwm:
+	@./configs/install.bash bspwm
+
 .PHONY: install-emacs
 install-emacs:
 	@./configs/install.bash emacs
