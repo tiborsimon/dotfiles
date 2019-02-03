@@ -25,9 +25,3 @@ export EDITOR="vim"
 export PROJECTS="${HOME}/projects"
 export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
 export W3MIMGDISPLAY_PATH="${HOME}/.dotfiles/bin/my-w3m-delay"
-
-
-# ============================================================================
-#  K E Y B O A R D   T W E A K I N G
-xset r rate 250 83 > /dev/null  # typing repetion speed icrease
-setxkbmap -option ctrl:nocaps  # map caps lock to ctrl
