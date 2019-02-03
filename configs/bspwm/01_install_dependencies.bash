@@ -3,4 +3,4 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-install_packages bspwm sxhkd
+install_packages bspwm
