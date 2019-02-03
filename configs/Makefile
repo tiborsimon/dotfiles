@@ -70,6 +70,10 @@ install-redshift:
 install-rust:
 	@./configs/install.bash rust
 
+.PHONY: install-sxhkd
+install-sxhkd:
+	@./configs/install.bash sxhkd
+
 .PHONY: install-tmux
 install-tmux:
 	@./configs/install.bash tmux
