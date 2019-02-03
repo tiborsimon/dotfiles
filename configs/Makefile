@@ -38,6 +38,10 @@ install-keyboard:
 install-ledger:
 	@./configs/install.bash ledger
 
+.PHONY: install-lemonbar
+install-lemonbar:
+	@./configs/install.bash lemonbar
+
 .PHONY: install-moc
 install-moc:
 	@./configs/install.bash moc
