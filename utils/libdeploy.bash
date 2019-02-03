@@ -377,7 +377,8 @@ function display_action {
         # success "Link exists with same target. Nothing to do.";;
         ;;
       linked )
-        success "Linked.";;
+        # success "Linked.";;
+        ;;
       * )
         ;;
     esac
