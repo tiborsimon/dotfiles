@@ -128,8 +128,6 @@
   nnoremap <leader>ps :call FzyCommand(searchCommand, ":split")<cr>
   nnoremap <leader>pv :call FzyCommand(searchCommand, ":vsplit")<cr>
   nnoremap <leader>pt :call FzyCommand(searchCommand, ":tabedit")<cr>
-
-  silent !echom "File finding configured."
 " }}} FINDING FILES ===========================================================
 
 " SEARCH SETTINGS: ======================================================== {{{
