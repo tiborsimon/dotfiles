@@ -10,6 +10,10 @@ install-bash:
 install-bspwm:
 	@./configs/install.bash bspwm
 
+.PHONY: install-compton
+install-compton:
+	@./configs/install.bash compton
+
 .PHONY: install-emacs
 install-emacs:
 	@./configs/install.bash emacs
