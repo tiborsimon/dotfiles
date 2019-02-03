@@ -33,7 +33,7 @@ else
 fi
 
 for config in $configs; do
-  echo "----+------------------------------------------------------------------------"
+  echo "====#========================================================================"
   task "Installing: ${BOLD}${config}${RESET}"
   echo "----+------------------------------------------------------------------------"
   scripts=$(find $config -maxdepth 1 -type f -executable | sort)
@@ -42,6 +42,7 @@ for config in $configs; do
     info "Running script ${BOLD}${script}${RESET}"
     ./$script
   done
+  success "Done"
 done
 
 clean_up_error_log
