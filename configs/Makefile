@@ -82,3 +82,7 @@ install-tmux:
 install-vim:
 	@./configs/install.bash vim
 
+.PHONY: install-xorg
+install-xorg:
+	@./configs/install.bash xorg
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+compton --backend glx &
+exec bspwm
