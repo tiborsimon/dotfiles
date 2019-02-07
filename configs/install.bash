@@ -29,9 +29,16 @@ else
 fi
 
 for config in $configs; do
-  echo "====#========================================================================"
-  task "Installing: ${BOLD}${config}${RESET}"
-  echo "----+------------------------------------------------------------------------"
+  if [ -f ./$config/retired ]; then
+    echo "====#========================================================================"
+    success "Skipped: ${BOLD}${config}${RESET} - ${YELLOW}config retired${RESET}"
+    continue
+  else
+    echo "====#========================================================================"
+    task "Installing: ${BOLD}${config}${RESET}"
+    echo "----+------------------------------------------------------------------------"
+  fi
+
   scripts=$(find $config -maxdepth 1 -type f -executable | sort)
   for script in $scripts; do
     write_to_error_log "Running script: ./configs/$script"
