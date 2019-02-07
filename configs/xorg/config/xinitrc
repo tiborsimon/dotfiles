@@ -1,4 +1,10 @@
 #!/bin/sh
 
+xsetroot -cursor_name left_ptr
+
+
+unclutter --timeout 1 --jitter 20 --ignore-scrolling &
+
 compton --backend glx &
+sxhkd &
 exec bspwm
