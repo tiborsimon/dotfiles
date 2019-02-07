@@ -70,6 +70,10 @@ install-redshift:
 install-rust:
 	@./configs/install.bash rust
 
+.PHONY: install-spacemacs
+install-spacemacs:
+	@./configs/install.bash spacemacs
+
 .PHONY: install-sxhkd
 install-sxhkd:
 	@./configs/install.bash sxhkd
