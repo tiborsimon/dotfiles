@@ -117,5 +117,5 @@ export WORKON_HOME=~/.virtualenvs
 source ~/.local/bin/virtualenvwrapper.sh
 
 # typing repetion speed icrease
-xset r rate 200 49
+xset r rate 270 55
 
