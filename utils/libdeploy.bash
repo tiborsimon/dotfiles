@@ -470,6 +470,10 @@ function link_file {
 
   if [ "$skip" == "false" ]; then
 
+    if ! mkdir -p $(dirname "$link_name") &>/dev/null; then
+      run_with_privilege mkdir -p $(dirname "$link_name")
+    fi
+
     # test if the link can be created
     if touch "$link_name" &>/dev/null; then
       rm $link_name

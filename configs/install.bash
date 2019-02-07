@@ -19,10 +19,6 @@ export DOTFILES_ERROR_LOG_PATH=$(readlink -f ../error.log)
 
 source ../utils/libdeploy.bash
 
-mkdir -p ${HOME}/.config
-mkdir -p ${HOME}/.local/bin
-mkdir -p ${HOME}/.scripts
-
 init_error_log
 
 if [ "$#" -eq 1 ]; then
