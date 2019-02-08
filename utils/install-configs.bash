@@ -13,6 +13,7 @@ set -e
 
 # Switching to the script's location.
 cd $(dirname $(readlink -f $0))
+cd ../configs
 
 # Logfile path in the repository root.
 export DOTFILES_ERROR_LOG_PATH=$(readlink -f ../error.log)

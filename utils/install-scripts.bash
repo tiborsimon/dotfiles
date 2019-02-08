@@ -13,6 +13,7 @@
 
 # Switching to the script's location.
 cd $(dirname $(readlink -f $0))
+cd ../scripts
 
 # Use the deployment library.
 source ../utils/libdeploy.bash

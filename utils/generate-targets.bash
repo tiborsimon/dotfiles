@@ -9,13 +9,13 @@
 #   None
 #######################################
 
-TARGET_MAKEFILE='Makefile'
+TARGET_MAKEFILE='Makefile.targets'
 
 set -e
 
 cd $(dirname $(readlink -f $0))
 
-configs=$(ls | grep -v '.bash' | grep -v Makefile | sort)
+configs=$(cd ../configs; ls | grep -v '.bash' | grep -v Makefile | sort)
 
 
 rm $TARGET_MAKEFILE

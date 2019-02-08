@@ -8,7 +8,7 @@ using pipsi
 
 
 info "Installing virtualenvwrapper.."
-run pip install --user virtualenvwrapper
+execute pip install --user virtualenvwrapper
 
 
 # this patch function is needed until the output handling issue is resolved..
@@ -26,13 +26,13 @@ function pipsi_patch {
 }
 
 info "Installing youtube-dl.."
-run pipsi_patch install youtube-dl
+execute pipsi_patch install youtube-dl
 
 info "Installing cheat.."
-run pipsi_patch install cheat
+execute pipsi_patch install cheat
 
 info "Installing cookiecutter.."
-run pipsi_patch install cookiecutter
+execute pipsi_patch install cookiecutter
 
 info "Installing flake8.."
-run pipsi_patch install flake8
+execute pipsi_patch install flake8

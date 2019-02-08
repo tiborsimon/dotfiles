@@ -67,7 +67,7 @@ function clean_up_error_log {
 # Returns:
 #   None
 #######################################
-function run {
+function execute {
   write_to_error_log $@
   if ! $@&>>${DOTFILES_ERROR_LOG_PATH}; then
     fail "Last command failed. Check the error log at: ${BOLD}${RED}${DOTFILES_ERROR_LOG_PATH}${RESET}."
@@ -89,7 +89,7 @@ function install_packages {
   info "Installing packages: $@"
   for package in $@; do
     if ! pacman -Qi $package &>/dev/null; then
-      run run_with_privilege pacman -S --noconfirm --needed $package
+      execute execute_with_privilege pacman -S --noconfirm --needed $package
     fi
   done
 }
@@ -109,7 +109,7 @@ function install_aur_packages {
   info "Installing AUR packages: $@"
   for package in $@; do
     if ! yay -Qi $package &>/dev/null; then
-      run yay -S --noconfirm --cleanafter $package
+      execute yay -S --noconfirm --cleanafter $package
     fi
   done
 }
@@ -239,10 +239,10 @@ function using {
     function get_yay_package {
       curl -sL http://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin > PKGBUILD
       makepkg
-      run_with_privilege pacman --noconfirm -U $(ls | grep "yay.*xz")
+      execute_with_privilege pacman --noconfirm -U $(ls | grep "yay.*xz")
     }
 
-    run get_yay_package
+    execute get_yay_package
 
     # package is ready, we want to install it now
     # the package is az xz package
@@ -261,7 +261,7 @@ function using {
     if which pip&>/dev/null; then return 0; fi
 
     info "Installing pip.."
-    run run_with_privilege pacman -S --noconfirm python-pip
+    execute execute_with_privilege pacman -S --noconfirm python-pip
 
     return 0
   fi
@@ -277,7 +277,7 @@ function using {
     }
 
     info "Installing pipsi.."
-    run install_pipsi
+    execute install_pipsi
 
     return 0
   fi
@@ -289,7 +289,7 @@ function using {
     if which jq&>/dev/null; then return 0; fi
 
     info "Installing jq.."
-    run run_with_privilege pacman -S --noconfirm jq
+    execute execute_with_privilege pacman -S --noconfirm jq
 
     return 0
   fi
@@ -341,15 +341,15 @@ function fail {
 #==============================================================================
 
 #######################################
-# Helper function to run command with elevated privilege.
+# Helper function to execute command with elevated privilege.
 # Globals:
 #   None
 # Arguments:
-#   command - command that is to be run with elevated privileges
+#   command - command that is to be execute with elevated privileges
 # Returns:
 #   None
 #######################################
-function run_with_privilege {
+function execute_with_privilege {
   temp_command=$(echo $@)
   sudo --reset-timestamp --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| About to run privileged command: ${YELLOW}${temp_command}${RESET}. [sudo] password for ${BOLD}${USER}${RESET}: " $@
 }
@@ -455,14 +455,14 @@ function link_file {
 
     if [ "$overwrite" == "true" ]; then
       if ! rm -rf "$link_name" &>/dev/null; then
-        run_with_privilege rm -rf "$link_name"
+        execute_with_privilege rm -rf "$link_name"
       fi
       echo deleted
     fi
 
     if [ "$backup" == "true" ]; then
       if ! mv "$link_name" "${link_name}.backup"; then
-        run_with_privilege mv "$link_name" "${link_name}.backup"
+        execute_with_privilege mv "$link_name" "${link_name}.backup"
       fi
       echo moved
     fi
@@ -471,7 +471,7 @@ function link_file {
   if [ "$skip" == "false" ]; then
 
     if ! mkdir -p $(dirname "$link_name") &>/dev/null; then
-      run_with_privilege mkdir -p $(dirname "$link_name")
+      execute_with_privilege mkdir -p $(dirname "$link_name")
     fi
 
     # test if the link can be created
@@ -480,7 +480,7 @@ function link_file {
       ln -s "$target" "$link_name"
     else
       # propably there is no permission to create the link, so use sudo..
-      run_with_privilege ln -s "$target" "$link_name"
+      execute_with_privilege ln -s "$target" "$link_name"
     fi
 
     echo linked

@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-load ../utils/lib/libdeploy
+load ../utils/libdeploy
 
 
 LINK_TARGET='../../sandbox/a/file'
@@ -34,7 +34,7 @@ teardown () {
   ln -s ${LINK_TARGET} ${LINK_NAME}
   run link_file ${LINK_TARGET} ${LINK_NAME}
   [ $status -eq 0 ]
-  [ $output = 'skipped' ]
+  [ $output = 'exists' ]
 }
 
 @test "link already exists with different content, no policy specified, function should return" {

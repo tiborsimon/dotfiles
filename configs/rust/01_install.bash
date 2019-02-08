@@ -7,7 +7,7 @@ info "Installing the rust toolset.."
 function install_rust {
   curl -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 }
-run install_rust
+execute install_rust
 
 info "Downloading nightly rust.."
-run rustup install nightly
+execute rustup install nightly

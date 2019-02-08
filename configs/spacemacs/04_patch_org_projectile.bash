@@ -15,4 +15,4 @@ function patch_org_projectile {
   fi
 }
 
-run patch_org_projectile
+execute patch_org_projectile

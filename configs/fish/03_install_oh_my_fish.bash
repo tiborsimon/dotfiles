@@ -8,7 +8,7 @@ using jq
 
 # Installing virtualfish for python virtual env management
 info 'Installing virtualfish..'  # https://github.com/adambrenecki/virtualfish
-run pip install --user virtualfish
+execute pip install --user virtualfish
 
 
 # OMF will be in the following directories
@@ -52,7 +52,7 @@ function get_fish_installer {
 }
 
 info 'Downloading fish installer..'
-run get_fish_installer
+execute get_fish_installer
 
 
 # =================================================================
@@ -67,13 +67,13 @@ function install_fish {
       return 0
     else
       info "Uninstalling existing OMF installation.."
-      run fish ${OMF_INSTALLER} --uninstall --yes
+      execute fish ${OMF_INSTALLER} --uninstall --yes
     fi
   fi
 
   info "Installing OMF.. (this could take a while..)"
-  run fish ${OMF_INSTALLER} --noninteractive
+  execute fish ${OMF_INSTALLER} --noninteractive
 }
 
 info 'Installing fish..'
-run install_fish
+execute install_fish

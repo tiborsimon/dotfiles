@@ -9,4 +9,4 @@ function install_spacemacs {
   fi
 }
 
-run install_spacemacs
+execute install_spacemacs

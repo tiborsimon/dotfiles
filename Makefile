@@ -51,23 +51,23 @@ help:
 
 .PHONY: install
 install:
-	@./scripts/install.bash
-	@./configs/install.bash
+	@./utils/install-scripts.bash
+	@./utils/install-configs.bash
 
 .PHONY: install-scripts
 install-scripts:
-	@./scripts/install.bash
+	@./utils/install-scripts.bash
 
 
-include ./configs/Makefile
+include ./utils/Makefile.targets
 
 .PHONY: generate-targets
 generate-targets:
-	@./configs/generate-targets.bash
+	@./utils/generate-targets.bash
 
 # =======================================================================================
 #  T E S T   C O M M A N D
 
 .PHONY: test
 test:
-	@cd tests; bats -r .
+	@./tests/run.bash
