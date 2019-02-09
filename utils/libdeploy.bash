@@ -121,7 +121,6 @@ function install_aur_packages {
 # Globals:
 #   None
 # Arguments:
-#   package_name - name of the package
 #   target - linkable target file
 #   link_name - link
 #   [..] - repeated target and link_name pairs
@@ -129,9 +128,6 @@ function install_aur_packages {
 #   None
 #######################################
 function link_package {
-  local package_name=$1
-  shift
-
   while [[ $# -gt 0 ]]; do
     local target=$(readlink -f $1)
     local display_target=$(basename $target)
@@ -139,7 +135,8 @@ function link_package {
     local action='invalid'
     shift; shift
 
-    local output=, result=
+    local output=
+    local result=
 
     info "Linking ${display_target} to ${link_name}.."
 
@@ -200,7 +197,7 @@ function link_scripts {
     script_full_name="${PREFIX}-${script_category}-${script_name}"
 
     # Calling the library linker fuction.
-    link_package scripts ${script_path} ${LINK_PATH}/${script_full_name}
+    link_package ${script_path} ${LINK_PATH}/${script_full_name}
   done
 }
 
@@ -488,4 +485,3 @@ function link_file {
     echo skipped
   fi
 }
-

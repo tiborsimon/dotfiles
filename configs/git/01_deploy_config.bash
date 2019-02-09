@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package git \
-             ./config/gitconfig ${HOME}/.gitconfig
+link_package \
+  ./config/gitconfig ${HOME}/.gitconfig

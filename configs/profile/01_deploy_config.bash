@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package profile \
-             ./config/profile ${HOME}/.profile
+link_package \
+  ./config/profile ${HOME}/.profile

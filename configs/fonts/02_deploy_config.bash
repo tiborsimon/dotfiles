@@ -3,7 +3,7 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package fonts \
-             ./config/local.conf /etc/fonts/local.conf \
-             ./config/29-prettify.conf /etc/fonts/conf.avail/29-prettify.conf \
-             /etc/fonts/conf.avail/29-prettify.conf /etc/fonts/conf.d/29-prettify.conf
+link_package \
+  ./config/local.conf /etc/fonts/local.conf \
+  ./config/29-prettify.conf /etc/fonts/conf.avail/29-prettify.conf \
+  /etc/fonts/conf.avail/29-prettify.conf /etc/fonts/conf.d/29-prettify.conf

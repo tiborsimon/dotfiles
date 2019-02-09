@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package sxhkd \
-             ./config/sxhkd ${HOME}/.config/sxhkd
+link_package \
+  ./config/sxhkd ${HOME}/.config/sxhkd

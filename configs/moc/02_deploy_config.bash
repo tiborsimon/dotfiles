@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package moc \
-             ./config/ ${HOME}/.moc
+link_package \
+  ./config/ ${HOME}/.moc

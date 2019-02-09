@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package pypi \
-             ./config/pypirc ${HOME}/.pypirc
+link_package \
+  ./config/pypirc ${HOME}/.pypirc

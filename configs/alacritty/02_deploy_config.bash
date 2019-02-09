@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package alacritty \
-             ./config/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
+link_package \
+  ./config/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
