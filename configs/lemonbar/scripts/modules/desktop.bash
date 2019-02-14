@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
-NORMAL_FONT=$1
-ICON_FONT=$2
+source $1
 
-CURRENT_DESKTOP=$(bspc query -D -d --names)
-echo -en "[${CURRENT_DESKTOP}]"
+TYPE=1
+
+CURRENT=$(bspc query -D -d --names)
+
+# Nerd Fonts from "f8a3" to "f8bd"
+ICONS="..|..|..|..|..|..|..|..|.."
+
+ICON=$(echo ${ICONS} | cut -d'|' -f ${CURRENT} | cut -d. -f ${TYPE})
+echo -en "${FONT_4}${ICON}${FONT_1}"

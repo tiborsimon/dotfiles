@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-NORMAL_FONT=$1
-ICON_FONT=$2
+source $1
 
 CLOCK=$(date "+%F %A %R")
 
-echo -en "%{A:clock:}${CLOCK}%{A}"
+echo -en "${FONT_1}%{A:clock:}${CLOCK}%{A}"

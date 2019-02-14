@@ -1,0 +1,10 @@
+[Unit]
+Description=Lemonbar clock update timer
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+Persistent=true
+AccuracySec=500ms
+
+[Install]
+WantedBy=timers.target

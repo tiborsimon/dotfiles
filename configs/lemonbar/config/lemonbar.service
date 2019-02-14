@@ -1,0 +1,8 @@
+[Unit]
+Description=My lemonbar main runner
+
+[Service]
+ExecStart=%h/.local/bin/my-lemonbar-main
+
+[Install]
+WantedBy=default.target
