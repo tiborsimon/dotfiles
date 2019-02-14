@@ -2,9 +2,9 @@
 
 xsetroot -cursor_name left_ptr
 
+unclutter --timeout 2 --jitter 8 --ignore-scrolling &
 
-unclutter --timeout 1 --jitter 20 --ignore-scrolling &
-
-compton --backend glx &
+redshift &
+compton &
 sxhkd &
 exec bspwm
