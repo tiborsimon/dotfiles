@@ -10,15 +10,19 @@ ICON_FULLY_CHARGED="${FONT_1}\uf58e${FONT_1}"
 
 function render_battery {
   index=$1
-  state=$(acpi | sed -n "${index}p" | cut -d' ' -f3 | cut -d',' -f1)
-  percent=$(acpi | sed -n "${index}p" | cut -d' ' -f4 | cut -d',' -f1)
+  state=$(cat /sys/class/power_supply/BAT${index}/status)
+  capacity=$(cat /sys/class/power_supply/BAT${index}/capacity)
   case $state in
     'Full')
       echo ${ICON_FULLY_CHARGED}
       return 0
       ;;
     'Unknown')
-      echo ${ICON_UNKNOWN}
+      if (( ${capacity} <= 5 )); then
+        echo ${ICON_EMPTY}
+      else
+        echo ${ICON_UNKNOWN}
+      fi
       return 0
       ;;
     'Discharging')
@@ -27,11 +31,14 @@ function render_battery {
       type=2;;
   esac
 
-  item=$(echo "${percent::-1} / 10" | bc)
+  item=$(echo "${capacity} / 10" | bc)
+  if (( ${item} == 0 )); then
+    item=1
+  fi
   echo $(echo ${ICONS} | cut -d'|' -f ${item} | cut -d'.' -f ${type} )
 }
 
-BATTERY_1=$(render_battery 2)
-BATTERY_2=$(render_battery 1)
+BATTERY_1=$(render_battery 1)
+BATTERY_2=$(render_battery 0)
 
 echo -en "%{A:battery:}${BATTERY_1} ${BATTERY_2}%{A}${FONT_1}"

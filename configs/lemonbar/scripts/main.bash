@@ -7,6 +7,8 @@ source ./config.bash
 mkfifo $LEMONBAR_NAMED_PIPE
 trap "rm -f $LEMONBAR_NAMED_PIPE" EXIT
 
+my-lemonbar-monitor &
+
 # open op the pipe in read write mode
 cat <>$LEMONBAR_NAMED_PIPE | lemonbar -p \
                  -F\#${FG_COLOR} -B\#${BG_COLOR} \
