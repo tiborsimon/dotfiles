@@ -6,10 +6,21 @@ source ../../utils/libdeploy.bash
 using pip
 using pipsi
 
+# ===========================================================================
+#  PIP INSTALLS
 
 info "Installing virtualenvwrapper.."
 execute pip install --user virtualenvwrapper
 
+info "Installing jedi.."
+execute pip install --user jedi
+
+info "Installing ipython.."
+execute pip install --user ipython
+
+
+# ===========================================================================
+#  PIPSI INSTALLS
 
 # this patch function is needed until the output handling issue is resolved..
 function pipsi_patch {
