@@ -25,8 +25,4 @@ export EDITOR="vim"
 export PROJECTS="${HOME}/projects"
 export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
 export W3MIMGDISPLAY_PATH="${HOME}/.dotfiles/bin/my-w3m-delay"
-
-
-# ============================================================================
-#  S Y S T E M D   U S E R   E N V I R O N M E N T   I N I T
-systemctl --user import-environment PATH
+export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
