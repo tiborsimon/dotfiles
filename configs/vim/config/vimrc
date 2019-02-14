@@ -37,6 +37,9 @@
   set nowritebackup
   set noswapfile
 
+  set undofile
+  set undodir=~/.vim/undodir
+
   " Splits open at the bottom and right, which is non-retarded
   set splitbelow splitright
 " }}} BASIC SETTINGS ==========================================================
@@ -182,67 +185,9 @@
   " - Use ^n and ^p to go back and forth in the suggestion list
 " }}} AUTOCOMPLETE ============================================================
 
-" GUI SETTINGS: =========================================================== {{{
-  colors elflord         " Set the color theme
-
-  " Set relative numbering on the left side
-  set number relativenumber
-
-  " Always show the top tabline row
-  set showtabline=2
-  " Don't use GUI tabline
-  set guioptions-=e
-
-  " Enable the ruler in the bottom right corner
-  set ruler
-
-  " Status line
-  set laststatus=2       " Always show the statusline
-  set noshowmode         " Hide the default mode text
-  set showcmd
-
-  " Scrolling
-  set scrolloff=5        " Show 5 lines of context around the cursor
-  set sidescrolloff=20
-  set scrolljump=0
-
-  " Drawing settings
-  set lazyredraw         " The screen won't be redrawn unless actions took place
-  set ttyfast            " Improves redrawing for newer computers
-
-  " Miscellaneous
-  set showmatch          " Shows matching brackets when text indicator is over them
-  set pumheight=10       " Max number of popup menu items
-  set diffopt+=context:3
-  set nostartofline      " When moving thru the lines, the cursor will try to
-                         " stay in the previous columns
-  " Color definitions
-  set fillchars+=vert:\ "space
-
-  highlight VertSplit    ctermfg=237        ctermbg=240
-
-  highlight Folded     ctermfg=246 ctermbg=237
-  highlight MatchParen cterm=none  ctermbg=240    ctermfg=7
-  highlight Search     cterm=NONE  ctermfg=0      ctermbg=11
-  highlight Visual     cterm=NONE  ctermfg=white ctermbg=darkblue
-
-  highlight Cursor guifg=white guibg=red
-  highlight iCursor guifg=white guibg=steelblue
-
-  " Redefine diff colors:
-  highlight DiffAdd      ctermfg=10  ctermbg=22
-  highlight DiffChange   ctermfg=7   ctermbg=8
-  highlight DiffText     ctermfg=15  ctermbg=27
-  highlight DiffDelete   ctermfg=9   ctermbg=88
-
-  " Highlight trailing whitespace: https://stackoverflow.com/a/4617156/1565331
-  highlight ExtraWhitespace ctermbg=red guibg=red
-  match ExtraWhitespace /\s\+$/
-" }}} GUI SETTINGS ============================================================
-
 " PLUGINS: ================================================================ {{{
 
-  " INSTALLED PLUGINS: ==================================================== {{{
+  " VIMPLUG: ============================================================== {{{
     " Plugin list to install
     call plug#begin('~/.vim/plugged')
       " Statusline
@@ -252,22 +197,34 @@
 
       " Visuals
       Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
+      Plug 'joshdick/onedark.vim'                   " distraction free mode
+      Plug 'Yggdroot/indentLine'                    " A vim plugin to display the indention levels with thin vertical lines
 
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
       Plug 'jreybert/vimagit'                       " git interaction
 
-      " Usability
+      " Navigation
       Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
       Plug 'jeetsukumaran/vim-buffergator'          " fast buffer management
+      Plug 'scrooloose/nerdtree'                    " file browser
+
+      " Usability
       Plug 'junegunn/vim-easy-align'                " fast column align plugin
       Plug 'kana/vim-arpeggio'                      " key chords
-      Plug 'scrooloose/nerdtree'                    " file browser
       Plug 'sgur/vim-editorconfig'                  " editorconfig integration
       Plug 'terryma/vim-multiple-cursors'           " multiple cursor editing
       Plug 'tpope/vim-commentary'                   " fast commenting out lines
-      Plug 'tpope/vim-surround'                     " fast wrapping
       Plug 'tpope/vim-speeddating'                  " fast date manipulations
+      Plug 'tpope/vim-surround'                     " fast wrapping
+
+      " Autocomplete
+      Plug 'ludovicchabant/vim-gutentags'           " A Vim plugin that manages your tag files
+      Plug 'maralla/completor.vim'                  " Async completion framework made ease.
+      Plug 'skywind3000/gutentags_plus'             " The right way to use gtags with gutentags
+
+      " Searching
+      Plug 'wsdjeg/FlyGrep.vim'                     " Asynchronously fly grep in vim.
 
       " Sytax checker
       Plug 'w0rp/ale'                               " async syntax checker framework
@@ -277,14 +234,13 @@
       Plug 'elzr/vim-json', { 'for': 'json' }       " json file type
       Plug 'rust-lang/rust.vim', { 'for': 'rust' }  " rust file type
     call plug#end()
+  " }}} VIMPLUG ===============================================================
 
     augroup vim_enter_group
       autocmd!
       autocmd VimEnter * :call ExecuteAfterVimEntered()
     augroup END
-  " }}} INSTALLED PLUGINS =====================================================
 
-  " PLUGIN CONFIGURATION ================================================== {{{
     function ExecuteAfterVimEntered()
 
       " PLUGIN: ARPEGGIO ====================================================== {{{
@@ -295,6 +251,10 @@
       " }}} PLUGIN: ARPEGGIO
 
     endfunction
+
+    " PLUGIN: ONEDARK ======================================================= {{{
+      colo onedark
+    " }}} PLUGIN: ONEDARK =======================================================
 
     " PLUGIN: GOYO ========================================================== {{{
       let g:goyo_width=80
@@ -309,10 +269,24 @@
     " }}} PLUGIN: ALE ===========================================================
 
     " PLUGIN: LIGHTLINE ===================================================== {{{
+    " https://github.com/ryanoasis/powerline-extra-symbols
+    " \   'separator': { 'left': '', 'right': '' },
+    " \   'subseparator': { 'left': '', 'right': '' }
       let g:lightline = {
-        \   'colorscheme': 'one',
-        \   'separator': { 'left': '', 'right': '' },
-        \   'subseparator': { 'left': '', 'right': '' }
+        \ 'colorscheme': 'solarized',
+        \ 'separator': { 'left': '', 'right': '' },
+        \ 'subseparator': { 'left': '', 'right': '' },
+        \ 'mode_map': {
+        \   'n' : 'N',
+        \   'i' : 'I',
+        \   'R' : 'R',
+        \   'v' : 'V',
+        \   'V' : 'V',
+        \   "\<C-v>": 'V',
+        \   's' : 'S',
+        \   'S' : 'S',
+        \   "\<C-s>": 'S'
+        \   }
         \ }
 
       let g:lightline.active = {
@@ -322,9 +296,9 @@
         \     [ 'gitbranch', 'readonly', 'bufnum', 'modified' ],
         \   ],
         \   'right': [
-        \     [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'lineinfo' ],
-        \     [ 'percent' ],
-        \     [ 'charvaluehex', 'fileencoding', 'fileformat', 'filetype' ],
+        \     [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
+        \     [ 'percent', 'lineinfo' ],
+        \     [ 'gutentags_status', 'charvaluehex' ],
         \   ]
         \ }
 
@@ -339,7 +313,7 @@
 
       let g:lightline.tabline = {
         \   'left': [[ 'tabs' ]],
-        \   'right': [[ 'vimpwd' ]]
+        \   'right': [[ 'vimpwd' ], [ 'filetype' ],  [ 'fileencoding', 'fileformat' ]]
         \ }
 
       let g:lightline.tab = {
@@ -349,13 +323,13 @@
 
       let g:lightline.component = {
         \   'charvaluehex': '0x%B',
-        \   'lineinfo': ' %3l:%-2v',
         \ }
 
       let g:lightline.component_function = {
         \   'readonly': 'LightlineReadonly',
         \   'gitbranch': 'LightlineGitBranch',
         \   'vimpwd': 'LightlineCurrentWorkingDirectory',
+        \   'gutentags_status': 'LightlineGutenTags',
         \ }
 
       let g:lightline.component_expand = {
@@ -373,21 +347,31 @@
         \ }
 
       function! LightlineReadonly()
-        return &readonly ? '' : ''
+        return &readonly ? '' : ''
       endfunction
 
       function! LightlineGitBranch()
         if exists('*gitbranch#name')
           let branch = gitbranch#name()
-          return branch !=# '' ? ' '.branch : ''
+          return branch !=# '' ? ' '.branch : ''
         endif
         return ''
+      endfunction
+
+      function! LightlineGutenTags()
+        return gutentags#statusline()
       endfunction
 
       function! LightlineCurrentWorkingDirectory()
         let cwd = getcwd()
         return cwd
       endfunction
+
+      augroup MyGutentagsStatusLineRefresher
+        autocmd!
+        autocmd User GutentagsUpdating call lightline#update()
+        autocmd User GutentagsUpdated call lightline#update()
+      augroup END
     " }}} PLUGIN: LIGHTLINE =====================================================
 
     " PLUGIN: NERDTREE ====================================================== {{{
@@ -408,7 +392,45 @@
       xmap ga <Plug>(EasyAlign)
     " }}} PLUGIN: EASY-ALIGN ====================================================
 
-  " }}} PLUGIN CONFIGURATION ==================================================
+    " PLUGIN: GUTENTAGS ===================================================== {{{
+      " let g:gutentags_ctags_extra_args = ['--fields=+l']
+      let g:gutentags_generate_on_empty_buffer = 1
+      let g:gutentags_cache_dir = expand('~/.vim/cache/tags')
+      let g:gutentags_ctags_exclude = [
+        \ '*.min.js',
+        \ '*/build/*',
+        \ '*/dist/*',
+        \ '*/env/*',
+        \ '*/lib/*',
+        \ '*/lib64/*',
+        \ '*/node_modules/*',
+        \ '*/third_party/*',
+        \ '*/vendor/*',
+        \ '*/venv/*',
+      \]
+
+      " enable gtags module
+      let g:gutentags_modules = ['ctags', 'gtags_cscope']
+
+      let g:gutentags_exclude_project_root = ['~/secrets/volume/org']
+
+      " change focus to quickfix window after search (optional).
+      let g:gutentags_plus_switch = 1
+      " let g:gutentags_plus_nomap = 1
+      let g:gutentags_define_advanced_commands = 1
+    " }}} PLUGIN: GUTENTAGS =====================================================
+
+    " PLUGIN: MUCOMPLETE ==================================================== {{{
+      set completeopt+=menuone
+      set completeopt+=noinsert
+      set completeopt+=noselect
+      let g:mucomplete#enable_auto_at_startup = 1
+      " let g:mucomplete#completion_delay = 1
+    " }}} PLUGIN: MUCOMPLETE ====================================================
+
+    " PLUGIN: COMPLETER ===================================================== {{{
+      let g:completor_python_binary = '/usr/bin/python'
+    " }}} PLUGIN: COMPLETER =====================================================
 
 " }}} PLUGINS =================================================================
 
@@ -508,3 +530,61 @@
 
 " }}} SNIPPETS ================================================================
 
+" GUI SETTINGS: =========================================================== {{{
+  " colors elflord         " Set the color theme
+
+  " Set relative numbering on the left side
+  set number relativenumber
+
+  " Always show the top tabline row
+  set showtabline=2
+  " Don't use GUI tabline
+  set guioptions-=e
+
+  " Enable the ruler in the bottom right corner
+  set ruler
+  set cursorline
+
+  " Status line
+  set laststatus=2       " Always show the statusline
+  set noshowmode         " Hide the default mode text
+  set showcmd
+
+  " Scrolling
+  set scrolloff=5        " Show 5 lines of context around the cursor
+  set sidescrolloff=20
+  set scrolljump=0
+
+  " Drawing settings
+  set lazyredraw         " The screen won't be redrawn unless actions took place
+  set ttyfast            " Improves redrawing for newer computers
+
+  " Miscellaneous
+  set showmatch          " Shows matching brackets when text indicator is over them
+  set pumheight=10       " Max number of popup menu items
+  set diffopt+=context:3
+  set nostartofline      " When moving thru the lines, the cursor will try to
+                         " stay in the previous columns
+  " Color definitions
+  set fillchars=vert:│,fold:·
+
+  " highlight VertSplit    ctermfg=237        ctermbg=240
+
+  highlight Folded     ctermfg=246 ctermbg=237
+  highlight MatchParen cterm=none  ctermbg=240      ctermfg=7
+  highlight Search     cterm=NONE  ctermfg=0        ctermbg=11
+  highlight Visual     cterm=NONE  ctermfg=253    ctermbg=24
+
+  " highlight Cursor guifg=white guibg=red
+  " highlight iCursor guifg=white guibg=steelblue
+
+  " Redefine diff colors:
+  " highlight DiffAdd      ctermfg=10  ctermbg=22
+  " highlight DiffChange   ctermfg=7   ctermbg=8
+  " highlight DiffText     ctermfg=15  ctermbg=27
+  " highlight DiffDelete   ctermfg=9   ctermbg=88
+
+  " Highlight trailing whitespace: https://stackoverflow.com/a/4617156/1565331
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
+" }}} GUI SETTINGS ============================================================
