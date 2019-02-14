@@ -1,92 +1,96 @@
 .PHONY: install-alacritty
 install-alacritty:
-	@./configs/install.bash alacritty
+	@./utils/install-configs.bash alacritty
 
 .PHONY: install-bash
 install-bash:
-	@./configs/install.bash bash
+	@./utils/install-configs.bash bash
 
 .PHONY: install-bspwm
 install-bspwm:
-	@./configs/install.bash bspwm
+	@./utils/install-configs.bash bspwm
 
 .PHONY: install-compton
 install-compton:
-	@./configs/install.bash compton
+	@./utils/install-configs.bash compton
 
 .PHONY: install-emacs
 install-emacs:
-	@./configs/install.bash emacs
+	@./utils/install-configs.bash emacs
 
 .PHONY: install-fish
 install-fish:
-	@./configs/install.bash fish
+	@./utils/install-configs.bash fish
 
 .PHONY: install-fonts
 install-fonts:
-	@./configs/install.bash fonts
+	@./utils/install-configs.bash fonts
 
 .PHONY: install-git
 install-git:
-	@./configs/install.bash git
+	@./utils/install-configs.bash git
 
 .PHONY: install-keyboard
 install-keyboard:
-	@./configs/install.bash keyboard
+	@./utils/install-configs.bash keyboard
 
 .PHONY: install-ledger
 install-ledger:
-	@./configs/install.bash ledger
+	@./utils/install-configs.bash ledger
 
 .PHONY: install-lemonbar
 install-lemonbar:
-	@./configs/install.bash lemonbar
+	@./utils/install-configs.bash lemonbar
 
 .PHONY: install-moc
 install-moc:
-	@./configs/install.bash moc
+	@./utils/install-configs.bash moc
 
 .PHONY: install-profile
 install-profile:
-	@./configs/install.bash profile
+	@./utils/install-configs.bash profile
 
 .PHONY: install-pypi
 install-pypi:
-	@./configs/install.bash pypi
+	@./utils/install-configs.bash pypi
 
 .PHONY: install-python
 install-python:
-	@./configs/install.bash python
+	@./utils/install-configs.bash python
 
 .PHONY: install-ranger
 install-ranger:
-	@./configs/install.bash ranger
+	@./utils/install-configs.bash ranger
 
 .PHONY: install-redshift
 install-redshift:
-	@./configs/install.bash redshift
+	@./utils/install-configs.bash redshift
+
+.PHONY: install-ripgrep
+install-ripgrep:
+	@./utils/install-configs.bash ripgrep
 
 .PHONY: install-rust
 install-rust:
-	@./configs/install.bash rust
+	@./utils/install-configs.bash rust
 
 .PHONY: install-spacemacs
 install-spacemacs:
-	@./configs/install.bash spacemacs
+	@./utils/install-configs.bash spacemacs
 
 .PHONY: install-sxhkd
 install-sxhkd:
-	@./configs/install.bash sxhkd
+	@./utils/install-configs.bash sxhkd
 
 .PHONY: install-tmux
 install-tmux:
-	@./configs/install.bash tmux
+	@./utils/install-configs.bash tmux
 
 .PHONY: install-vim
 install-vim:
-	@./configs/install.bash vim
+	@./utils/install-configs.bash vim
 
 .PHONY: install-xorg
 install-xorg:
-	@./configs/install.bash xorg
+	@./utils/install-configs.bash xorg
 

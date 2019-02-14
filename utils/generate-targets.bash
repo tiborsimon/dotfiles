@@ -23,7 +23,7 @@ for config in $configs; do
   echo "Generating target for config $config.."
   echo ".PHONY: install-$config" >> $TARGET_MAKEFILE
   echo "install-$config:" >> $TARGET_MAKEFILE
-  echo "	@./configs/install.bash $config" >> $TARGET_MAKEFILE
+  echo "	@./utils/install-configs.bash $config" >> $TARGET_MAKEFILE
   echo "" >> $TARGET_MAKEFILE
 done
 
