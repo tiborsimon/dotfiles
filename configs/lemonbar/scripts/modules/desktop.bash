@@ -3,11 +3,11 @@
 source $1
 
 TYPE=1
+ICONS=".."
 
-CURRENT=$(bspc query -D -d --names)
+current=$(echo "$(bspc query -D -d --names) - 1" | bc)
 
-# Nerd Fonts from "f8a3" to "f8bd"
-ICONS="..|..|..|..|..|..|..|..|.."
+icon_set=$(echo ${ICONS} | cut -d'.' -f ${TYPE})
+icon=${icon_set:${current}:1}
 
-ICON=$(echo ${ICONS} | cut -d'|' -f ${CURRENT} | cut -d. -f ${TYPE})
-echo -en "${FONT_4}${ICON}${FONT_1}"
+echo -en "${FONT_3}${icon}${FONT_1}"
