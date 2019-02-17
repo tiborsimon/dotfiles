@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 # ====================================================================
 #  H E L P E R S
 
@@ -10,22 +9,6 @@ GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
 BLUE=$(tput setaf 4)
 RESET=$(tput sgr0)
-
-function info {
-  printf "[ ${BOLD}${BLUE}>>${RESET} ][${BOLD}management${RESET}] $1"
-}
-
-function success {
-  printf "[ ${BOLD}${GREEN}OK${RESET} ][${BOLD}management${RESET}] $1"
-}
-
-function warning {
-  printf "[ ${BOLD}${YELLOW}!!${RESET} ][${BOLD}management${RESET}] $1"
-}
-
-function error {
-  printf "[${BOLD}${RED}!!!!${RESET}][${BOLD}management${RESET}] $1"
-}
 
 
 # ====================================================================
@@ -83,20 +66,20 @@ case $key in
     shift
     shift
     ;;
-  v|volume|current|c|current_volume)
+  c|current)
     VOLUME=true
     match=true
     HELP=false
     shift
     ;;
-  is_muted)
+  muted|is_muted)
     IS_MUTED=true
     match=true
     HELP=false
     shift
     ;;
   *)
-    warning "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+    echo "Invalid parameter: ${BOLD}${RED}$key${RESET}"
     shift
     ;;
 esac
@@ -104,7 +87,6 @@ done
 
 if [ ${match} == false ]
 then
-  error "Missing argumnets. All parameters have to be provided!"
   HELP=true
 fi
 
@@ -118,18 +100,34 @@ then
   read -r -d '' help_message << EOM
 
 ${BOLD}DESCRIPTION${RESET}
-    Quick interface for adjusting the volume of the machine.
+    Quick interface to adjust the master volume of the machine.
 
 ${BOLD}USAGE${RESET}
-
-
-    ${BOLD}${GREEN}h, help${RESET}
+    ${BOLD}${GREEN}[h|help]${RESET}
         Prints out this help message.
 
-    ${BOLD}${GREEN}m, mute${RESET}
-        Prints out this help message.
+    ${BOLD}${GREEN}(m|mute)${RESET}
+        Mutes the system master volume.
+
+    ${BOLD}${GREEN}(u,unmute)${RESET}
+        Unmutes the system master volume.
+
+    ${BOLD}${GREEN}(t|toggle)${RESET}
+        Toggles the system master volume mute state.
+
+    ${BOLD}${GREEN}(u|up) <amount>${RESET}
+        Increases the system master volume by the given percentage amount.
+
+    ${BOLD}${GREEN}(d|down) <amount>${RESET}
+        Decreases the system master volume by the given percentage amount.
+
+    ${BOLD}${GREEN}(c|current)${RESET}
+        Prints out the current system master volume in percentage, then exits.
+
+    ${BOLD}${GREEN}(muted|is_muted)${RESET}
+        Returns 0 if the system master volume is muted, otherwise returns 1.
 EOM
-  echo "$help_message"
+  echo -e "\n$help_message"
   exit 0
 fi
 

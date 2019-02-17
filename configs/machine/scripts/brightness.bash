@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 # ====================================================================
 #  HELPERS
 
@@ -11,22 +10,6 @@ YELLOW=$(tput setaf 3)
 BLUE=$(tput setaf 4)
 RESET=$(tput sgr0)
 
-function info {
-  printf "[ ${BOLD}${BLUE}>>${RESET} ][${BOLD}management${RESET}] $1"
-}
-
-function success {
-  printf "[ ${BOLD}${GREEN}OK${RESET} ][${BOLD}management${RESET}] $1"
-}
-
-function warning {
-  printf "[ ${BOLD}${YELLOW}!!${RESET} ][${BOLD}management${RESET}] $1"
-}
-
-function error {
-  printf "[${BOLD}${RED}!!!!${RESET}][${BOLD}management${RESET}] $1"
-}
-
 
 # ====================================================================
 #  PARAMETER PARSING
@@ -34,9 +17,9 @@ function error {
 HELP=true
 UP=false
 DOWN=false
+SET=false
 CURRENT=false
-
-match=false
+DEBUG=false
 
 while [[ $# -gt 0 ]]
 do
@@ -44,39 +27,42 @@ key="$1"
 
 case $key in
   h|help)
-    match=true
     shift
     ;;
   u|up)
-    UP=true
-    match=true
+    UP=$2
     HELP=false
+    shift
     shift
     ;;
   d|down)
-    DOWN=true
-    match=true
+    DOWN=$2
+    HELP=false
+    shift
+    shift
+    ;;
+  s|set)
+    SET=$2
+    HELP=false
+    shift
+    shift
+    ;;
+  c|current|g|get)
+    CURRENT=true
     HELP=false
     shift
     ;;
-  current|c)
-    CURRENT=true
-    match=true
+  --debug)
+    DEBUG=true
     HELP=false
     shift
     ;;
   *)
-    warning "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+    echo "Invalid parameter: ${BOLD}${RED}$key${RESET}"
     shift
     ;;
 esac
 done
-
-if [ ${match} == false ]
-then
-  error "Missing argumnets. All parameters have to be provided!"
-  HELP=true
-fi
 
 # ====================================================================
 #  HELP COMMAND
@@ -87,16 +73,24 @@ then
   read -r -d '' help_message << EOM
 
 ${BOLD}DESCRIPTION${RESET}
-    Quick interface for adjusting the volume of the machine.
+    Quick interface to adjust the brightness of the screen.
 
 ${BOLD}USAGE${RESET}
 
-
-    ${BOLD}${GREEN}h, help${RESET}
+    ${BOLD}${GREEN}[h|help]${RESET}
         Prints out this help message.
 
-    ${BOLD}${GREEN}m, mute${RESET}
-        Prints out this help message.
+    ${BOLD}${GREEN}(u|up) <amount>${RESET}
+        Increases the brightness by the given percentage amount.
+
+    ${BOLD}${GREEN}(d|down) <amount>${RESET}
+        Decreases the brightness by the given percentage amount.
+
+    ${BOLD}${GREEN}(s|set) <amount>${RESET}
+        Set the brightness to the given percentage.
+
+    ${BOLD}${GREEN}(c|current|g|get)${RESET}
+        Prints out the current screen brightness in percentage.
 EOM
   echo "$help_message"
   exit 0
@@ -119,6 +113,17 @@ function get_current_brightness {
 function get_increment_for_percent {
   local max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
   local increment=$1
+
+  if (( ${increment} > 100 ))
+  then
+    increment=100
+  fi
+
+  if (( ${increment} < 1 ))
+  then
+    increment=1
+  fi
+
   echo "scale=2; i=${max}/100; scale=0; i*${increment}/1" | bc
 }
 
@@ -138,18 +143,37 @@ function change_brightness {
     new_brightness=1
   fi
 
-  echo $new_brightness > /sys/class/backlight/intel_backlight/brightness
+  set_brightness $new_brightness
 }
 
-if [ $UP == true ]
+function set_brightness {
+  brightness=$1
+  if [ $DEBUG == true ]
+  then
+    echo $brightness
+  else
+    echo $brightness > /sys/class/backlight/intel_backlight/brightness
+  fi
+}
+
+if [ $UP != false ]
 then
-  change_brightness "+$(get_increment_for_percent 5)"
+  increment=$(get_increment_for_percent ${UP})
+  change_brightness "+${increment}"
   exit 0
 fi
 
-if [ $DOWN == true ]
+if [ $DOWN != false ]
 then
-  change_brightness "-$(get_increment_for_percent 5)"
+  increment=$(get_increment_for_percent ${DOWN})
+  change_brightness "-${increment}"
+  exit 0
+fi
+
+if [ $SET != false ]
+then
+  increment=$(get_increment_for_percent ${SET})
+  set_brightness $increment
   exit 0
 fi
 
