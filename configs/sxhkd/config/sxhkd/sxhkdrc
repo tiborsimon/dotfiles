@@ -76,6 +76,12 @@ alt + @F5
 alt + @F6
   my-machine-brightness up 5 && my-lemonbar-update
 
+super + alt + @F5
+  my-machine-brightness down 1 && my-lemonbar-update
+
+super + alt + @F6
+  my-machine-brightness up 1 && my-lemonbar-update
+
 # =====================================================================
 # FOCUS/SWAP
 
