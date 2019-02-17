@@ -23,58 +23,53 @@ VOLUME_DOWN=false
 VOLUME=false
 IS_MUTED=false
 
-match=false
-
 while [[ $# -gt 0 ]]
 do
 key="$1"
 
 case $key in
-  h|help)
-    match=true
+  -h|--help)
     shift
     ;;
   m|mute)
     MUTE=true
-    match=true
     HELP=false
     shift
     ;;
-  u|unmute)
+  unmute)
     UNMUTE=true
-    match=true
     HELP=false
     shift
     ;;
   t|toggle)
     TOGGLE=true
-    match=true
     HELP=false
     shift
     ;;
   u|up)
     VOLUME_UP=$2
-    match=true
     HELP=false
     shift
     shift
     ;;
   d|down)
     VOLUME_DOWN=$2
-    match=true
     HELP=false
     shift
     shift
     ;;
   c|current)
     VOLUME=true
-    match=true
     HELP=false
     shift
     ;;
   muted|is_muted)
     IS_MUTED=true
-    match=true
+    HELP=false
+    shift
+    ;;
+  --debug)
+    DEBUG=true
     HELP=false
     shift
     ;;
@@ -84,11 +79,6 @@ case $key in
     ;;
 esac
 done
-
-if [ ${match} == false ]
-then
-  HELP=true
-fi
 
 
 # ====================================================================
@@ -103,28 +93,31 @@ ${BOLD}DESCRIPTION${RESET}
     Quick interface to adjust the master volume of the machine.
 
 ${BOLD}USAGE${RESET}
-    ${BOLD}${GREEN}[h|help]${RESET}
+    ${BOLD}${BLUE}[-h|--help]${RESET}
         Prints out this help message.
 
-    ${BOLD}${GREEN}(m|mute)${RESET}
+    ${BOLD}${BLUE}[--debug]${RESET}
+        Prints out the new volume value instead of applying it.
+
+    ${BOLD}${YELLOW}(m|mute)${RESET}
         Mutes the system master volume.
 
-    ${BOLD}${GREEN}(u,unmute)${RESET}
+    ${BOLD}${YELLOW}unmute${RESET}
         Unmutes the system master volume.
 
-    ${BOLD}${GREEN}(t|toggle)${RESET}
+    ${BOLD}${YELLOW}(t|toggle)${RESET}
         Toggles the system master volume mute state.
 
-    ${BOLD}${GREEN}(u|up) <amount>${RESET}
+    ${BOLD}${YELLOW}(u|up) <amount>${RESET}
         Increases the system master volume by the given percentage amount.
 
-    ${BOLD}${GREEN}(d|down) <amount>${RESET}
+    ${BOLD}${YELLOW}(d|down) <amount>${RESET}
         Decreases the system master volume by the given percentage amount.
 
-    ${BOLD}${GREEN}(c|current)${RESET}
+    ${BOLD}${YELLOW}(c|current)${RESET}
         Prints out the current system master volume in percentage, then exits.
 
-    ${BOLD}${GREEN}(muted|is_muted)${RESET}
+    ${BOLD}${YELLOW}(muted|is_muted)${RESET}
         Returns 0 if the system master volume is muted, otherwise returns 1.
 EOM
   echo -e "\n$help_message"
@@ -192,7 +185,12 @@ function change_volume {
     new_volume=0
   fi
 
-  amixer --quiet set Master ${new_volume}%
+  if [ $DEBUG == true ]
+  then
+    echo ${new_volume}
+  else
+    amixer --quiet set Master ${new_volume}%
+  fi
 }
 
 if [ $VOLUME_UP != false ]

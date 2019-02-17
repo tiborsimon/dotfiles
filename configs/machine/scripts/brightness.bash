@@ -23,46 +23,46 @@ DEBUG=false
 
 while [[ $# -gt 0 ]]
 do
-key="$1"
-
-case $key in
-  h|help)
-    shift
-    ;;
-  u|up)
-    UP=$2
-    HELP=false
-    shift
-    shift
-    ;;
-  d|down)
-    DOWN=$2
-    HELP=false
-    shift
-    shift
-    ;;
-  s|set)
-    SET=$2
-    HELP=false
-    shift
-    shift
-    ;;
-  c|current|g|get)
-    CURRENT=true
-    HELP=false
-    shift
-    ;;
-  --debug)
-    DEBUG=true
-    HELP=false
-    shift
-    ;;
-  *)
-    echo "Invalid parameter: ${BOLD}${RED}$key${RESET}"
-    shift
-    ;;
-esac
+  key="$1"
+  case $key in
+    -h|--help)
+      shift
+      ;;
+    u|up)
+      UP=$2
+      HELP=false
+      shift
+      shift
+      ;;
+    d|down)
+      DOWN=$2
+      HELP=false
+      shift
+      shift
+      ;;
+    s|set)
+      SET=$2
+      HELP=false
+      shift
+      shift
+      ;;
+    c|current|g|get)
+      CURRENT=true
+      HELP=false
+      shift
+      ;;
+    --debug)
+      DEBUG=true
+      HELP=false
+      shift
+      ;;
+    *)
+      echo "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+      shift
+      ;;
+  esac
 done
+
 
 # ====================================================================
 #  HELP COMMAND
@@ -77,22 +77,25 @@ ${BOLD}DESCRIPTION${RESET}
 
 ${BOLD}USAGE${RESET}
 
-    ${BOLD}${GREEN}[h|help]${RESET}
+    ${BOLD}${BLUE}[-h|--help]${RESET}
         Prints out this help message.
 
-    ${BOLD}${GREEN}(u|up) <amount>${RESET}
+    ${BOLD}${BLUE}[--debug]${RESET}
+        Prints out the new brightness value instead of applying it.
+
+    ${BOLD}${YELLOW}(u|up) <amount>${RESET}
         Increases the brightness by the given percentage amount.
 
-    ${BOLD}${GREEN}(d|down) <amount>${RESET}
+    ${BOLD}${YELLOW}(d|down) <amount>${RESET}
         Decreases the brightness by the given percentage amount.
 
-    ${BOLD}${GREEN}(s|set) <amount>${RESET}
+    ${BOLD}${YELLOW}(s|set) <amount>${RESET}
         Set the brightness to the given percentage.
 
-    ${BOLD}${GREEN}(c|current|g|get)${RESET}
+    ${BOLD}${YELLOW}(c|current|g|get)${RESET}
         Prints out the current screen brightness in percentage.
 EOM
-  echo "$help_message"
+  echo -e "\n$help_message"
   exit 0
 fi
 
@@ -100,54 +103,32 @@ fi
 # ====================================================================
 #  BRIGHTNESS ADJUSTMENTS
 
-function get_current_brightness_in_percentage {
+function get_current_brightness {
   local max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
   local current=$(cat /sys/class/backlight/intel_backlight/brightness)
-  echo "scale=2; b=${current}/${max}; scale=0; b*100/1" | bc
+  echo $(python -c "print(round(${current}/${max}*100))")
 }
 
-function get_current_brightness {
-  echo $(cat /sys/class/backlight/intel_backlight/brightness)
-}
-
-function get_increment_for_percent {
+function get_value_for_percentage {
   local max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-  local increment=$1
+  local target=$1
 
-  if (( ${increment} > 100 ))
+  if (( ${target} > 100 ))
   then
-    increment=100
+    target=100
   fi
 
-  if (( ${increment} < 1 ))
+  if (( ${target} < 0 ))
   then
-    increment=1
+    target=0
   fi
 
-  echo "scale=2; i=${max}/100; scale=0; i*${increment}/1" | bc
-}
-
-function change_brightness {
-  local max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-  local increment=$1
-  local current=$(get_current_brightness)
-  local new_brightness=$(echo "${current}${increment}" | bc)
-
-  if (( ${new_brightness} > ${max} ))
-  then
-    new_brightness=${max}
-  fi
-
-  if (( ${new_brightness} < 1 ))
-  then
-    new_brightness=1
-  fi
-
-  set_brightness $new_brightness
+  echo $(python -c "print(round(${target}/100*${max}))")
 }
 
 function set_brightness {
-  brightness=$1
+  local target=$1
+  local brightness=$(get_value_for_percentage ${target})
   if [ $DEBUG == true ]
   then
     echo $brightness
@@ -158,27 +139,31 @@ function set_brightness {
 
 if [ $UP != false ]
 then
-  increment=$(get_increment_for_percent ${UP})
-  change_brightness "+${increment}"
+  increment=${UP}
+  current=$(get_current_brightness)
+  target=$(python -c "print(${current} + ${increment})")
+  set_brightness $target
   exit 0
 fi
 
 if [ $DOWN != false ]
 then
-  increment=$(get_increment_for_percent ${DOWN})
-  change_brightness "-${increment}"
+  increment=${DOWN}
+  current=$(get_current_brightness)
+  target=$(python -c "print(${current} - ${increment})")
+  set_brightness $target
   exit 0
 fi
 
 if [ $SET != false ]
 then
-  increment=$(get_increment_for_percent ${SET})
-  set_brightness $increment
+  target=${SET}
+  set_brightness $target
   exit 0
 fi
 
 if [ $CURRENT == true ]
 then
-  echo $(get_current_brightness_in_percentage)
+  echo $(get_current_brightness)
   exit 0
 fi
