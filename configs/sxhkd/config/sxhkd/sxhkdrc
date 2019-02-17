@@ -1,5 +1,5 @@
 # =====================================================================
-# wm independent hotkeys
+# WM INDEPENDENT HOTKEYS
 
 # terminal emulator
 alt + @Return
@@ -13,8 +13,9 @@ alt + @space
 super + @Escape
 	pkill -USR1 -x sxhkd
 
+
 # =====================================================================
-# bspwm hotkeys
+# BSPWM HOTKEYS
 
 # quit bspwm normally
 super + alt + Escape
@@ -36,8 +37,9 @@ super + y
 super + g
 	bspc node -s biggest
 
+
 # =====================================================================
-# state/flags
+# STATE/FLAGS
 
 # set the window state
 super + {t,shift + t,s,f}
@@ -47,8 +49,35 @@ super + {t,shift + t,s,f}
 super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
+
 # =====================================================================
-# focus/swap
+# MACHINE CONTROL
+
+# Volume adjustment bindings
+alt + @F1
+  my-machine-volume toggle && my-lemonbar-update
+
+alt + @F2
+  my-machine-volume down 10 && my-lemonbar-update
+
+alt + @F3
+  my-machine-volume up 10 && my-lemonbar-update
+
+super + alt + @F2
+  my-machine-volume down 1 && my-lemonbar-update
+
+super + alt + @F3
+  my-machine-volume up 1 && my-lemonbar-update
+
+# Brightness control bindings
+alt + @F5
+  my-machine-brightness down 5 && my-lemonbar-update
+
+alt + @F6
+  my-machine-brightness up 5 && my-lemonbar-update
+
+# =====================================================================
+# FOCUS/SWAP
 
 # focus the node in the given direction
 alt + {_,shift + }{h,j,k,l}
@@ -80,8 +109,9 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}' && my-lemonbar-update
 
+
 # =====================================================================
-# preselect
+# PRESELECT
 
 # preselect the direction
 alt + ctrl + {h,j,k,l}
@@ -99,8 +129,9 @@ alt + ctrl + space
 super + ctrl + shift + space
 	bspc query --nodes --dump-state | xargs -I id -n 1 bspc node id -p cancel
 
+
 # =====================================================================
-# move/resize
+# MOVE/RESIZE
 
 # expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
