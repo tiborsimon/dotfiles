@@ -12,6 +12,71 @@ if [[ ! -p $LEMONBAR_NAMED_PIPE ]]; then
 fi
 
 
+# ====================================================================
+#  H E L P E R S
+
+BOLD=$(tput bold)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+RESET=$(tput sgr0)
+
+
+# ====================================================================
+#  P A R A M E T E R   P A R S I N G
+
+HELP=false
+DEBUG=false
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+  -h|--help)
+    HELP=true
+    shift
+    ;;
+  --debug)
+    DEBUG=true
+    shift
+    ;;
+  *)
+    warning "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+    shift
+    ;;
+esac
+done
+
+
+# ====================================================================
+#  H E L P   C O M M A N D
+
+if [ $HELP == true ]
+then
+
+  read -r -d '' help_message << EOM
+
+${BOLD}DESCRIPTION${RESET}
+    Generates the ${BOLD}lemonbar${RESET} content string by calling the ${BOLD}render script${RESET}
+    of the installed plugins. It also ${BOLD}sorts${RESET} and ${BOLD}positions${RESET} the plugins
+    in the lemonbar according to the plugins' ${BOLD}position file${RESET}.
+    It uses a ${BOLD}named pipe${RESET} for sending the content to the lemonbar process.
+
+${BOLD}USAGE${RESET}
+    ${BOLD}${YELLOW}[-h|--help]${RESET}
+        Prints out this help message.
+
+    ${BOLD}${YELLOW}--debug${RESET}
+        Prints out the lemonbar content string instead of sending it
+        to the lemonbar process.
+EOM
+  echo -e "\n$help_message"
+  exit 0
+fi
+
+
 # ===================================================================
 #  GENERATING MODULE POSITIONS
 
@@ -73,5 +138,9 @@ right="%{r}${right:1:${#right}-1}"
 # ===================================================================
 #  SENDING CONTENT TO LEMONBAR
 
-# echo -e "${left} ${center} ${right}" > $LEMONBAR_NAMED_PIPE
-echo -e "${left} ${center} ${right}"
+if [ $DEBUG == true ]
+then
+  echo -e "${left} ${center} ${right}"
+else
+  echo -e "${left} ${center} ${right}" > $LEMONBAR_NAMED_PIPE
+fi
