@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source $1
-
 ICONS="..ﴆﴇﴈﴉﴊﴋﴌﴍﴎﴅ"
 ICON_EMPTY=""
 ICON_UNKNOWN=""
@@ -23,24 +21,24 @@ function render_battery {
         return 0
       fi
       icon_set=$(echo ${ICONS} | cut -d'.' -f 1)
-      font="${FONT_1}"
+      font="%{T1}"
       ;;
     'Discharging')
       icon_set=$(echo ${ICONS} | cut -d'.' -f 3)
-      font="${FONT_4}"
+      font="%{T4}"
       ;;
     'Charging')
       icon_set=$(echo ${ICONS} | cut -d'.' -f 2)
-      font="${FONT_5}"
+      font="%{T5}"
       ;;
   esac
 
   item=$(python -c "import math;c=math.floor(((${capacity}+4)/10)-1);print(c)")
 
   if [[ ${item} == -1 ]]; then
-    echo "${FONT_1}${ICON_EMPTY}${FONT_1}"
+    echo "%{T1}${ICON_EMPTY}%{T1}"
   else
-    echo "${font}${icon_set:${item}:1}${FONT_1}"
+    echo "${font}${icon_set:${item}:1}%{T1}"
   fi
 }
 
@@ -48,7 +46,7 @@ function render_ac {
   ac_present=$(cat /sys/class/power_supply/AC/online)
 
   if [[ ${ac_present} -eq 1 ]]; then
-    echo "${FONT_1}${ICON_AC} "
+    echo "%{T1}${ICON_AC} "
   else
     echo ""
   fi
@@ -58,4 +56,4 @@ AC=$(render_ac)
 BATTERY_1=$(render_battery 1)
 BATTERY_2=$(render_battery 0)
 
-echo -en "%{A:battery:}${AC}${BATTERY_1} ${BATTERY_2}%{A}${FONT_1}"
+echo -en "%{A:battery:}${AC}${BATTERY_1} ${BATTERY_2}%{A}%{T1}"
