@@ -46,6 +46,10 @@ install-ledger:
 install-lemonbar:
 	@./utils/install-configs.bash lemonbar
 
+.PHONY: install-machine
+install-machine:
+	@./utils/install-configs.bash machine
+
 .PHONY: install-moc
 install-moc:
 	@./utils/install-configs.bash moc
