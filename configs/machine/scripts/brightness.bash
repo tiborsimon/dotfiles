@@ -63,6 +63,13 @@ do
   esac
 done
 
+function debug {
+  if [ $DEBUG == true ]
+  then
+    (>&2 echo $@)
+  fi
+}
+
 
 # ====================================================================
 #  HELP COMMAND
@@ -110,8 +117,10 @@ function get_current_brightness {
 }
 
 function get_value_for_percentage {
-  local max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
   local target=$1
+  local max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+
+  debug "get_value_for_percentage <${target}> called"
 
   if (( ${target} > 100 ))
   then
@@ -123,7 +132,9 @@ function get_value_for_percentage {
     target=0
   fi
 
-  echo $(python -c "print(round(${target}/100*${max}))")
+  result=$(python -c "print(round(${target}/100*${max}))")
+  debug "get_value_for_percentage -> <${result}>"
+  echo $result
 }
 
 function set_brightness {
@@ -131,6 +142,7 @@ function set_brightness {
   local brightness=$(get_value_for_percentage ${target})
   if [ $DEBUG == true ]
   then
+    debug "final value: ${brightness}"
     echo $brightness
   else
     echo $brightness > /sys/class/backlight/intel_backlight/brightness
