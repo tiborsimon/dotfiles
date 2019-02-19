@@ -7,9 +7,10 @@ link_scripts lemonbar \
   ./scripts/main.bash \
   ./scripts/update.bash \
   ./scripts/init.bash \
-  ./scripts/monitor.bash
+  ./scripts/monitor.bash \
+  ./scripts/scheduler.bash
 
 link_package \
   ./config/lemonbar.service ${HOME}/.config/systemd/user/lemonbar.service \
-  ./config/lemonbar-clock.service ${HOME}/.config/systemd/user/lemonbar-clock.service \
-  ./config/lemonbar-clock.timer ${HOME}/.config/systemd/user/lemonbar-clock.timer
+  ./config/lemonbar-scheduler.service ${HOME}/.config/systemd/user/lemonbar-scheduler.service \
+  ./config/lemonbar-scheduler.timer ${HOME}/.config/systemd/user/lemonbar-scheduler.timer

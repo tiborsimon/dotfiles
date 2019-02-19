@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
-UPDATE_ICON=""
-UPDATE_ICON=""
+cd $(dirname $(readlink -f $0))
 
-# updates=$(pacman -Qu | wc -l)
-updates=3
+source ./config.bash
 
+UPDATE_ICON=""
+
+updates=$(cat $TEMP_FILE 2>/dev/null || echo 0)
 
 if (( $updates > 0 ))
 then
-  echo -en "%{T1}%{A:updates:}%{T5}${UPDATE_ICON}%{T1} ${updates}%{A}"
+  echo -en "%{T1}%{A:updates:}%{T3}${UPDATE_ICON}%{T1}${updates}%{A}"
 else
   echo -en ""
 fi

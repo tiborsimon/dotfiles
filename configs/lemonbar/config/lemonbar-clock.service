@@ -1,6 +1,0 @@
-[Unit]
-Description=My clock updater
-
-[Service]
-Type=oneshot
-ExecStart=%h/.local/bin/my-lemonbar-update

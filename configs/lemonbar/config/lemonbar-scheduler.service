@@ -1,0 +1,6 @@
+[Unit]
+Description=Lemonbar scheduler service
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/my-lemonbar-scheduler

@@ -4,6 +4,7 @@ cd $(dirname $(readlink -f $0))
 # loading config with the predefined fonts
 source ./config.bash
 
+rm -f $LEMONBAR_NAMED_PIPE
 mkfifo $LEMONBAR_NAMED_PIPE
 trap "rm -f $LEMONBAR_NAMED_PIPE" EXIT
 
