@@ -86,6 +86,10 @@ install-rust:
 install-spacemacs:
 	@./utils/install-configs.bash spacemacs
 
+.PHONY: install-sudoers
+install-sudoers:
+	@./utils/install-configs.bash sudoers
+
 .PHONY: install-sxhkd
 install-sxhkd:
 	@./utils/install-configs.bash sxhkd
