@@ -93,7 +93,26 @@ set -g theme_powerline_fonts            yes
 set -g theme_nerd_fonts                 yes
 set -g theme_show_exit_status           yes
 set -g default_user                     tibor
-set -g theme_color_scheme               dark
+set -g theme_color_scheme               base16
 set -g fish_prompt_pwd_dir_length       0
 set -g theme_project_dir_length         1
 set -g theme_newline_cursor             yes
+
+
+# # ===================================================================
+# #  S P A C E F I S H   S E T T I N G S
+# set -g SPACEFISH_TIME_SHOW   true
+# set -g SPACEFISH_DIR_LOCK_SYMBOL  ""
+# set -g SPACEFISH_GIT_SYMBOL    " "
+
+# set -g SPACEFISH_JULIA_SHOW  false
+# set -g SPACEFISH_RUBY_SHOW false
+# set -g SPACEFISH_HASKELL_SHOW false
+# set -g SPACEFISH_CONDA_SHOW false
+# set -g SPACEFISH_GOLANG_SHOW false
+# set -g SPACEFISH_PHP_SHOW false
+# set -g SPACEFISH_DOTNET_SHOW false
+# set -g SPACEFISH_BATTERY_SHOW false
+
+# set -g SPACEFISH_DOCKER_SYMBOL  ""
+# set -g SPACEFISH_AWS_SYMBOL  ""
