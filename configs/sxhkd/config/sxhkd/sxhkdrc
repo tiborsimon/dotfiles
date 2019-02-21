@@ -11,7 +11,7 @@ alt + @space
 
 # make sxhkd reload its configuration files:
 super + @Escape
-	pkill -USR1 -x sxhkd
+	pkill -USR1 --exact sxhkd
 
 
 # =====================================================================
@@ -37,7 +37,7 @@ alt + {_,shift + }w
 
 # alternate between the tiled and monocle layout
 alt + m
-	bspc desktop -l next
+	bspc desktop --layout next
 
 # send the newest marked node to the newest preselected node
 super + y
@@ -45,7 +45,7 @@ super + y
 
 # swap the current node and the biggest node
 super + g
-	bspc node -s biggest
+	bspc node --swap biggest
 
 
 # =====================================================================
@@ -53,11 +53,11 @@ super + g
 
 # set the window state
 super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+	bspc node --state {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
 super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
+	bspc node --flag {marked,locked,sticky,private}
 
 
 # =====================================================================
@@ -99,27 +99,9 @@ super + alt + @F6
 alt + {_,shift + }{h,j,k,l}
 	bspc node --{focus,swap} {west,south,north,east}
 
-# focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
-
-# focus the next/previous node in the current desktop
-super + {_,shift + }c
-	bspc node -f {next,prev}.local
-
 # focus the next/previous desktop in the current monitor
 super + {h,l}
-	bspc desktop -f {prev,next}.local && my-lemonbar-update
-
-# focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last
-
-# focus the older or newer node in the focus history
-super + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
+	bspc desktop --focus {prev,next}.local && my-lemonbar-update
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
@@ -134,7 +116,7 @@ alt + ctrl + {h,j,k,l}
 	bspc node --presel-dir {west,south,north,east}
 
 # preselect the ratio
-super + ctrl + {1-9}
+alt + ctrl + {1-9}
 	bspc node --presel-ratio 0.{1-9}
 
 # cancel the preselection for the focused node
