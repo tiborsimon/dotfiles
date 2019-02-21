@@ -1,6 +1,6 @@
 #! /bin/sh
 
-bspc monitor -d 1 2 3 4 5 6 7 8 9
+bspc monitor --reset-desktops 1 2 3 4 5 6 7 8 9
 
 bspc config top_padding           0
 bspc config bottom_padding        0
@@ -20,10 +20,14 @@ bspc config swallow_first_click   true
 bspc config normal_border_color   "#555555"
 bspc config focused_border_color  "#f1c40f"
 
-bspc rule -a Emacs state=tiled
-bspc rule -a Firefox state=tiled focus=on desktop='^2' follow=on layout=monocle
-bspc rule -a Gimp desktop='^8' state=tiled follow=on layout=monocle
-bspc rule -a Screenkey manage=off
-bspc rule -a Skype state=tiled focus=on desktop='^9' follow=on layout=monocle
+# Setting up applications
+bspc rule --add Emacs state=tiled
+bspc rule --add Firefox state=tiled focus=on desktop='^2' follow=on
+bspc rule --add Gimp desktop='^8' state=tiled follow=on layout=monocle
+bspc rule --add Screenkey manage=off
+bspc rule --add Skype state=tiled focus=on desktop='^9' follow=on
+
+# bspc config desktop 2 --layout monocle
+# bspc config desktop 9 --layout monocle
 
 my-lemonbar-init
