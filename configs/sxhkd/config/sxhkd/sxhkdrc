@@ -15,6 +15,16 @@ super + @Escape
 
 
 # =====================================================================
+# SCRATCH HOTKEYS
+
+alt + s
+  tdrop -a --width=-4 --height=746 --y-offset=18 --session=scratchpad alacritty
+
+alt + o
+  tdrop -a --width=-4 --height=746 --y-offset=18 --session=org emacs
+
+
+# =====================================================================
 # BSPWM HOTKEYS
 
 # quit bspwm normally
