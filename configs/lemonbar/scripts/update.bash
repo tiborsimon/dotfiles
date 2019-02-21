@@ -117,22 +117,35 @@ RIGHT_SEP=""
 left="%{l}"
 for render_module in $left_modules
 do
-  left="${left} $(${render_module}) ${LEFT_SEP}"
+  output=$(${render_module})
+  if [ -n "$output" ]
+  then
+    left="${left} ${output} ${LEFT_SEP}"
+  fi
 done
-left="${left::-1}"
+# left="${left::-1}"
 
 center="%{c}"
 for render_module in $center_modules
 do
-  center="${center}$(${render_module})"
+  output=$(${render_module})
+  if [ -n "$output" ]
+  then
+    center="${center}$(${render_module})"
+  fi
 done
 
 right=""
 for render_module in $right_modules
 do
-  right="${RIGHT_SEP} $(${render_module}) ${right}"
+  output=$(${render_module})
+  if [ -n "$output" ]
+  then
+    right="${RIGHT_SEP} $(${render_module}) ${right}"
+  fi
 done
-right="%{r}${right:1:${#right}-1}"
+# right="%{r}${right:1:${#right}-1}"
+right="%{r}${right}"
 
 
 # ===================================================================

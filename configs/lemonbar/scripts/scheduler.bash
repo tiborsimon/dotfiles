@@ -4,8 +4,61 @@ cd $(dirname $(readlink -f $0))
 MODULES_PATH="./modules"
 CLOCK=$(date +%R)
 
+# ====================================================================
+#  P A R A M E T E R   P A R S I N G
+
+HELP=false
+LOGIN=false
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+  -h|--help)
+    HELP=true
+    shift
+    ;;
+  --login)
+    LOGIN=true
+    shift
+    ;;
+  *)
+    warning "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+    shift
+    ;;
+esac
+done
+
+
+# ====================================================================
+#  H E L P   C O M M A N D
+
+if [ $HELP == true ]
+then
+
+  read -r -d '' help_message << EOM
+
+${BOLD}DESCRIPTION${RESET}
+    Generates the ${BOLD}lemonbar${RESET} content string by calling the ${BOLD}render script${RESET}
+    of the installed plugins. It also ${BOLD}sorts${RESET} and ${BOLD}positions${RESET} the plugins
+    in the lemonbar according to the plugins' ${BOLD}position file${RESET}.
+    It uses a ${BOLD}named pipe${RESET} for sending the content to the lemonbar process.
+
+${BOLD}USAGE${RESET}
+    ${BOLD}${YELLOW}[-h|--help]${RESET}
+        Prints out this help message.
+
+    ${BOLD}${YELLOW}--debug${RESET}
+        Prints out the lemonbar content string instead of sending it
+        to the lemonbar process.
+EOM
+  echo -e "\n$help_message"
+  exit 0
+fi
 
 echo "Lemonbar Scheduler started."
+
 
 # ===================================================================
 #  RUNNING THE LEMONBAR UPDATE IN EVERY MINUTE
@@ -16,7 +69,6 @@ my-lemonbar-update
 #  GATHERING SCHEDULE FILES
 
 schedules=$(find ${MODULES_PATH} -type f -name schedule)
-
 
 tasks=""
 
@@ -30,9 +82,17 @@ do
     script="$(dirname $schedule)/$file"
     module="$(basename $(dirname $schedule))"
 
-    if echo $CLOCK | grep -qP "$schedule_pattern"
+    if [ $LOGIN == true ]
     then
-      tasks="$tasks $script=$module=$file"
+      if [ "$schedule_pattern" == "login" ]
+      then
+        tasks="$tasks $script=$module=$file"
+      fi
+    else
+      if echo $CLOCK | grep -qP "$schedule_pattern"
+      then
+        tasks="$tasks $script=$module=$file"
+      fi
     fi
   done
 done

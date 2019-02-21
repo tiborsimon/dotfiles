@@ -1,1 +1,2 @@
+login=check_for_updates.bash
 \d\d:(0|3)0=check_for_updates.bash
