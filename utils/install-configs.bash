@@ -17,10 +17,12 @@ cd ../configs
 
 # Logfile path in the repository root.
 export DOTFILES_ERROR_LOG_PATH=$(readlink -f ../error.log)
+export MESSAGES_PATH=$(readlink -f ../temp.msg)
 
 source ../utils/libdeploy.bash
 
 init_error_log
+init_messages
 
 if [ "$#" -eq 1 ]; then
   configs=$1
@@ -49,4 +51,12 @@ for config in $configs; do
   success "Done"
 done
 
+echo ""
+echo "============================================================================="
+echo "  POST INSTALL MESSAGES"
+echo "-----------------------------------------------------------------------------"
+display_messages
+echo "============================================================================="
+
 clean_up_error_log
+clean_up_messages

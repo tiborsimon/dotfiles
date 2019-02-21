@@ -41,7 +41,7 @@ function init_error_log {
 #######################################
 function write_to_error_log {
   echo ------------------------------ >> "${DOTFILES_ERROR_LOG_PATH}"
-  echo $@ >> "${DOTFILES_ERROR_LOG_PATH}"
+  echo "$@" >> "${DOTFILES_ERROR_LOG_PATH}"
 }
 
 #######################################
@@ -55,6 +55,59 @@ function write_to_error_log {
 #######################################
 function clean_up_error_log {
   rm -f "${DOTFILES_ERROR_LOG_PATH}"
+}
+
+#######################################
+# Initializes the messages file in the repository root.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function init_messages {
+  clean_up_messages
+  touch "${MESSAGES_PATH}"
+}
+
+#######################################
+# Writes line to the messages file.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function write_to_messages {
+  echo "$@" >> "${MESSAGES_PATH}"
+}
+
+#######################################
+# Prints out the messages file content.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function display_messages {
+  cat ${MESSAGES_PATH}
+}
+
+#######################################
+# Deletes the messages file.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function clean_up_messages {
+  rm -f "${MESSAGES_PATH}"
 }
 
 #######################################
