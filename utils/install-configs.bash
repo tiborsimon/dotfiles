@@ -23,6 +23,7 @@ source ../utils/libdeploy.bash
 
 init_error_log
 init_messages
+trap clean_up_messages EXIT
 
 if [ "$#" -eq 1 ]; then
   configs=$1
@@ -51,12 +52,7 @@ for config in $configs; do
   success "Done"
 done
 
-echo ""
-echo "============================================================================="
-echo "  POST INSTALL MESSAGES"
-echo "-----------------------------------------------------------------------------"
 display_messages
-echo "============================================================================="
 
 clean_up_error_log
 clean_up_messages

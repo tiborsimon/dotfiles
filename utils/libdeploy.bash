@@ -94,7 +94,13 @@ function write_to_messages {
 #   None
 #######################################
 function display_messages {
-  cat ${MESSAGES_PATH}
+  if [ -s ${MESSAGES_PATH} ]
+  then
+    echo ""
+    echo "============================================================================="
+    cat ${MESSAGES_PATH}
+    echo "============================================================================="
+  fi
 }
 
 #######################################
@@ -401,7 +407,8 @@ function fail {
 #######################################
 function execute_with_privilege {
   temp_command=$(echo $@)
-  sudo --reset-timestamp --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| About to run privileged command: ${YELLOW}${temp_command}${RESET}. [sudo] password for ${BOLD}${USER}${RESET}: " $@
+  sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| About to run privileged command: ${YELLOW}${temp_command}${RESET}. [sudo] password for ${BOLD}${USER}${RESET}: " $@
+  # sudo --reset-timestamp --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| About to run privileged command: ${YELLOW}${temp_command}${RESET}. [sudo] password for ${BOLD}${USER}${RESET}: " $@
 }
 
 
