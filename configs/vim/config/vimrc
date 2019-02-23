@@ -199,6 +199,7 @@
       Plug 'junegunn/goyo.vim', { 'on':  'Goyo' }   " distraction free mode
       Plug 'joshdick/onedark.vim'                   " distraction free mode
       Plug 'Yggdroot/indentLine'                    " A vim plugin to display the indention levels with thin vertical lines
+      Plug 'joeytwiddle/sexy_scroller.vim'          " smooth animation of the cursor and the page whenever they move, with easing
 
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
@@ -431,6 +432,33 @@
     " PLUGIN: COMPLETER ===================================================== {{{
       let g:completor_python_binary = '/usr/bin/python'
     " }}} PLUGIN: COMPLETER =====================================================
+    "
+    " PLUGIN: SEXY SCROLLER  ================================================ {{{
+      " Set the time it takes (in milliseconds) for the buffer to scroll one line
+      " or column.
+      let g:SexyScroller_ScrollTime = 11
+
+      " Set the time it takes for the cursor to travel one line. Probably only
+      " visible if you have `:set cursorline`.  Set it to 0 to never animate
+      " the cursor.
+      let g:SexyScroller_CursorTime = 5
+
+      " Set the maximum amount of time that longer scrolls can take.
+      let g:SexyScroller_MaxTime = 300
+
+      " Choose the easing style (how scrolling accelerates and deccelerates):
+      "   - 1 = start fast, finish slowly            (like 2 but less so)
+      "   - 2 = start very fast, finish very slowly  (recommended, default)
+      "   - 3 = start slowly, get faster, end slowly (sexy)
+      "   - 4 = start very slowly, end very slowly   (like 3 but more so)
+      "   - ? = constant speed                       (dull)
+      let g:SexyScroller_EasingStyle = 3
+
+      " Interrupts the animation if you press a key.  Resumes the animation if they
+      " key you pressed causes further scrolling, otherwise just jumps directly to
+      " the destination.  Resuming animation looks best with EasingStyle 1 or 2.
+      let g:SexyScroller_DetectPendingKeys = 1
+    " }}} PLUGIN: SEXY SCROLLER  ================================================
 
 " }}} PLUGINS =================================================================
 
@@ -571,9 +599,9 @@
   " highlight VertSplit    ctermfg=237        ctermbg=240
 
   highlight Folded     ctermfg=246 ctermbg=237
-  highlight MatchParen cterm=none  ctermbg=240      ctermfg=7
-  highlight Search     cterm=NONE  ctermfg=0        ctermbg=11
-  highlight Visual     cterm=NONE  ctermfg=253    ctermbg=24
+  highlight MatchParen cterm=none  ctermbg=240 ctermfg=7
+  highlight Search     cterm=NONE  ctermfg=0   ctermbg=11
+  highlight Visual     cterm=NONE  ctermfg=253 ctermbg=24
 
   " highlight Cursor guifg=white guibg=red
   " highlight iCursor guifg=white guibg=steelblue
