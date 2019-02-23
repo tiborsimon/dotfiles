@@ -21,7 +21,7 @@ alt + s
   tdrop -a --width=-4 --height=746 --y-offset=18 --session=scratchpad alacritty
 
 alt + o
-  tdrop -a --width=-4 --height=746 --y-offset=18 --session=org emacs
+  tdrop -a --width=-4 --height=746 --y-offset=18 emacs
 
 
 # =====================================================================
@@ -81,16 +81,16 @@ super + alt + @F3
 
 # Brightness control bindings
 alt + @F5
-  my-machine-brightness down 5 && my-lemonbar-update
+  xbacklight -dec 10 && my-lemonbar-update
 
 alt + @F6
-  my-machine-brightness up 5 && my-lemonbar-update
+  xbacklight -inc 10 && my-lemonbar-update
 
 super + alt + @F5
-  my-machine-brightness down 1 && my-lemonbar-update
+  xbacklight -dec 1 && my-lemonbar-update
 
 super + alt + @F6
-  my-machine-brightness up 1 && my-lemonbar-update
+  xbacklight -inc 1 && my-lemonbar-update
 
 # =====================================================================
 # FOCUS/SWAP
