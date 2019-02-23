@@ -98,6 +98,10 @@ install-sxhkd:
 install-tmux:
 	@./utils/install-configs.bash tmux
 
+.PHONY: install-tools
+install-tools:
+	@./utils/install-configs.bash tools
+
 .PHONY: install-vim
 install-vim:
 	@./utils/install-configs.bash vim
