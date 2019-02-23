@@ -1,8 +1,10 @@
 #!/bin/sh
 
+my-keyboard-reset >/dev/null
+
 xsetroot -cursor_name left_ptr
 
-unclutter --timeout 2 --jitter 8 --ignore-scrolling &
+unclutter --keystroke --jitter 8 --ignore-scrolling &
 
 redshift &
 compton &
