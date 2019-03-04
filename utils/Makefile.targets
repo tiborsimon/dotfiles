@@ -22,6 +22,10 @@ install-docker:
 install-emacs:
 	@./utils/install-configs.bash emacs
 
+.PHONY: install-firewall
+install-firewall:
+	@./utils/install-configs.bash firewall
+
 .PHONY: install-fish
 install-fish:
 	@./utils/install-configs.bash fish
