@@ -49,6 +49,7 @@ values."
      ;; finance
      ;; plantuml
      ;; markdown
+     pdf-tools
      org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -134,7 +135,8 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '()
+   dotspacemacs-startup-lists '((recents . 5)
+                               (projects . 7))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -149,7 +151,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 12
                                :weight demibold
                                :width normal
                                :powerline-scale 1.0)
@@ -394,20 +396,12 @@ you should place your code here."
   (use-package org-tempo)
 
   ;;; Agenda view customizations
-  ;; (with-eval-after-load 'org (setq org-agenda-files
-  ;;                                  '("~/secrets/volume/org/")))
   (with-eval-after-load 'org (setq org-agenda-files (directory-files-recursively "~/secrets/volume/org/" "\.org$")))
   (setq spacemacs-theme-org-agenda-height nil)
   (setq org-priority-faces
         '((?A . (:foreground "red" :weight 'bold))
           (?B . (:foreground "yellow"))
           (?C . (:foreground "green"))))
-
-  ;;; NO CLEAN look config
-  ;; (setq org-indent-mode-turns-on-hiding-stars nil)
-  ;; (setq org-adapt-indentation nil)
-  ;; (setq org-hide-leading-stars t)
-  ;; (setq org-hide-leading-stars nil)
 
   (defun my/org-mode-hook ()
     "Stop the org-level headers from increasing in height relative to the other text."
@@ -462,7 +456,6 @@ you should place your code here."
   ;;; ToDo related configuration
   (setq org-log-done "note"
         org-log-reschedule "note")
-
 
   ;;; Source code config
   (org-babel-do-load-languages 'org-babel-load-languages
@@ -552,14 +545,14 @@ you should place your code here."
   (global-set-key (kbd "<f6>") 'org-capture)
 
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
-  (setq org-default-notes-file "~/notes.org")
+  (setq org-default-notes-file "~/secrets/volume/org/notes.org")
 
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/orgbook/refile.org" "Tasks")
+        '(("t" "Todo" entry (file+headline "~/secrets/volume/org/refile.org" "Tasks")
            "* TODO %^{title}\n  CREATED: %U\n   %?" :clock-in t :clock-resume t)
-          ("j" "Journal" entry (file+olp+datetree "~/org/orgbook/journal.org")
+          ("j" "Journal" entry (file+olp+datetree "~/secrets/volume/org/journal.org")
            "* %<%Y-%m-%d %A>\n   %?" :clock-in t :clock-resume t)
-          ("w" "Work journal" entry (file+olp+datetree "~/org/orgbook/work.org")
+          ("w" "Work journal" entry (file+olp+datetree "~/secrets/volume/org/work.org")
           "* %<%Y-%m-%d %a %H:%M>\n   %?")))
 
 
