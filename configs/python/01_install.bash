@@ -6,6 +6,8 @@ source ../../utils/libdeploy.bash
 using pip
 using pipsi
 
+install_packages tk
+
 # ===========================================================================
 #  PIP INSTALLS
 
@@ -23,6 +25,7 @@ execute pip install --user ipython
 #  PIPSI INSTALLS
 
 # this patch function is needed until the output handling issue is resolved..
+# https://github.com/mitsuhiko/pipsi/issues/95
 function pipsi_patch {
   output=$( { pipsi $@ 1>&2; } 2>&1 )
   if [ $? != 0 ]; then
@@ -47,3 +50,6 @@ execute pipsi_patch install cookiecutter
 
 info "Installing flake8.."
 execute pipsi_patch install flake8
+
+info "Installing httpie.."
+execute pipsi_patch install httpie
