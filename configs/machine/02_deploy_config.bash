@@ -5,4 +5,4 @@ source ../../utils/libdeploy.bash
 
 link_scripts machine \
   ./scripts/volume.bash \
-  ./scripts/brightness.bash
+  ./scripts/pacman.bash

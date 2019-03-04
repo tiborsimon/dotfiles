@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+VOLUME_CACHE_FILE="${HOME}/.cache/dotfiles/machine/volume/volume.cache"
+MUTE_CACHE_FILE="${HOME}/.cache/dotfiles/machine/volume/mute.cache"
+
 # ====================================================================
 #  H E L P E R S
 
@@ -22,6 +25,8 @@ VOLUME_UP=false
 VOLUME_DOWN=false
 VOLUME=false
 IS_MUTED=false
+DEBUG=false
+UPDATE_LEMONBAR=true
 
 while [[ $# -gt 0 ]]
 do
@@ -70,7 +75,10 @@ case $key in
     ;;
   --debug)
     DEBUG=true
-    HELP=false
+    shift
+    ;;
+  --no-lemonbar)
+    UPDATE_LEMONBAR=false
     shift
     ;;
   *)
@@ -126,39 +134,14 @@ fi
 
 
 # ====================================================================
-#  M U T E   C O M M A N D S
+#  H E L P E R   F U N C T I O N S
 
-if [ $TOGGLE == true ]
-then
-  amixer --quiet set Master toggle
-  exit 0
-fi
-
-if [ $MUTE == true ]
-then
-  amixer --quiet set Master mute
-  exit 0
-fi
-
-if [ $UNMUTE == true ]
-then
-  amixer --quiet set Master unmute
-  exit 0
-fi
-
-if [ $IS_MUTED == true ]
-then
-  if amixer get Master | grep -q '\[off\]'
+function debug {
+  if [ $DEBUG == true ]
   then
-    exit 0
-  else
-    exit 1
+    >&2 echo "update >> $@"
   fi
-fi
-
-
-# ====================================================================
-#  V O L U M E   A D J U S T I N G   C O M M A N D S
+}
 
 function get_current_volume {
   amixer get Master |
@@ -192,6 +175,58 @@ function change_volume {
     amixer --quiet set Master ${new_volume}%
   fi
 }
+
+function mute_toggle {
+  debug "toggling mute state"
+  amixer --quiet set Master toggle
+}
+
+function mute {
+  debug "muting autio.."
+  amixer --quiet set Master mute
+}
+
+function unmute {
+  debug "unmuting autio.."
+  amixer --quiet set Master unmute
+}
+
+
+# ====================================================================
+#  M U T E   C O M M A N D S
+
+if [ $TOGGLE == true ]
+then
+  mute_toggle
+  exit 0
+fi
+
+if [ $MUTE == true ]
+then
+  mute
+  exit 0
+fi
+
+if [ $UNMUTE == true ]
+then
+  unmute
+  exit 0
+fi
+
+if [ $IS_MUTED == true ]
+then
+  if amixer get Master | grep -q '\[off\]'
+  then
+    exit 0
+  else
+    exit 1
+  fi
+fi
+
+
+# ====================================================================
+#  V O L U M E   A D J U S T I N G   C O M M A N D S
+
 
 if [ $VOLUME_UP != false ]
 then
