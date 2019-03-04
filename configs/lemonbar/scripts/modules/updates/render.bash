@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-cd $(dirname $(readlink -f $0))
-
-source ./config.bash
-
 UPDATE_ICON=""
 
-updates=$(cat $TEMP_FILE 2>/dev/null || echo 0)
+updates=$(my-machine-pacman check --count-only --no-lemonbar --query-only)
 
 if (( $updates > 0 ))
 then

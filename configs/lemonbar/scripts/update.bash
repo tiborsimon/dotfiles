@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+
+set -e
+
 cd $(dirname $(readlink -f $0))
 
 # ===================================================================
@@ -28,6 +31,7 @@ RESET=$(tput sgr0)
 
 HELP=false
 DEBUG=false
+EVENT=undefined
 
 while [[ $# -gt 0 ]]
 do
@@ -36,6 +40,11 @@ key="$1"
 case $key in
   -h|--help)
     HELP=true
+    shift
+    ;;
+  -e|--event)
+    EVENT=$2
+    shift
     shift
     ;;
   --debug)
@@ -68,7 +77,16 @@ ${BOLD}USAGE${RESET}
     ${BOLD}${YELLOW}[-h|--help]${RESET}
         Prints out this help message.
 
-    ${BOLD}${YELLOW}--debug${RESET}
+    ${BOLD}${GREEN}(-e|--event) <event_name>${RESET}
+        Event that happened to update the lemonbar. This can be used to cache certain modules until its
+        event is triggering.
+
+        Already registered event:
+
+        ${BOLD}startup${RESET} - called at startup once
+        ${BOLD}default${RESET} - when no event specified this event will be fired
+
+    ${BOLD}${BLUE}--debug${RESET}
         Prints out the lemonbar content string instead of sending it
         to the lemonbar process.
 EOM
@@ -76,17 +94,47 @@ EOM
   exit 0
 fi
 
+function debug {
+  if [ $DEBUG == true ]
+  then
+    >&2 echo -e "debug >> $@"
+  fi
+}
+
 
 # ===================================================================
 #  GENERATING MODULE POSITIONS
 
 MODULES_PATH="./modules"
 MODULE_RENDER_SCRIPT="render.bash"
+MODULE_POSITION_FILE="module_position"
+MODULE_EVENTS_FILE="module_events"
+MODULE_CACHE_FILE=".module_cache"
 
 function generate_module_position_strings {
-  for module in $1
+  for module_path in $1
   do
-    echo "$(cat $module/position)=${module}/${MODULE_RENDER_SCRIPT}"
+    debug "[$module_path]"
+    if [ ${EVENT} == "startup" ] || grep -q "${EVENT}" ${module_path}/${MODULE_EVENTS_FILE}&>/dev/null
+    then
+      debug "module will be rendered!"
+      content="$(${module_path}/${MODULE_RENDER_SCRIPT})"
+      debug "module rendred. content: \"$content\""
+
+      echo "$content" > ${module_path}/${MODULE_CACHE_FILE}
+      debug "cache updated"
+
+      if [ -z "$content" ]
+      then
+        debug "module won't be displayed as it's content is empty"
+        continue
+      fi
+    else
+      content="$(cat ${module_path}/${MODULE_CACHE_FILE})"
+      debug "module rendered from cache"
+    fi
+
+    echo $(cat ${module_path}/${MODULE_POSITION_FILE})="${content}"
   done
 }
 
@@ -103,9 +151,9 @@ function get_modules_for_position {
 modules=$(find ${MODULES_PATH} -mindepth 1 -type d)
 position_strings=$(generate_module_position_strings "$modules")
 
-left_modules=$(get_modules_for_position "${position_strings}" left)
-center_modules=$(get_modules_for_position "${position_strings}" center)
-right_modules=$(get_modules_for_position "${position_strings}" right)
+left_contents="$(get_modules_for_position "${position_strings}" left)"
+center_contents="$(get_modules_for_position "${position_strings}" center)"
+right_contents="$(get_modules_for_position "${position_strings}" right)"
 
 
 # ===================================================================
@@ -114,46 +162,30 @@ right_modules=$(get_modules_for_position "${position_strings}" right)
 LEFT_SEP=""
 RIGHT_SEP=""
 
+IFS=$'\n'
 left="%{l}"
-for render_module in $left_modules
+for content in $left_contents
 do
-  output=$(${render_module})
-  if [ -n "$output" ]
-  then
-    left="${left} ${output} ${LEFT_SEP}"
-  fi
+  left="${left} ${content} ${LEFT_SEP}"
 done
-# left="${left::-1}"
 
 center="%{c}"
-for render_module in $center_modules
+for content in $center_contents
 do
-  output=$(${render_module})
-  if [ -n "$output" ]
-  then
-    center="${center}$(${render_module})"
-  fi
+  center="${center}${content}"
 done
 
 right=""
-for render_module in $right_modules
+for content in $right_contents
 do
-  output=$(${render_module})
-  if [ -n "$output" ]
-  then
-    right="${RIGHT_SEP} $(${render_module}) ${right}"
-  fi
+  right="${RIGHT_SEP} ${content} ${right}"
 done
-# right="%{r}${right:1:${#right}-1}"
 right="%{r}${right}"
+unset IFS
 
 
 # ===================================================================
 #  SENDING CONTENT TO LEMONBAR
 
-if [ $DEBUG == true ]
-then
-  echo -e "${left} ${center} ${right}"
-else
-  echo -e "${left} ${center} ${right}" > $LEMONBAR_NAMED_PIPE
-fi
+echo -e "${left} ${center} ${right}" > $LEMONBAR_NAMED_PIPE
+debug "${left} ${center} ${right}"

@@ -3,4 +3,4 @@
 systemctl --user import-environment PATH DISPLAY XAUTHORITY TERM &&
   systemctl --user restart lemonbar.service &&
   systemctl --user restart lemonbar-scheduler.timer &&
-  my-lemonbar-scheduler --login
+  my-lemonbar-update --event startup

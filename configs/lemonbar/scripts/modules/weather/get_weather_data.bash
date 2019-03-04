@@ -5,3 +5,4 @@ echo "started to collect weather report.."
 sleep 5
 echo "weather report updated"
 
+my-lemonbar-update --event weather

@@ -2,29 +2,25 @@
 cd $(dirname $(readlink -f $0))
 
 MODULES_PATH="./modules"
+MODULE_SCHEDULE_FILE="module_schedule"
 CLOCK=$(date +%R)
 
 # ====================================================================
 #  P A R A M E T E R   P A R S I N G
 
 HELP=false
-LOGIN=false
 
 while [[ $# -gt 0 ]]
 do
 key="$1"
 
-case $key in
+case ${key} in
   -h|--help)
     HELP=true
     shift
     ;;
-  --login)
-    LOGIN=true
-    shift
-    ;;
   *)
-    warning "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+    warning "Invalid parameter: ${BOLD}${RED}${key}${RESET}"
     shift
     ;;
 esac
@@ -34,7 +30,7 @@ done
 # ====================================================================
 #  H E L P   C O M M A N D
 
-if [ $HELP == true ]
+if [ ${HELP} == true ]
 then
 
   read -r -d '' help_message << EOM
@@ -53,7 +49,7 @@ ${BOLD}USAGE${RESET}
         Prints out the lemonbar content string instead of sending it
         to the lemonbar process.
 EOM
-  echo -e "\n$help_message"
+  echo -e "\n${help_message}"
   exit 0
 fi
 
@@ -61,38 +57,28 @@ echo "Lemonbar Scheduler started."
 
 
 # ===================================================================
-#  RUNNING THE LEMONBAR UPDATE IN EVERY MINUTE
-my-lemonbar-update
-
-
-# ===================================================================
 #  GATHERING SCHEDULE FILES
 
-schedules=$(find ${MODULES_PATH} -type f -name schedule)
+schedule_files=$(find ${MODULES_PATH} -type f -name ${MODULE_SCHEDULE_FILE})
 
 tasks=""
 
-for schedule in $schedules
+for schedule_file in ${schedule_files}
 do
-  content=$(cat $schedule)
-  for line in $content
+  content=$(cat ${schedule_file})
+  for line in ${content}
   do
-    schedule_pattern=$(echo $line | cut -d'=' -f1)
-    file=$(echo $line | cut -d'=' -f2)
-    script="$(dirname $schedule)/$file"
-    module="$(basename $(dirname $schedule))"
+    priority=$(echo ${line} | cut -d',' -f1)
+    pattern=$(echo ${line} | cut -d',' -f2)
+    event=$(echo ${line} | cut -d',' -f3)
+    target_script=$(echo ${line} | cut -d',' -f4)
 
-    if [ $LOGIN == true ]
+    script_path="$(dirname ${schedule_file})/${target_script}"
+    module="$(basename $(dirname ${schedule_file}))"
+
+    if echo ${CLOCK} | grep -qP "${pattern}"
     then
-      if [ "$schedule_pattern" == "login" ]
-      then
-        tasks="$tasks $script=$module=$file"
-      fi
-    else
-      if echo $CLOCK | grep -qP "$schedule_pattern"
-      then
-        tasks="$tasks $script=$module=$file"
-      fi
+      tasks="${tasks} ${priority},${module},${event},${target_script},${script_path}"
     fi
   done
 done
@@ -103,20 +89,32 @@ done
 
 if (( ${#tasks} == 0 ))
 then
-  echo "[ .. ] No task was scheduled at $CLOCK. Nothing to do.."
+  echo "[ .. ] No task was scheduled at ${CLOCK}. Nothing to do.."
 else
-  for task in $tasks
+  tasks=$(echo ${tasks} | tr " " "\n" | sort)
+  for task in ${tasks}
   do
-    script=$(echo $task | cut -d'=' -f1)
-    module=$(echo $task | cut -d'=' -f2)
-    file=$(echo $task | cut -d'=' -f3)
+    module=$(echo ${task} | cut -d',' -f2)
+    event=$(echo ${task} | cut -d',' -f3)
+    target_script=$(echo ${task} | cut -d',' -f4)
+    script_path=$(echo ${task} | cut -d',' -f5)
 
-    echo "[ >> ][$module/$file] is scheduled at $CLOCK."
-    $script | sed -e "s/^/[ .. ][$module\/$file] /"
+    if [ "${target_script}" != "-" ]
+    then
+      echo "[ >> ][${module}/${target_script}] is scheduled at ${CLOCK}."
+      if ${script_path} | sed -e "s/^/[ .. ][${module}\/${target_script}] > /"
+      then
+        my-lemonbar-update --event ${event}
+        echo "[ ok ][${module}/${target_script}] finished, event <${event}> fired."
+      else
+        echo "[ !! ][${module}/${target_script}] failed."
+      fi
+    else
+      echo "[ >> ][${module}] is scheduled at ${CLOCK} in event only mode."
+      my-lemonbar-update --event ${event}
+      echo "[ >> ][${module}] event <${event}> fired."
+    fi
   done
-
-  # update lemonbar with the fresh data
-  my-lemonbar-update
 fi
 
 echo "Lemonbar Scheduler finished."

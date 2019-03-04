@@ -52,8 +52,19 @@ function render_ac {
   fi
 }
 
-AC=$(render_ac)
-BATTERY_1=$(render_battery 1)
-BATTERY_2=$(render_battery 0)
+function get_current_percentage {
+  local percentage=$(acpi | grep --ignore-case -P '(discharging|charging)' | grep --perl-regexp --only-matching '[\d]{1,3}%')
+  if [ -n "${percentage}" ]
+  then
+    echo "${percentage} "
+  else
+    echo ""
+  fi
+}
 
-echo -en "%{A:battery:}${AC}${BATTERY_1} ${BATTERY_2}%{A}%{T1}"
+ac=$(render_ac)
+percentage=$(get_current_percentage)
+battery_1=$(render_battery 1)
+battery_2=$(render_battery 0)
+
+echo -en "%{A:battery:}${ac}${percentage}${battery_1} ${battery_2}%{A}%{T1}"

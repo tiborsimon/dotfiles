@@ -4,7 +4,7 @@ Description=Lemonbar scheduler
 [Timer]
 OnCalendar=*-*-* *:*:00
 Persistent=true
-AccuracySec=100ms
+AccuracySec=1s
 
 [Install]
 WantedBy=timers.target
