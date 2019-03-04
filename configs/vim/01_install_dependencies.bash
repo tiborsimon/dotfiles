@@ -7,5 +7,8 @@ source ../../utils/libdeploy.bash
 # Install python pygments for syntax highlighting.
 install_packages gvim fzy python-pygments
 
+# For opening urls (gx)
+install_packages xdg-utils
+
 # Install ctags and gtags (global)
 install_aur_packages universal-ctags-git global

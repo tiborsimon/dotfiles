@@ -219,10 +219,14 @@
       Plug 'tpope/vim-speeddating'                  " fast date manipulations
       Plug 'tpope/vim-surround'                     " fast wrapping
 
+      " Extras
+      " Plug 'dhruvasagar/vim-open-url'               " A simple plugin for opening urls in browser.
+
       " Autocomplete
       Plug 'ludovicchabant/vim-gutentags'           " A Vim plugin that manages your tag files
       Plug 'maralla/completor.vim'                  " Async completion framework made ease.
       Plug 'skywind3000/gutentags_plus'             " The right way to use gtags with gutentags
+      Plug 'davidhalter/jedi-vim'                   " Using the jedi autocompletion library for VIM.
 
       " Searching
       Plug 'wsdjeg/FlyGrep.vim'                     " Asynchronously fly grep in vim.
@@ -271,8 +275,8 @@
 
     " PLUGIN: LIGHTLINE ===================================================== {{{
     " https://github.com/ryanoasis/powerline-extra-symbols
-    " \   'separator': { 'left': '', 'right': '' },
-    " \   'subseparator': { 'left': '', 'right': '' }
+        " \ 'separator': { 'left': '', 'right': '' },
+        " \ 'subseparator': { 'left': '', 'right': '' },
       let g:lightline = {
         \ 'colorscheme': 'solarized',
         \ 'separator': { 'left': '', 'right': '' },
@@ -294,7 +298,7 @@
         \   'left': [
         \     [ 'mode', 'paste' ],
         \     [ 'filename' ],
-        \     [ 'gitbranch', 'readonly', 'bufnum', 'modified' ],
+        \     [ 'readonly', 'bufnum', 'modified' ],
         \   ],
         \   'right': [
         \     [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
@@ -306,14 +310,11 @@
       let g:lightline.inactive = {
         \   'left': [
         \     [ 'filename', 'modified' ]
-        \   ],
-        \   'right': [
-        \     [ 'percent', 'lineinfo' ]
         \   ]
         \ }
 
       let g:lightline.tabline = {
-        \   'left': [[ 'tabs' ]],
+        \   'left': [['gitbranch'], [ 'tabs' ]],
         \   'right': [[ 'vimpwd' ], [ 'filetype' ],  [ 'fileencoding', 'fileformat' ]]
         \ }
 
@@ -411,7 +412,7 @@
       \]
 
       " enable gtags module
-      let g:gutentags_modules = ['ctags', 'gtags_cscope']
+      let g:gutentags_modules = ['ctags']
 
       let g:gutentags_exclude_project_root = ['~/secrets/volume/org']
 
