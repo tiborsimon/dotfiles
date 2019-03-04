@@ -58,6 +58,10 @@ install-machine:
 install-moc:
 	@./utils/install-configs.bash moc
 
+.PHONY: install-neovim
+install-neovim:
+	@./utils/install-configs.bash neovim
+
 .PHONY: install-profile
 install-profile:
 	@./utils/install-configs.bash profile
