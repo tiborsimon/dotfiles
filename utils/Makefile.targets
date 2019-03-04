@@ -62,6 +62,10 @@ install-moc:
 install-neovim:
 	@./utils/install-configs.bash neovim
 
+.PHONY: install-power
+install-power:
+	@./utils/install-configs.bash power
+
 .PHONY: install-profile
 install-profile:
 	@./utils/install-configs.bash profile
