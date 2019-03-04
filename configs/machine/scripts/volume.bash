@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if gpreg my-machine-volume &>/dev/null
+then
+  exit 0
+fi
+
 VOLUME_CACHE_FILE="${HOME}/.cache/dotfiles/machine/volume/volume.cache"
 MUTE_CACHE_FILE="${HOME}/.cache/dotfiles/machine/volume/mute.cache"
 
