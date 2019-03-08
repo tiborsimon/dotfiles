@@ -130,7 +130,7 @@ function generate_module_position_strings {
         continue
       fi
     else
-      content="$(cat ${module_path}/${MODULE_CACHE_FILE})"
+      content="$(cat ${module_path}/${MODULE_CACHE_FILE} 2>/dev/null)"
       debug "module rendered from cache"
     fi
 
