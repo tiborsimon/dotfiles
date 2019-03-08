@@ -204,6 +204,7 @@
       " Version control
       Plug 'airblade/vim-gitgutter'                 " git gutter column
       Plug 'jreybert/vimagit'                       " git interaction
+      Plug 'tpope/vim-fugitive'                     " git interaction
 
       " Navigation
       Plug 'MattesGroeger/vim-bookmarks'            " better bookmarks
