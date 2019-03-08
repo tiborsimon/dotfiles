@@ -58,9 +58,9 @@ install-machine:
 install-moc:
 	@./utils/install-configs.bash moc
 
-.PHONY: install-neovim
-install-neovim:
-	@./utils/install-configs.bash neovim
+.PHONY: install-nvim
+install-nvim:
+	@./utils/install-configs.bash nvim
 
 .PHONY: install-power
 install-power:
