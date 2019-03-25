@@ -1,0 +1,8 @@
+[Unit]
+Description=Lemon modules main runner.
+
+[Service]
+ExecStart=%h/.local/bin/lemon-modules-server
+
+[Install]
+WantedBy=default.target

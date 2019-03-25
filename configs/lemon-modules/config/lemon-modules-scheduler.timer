@@ -1,0 +1,10 @@
+[Unit]
+Description=Lemon modules scheduler timer.
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+Persistent=true
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

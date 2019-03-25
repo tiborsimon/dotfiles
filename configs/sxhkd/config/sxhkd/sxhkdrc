@@ -81,32 +81,32 @@ super + ctrl + {m,x,y,z}
 
 # Volume adjustment bindings
 alt + @F1
-  my-machine-volume toggle && my-lemonbar-update --event volume
+  my-machine-volume toggle && lemon-modules-update --event volume
 
 alt + @F2
-  my-machine-volume down 5 && my-lemonbar-update --event volume
+  my-machine-volume down 5 && lemon-modules-update --event volume
 
 alt + @F3
-  my-machine-volume up 5 && my-lemonbar-update --event volume
+  my-machine-volume up 5 && lemon-modules-update --event volume
 
 super + alt + @F2
-  my-machine-volume down 1 && my-lemonbar-update --event volume
+  my-machine-volume down 1 && lemon-modules-update --event volume
 
 super + alt + @F3
-  my-machine-volume up 1 && my-lemonbar-update --event volume
+  my-machine-volume up 1 && lemon-modules-update --event volume
 
 # Brightness control bindings
 alt + @F5
-  ! pgrep xbacklight&>/dev/null && (xbacklight -dec 10 && my-lemonbar-update --event brightness)
+  ! pgrep xbacklight&>/dev/null && (xbacklight -dec 10 && lemon-modules-update --event brightness)
 
 alt + @F6
-  ! pgrep xbacklight&>/dev/null && (xbacklight -inc 10 && my-lemonbar-update --event brightness)
+  ! pgrep xbacklight&>/dev/null && (xbacklight -inc 10 && lemon-modules-update --event brightness)
 
 super + alt + @F5
-  ! pgrep xbacklight&>/dev/null && (xbacklight -dec 1 && my-lemonbar-update --event brightness)
+  ! pgrep xbacklight&>/dev/null && (xbacklight -dec 1 && lemon-modules-update --event brightness)
 
 super + alt + @F6
-  ! pgrep xbacklight&>/dev/null && (xbacklight -inc 1 && my-lemonbar-update --event brightness)
+  ! pgrep xbacklight&>/dev/null && (xbacklight -inc 1 && lemon-modules-update --event brightness)
 
 # =====================================================================
 # FOCUS/SWAP
@@ -117,11 +117,11 @@ alt + {_,shift + }{h,j,k,l}
 
 # focus the next/previous desktop in the current monitor
 super + {h,l}
-	bspc desktop --focus {prev,next}.local && my-lemonbar-update --event desktop
+	bspc desktop --focus {prev,next}.local && lemon-modules-update --event desktop
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}' && my-lemonbar-update --event desktop
+	bspc {desktop -f,node -d} '^{1-9,10}' && lemon-modules-update --event desktop
 
 
 # =====================================================================

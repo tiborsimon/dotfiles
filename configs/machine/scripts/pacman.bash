@@ -120,10 +120,10 @@ function debug {
 }
 
 function update_lemonbar {
-  if [ $UPDATE_LEMONBAR == true ] && which my-lemonbar-update&>/dev/null
+  if [ $UPDATE_LEMONBAR == true ] && which lemon-modules-update&>/dev/null
   then
     debug "updating lemonbar.."
-    if my-lemonbar-update --event updates &>/dev/null
+    if lemon-modules-update --event updates &>/dev/null
     then
       debug "lemonbar updated."
     else

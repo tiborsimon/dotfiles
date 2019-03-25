@@ -30,4 +30,4 @@ bspc rule --add Skype state=tiled focus=on desktop='^9' follow=on
 # bspc config desktop 2 --layout monocle
 # bspc config desktop 9 --layout monocle
 
-my-lemonbar-init
+lemon-modules-init

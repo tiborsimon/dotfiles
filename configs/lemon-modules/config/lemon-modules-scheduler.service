@@ -1,0 +1,6 @@
+[Unit]
+Description=Lemon modules scheduler service.
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/lemon-modules-scheduler
