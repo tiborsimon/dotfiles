@@ -219,6 +219,8 @@
       Plug 'tpope/vim-commentary'                   " fast commenting out lines
       Plug 'tpope/vim-speeddating'                  " fast date manipulations
       Plug 'tpope/vim-surround'                     " fast wrapping
+      Plug 'kana/vim-textobj-user'                  " Vim plugin: Create your own text objects
+      Plug 'kana/vim-textobj-line'                  " Vim plugin: Text objects for the current line
 
       " Extras
       " Plug 'dhruvasagar/vim-open-url'               " A simple plugin for opening urls in browser.
