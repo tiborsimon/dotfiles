@@ -208,8 +208,7 @@ function link_package {
       while [ $action != 'o' ] && [ $action != 'b' ] && [ $action != 's' ]; do
         warning "Target link ${BOLD}${link_name}${RESET} already exists!"
         user "What do you want to do? [${BOLD}${RED}o${RESET}] overwrite, [${BOLD}${BLUE}b${RESET}] backup, [${BOLD}${YELLOW}s${RESET}] skip? "
-
-        read -n 1 action
+        read -n 1 -sp '' action
         echo ''
       done
 
@@ -407,8 +406,15 @@ function fail {
 #######################################
 function execute_with_privilege {
   temp_command=$(echo $@)
-  sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| About to run privileged command: ${YELLOW}${temp_command}${RESET}. [sudo] password for ${BOLD}${USER}${RESET}: " $@
-  # sudo --reset-timestamp --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| About to run privileged command: ${YELLOW}${temp_command}${RESET}. [sudo] password for ${BOLD}${USER}${RESET}: " $@
+  read -n 1 -sp "${BOLD}${YELLOW} !! ${RESET}| About to run command with priviledge: '${YELLOW}${temp_command}${RESET}'. Do you want to continue? [y/N] " decision
+  echo ''
+  if [ "y" == "$decision" ]
+  then
+    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@
+  else
+    echo "${BOLD}${YELLOW} !! ${RESET}| Aborting.."
+    exit 1
+  fi
 }
 
 
