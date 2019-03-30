@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 echo "Setting up repeate speed.."
-xset r rate 270 55
+if [ -n "$DISPLAY" ]
+then
+  xset r rate 270 55
+fi
 
 if systemctl is-failed udevmon.service&>/dev/null
 then
