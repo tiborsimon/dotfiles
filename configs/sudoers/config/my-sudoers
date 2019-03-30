@@ -2,6 +2,8 @@ Cmnd_Alias       UPDATE_DOWNLOAD = /usr/bin/pacman --sync --refresh --refresh --
 Cmnd_Alias       UPDATE_INSTALL = /usr/bin/pacman --sync --refresh --refresh --sysupgrade
 Cmnd_Alias       RESTART_UDEVMON = /usr/bin/systemctl restart udevmon.service
 Cmnd_Alias       SECRETS_HANDLING = /usr/bin/cryptsetup luksOpen secrets.img secrets_volume, /usr/bin/cryptsetup luksClose secrets_volume, /usr/bin/mount /dev/mapper/secrets_volume volume, /usr/bin/umount volume
+Cmnd_Alias       RFKILL = /usr/bin/rfkill block bluetooth, /usr/bin/rfkill unblock bluetooth
+Cmnd_Alias       SD_MOUNT = /usr/bin/mount /dev/mmcblk0p1 SD
 
 %wheel ALL=(ALL) ALL
-%wheel ALL=(ALL) NOPASSWD: UPDATE_DOWNLOAD, UPDATE_INSTALL, RESTART_UDEVMON, SECRETS_HANDLING
+%wheel ALL=(ALL) NOPASSWD: UPDATE_DOWNLOAD, UPDATE_INSTALL, RESTART_UDEVMON, SECRETS_HANDLING, RFKILL, SD_MOUNT
