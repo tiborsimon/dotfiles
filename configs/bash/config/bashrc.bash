@@ -63,6 +63,16 @@ alias r="ranger"
 alias sr="sudo ranger"
 alias mkd="mkdir -pv"
 
+function rg {
+  # command rg -p $@ | less -RMFXK
+  if [ -t 1 ]; then
+      command rg --pretty "$@" \
+          | less --RAW-CONTROL-CHARS --LONG-PROMPT --quit-if-one-screen --no-init --quit-on-intr
+  else
+      command rg "$@"
+  fi
+}
+
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
 alias grep="grep --color=auto" # Color grep - highlight desired sequence.
