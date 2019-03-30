@@ -32,29 +32,36 @@ if [ "$?" == 2 ]; then
   fi
 fi
 
+
+# Handling location persistency between shell sessions
+LAST_LOCATION_FILE="${HOME}/.last_location"
+function cd {
+  builtin cd $@
+  pwd > $LAST_LOCATION_FILE
+}
+
+if [[ -a $LAST_LOCATION_FILE ]]
+then
+  builtin cd $(cat $LAST_LOCATION_FILE)
+fi
+
+
 # Some aliases
+alias ..='cd ..'
 alias dot='cd ~/.dotfiles'
 alias org='cd ~/secrets/volume/org'
 alias pro='cd ~/projects; ls -la'
 alias sand='cd ~/sandbox; ls -la'
 alias buspirate='sudo screen /dev/ttyUSB0 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
-alias weather="curl wttr.in"
 alias ls='ls --human-readable --color --group-directories-first'
 alias gs='git status'
-alias ..='cd ..'
 alias SS="sudo systemctl"
 alias v="vim"
 alias sv="sudo vim"
 alias r="ranger"
 alias sr="sudo ranger"
-# alias ka="killall"
-# alias g="git"
-# alias trem="transmission-remote"
 alias mkd="mkdir -pv"
-alias ref="shortcuts.sh && source ~/.bashrc" # Refresh shortcuts manually and reload bashrc
-# alias bw="wal -i ~/.config/wall.png" # Rerun pywal
-# alias pi="bash ~/.larbs/wizard/wizard.sh"
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
