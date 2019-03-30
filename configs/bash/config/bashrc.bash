@@ -134,3 +134,10 @@ export WORKON_HOME=~/.virtualenvs
 source ~/.local/bin/virtualenvwrapper.sh
 
 my-keyboard-reset >/dev/null
+
+# Add API keys as environment variables
+API_KEYS_FILE="${HOME}/.api_keys"
+if [[ -a $API_KEYS_FILE ]]
+then
+  source $API_KEYS_FILE
+fi
