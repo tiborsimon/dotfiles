@@ -5,7 +5,10 @@ source ../../utils/libdeploy.bash
 
 # linking config directory
 link_package \
-  ./config ${HOME}/.config/lemon-modules
+  ./config/config ${HOME}/.config/lemon-modules
+
+execute_with_privilege rm -rf /etc/acpi
+execute_with_privilege cp -r ./config/acpi /etc/acpi
 
 # linking systemd unit files
 link_package \
@@ -18,6 +21,5 @@ link_package \
   ./scripts/server.bash        ${HOME}/.local/bin/lemon-modules-server \
   ./scripts/update.bash        ${HOME}/.local/bin/lemon-modules-update \
   ./scripts/init.bash          ${HOME}/.local/bin/lemon-modules-init \
-  ./scripts/monitor.bash       ${HOME}/.local/bin/lemon-modules-monitor \
   ./scripts/click-handler.bash ${HOME}/.local/bin/lemon-modules-click-handler \
   ./scripts/scheduler.bash     ${HOME}/.local/bin/lemon-modules-scheduler

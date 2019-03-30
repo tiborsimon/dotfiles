@@ -10,22 +10,22 @@ source ./module-utils.bash
 # ===================================================================
 #  GATHERING SCHEDULED EVENTS
 
-module_config_files=$(modules_get_config_file_list)
+modules=$(get_module_list)
 
 tasks=""
 current_time=$(date +%R)
 
-for module_config_file in ${module_config_files}
+for module in ${modules}
 do
-  pattern=$(modules_get_schedule_pattern $module_config_file)
+  pattern=$(modules_get_schedule_pattern $module)
 
   if [ -z "$pattern" ]
   then
     continue
   fi
 
-  priority=$(modules_get_priority $module_config_file)
-  event=$(modules_get_schedule_event $module_config_file)
+  priority=$(modules_get_priority $module)
+  event=$(modules_get_schedule_event $module)
 
   if echo ${current_time} | grep -qP "${pattern}"
   then
@@ -46,12 +46,11 @@ else
   do
     event=$(echo ${task} | cut -d',' -f2)
 
-    $UPDATE_COMMAND --event ${event}
-
     echo "[ .. ][scheduler] <${event}> event fired."
+
+    lemon-modules-update --event ${event} --debug 2>&1
 
   done
 fi
 
 echo "[ ok ][scheduler] done."
-

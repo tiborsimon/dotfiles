@@ -12,19 +12,8 @@ source ./module-utils.bash
 
 if [[ ! -p $NAMED_PIPE ]]; then
   echo "[ !! ][update] Lemon modules pipe ${NAMED_PIPE} not found! Aborting.."
-  # exit 1
+  exit 1
 fi
-
-
-# ====================================================================
-#  H E L P E R S
-
-BOLD=$(tput bold)
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-YELLOW=$(tput setaf 3)
-BLUE=$(tput setaf 4)
-RESET=$(tput sgr0)
 
 
 # ====================================================================
@@ -53,7 +42,7 @@ case $key in
     shift
     ;;
   *)
-    warning "Invalid parameter: ${BOLD}${RED}$key${RESET}"
+    warning "Invalid parameter: $key"
     shift
     ;;
 esac
@@ -65,6 +54,13 @@ done
 
 if [ $HELP == true ]
 then
+
+  BOLD=$(tput bold)
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  RESET=$(tput sgr0)
 
   read -r -d '' help_message << EOM
 
@@ -97,7 +93,7 @@ fi
 function debug {
   if [ $DEBUG == true ]
   then
-    >&2 echo -e "[update][debug] $@"
+    >&2 echo -e "[ .. ][update] $@"
   fi
 }
 
@@ -106,101 +102,100 @@ function debug {
 #  GENERATING MODULE POSITIONS
 
 function sort_modules {
-  local module_config_files=$1
+  local modules=$1
   local module_sorting_string=""
 
-  debug "Sorting modules.."
-
-  for module_config_file in $module_config_files
+  for module in $modules
   do
-    priority=$(modules_get_priority $module_config_file)
-    module_sorting_string="$module_sorting_string ${priority},${module_config_file}"
-    debug "${priority} -> ${module_config_file}"
+    local priority=$(modules_get_priority $module)
+    module_sorting_string="$module_sorting_string ${priority},${module}"
   done
 
   module_sorting_string=$(echo $module_sorting_string | tr " " "\n" | sort)
 
   for line in $module_sorting_string
   do
-    config=$(echo $line | cut -d',' -f2)
-    debug "${config}"
-    echo $config
+    local module=$(echo $line | cut -d',' -f2)
+    echo $module
   done
 }
 
-function update_module_caches {
-  local module_config_files=$1
-  local sorted_module_config_files=$(sort_modules "$module_config_files")
+function update_modules {
+  local modules=$(get_module_list)
+  local sorted_modules=$(sort_modules "$modules")
 
-  for module_config_file in $sorted_module_config_files
+  for module in $sorted_modules
   do
-    update_events=$(modules_get_update_events $module_config_file)
+    local update_events=$(modules_get_update_events $module)
 
-    if echo $update_events | grep -q ${EVENT} &>/dev/null
+    if echo "$update_events" | grep -q "${EVENT}" &>/dev/null
     then
-      module_path=$(dirname $module_config_file)
-      rendered_content="$(${module_path}/${MODULE_RENDER_SCRIPT_NAME})"
-      echo "$rendered_content" > ${module_path}/${MODULE_CACHE_FILE_NAME}
-      debug "rendering new content.."
-      render $module_config_files
+
+      local render_script="${module}/${MODULE_RENDER_SCRIPT_NAME}"
+      local cache_file="${module}/${MODULE_CACHE_FILE_NAME}"
+
+      debug "Module [$(basename $module)] will be updated."
+      local render_output="$($render_script $cache_file)"
+      if [ -n "$render_output" ]
+      then
+        echo "$render_output" | sed -e 's/^/\[ \.\. \]\[update\]\[render\] /'
+      fi
+      debug "Module [$(basename $module)] rendered: $(cat $cache_file)"
+
+      render "$modules"
     fi
   done
 }
 
 function get_position_string {
-  local module_config_files=$1
+  local modules=$1
 
-  for module_config_file in $sorted_module_config_files
+  for module in $modules
   do
-    module_path=$(dirname $module_config_file)
-    position=$(modules_get_position $module_config_file)
+    local position=$(modules_get_position $module)
 
-    if [ ! -f ${module_path}/${MODULE_CACHE_FILE_NAME} ]
+    if [ ! -f ${module}/${MODULE_CACHE_FILE_NAME} ]
     then
-      echo "" > ${module_path}/${MODULE_CACHE_FILE_NAME}
+      echo "" > ${module}/${MODULE_CACHE_FILE_NAME}
     fi
 
-    rendered_content=$(cat ${module_path}/${MODULE_CACHE_FILE_NAME})
-    echo "${position},${rendered_content}"
+    local cached_content=$(cat ${module}/${MODULE_CACHE_FILE_NAME})
+    echo "${position},${cached_content}"
   done
 }
 
 function render {
-  local module_config_files=$1
+  local modules=$1
 
-  position_strings=$(get_position_string "$module_config_files")
+  local position_strings=$(get_position_string "$modules")
 
-  left_contents="$(get_modules_for_position "${position_strings}" left)"
-  center_contents="$(get_modules_for_position "${position_strings}" center)"
-  right_contents="$(get_modules_for_position "${position_strings}" right)"
-
-  LEFT_SEP=""
-  RIGHT_SEP=""
+  local left_contents="$(get_modules_for_position "$position_strings" left)"
+  local center_contents="$(get_modules_for_position "$position_strings" center)"
+  local right_contents="$(get_modules_for_position "$position_strings" right)"
 
   IFS=$'\n'
-  left="%{l}"
+  local left="%{l}"
   for content in $left_contents
   do
-    left="${left} ${content} ${LEFT_SEP}"
+    left="${left} ${content} ${LEFT_SEPARATOR}"
   done
 
-  center="%{c}"
+  local center="%{c}"
   for content in $center_contents
   do
     center="${center}${content}"
   done
 
-  right=""
+  local right=""
   for content in $right_contents
   do
-    right="${RIGHT_SEP} ${content} ${right}"
+    right="${RIGHT_SEPARATOR} ${content} ${right}"
   done
   right="%{r}${right}"
   unset IFS
 
-  echo -e "${left} ${center} ${right}" > $NAMED_PIPE
-  debug "${left} ${center} ${right}"
-
+  echo -e "${left} ${center} ${right}" > ${NAMED_PIPE}
+  debug "Updated content sent out to the named pipe."
 }
 
 function get_modules_for_position {
@@ -213,5 +208,5 @@ function get_modules_for_position {
     cut -d',' -f2
 }
 
-module_config_files=$(modules_get_config_file_list)
-update_module_caches "$module_config_files"
+debug "Update request received for <${EVENT}> event."
+update_modules

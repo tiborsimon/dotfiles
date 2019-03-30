@@ -7,7 +7,16 @@ rm -f ${NAMED_PIPE}
 mkfifo ${NAMED_PIPE}
 trap "rm -f ${NAMED_PIPE}" EXIT
 
-lemon-modules-monitor &
+function monitor_battery {
+  udevadm monitor -p | grep --line-buffered 'POWER_SUPPLY_NAME=BAT.' |
+  while read val; do
+    lemon-modules-update --event battery
+    echo "[ .. ][monitor] <battery> event fired."
+    sleep 0.5
+  done
+}
+
+monitor_battery &
 
 # open op the pipe in read write mode
 cat <>${NAMED_PIPE} | lemonbar -p \
