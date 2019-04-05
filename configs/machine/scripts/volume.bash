@@ -11,14 +11,6 @@ MUTE_CACHE_FILE="${HOME}/.cache/dotfiles/machine/volume/mute.cache"
 # ====================================================================
 #  H E L P E R S
 
-BOLD=$(tput bold)
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-YELLOW=$(tput setaf 3)
-BLUE=$(tput setaf 4)
-RESET=$(tput sgr0)
-
-
 # ====================================================================
 #  P A R A M E T E R   P A R S I N G
 
@@ -99,6 +91,13 @@ done
 
 if [ $HELP == true ]
 then
+
+  BOLD=$(tput bold)
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  RESET=$(tput sgr0)
 
   read -r -d '' help_message << EOM
 
