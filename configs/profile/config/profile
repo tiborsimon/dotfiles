@@ -26,3 +26,12 @@ export PROJECTS="${HOME}/projects"
 export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
 # export W3MIMGDISPLAY_PATH="${HOME}/.local/bin/my-machine-w3m-delay"
 export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
+
+
+# ============================================================================
+#  A P I   K E Y   H A N D L I N G
+export API_KEYS_FILE="${HOME}/.api_keys"
+if [[ -a $API_KEYS_FILE ]]
+then
+  source $API_KEYS_FILE
+fi
