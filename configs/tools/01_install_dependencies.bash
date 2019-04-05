@@ -24,3 +24,9 @@ install_packages traceroute
 
 # Removable media handler
 install_packages udisks2
+
+# Media
+install_package vlc
+
+# File sharing
+install_package transmission-gtk
