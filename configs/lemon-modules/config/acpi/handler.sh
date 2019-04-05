@@ -22,6 +22,17 @@ case "$1" in
                 ;;
         esac
         ;;
+    jack/headphone)
+        case "$2" in
+            HEADPHONE)
+                logger 'Jack event.'
+                runuser --login tibor -c 'lemon-modules-update --event volume --debug' 2>&1 | logger
+                ;;
+            *)
+                logger "Jack ACPI action undefined: $2"
+                ;;
+        esac
+        ;;
     ac_adapter)
         case "$2" in
             AC|ACAD|ADP0)
