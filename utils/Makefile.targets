@@ -122,3 +122,7 @@ install-vim:
 install-xorg:
 	@./utils/install-configs.bash xorg
 
+.PHONY: install-zathura
+install-zathura:
+	@./utils/install-configs.bash zathura
+
