@@ -114,6 +114,10 @@ install-tmux:
 install-tools:
 	@./utils/install-configs.bash tools
 
+.PHONY: install-vifm
+install-vifm:
+	@./utils/install-configs.bash vifm
+
 .PHONY: install-vim
 install-vim:
 	@./utils/install-configs.bash vim
