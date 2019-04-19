@@ -16,7 +16,17 @@ function monitor_battery {
   done
 }
 
+function monitor_network {
+  nmcli monitor | grep --line-buffered --perl-regex ':\sconnected|:\sdisconnected|device\sremoved' |
+  while read val; do
+    lemon-modules-update --event network
+    echo "[ .. ][monitor] <network> event fired."
+    sleep 0.5
+  done
+}
+
 monitor_battery &
+monitor_network &
 
 # open op the pipe in read write mode
 cat <>${NAMED_PIPE} | lemonbar -p \
