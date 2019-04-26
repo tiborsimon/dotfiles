@@ -550,10 +550,10 @@ you should place your code here."
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/secrets/volume/org/refile.org" "Tasks")
            "* TODO %^{title}\n  CREATED: %U\n   %?" :clock-in t :clock-resume t)
-          ("j" "Journal" entry (file+olp+datetree "~/secrets/volume/org/journal.org")
-           "* %<%Y-%m-%d %A>\n   %?" :clock-in t :clock-resume t)
-          ("w" "Work journal" entry (file+olp+datetree "~/secrets/volume/org/work.org")
-          "* %<%Y-%m-%d %a %H:%M>\n   %?")))
+          ("j" "Journal" entry (file+olp+datetree "~/secrets/volume/org/journal/journal.org")
+           "* Entry on %<%H:%M>\n   %?" :clock-in t :clock-resume t)
+         )
+  )
 
 
   ;; ============================== CUSTOM FILE HANDLING ==============================
