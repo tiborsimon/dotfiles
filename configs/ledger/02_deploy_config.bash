@@ -7,4 +7,5 @@ link_package \
   ./config/ledgerrc ${HOME}/.ledgerrc
 
 link_scripts ledger \
-             ./scripts/formatter.py
+             ./scripts/formatter.py \
+             ./scripts/shared-list.bash
