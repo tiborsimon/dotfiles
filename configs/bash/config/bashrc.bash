@@ -32,26 +32,14 @@ if [ "$?" == 2 ]; then
   fi
 fi
 
-
-# Handling location persistency between shell sessions
-LAST_LOCATION_FILE="${HOME}/.last_location"
-function cd {
-  builtin cd $@
-  pwd > $LAST_LOCATION_FILE
-}
-
-if [[ -a $LAST_LOCATION_FILE ]]
-then
-  builtin cd $(cat $LAST_LOCATION_FILE)
-fi
-
-
 # Some aliases
 alias ..='cd ..'
 alias dot='cd ~/.dotfiles'
 alias org='cd ~/secrets/volume/org'
 alias pro='cd ~/projects; ls -la'
 alias sand='cd ~/sandbox; ls -la'
+alias sd='cd ~/SD; ls -la'
+alias books='cd ~/SD/Books; ls -la'
 alias buspirate='sudo screen /dev/ttyUSB0 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias ls='ls --human-readable --color --group-directories-first'
