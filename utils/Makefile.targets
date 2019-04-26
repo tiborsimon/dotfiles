@@ -66,6 +66,10 @@ install-mpv:
 install-nvim:
 	@./utils/install-configs.bash nvim
 
+.PHONY: install-openvpn
+install-openvpn:
+	@./utils/install-configs.bash openvpn
+
 .PHONY: install-power
 install-power:
 	@./utils/install-configs.bash power
