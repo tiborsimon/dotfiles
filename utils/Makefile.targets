@@ -58,6 +58,10 @@ install-machine:
 install-moc:
 	@./utils/install-configs.bash moc
 
+.PHONY: install-mpv
+install-mpv:
+	@./utils/install-configs.bash mpv
+
 .PHONY: install-nvim
 install-nvim:
 	@./utils/install-configs.bash nvim
