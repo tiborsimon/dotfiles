@@ -1,9 +1,9 @@
-import requests
 import os
 import sys
-from datetime import datetime
 import time
+from datetime import datetime
 
+import requests
 
 ICONS = {
     "01d": "",  # clear sky
@@ -45,13 +45,21 @@ PARAMETERS = "?q={}&appid={}&units=metric"
 PARAMETERS = PARAMETERS.format(LOCATION, API_KEY)
 URL += PARAMETERS
 
-r = requests.get(URL)
 
-if r.status_code == 200:
-    data = r.json()
+def get_data():
+    response = requests.get(URL)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    return None
+
+
+def main():
+    data = get_data()
+
     temp = data["main"]["temp"]
-    icon = data["weather"][0]["icon"]
-    description = data["weather"][0]["description"]
+    # description = data["weather"][0]["description"]
     sunset = data["sys"]["sunset"]
     sunrise = data["sys"]["sunrise"]
 
@@ -59,18 +67,19 @@ if r.status_code == 200:
     sunset = datetime.fromtimestamp(sunset)
     sunrise = datetime.fromtimestamp(sunrise)
 
-temp = f"{temp}{ICON_DEGREES}"
+    temp = f"{temp}{ICON_DEGREES}"
 
-now = datetime.fromtimestamp(time.time())
+    now = datetime.fromtimestamp(time.time())
 
-if now < sunrise:
-    # sunrize
-    sunrise = sunrise.strftime("%H:%M")
-    sun = f"%{{T5}}{ICON_SUNRISE} %{{T1}}{sunrise}"
-else:
-    # sunset
-    sunset = sunset.strftime("%H:%M")
-    sun = f"%{{T5}}{ICON_SUNSET} %{{T1}}{sunset}"
+    if now < sunrise:
+        sunrise = sunrise.strftime("%H:%M")
+        sun = f"%{{T5}}{ICON_SUNRISE} %{{T1}}{sunrise}"
+    else:
+        sunset = sunset.strftime("%H:%M")
+        sun = f"%{{T5}}{ICON_SUNSET} %{{T1}}{sunset}"
+
+        print(f"%{{T1}}%{{A:weather:}}{temp}  {sun}%{{A}}")
 
 
-print(f"%{{T1}}%{{A:weather:}}{description}  {temp}  {sun}%{{A}}")
+if __name__ == "__main__":
+    main()
