@@ -26,6 +26,7 @@ bspc rule --add Chromium state=tiled focus=on desktop='^2' follow=on
 bspc rule --add Gimp desktop='^8' state=tiled follow=on layout=monocle
 bspc rule --add Screenkey manage=off
 bspc rule --add Skype state=tiled focus=on desktop='^9' follow=on
+bspc rule --add Zathura state=tiled focus=on follow=on
 
 # bspc config desktop 2 --layout monocle
 # bspc config desktop 9 --layout monocle
