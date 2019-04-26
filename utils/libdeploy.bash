@@ -135,6 +135,29 @@ function execute {
 }
 
 #######################################
+# Helper function to execute command with elevated privilege.
+# Globals:
+#   None
+# Arguments:
+#   command - command that is to be execute with elevated privileges
+# Returns:
+#   None
+#######################################
+function execute_with_privilege {
+  temp_command=$(echo $@)
+  read -n 1 -sp "${BOLD}${YELLOW} !! ${RESET}| About to run command with priviledge: '${YELLOW}${temp_command}${RESET}'. Do you want to continue? [y/N] " decision
+  echo ''
+  if [ "y" == "$decision" ]
+  then
+    write_to_error_log $@
+    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@&>>${DOTFILES_ERROR_LOG_PATH}
+  else
+    echo "${BOLD}${YELLOW} !! ${RESET}| Aborting.."
+    exit 1
+  fi
+}
+
+#######################################
 # Installs the given packages with the predefined install command.
 # Globals:
 #   None
@@ -148,7 +171,7 @@ function install_packages {
   info "Installing packages: $@"
   for package in $@; do
     if ! pacman -Qi $package &>/dev/null; then
-      execute execute_with_privilege pacman -S --noconfirm --needed $package
+      execute_with_privilege pacman -S --noconfirm --needed $package
     fi
   done
 }
@@ -209,7 +232,6 @@ function link_package {
         warning "Target link ${BOLD}${link_name}${RESET} already exists!"
         user "What do you want to do? [${BOLD}${RED}o${RESET}] overwrite, [${BOLD}${BLUE}b${RESET}] backup, [${BOLD}${YELLOW}s${RESET}] skip? "
         read -n 1 -sp '' action
-        echo ''
       done
 
       output=$(link_file $target $link_name $action)
@@ -316,7 +338,7 @@ function using {
     if which pip&>/dev/null; then return 0; fi
 
     info "Installing pip.."
-    execute execute_with_privilege pacman -S --noconfirm python-pip
+    execute_with_privilege pacman -S --noconfirm python-pip
 
     return 0
   fi
@@ -344,7 +366,7 @@ function using {
     if which jq&>/dev/null; then return 0; fi
 
     info "Installing jq.."
-    execute execute_with_privilege pacman -S --noconfirm jq
+    execute_with_privilege pacman -S --noconfirm jq
 
     return 0
   fi
@@ -394,28 +416,6 @@ function fail {
 #==============================================================================
 #  Do not call theese directly form your scripts!
 #==============================================================================
-
-#######################################
-# Helper function to execute command with elevated privilege.
-# Globals:
-#   None
-# Arguments:
-#   command - command that is to be execute with elevated privileges
-# Returns:
-#   None
-#######################################
-function execute_with_privilege {
-  temp_command=$(echo $@)
-  read -n 1 -sp "${BOLD}${YELLOW} !! ${RESET}| About to run command with priviledge: '${YELLOW}${temp_command}${RESET}'. Do you want to continue? [y/N] " decision
-  echo ''
-  if [ "y" == "$decision" ]
-  then
-    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@
-  else
-    echo "${BOLD}${YELLOW} !! ${RESET}| Aborting.."
-    exit 1
-  fi
-}
 
 
 #######################################
