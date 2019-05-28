@@ -8,4 +8,6 @@ link_package \
 
 link_scripts ledger \
              ./scripts/formatter.py \
-             ./scripts/shared-list.bash
+             ./scripts/shared-list.bash \
+             ./scripts/summary.py \
+             ./scripts/details.py

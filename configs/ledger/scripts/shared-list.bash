@@ -8,12 +8,12 @@ BLUE=$(tput setaf 4)
 RESET=$(tput sgr0)
 BOLD=$(tput bold)
 
-third_text=$(ledger register tag shared and tag third and not tag done --no-color --register-format "%d %50.50P %12t %12T\n")
-third_amount=$(ledger register tag shared and tag third and not tag done --register-format "%T\n" | tail -n 1 | cut -d' ' -f1 | tr -d ',' | tr -d '-')
+third_text=$(ledger register tag shared and tag third and not tag done -X HUF --no-color --register-format "%d %50.50P %12t %12T\n")
+third_amount=$(ledger register tag shared and tag third and not tag done -X HUF --register-format "%T\n" | tail -n 1 | cut -d' ' -f1 | tr -d ',' | tr -d '-')
 third_amount=$(echo "$third_amount / 3" | bc)
 
-full_text=$(ledger register tag shared and tag full and not tag done --no-color --register-format "%d %50.50P %12t %12T\n")
-full_amount=$(ledger register tag shared and tag full and not tag done --register-format "%T\n" | tail -n 1 | cut -d' ' -f1 | tr -d ',' | tr -d '-')
+full_text=$(ledger register tag shared and tag full and not tag done -X HUF --no-color --register-format "%d %50.50P %12t %12T\n")
+full_amount=$(ledger register tag shared and tag full and not tag done -X HUF --register-format "%T\n" | tail -n 1 | cut -d' ' -f1 | tr -d ',' | tr -d '-')
 
 final_amount=$(echo "$third_amount + $full_amount" | bc)
 
