@@ -11,7 +11,7 @@
 # ============================================================================
 #  P A T H   H A N D L I N G
 PATH="${HOME}/.cargo/bin:${PATH}"
-PATH="${HOME}/.npm-global:${PATH}"
+PATH="${HOME}/.npm-global/bin:${PATH}"
 PATH="${HOME}/.scripts:${PATH}"
 PATH="${HOME}/.local/bin:${PATH}"
 export PATH
