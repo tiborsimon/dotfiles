@@ -392,11 +392,11 @@ you should place your code here."
   ;;
 
   (setq inhibit-startup-message t)
-  (setq default-directory "~/secrets/volume/org")
+  (setq default-directory "~/private/notebook")
   (use-package org-tempo)
 
   ;;; Agenda view customizations
-  (with-eval-after-load 'org (setq org-agenda-files (directory-files-recursively "~/secrets/volume/org/" "\.org$")))
+  (with-eval-after-load 'org (setq org-agenda-files (directory-files-recursively "~/private/notebook" "\.org$")))
   (setq spacemacs-theme-org-agenda-height nil)
   (setq org-priority-faces
         '((?A . (:foreground "red" :weight 'bold))
@@ -545,12 +545,12 @@ you should place your code here."
   (global-set-key (kbd "<f6>") 'org-capture)
 
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
-  (setq org-default-notes-file "~/secrets/volume/org/notes.org")
+  (setq org-default-notes-file "~/private/notebook/notes.org")
 
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/secrets/volume/org/refile.org" "Tasks")
+        '(("t" "Todo" entry (file+headline "~/private/notebook/refile.org" "Tasks")
            "* TODO %^{title}\n  CREATED: %U\n   %?" :clock-in t :clock-resume t)
-          ("j" "Journal" entry (file+olp+datetree "~/secrets/volume/org/journal/journal.org")
+          ("j" "Journal" entry (file+olp+datetree "~/private/journal/journal.org")
            "* Entry on %<%H:%M>\n   %?" :clock-in t :clock-resume t)
          )
   )

@@ -1,2 +1,2 @@
---file ~/secrets/volume/org/finance/main.ledger
---price-db ~/secrets/volume/org/finance/price.history
+--file ~/private/finance/main.ledger
+--price-db ~/private/finance/price.history
