@@ -38,6 +38,10 @@ install-fonts:
 install-git:
 	@./utils/install-configs.bash git
 
+.PHONY: install-keybase
+install-keybase:
+	@./utils/install-configs.bash keybase
+
 .PHONY: install-keyboard
 install-keyboard:
 	@./utils/install-configs.bash keyboard
