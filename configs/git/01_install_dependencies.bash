@@ -3,5 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package \
-  ./config/gitconfig ${HOME}/.gitconfig
+# Install fzy as the fuzzy search driver.
+install_packages fzy

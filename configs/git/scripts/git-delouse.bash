@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+curr_sha=$(git sha HEAD)
+
+git reset HEAD~1
+git commit --allow-empty --no-verify -C "$curr_sha"
