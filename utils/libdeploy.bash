@@ -314,9 +314,10 @@ function using {
     pushd ${TEMP_PATH} &> /dev/null
 
     function get_yay_package {
-      curl -sL http://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin > PKGBUILD
-      makepkg
-      execute_with_privilege pacman --noconfirm -U $(ls | grep "yay.*xz")
+      git clone https://aur.archlinux.org/yay.git
+      cd yay
+      makepkg -si
+      cd ..
     }
 
     execute get_yay_package
