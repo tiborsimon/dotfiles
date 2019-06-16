@@ -128,7 +128,7 @@ function clean_up_messages {
 #######################################
 function execute {
   write_to_error_log $@
-  if ! $@&>>${DOTFILES_ERROR_LOG_PATH}; then
+  if ! $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH}; then
     fail "Last command failed. Check the error log at: ${BOLD}${RED}${DOTFILES_ERROR_LOG_PATH}${RESET}."
     exit 1
   fi
@@ -150,7 +150,7 @@ function execute_with_privilege {
   if [ "y" == "$decision" ]
   then
     write_to_error_log $@
-    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@&>>${DOTFILES_ERROR_LOG_PATH}
+    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH}
   else
     echo "${BOLD}${YELLOW} !! ${RESET}| Aborting.."
     exit 1

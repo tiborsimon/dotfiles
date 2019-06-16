@@ -23,7 +23,7 @@ install_packages traceroute
 install_packages udisks2
 
 # Media
-install_package vlc
+install_packages vlc
 
 # File sharing
-install_package transmission-gtk
+install_packages transmission-gtk
