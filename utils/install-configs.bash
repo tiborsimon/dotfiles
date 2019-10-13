@@ -4,22 +4,18 @@
 # Globals:
 #   None
 # Arguments:
-#   None
+#   config - the given config will be installed
+#   None   - all configs will be installed
 # Returns:
 #   None
 #######################################
-
 set -e
 
 # Switching to the script's location.
 cd $(dirname $(readlink -f $0))
+source ./libdeploy.bash
+
 cd ../configs
-
-# Logfile path in the repository root.
-export DOTFILES_ERROR_LOG_PATH=$(readlink -f ../error.log)
-export MESSAGES_PATH=$(readlink -f ../temp.msg)
-
-source ../utils/libdeploy.bash
 
 init_error_log
 init_messages

@@ -38,3 +38,5 @@
 
 [color "branch"]
     remote = yellow
+[protocol "keybase"]
+	allow = always

@@ -27,3 +27,4 @@ install_packages vlc
 
 # File sharing
 install_packages transmission-gtk
+

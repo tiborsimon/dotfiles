@@ -3,8 +3,6 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-link_package \
-  ./config/tmux.conf ${HOME}/.tmux.conf
+link_config ./config/tmux.conf ${HOME}/.tmux.conf
 
-link_scripts tmux \
-             ./scripts/init.bash
+link_script ./scripts/init.bash my-tmux-init

@@ -31,19 +31,20 @@ ERROR   := [$(BOLD)$(RED)FAIL$(RESET)]
 .PHONY: help
 help:
 	@echo ""
-	@echo "$(BOLD)$(BLUE)===================================================================$(RESET)"
-	@echo "                $(BOLD)$(GREEN).o0 $(BLUE)~$(RESET) $(BOLD_NAME) make interface $(BOLD)$(BLUE)~ $(GREEN)0o.$(RESET)"
-	@echo "$(BOLD)$(BLUE)===================================================================$(RESET)"
 	@echo ""
-	@echo "   $(BOLD)$(BLUE)help$(RESET)            Prints out this help message."
+	@echo "$(BOLD)$(BLUE)-------------------------------------------------------------------$(RESET)"
+	@echo "  $(BOLD) $(BOLD_NAME) make interface $(RESET)"
+	@echo "$(BOLD)$(BLUE)-------------------------------------------------------------------$(RESET)"
 	@echo ""
-	@echo "   $(BOLD)$(GREEN)all$(RESET)             Performs all commands at once."
+	@echo "   $(BOLD)$(BLUE)help$(RESET)              Prints out this help message."
 	@echo ""
-	@echo "   $(BOLD)$(YELLOW)install$(RESET)         Installs the dependencies."
-	@echo "   $(BOLD)$(YELLOW)install-custom$(RESET)  Executes the custom dependency installations."
-	@echo "   $(BOLD)$(YELLOW)deploy$(RESET)          Deploys the configuration files."
+	@echo "   $(BOLD)$(GREEN)install$(RESET)           Installs all configurations."
+	@echo "   $(BOLD)$(GREEN)install-*$(RESET)         Installs the given configuration."
 	@echo ""
-	@echo "$(BOLD)$(BLUE)===================================================================$(RESET)"
+	@echo "   $(BOLD)$(BLUE)generate-targets$(RESET)  Regenerates the config target list.."
+	@echo ""
+	@echo "   $(BOLD)$(YELLOW)test$(RESET)              Runs the test suite."
+	@echo ""
 
 
 # =======================================================================================
@@ -54,12 +55,7 @@ install:
 	@./utils/install-scripts.bash
 	@./utils/install-configs.bash
 
-.PHONY: install-scripts
-install-scripts:
-	@./utils/install-scripts.bash
-
-
-include ./utils/Makefile.targets
+# include ./utils/Makefile.targets
 
 .PHONY: generate-targets
 generate-targets:

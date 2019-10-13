@@ -2,6 +2,9 @@
 # Configuration deployment functions.
 #######################################
 
+# Absolute root of the repository.
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
 # A prefix can be specified that will be prepended to the link names to easily
 # be able to distinguish them from the system commands. This also helps to
 # search between them.
@@ -10,6 +13,17 @@ PREFIX="my"
 # The preferred location is the user's local directory. Make sure that your
 # PATH contains this location.
 LINK_PATH="${HOME}/.local/bin"
+
+# The fifo that connects the two panes of the installer window. It is created
+# and deleted by the installer script.
+LOG_PIPE="${REPO_ROOT}/dotfiles.fifo"
+
+# Persistent error log file that will hold the last execution full log.
+ERROR_LOG_FILE="${REPO_ROOT}/error.log"
+
+# Config packages can store messages that will be displayed at the end of the
+# installer script to remind the user various additional tasks.
+MESSAGES_FILE="${REPO_ROOT}/messages.tmp"
 
 
 #==============================================================================
@@ -27,7 +41,7 @@ LINK_PATH="${HOME}/.local/bin"
 #######################################
 function init_error_log {
   clean_up_error_log
-  touch "${DOTFILES_ERROR_LOG_PATH}"
+  touch "${ERROR_LOG_FILE}"
 }
 
 #######################################
@@ -40,8 +54,8 @@ function init_error_log {
 #   None
 #######################################
 function write_to_error_log {
-  echo ------------------------------ >> "${DOTFILES_ERROR_LOG_PATH}"
-  echo "$@" >> "${DOTFILES_ERROR_LOG_PATH}"
+  echo ------------------------------ >> "${ERROR_LOG_FILE}"
+  echo "$@" >> "${ERROR_LOG_FILE}"
 }
 
 #######################################
@@ -54,7 +68,7 @@ function write_to_error_log {
 #   None
 #######################################
 function clean_up_error_log {
-  rm -f "${DOTFILES_ERROR_LOG_PATH}"
+  rm -f "${ERROR_LOG_FILE}"
 }
 
 #######################################
@@ -68,7 +82,7 @@ function clean_up_error_log {
 #######################################
 function init_messages {
   clean_up_messages
-  touch "${MESSAGES_PATH}"
+  touch "${MESSAGES_FILE}"
 }
 
 #######################################
@@ -81,7 +95,7 @@ function init_messages {
 #   None
 #######################################
 function write_to_messages {
-  echo "$@" >> "${MESSAGES_PATH}"
+  echo "$@" >> "${MESSAGES_FILE}"
 }
 
 #######################################
@@ -94,11 +108,11 @@ function write_to_messages {
 #   None
 #######################################
 function display_messages {
-  if [ -s ${MESSAGES_PATH} ]
+  if [ -s ${MESSAGES_FILE} ]
   then
     echo ""
     echo "============================================================================="
-    cat ${MESSAGES_PATH}
+    cat ${MESSAGES_FILE}
     echo "============================================================================="
   fi
 }
@@ -113,7 +127,7 @@ function display_messages {
 #   None
 #######################################
 function clean_up_messages {
-  rm -f "${MESSAGES_PATH}"
+  rm -f "${MESSAGES_FILE}"
 }
 
 #######################################
@@ -128,8 +142,8 @@ function clean_up_messages {
 #######################################
 function execute {
   write_to_error_log $@
-  if ! $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH}; then
-    fail "Last command failed. Check the error log at: ${BOLD}${RED}${DOTFILES_ERROR_LOG_PATH}${RESET}."
+  if ! $@ 2>&1 | tee ${ERROR_LOG_FILE} ${LOG_PIPE}; then
+    fail "Last command failed. Check the error log at: ${BOLD}${RED}${ERROR_LOG_FILE}${RESET}."
     exit 1
   fi
 }
@@ -150,7 +164,7 @@ function execute_with_privilege {
   if [ "y" == "$decision" ]
   then
     write_to_error_log $@
-    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH}
+    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@ 2>&1 | tee ${ERROR_LOG_FILE}
   else
     echo "${BOLD}${YELLOW} !! ${RESET}| Aborting.."
     exit 1
@@ -254,31 +268,24 @@ function link_package {
 # Arguments:
 #   category_name - name of the scripts category
 #   script_path - path of the linkable script
-#   [..] - repeated script_paths
 # Returns:
 #   None
 #######################################
-function link_scripts {
+function link_script {
   local script_category=$1
-  shift
+  local script_path=$2
 
   # Making sure that the target path exists..
   mkdir -p ${LINK_PATH}
 
-  while [[ $# -gt 0 ]]; do
-    # Getting the next script path.
-    local script_path=$1
-    shift
+  # Getting the name without the extension.
+  script_name=$(basename $script_path | cut -d. -f1)
 
-    # Getting the name without the extension.
-    script_name=$(basename $script_path | cut -d. -f1)
+  # Assembling the script's full name that would be linked to.
+  script_full_name="${PREFIX}-${script_category}-${script_name}"
 
-    # Assembling the script's full name that would be linked to.
-    script_full_name="${PREFIX}-${script_category}-${script_name}"
-
-    # Calling the library linker fuction.
-    link_package ${script_path} ${LINK_PATH}/${script_full_name}
-  done
+  # Calling the library linker fuction.
+  link_package ${script_path} ${LINK_PATH}/${script_full_name}
 }
 
 #######################################
@@ -376,40 +383,181 @@ function using {
   return 1
 }
 
+if which tput &>/dev/null
+then
+  RED=$(tput setaf 1)
+  RED_BG=$(tput setab 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  MAGENTA=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  RESET=$(tput sgr0)
+  BOLD=$(tput bold)
+else
+  RED=""
+  RED_BG=""
+  GREEN=""
+  YELLOW=""
+  BLUE=""
+  MAGENTA=""
+  CYAN=""
+  RESET=""
+  BOLD=""
+fi
 
-RED=$(tput setaf 1)
-RED_BG=$(tput setab 1)
-GREEN=$(tput setaf 2)
-YELLOW=$(tput setaf 3)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-RESET=$(tput sgr0)
-BOLD=$(tput bold)
+#######################################
+# Function that prints a horizontal line to the sidebar. It can draw three type
+# of lines.
+# Globals:
+#   SIDEBAR_WIDTH
+#   LINE_COLOR
+# Arguments:
+#   None
+# Flags:
+#   --doube - double line
+#   --top   - line that can be used as a sidebar top
+# Returns:
+#   None
+#######################################
+function line {
+  local flag=${1:-}
+  echo -n "${LINE_COLOR}"
+  if [ "$flag" = "--double" ]
+  then
+    python -c "print('═' * 4 + '╪' + '═' * ($SIDEBAR_WIDTH - 5))"
+  elif [ "$flag" = "--top" ]
+  then
+    python -c "print('─' * 4 + '┬' + '─' * ($SIDEBAR_WIDTH - 5))"
+  else
+    python -c "print('─' * 4 + '┼' + '─' * ($SIDEBAR_WIDTH - 5))"
+  fi
+  echo -n "${RESET}"
+}
 
-function task {
-  echo " ${BOLD}${BLUE}>>${RESET} | $@"
+function fold_message {
+  echo "$@" | fold --spaces --width=$(($SIDEBAR_WIDTH - 7)) | sed -e ":a;N;\$!ba;s/\n/\n    ${LINE_COLOR}│${RESET} /g"
 }
 
 function info {
-  echo " ${BOLD}${CYAN}..${RESET} | $@"
+  message=$(fold_message "$@")
+  echo " ${BOLD}${CYAN}..${RESET} ${LINE_COLOR}│${RESET} $message"
 }
 
-function user {
-  echo " ${BOLD}${BLUE}??${RESET} | $@"
+function task {
+  message=$(fold_message "$@")
+  echo " ${BOLD}${BLUE}>>${RESET} ${LINE_COLOR}│${RESET} $message"
 }
 
 function success {
-  echo " ${BOLD}${GREEN}ok${RESET} | $@"
+  message=$(fold_message "$@")
+  echo " ${BOLD}${GREEN}ok${RESET} ${LINE_COLOR}│${RESET} $message"
 }
 
 function warning {
-  echo " ${BOLD}${YELLOW}!!${RESET} | $@"
+  message=$(fold_message "$@")
+  echo " ${BOLD}${YELLOW}!!${RESET} ${LINE_COLOR}│${RESET} $message"
 }
 
 function fail {
-  echo " ${BOLD}${RED}!!${RESET} | $@"
+  message=$(fold_message "$@")
+  echo " ${BOLD}${RED}!!${RESET} ${LINE_COLOR}│${RESET} $message"
 }
+
+function render_option {
+  local color=$1
+  shift
+  local key=$1
+  shift
+  local description=$1
+  echo  "    ${LINE_COLOR}│${RESET}  ${BOLD}[${color}${key}${RESET}] $description"
+}
+
+function option {
+  local cr=$(echo $'\n.')
+  cr=${cr%.}
+
+  local options=""
+  local keys=""
+
+  while [[ $# -gt 0 ]]
+  do
+    key="$1"
+    case $key in
+      -g|--green)
+        options="${options}${cr}$(render_option ${GREEN} "$2" "$3")"
+        keys="$keys $2"
+        shift # past color
+        shift # past key
+        shift # past description
+        ;;
+      -y|--yellow)
+        options="${options}${cr}$(render_option ${YELLOW} "$2" "$3")"
+        keys="$keys $2"
+        shift # past color
+        shift # past key
+        shift # past description
+        ;;
+      -b|--blue)
+        options="${options}${cr}$(render_option ${BLUE} "$2" "$3")"
+        keys="$keys $2"
+        shift # past color
+        shift # past key
+        shift # past description
+        ;;
+      -r|--red)
+        options="${options}${cr}$(render_option ${RED} "$2" "$3")"
+        keys="$keys $2"
+        shift # past color
+        shift # past key
+        shift # past description
+        ;;
+      -m|--magenta)
+        options="${options}${cr}$(render_option ${MAGENTA} "$2" "$3")"
+        keys="$keys $2"
+        shift # past color
+        shift # past key
+        shift # past description
+        ;;
+      -c|--cyan)
+        options="${options}${cr}$(render_option ${CYAN} "$2" "$3")"
+        keys="$keys $2"
+        shift # past color
+        shift # past key
+        shift # past description
+        ;;
+      *)
+        local prompt="$@"
+        shift
+        ;;
+    esac
+  done
+
+  line
+  prompt=$(fold_message "$prompt")
+
+  if [ -n "$keys" ]
+  then
+    result="│"
+    while ! echo "$keys" | grep --silent "$result"
+    do
+      echo " ${BOLD}${YELLOW}??${RESET} ${LINE_COLOR}│${RESET} ${prompt}"
+      echo "    ${LINE_COLOR}│${RESET}${options}"
+      echo "    ${LINE_COLOR}│${RESET}"
+      echo -n "    ${LINE_COLOR}│${RESET} > "
+      read -n 1 -p "" result
+      echo ""
+      line
+    done
+  else
+    echo " ${BOLD}${YELLOW}??${RESET} ${LINE_COLOR}│${RESET} ${prompt}"
+    echo -n "    ${LINE_COLOR}│${RESET} > "
+    read -n 1 -p "" result
+    echo ""
+    line
+  fi
+}
+
 
 
 #==============================================================================
