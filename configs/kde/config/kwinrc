@@ -1,0 +1,77 @@
+[$Version]
+update_info=kwin.upd:replace-scalein-with-scale,kwin.upd:port-minimizeanimation-effect-to-js,kwin.upd:port-scale-effect-to-js,kwin.upd:port-dimscreen-effect-to-js,kwin.upd:auto-bordersize,kwin.upd:animation-speed,kwin.upd:desktop-grid-click-behavior,kwin.upd:no-swap-encourage
+
+[Compositing]
+OpenGLIsUnsafe=false
+
+[Desktops]
+Id_1=1e618e3d-09a3-4e00-9fb4-07c7792125aa
+Id_2=93ee3b37-d5f7-4621-995c-45aebdd93ae1
+Id_3=001534fa-927b-4622-89df-0fe302d55928
+Id_4=6251d2a8-5bfb-4470-bdb4-da75919d9145
+Id_5=d9ec545e-dfd6-4be2-bbda-0aacc705941a
+Id_6=31adfa43-18d2-43d8-b41a-1e5b83817b37
+Id_7=1899e06a-2e4c-4e1f-bb8b-cef03b915d01
+Id_8=ba362e83-9128-437c-80df-59f8cc00cbc5
+Id_9=04197fcb-2185-4b18-84f9-0970213bd904
+Name_1=Projects
+Name_2=Web
+Name_3=Work
+Name_4=New Desktop
+Name_5=New Desktop
+Name_6=New Desktop
+Name_7=New Desktop
+Name_8=New Desktop
+Name_9=New Desktop
+Number=9
+Rows=1
+
+[Effect-PresentWindows]
+BorderActivateAll=9
+
+[ElectricBorders]
+Left=None
+TopLeft=ApplicationLauncher
+TopRight=ShowDesktop
+
+[ModifierOnlyShortcuts]
+Meta=
+
+[NightColor]
+Active=true
+EveningBeginFixed=1800
+Mode=Times
+MorningBeginFixed=0600
+
+[Plugins]
+krohnkiteEnabled=true
+minimizeallEnabled=false
+synchronizeskipswitcherEnabled=false
+videowallEnabled=false
+
+[Script-krohnkite]
+directionalKeyDwm=false
+directionalKeyFocus=true
+enableSpreadLayout=false
+enableStairLayout=false
+layoutPerActivity=false
+layoutPerDesktop=false
+newWindowAsMaster=true
+screenGapBottom=12
+screenGapLeft=12
+screenGapRight=12
+screenGapTop=12
+tileLayoutGap=12
+
+[TabBox]
+BorderActivate=9
+
+[Windows]
+ActiveMouseScreen=false
+DelayFocusInterval=200
+ElectricBorderDelay=50
+RollOverDesktops=false
+
+[org.kde.kdecoration2]
+BorderSize=Normal
+BorderSizeAuto=false

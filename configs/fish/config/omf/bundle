@@ -1,7 +1,0 @@
-package cd
-package git-flow
-package pj
-package rustup
-package spark
-theme bobthefish
-theme default

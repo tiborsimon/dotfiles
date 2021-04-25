@@ -1,144 +1,32 @@
-.PHONY: install-alacritty
-install-alacritty:
-	@./utils/install-configs.bash alacritty
-
-.PHONY: install-bash
-install-bash:
-	@./utils/install-configs.bash bash
-
-.PHONY: install-bspwm
-install-bspwm:
-	@./utils/install-configs.bash bspwm
-
-.PHONY: install-compton
-install-compton:
-	@./utils/install-configs.bash compton
-
 .PHONY: install-docker
 install-docker:
 	@./utils/install-configs.bash docker
-
-.PHONY: install-emacs
-install-emacs:
-	@./utils/install-configs.bash emacs
-
-.PHONY: install-firewall
-install-firewall:
-	@./utils/install-configs.bash firewall
-
-.PHONY: install-fish
-install-fish:
-	@./utils/install-configs.bash fish
-
-.PHONY: install-fonts
-install-fonts:
-	@./utils/install-configs.bash fonts
 
 .PHONY: install-git
 install-git:
 	@./utils/install-configs.bash git
 
-.PHONY: install-keybase
-install-keybase:
-	@./utils/install-configs.bash keybase
-
-.PHONY: install-keyboard
-install-keyboard:
-	@./utils/install-configs.bash keyboard
+.PHONY: install-kde
+install-kde:
+	@./utils/install-configs.bash kde
 
 .PHONY: install-ledger
 install-ledger:
 	@./utils/install-configs.bash ledger
 
-.PHONY: install-lemon-modules
-install-lemon-modules:
-	@./utils/install-configs.bash lemon-modules
-
-.PHONY: install-machine
-install-machine:
-	@./utils/install-configs.bash machine
-
-.PHONY: install-moc
-install-moc:
-	@./utils/install-configs.bash moc
-
-.PHONY: install-mpv
-install-mpv:
-	@./utils/install-configs.bash mpv
-
-.PHONY: install-nvim
-install-nvim:
-	@./utils/install-configs.bash nvim
-
 .PHONY: install-openvpn
 install-openvpn:
 	@./utils/install-configs.bash openvpn
-
-.PHONY: install-power
-install-power:
-	@./utils/install-configs.bash power
-
-.PHONY: install-profile
-install-profile:
-	@./utils/install-configs.bash profile
-
-.PHONY: install-pypi
-install-pypi:
-	@./utils/install-configs.bash pypi
-
-.PHONY: install-python
-install-python:
-	@./utils/install-configs.bash python
 
 .PHONY: install-ranger
 install-ranger:
 	@./utils/install-configs.bash ranger
 
-.PHONY: install-redshift
-install-redshift:
-	@./utils/install-configs.bash redshift
-
 .PHONY: install-ripgrep
 install-ripgrep:
 	@./utils/install-configs.bash ripgrep
 
-.PHONY: install-rust
-install-rust:
-	@./utils/install-configs.bash rust
-
-.PHONY: install-spacemacs
-install-spacemacs:
-	@./utils/install-configs.bash spacemacs
-
-.PHONY: install-sudoers
-install-sudoers:
-	@./utils/install-configs.bash sudoers
-
-.PHONY: install-sxhkd
-install-sxhkd:
-	@./utils/install-configs.bash sxhkd
-
-.PHONY: install-tmux
-install-tmux:
-	@./utils/install-configs.bash tmux
-
-.PHONY: install-tools
-install-tools:
-	@./utils/install-configs.bash tools
-
-.PHONY: install-vifm
-install-vifm:
-	@./utils/install-configs.bash vifm
-
-.PHONY: install-vim
-install-vim:
-	@./utils/install-configs.bash vim
-
-.PHONY: install-xorg
-install-xorg:
-	@./utils/install-configs.bash xorg
-
-.PHONY: install-zathura
-install-zathura:
-	@./utils/install-configs.bash zathura
+.PHONY: install-udevmon
+install-udevmon:
+	@./utils/install-configs.bash udevmon
 
