@@ -21,7 +21,7 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][1][Applets][2][Configuration]
-PreloadWeight=86
+PreloadWeight=87
 
 [Containments][1][Applets][2][Configuration][General]
 favorites=firefox.desktop,org.kde.dolphin.desktop,org.kde.konversation.desktop,libreoffice-writer.desktop,cantata.desktop,kde4-digikam.desktop,org.kde.konsole.desktop,pamac-manager.desktop,pamac-updater.desktop,systemsettings.desktop
@@ -114,7 +114,7 @@ immutability=1
 plugin=org.kde.plasma.systemmonitor
 
 [Containments][17][Applets][24][Configuration]
-PreloadWeight=34
+PreloadWeight=10
 
 [Containments][17][Applets][24][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -135,6 +135,9 @@ totalSensors=["cpu/all/usage"]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
 
+[Containments][17][Applets][25][Configuration]
+PreloadWeight=26
+
 [Containments][17][Applets][25][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 title=Hard Disk Activity
@@ -149,6 +152,9 @@ highPrioritySensorIds=["disk/all/write","disk/all/read"]
 [Containments][17][Applets][26]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
+
+[Containments][17][Applets][26][Configuration]
+PreloadWeight=26
 
 [Containments][17][Applets][26][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -165,6 +171,9 @@ totalSensors=["memory/physical/usedPercent"]
 [Containments][17][Applets][27]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
+
+[Containments][17][Applets][27][Configuration]
+PreloadWeight=26
 
 [Containments][17][Applets][27][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -215,9 +224,6 @@ plugin=org.kde.plasma.volume
 
 [Containments][8][Applets][11][Configuration]
 PreloadWeight=0
-
-[Containments][8][Applets][11][Configuration][General]
-globalMute=true
 
 [Containments][8][Applets][12]
 immutability=1

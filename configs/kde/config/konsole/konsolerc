@@ -1,0 +1,24 @@
+[Desktop Entry]
+DefaultProfile=tibor.profile
+
+[Favorite Profiles]
+Favorites=Breath2.profile
+
+[KFileDialog Settings]
+Recent Files[$e]=tibor,file:$HOME/.local/share/konsole/shortcuts/tibor
+Recent URLs[$e]=file:$HOME/.local/share/konsole/shortcuts/,file:$HOME/.local/share/konsole/,file:$HOME/.local/share/,file:$HOME/.local/
+detailViewIconSize=16
+
+[KonsoleWindow]
+SaveGeometryOnExit=false
+ShowMenuBarByDefault=false
+
+[MainWindow]
+State=AAAA/wAAAAD9AAAAAAAABAQAAAPmAAAABAAAAAQAAAAIAAAACPwAAAAA
+ToolBarsMovable=Disabled
+
+[Shortcut Schemes]
+Current Scheme=tibor
+
+[SplitView]
+SplitViewVisibility=AlwaysHideSplitHeader

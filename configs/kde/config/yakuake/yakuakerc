@@ -1,0 +1,7 @@
+[Appearance]
+Skin=breath2_dark
+
+[Window]
+Height=100
+ShowSystrayIcon=false
+Width=100
