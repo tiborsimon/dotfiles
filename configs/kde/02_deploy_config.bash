@@ -46,6 +46,8 @@ link_package \
 # Yakuake
 #=============================================================================
 
+mkdir -p ~/.local/share/yakuake/shortcuts
 link_package \
   "./config/yakuake/yakuakerc" "${HOME}/.config/yakuakerc" \
+  "./config/yakuake/tibor.shortcuts" "${HOME}/.local/share/yakuake/shortcuts/tibor" \
 

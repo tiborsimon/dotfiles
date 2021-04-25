@@ -1,6 +1,33 @@
 [Appearance]
 Skin=breath2_dark
 
+[KFileDialog Settings]
+Recent Files[$e]=tibor,file:$HOME/.local/share/yakuake/shortcuts/tibor
+Recent URLs[$e]=file:$HOME/.local/share/yakuake/shortcuts/,file:$HOME/.local/share/yakuake/,file:$HOME/.local/share/,file:$HOME/.local/
+detailViewIconSize=16
+
+[Shortcuts]
+grow-terminal-bottom=Ctrl+Alt+Shift+Down
+grow-terminal-left=Ctrl+Alt+Shift+Left
+grow-terminal-right=Ctrl+Alt+Shift+Right
+grow-terminal-top=Ctrl+Alt+Shift+Up
+next-session=Ctrl+Shift+L
+next-terminal=Ctrl+Alt+Shift+J
+previous-session=Ctrl+Shift+H
+previous-terminal=Ctrl+Alt+Shift+K
+split-left-right=Ctrl+Alt+|
+split-top-bottom=Ctrl+Alt+_
+switch-to-session-1=Ctrl+!
+switch-to-session-10=none
+switch-to-session-2=Ctrl+@
+switch-to-session-3=Ctrl+#
+switch-to-session-4=Ctrl+$
+switch-to-session-5=Ctrl+%
+switch-to-session-6=Ctrl+^
+switch-to-session-7=Ctrl+&
+switch-to-session-8=Ctrl+*
+switch-to-session-9=Ctrl+(
+
 [Window]
 Height=100
 ShowSystrayIcon=false
