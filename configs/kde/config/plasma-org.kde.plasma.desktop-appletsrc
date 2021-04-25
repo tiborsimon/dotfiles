@@ -21,7 +21,7 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][1][Applets][2][Configuration]
-PreloadWeight=92
+PreloadWeight=86
 
 [Containments][1][Applets][2][Configuration][General]
 favorites=firefox.desktop,org.kde.dolphin.desktop,org.kde.konversation.desktop,libreoffice-writer.desktop,cantata.desktop,kde4-digikam.desktop,org.kde.konsole.desktop,pamac-manager.desktop,pamac-updater.desktop,systemsettings.desktop
@@ -100,7 +100,7 @@ PreloadWeight=0
 AppletOrder=2;3;21;8;23;7
 
 [Containments][17]
-ItemGeometriesHorizontal=Applet-24:1712,16,192,304,0;
+ItemGeometriesHorizontal=Applet-27:1520,144,192,176,0;Applet-24:1712,16,192,304,0;Applet-25:1504,320,192,192,0;Applet-26:1568,544,192,256,0;
 activityId=667db0be-89f4-484a-aba7-31d96a9e1b0b
 formfactor=0
 immutability=1
@@ -112,6 +112,9 @@ wallpaperplugin=org.kde.image
 [Containments][17][Applets][24]
 immutability=1
 plugin=org.kde.plasma.systemmonitor
+
+[Containments][17][Applets][24][Configuration]
+PreloadWeight=34
 
 [Containments][17][Applets][24][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -128,6 +131,52 @@ cpu/cpu3/usage=139,188,26
 highPrioritySensorIds=["cpu/cpu.*/usage"]
 totalSensors=["cpu/all/usage"]
 
+[Containments][17][Applets][25]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][17][Applets][25][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Hard Disk Activity
+
+[Containments][17][Applets][25][Configuration][SensorColors]
+disk/all/read=188,26,58
+disk/all/write=26,188,156
+
+[Containments][17][Applets][25][Configuration][Sensors]
+highPrioritySensorIds=["disk/all/write","disk/all/read"]
+
+[Containments][17][Applets][26]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][17][Applets][26][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=Memory Usage
+
+[Containments][17][Applets][26][Configuration][SensorColors]
+memory/physical/used=26,188,156
+
+[Containments][17][Applets][26][Configuration][Sensors]
+highPrioritySensorIds=["memory/physical/used"]
+lowPrioritySensorIds=["memory/physical/total"]
+totalSensors=["memory/physical/usedPercent"]
+
+[Containments][17][Applets][27]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][17][Applets][27][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Network speed
+
+[Containments][17][Applets][27][Configuration][SensorColors]
+network/all/download=26,188,156
+network/all/upload=188,26,58
+
+[Containments][17][Applets][27][Configuration][Sensors]
+highPrioritySensorIds=["network/all/download","network/all/upload"]
+
 [Containments][17][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
@@ -141,7 +190,7 @@ ToolBoxButtonX=577
 ToolBoxButtonY=20
 
 [Containments][17][Wallpaper][org.kde.image][General]
-Image=/usr/share/backgrounds/manjaro-wallpapers-18.0/manjaro_maia_logo.jpg
+Image=file:///usr/share/backgrounds/manjaro-wallpapers-18.0/manjaro_maia_logo.jpg
 SlidePaths=/usr/share/wallpapers
 
 [Containments][8]
@@ -231,7 +280,7 @@ immutability=1
 plugin=org.kde.plasma.mediacontroller
 
 [Containments][8][Applets][22][Configuration]
-PreloadWeight=2
+PreloadWeight=0
 
 [Containments][8][Applets][9]
 immutability=1
