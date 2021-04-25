@@ -19,4 +19,7 @@ link_package \
   "./config/powermanagementprofilesrc" "${HOME}/.config/powermanagementprofilesrc" \
   "./config/baloofilerc" "${HOME}/.config/baloofilerc" \
   "./config/touchpadxlibinputrc" "${HOME}/.config/touchpadxlibinputrc" \
+  "./config/breezerc" "${HOME}/.config/breezerc" \
+  "./config/plasma-org.kde.plasma.desktop-appletsrc" "${HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" \
+  "./config/plasmashellrc" "${HOME}/.config/plasmashellrc" \
 
