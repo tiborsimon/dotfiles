@@ -6,7 +6,7 @@ Favorites=Breath2.profile
 
 [KFileDialog Settings]
 Recent Files[$e]=tibor,file:$HOME/.local/share/konsole/shortcuts/tibor
-Recent URLs[$e]=file:$HOME/.local/share/konsole/shortcuts/,file:$HOME/.local/share/konsole/,file:$HOME/.local/share/,file:$HOME/.local/
+Recent URLs[$e]=file:$HOME/.local/share/konsole/shortcuts/,file:$HOME/.local/share/konsole/,file:$HOME/.local/share/,file:$HOME/.local/,file:$HOME/
 detailViewIconSize=16
 
 [KonsoleWindow]

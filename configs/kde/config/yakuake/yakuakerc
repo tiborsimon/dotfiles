@@ -3,7 +3,7 @@ Skin=breath2_dark
 
 [KFileDialog Settings]
 Recent Files[$e]=tibor,file:$HOME/.local/share/yakuake/shortcuts/tibor
-Recent URLs[$e]=file:$HOME/.local/share/yakuake/shortcuts/,file:$HOME/.local/share/yakuake/,file:$HOME/.local/share/,file:$HOME/.local/
+Recent URLs[$e]=file:$HOME/.local/share/yakuake/shortcuts/,file:$HOME/.local/share/yakuake/,file:$HOME/.local/share/,file:$HOME/.local/,file:$HOME/
 detailViewIconSize=16
 
 [Shortcuts]
@@ -11,12 +11,14 @@ grow-terminal-bottom=Ctrl+Alt+Shift+Down
 grow-terminal-left=Ctrl+Alt+Shift+Left
 grow-terminal-right=Ctrl+Alt+Shift+Right
 grow-terminal-top=Ctrl+Alt+Shift+Up
+new-session-quad=Ctrl+Alt+$
+new-session-two-vertical=Ctrl+Alt+@
 next-session=Ctrl+Shift+L
 next-terminal=Ctrl+Alt+Shift+J
 previous-session=Ctrl+Shift+H
 previous-terminal=Ctrl+Alt+Shift+K
-split-left-right=Ctrl+Alt+|
-split-top-bottom=Ctrl+Alt+_
+split-left-right=Ctrl+|
+split-top-bottom=Ctrl+_
 switch-to-session-1=Ctrl+!
 switch-to-session-10=none
 switch-to-session-2=Ctrl+@
