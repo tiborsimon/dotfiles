@@ -1,6 +1,14 @@
+.PHONY: install-bash
+install-bash:
+	@./utils/install-configs.bash bash
+
 .PHONY: install-docker
 install-docker:
 	@./utils/install-configs.bash docker
+
+.PHONY: install-emacs
+install-emacs:
+	@./utils/install-configs.bash emacs
 
 .PHONY: install-git
 install-git:
@@ -18,6 +26,10 @@ install-ledger:
 install-openvpn:
 	@./utils/install-configs.bash openvpn
 
+.PHONY: install-profile
+install-profile:
+	@./utils/install-configs.bash profile
+
 .PHONY: install-ranger
 install-ranger:
 	@./utils/install-configs.bash ranger
@@ -29,4 +41,8 @@ install-ripgrep:
 .PHONY: install-udevmon
 install-udevmon:
 	@./utils/install-configs.bash udevmon
+
+.PHONY: install-zsh
+install-zsh:
+	@./utils/install-configs.bash zsh
 
