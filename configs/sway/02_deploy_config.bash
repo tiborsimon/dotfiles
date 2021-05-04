@@ -3,4 +3,5 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-execute_with_privilege cp -vf ./config/my-sudoers /etc/sudoers.d/my-sudoers
+link_package \
+  ./config/config ${HOME}/.config/sway/config

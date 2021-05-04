@@ -10,9 +10,9 @@
 
 # ============================================================================
 #  P A T H   H A N D L I N G
-PATH="${HOME}/.cargo/bin:${PATH}"
-PATH="${HOME}/.npm-global/bin:${PATH}"
-PATH="${HOME}/.scripts:${PATH}"
+# PATH="${HOME}/.cargo/bin:${PATH}"
+# PATH="${HOME}/.npm-global/bin:${PATH}"
+# PATH="${HOME}/.scripts:${PATH}"
 PATH="${HOME}/.local/bin:${PATH}"
 export PATH
 
@@ -21,16 +21,18 @@ export PATH
 #  G L O B A L   V A R I A B L E   H A N D L I N G
 export TERMINAL="alacritty"
 export XDG_CONFIG_HOME="${HOME}/.config"
-export EDITOR="vim"
+export EDITOR="nvim"
 export PROJECTS="${HOME}/projects"
-export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
-export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
+# export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
+# export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
+
+export MOZ_ENABLE_WAYLAND=1
 
 
 # ============================================================================
 #  A P I   K E Y   H A N D L I N G
 export API_KEYS_FILE="${HOME}/.api_keys"
-if [[ -a $API_KEYS_FILE ]]
+if [ -s $API_KEYS_FILE ]
 then
   source $API_KEYS_FILE
 fi

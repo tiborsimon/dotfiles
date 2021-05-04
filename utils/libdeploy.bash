@@ -128,7 +128,7 @@ function clean_up_messages {
 #######################################
 function execute {
   write_to_error_log $@
-  if ! $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH}; then
+  if ! $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH} | sed 's/^/    | /' ; then
     fail "Last command failed. Check the error log at: ${BOLD}${RED}${DOTFILES_ERROR_LOG_PATH}${RESET}."
     exit 1
   fi
@@ -145,12 +145,14 @@ function execute {
 #######################################
 function execute_with_privilege {
   temp_command=$(echo $@)
-  read -n 1 -sp "${BOLD}${YELLOW} !! ${RESET}| About to run command with priviledge: '${YELLOW}${temp_command}${RESET}'. Do you want to continue? [y/N] " decision
+  echo "${BOLD}${YELLOW} !! ${RESET}| About to run command with priviledge:"
+  echo "${BOLD}${YELLOW} !! ${RESET}| ${YELLOW}${BOLD}${temp_command}${RESET}"
+  read -n 1 -sp "${BOLD}${YELLOW} !! ${RESET}| Do you want to continue? [y/N] " decision
   echo ''
   if [ "y" == "$decision" ]
   then
     write_to_error_log $@
-    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH}
+    sudo --preserve-env --shell --prompt="${BOLD}${YELLOW} !! ${RESET}| [sudo] password for ${BOLD}${USER}${RESET}: " $@ 2>&1 | tee ${DOTFILES_ERROR_LOG_PATH} | sed 's/^/    | /' 
   else
     echo "${BOLD}${YELLOW} !! ${RESET}| Aborting.."
     exit 1
@@ -324,7 +326,7 @@ function using {
 
     # package is ready, we want to install it now
     # the package is az xz package
-    # run_with_privilege pacman --noconfirm -U $(ls | grep "yay.*xz")
+    run_with_privilege pacman --noconfirm -U $(ls | grep "yay.*xz")
 
     popd &> /dev/null
     rm -rf ${TEMP_PATH}
