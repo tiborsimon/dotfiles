@@ -34,6 +34,10 @@ install-git:
 install-keybase:
 	@./utils/install-configs.bash keybase
 
+.PHONY: install-kitty
+install-kitty:
+	@./utils/install-configs.bash kitty
+
 .PHONY: install-ledger
 install-ledger:
 	@./utils/install-configs.bash ledger

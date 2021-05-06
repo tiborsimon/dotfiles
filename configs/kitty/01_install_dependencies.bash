@@ -3,5 +3,4 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-# Package for 'lsusb'.
-install_packages usbutils
+install_packages kitty
