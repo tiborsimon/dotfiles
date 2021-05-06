@@ -6,9 +6,17 @@ install-alacritty:
 install-bash:
 	@./utils/install-configs.bash bash
 
+.PHONY: install-bpytop
+install-bpytop:
+	@./utils/install-configs.bash bpytop
+
 .PHONY: install-docker
 install-docker:
 	@./utils/install-configs.bash docker
+
+.PHONY: install-doom-emacs
+install-doom-emacs:
+	@./utils/install-configs.bash doom-emacs
 
 .PHONY: install-emacs
 install-emacs:
@@ -17,10 +25,6 @@ install-emacs:
 .PHONY: install-firewall
 install-firewall:
 	@./utils/install-configs.bash firewall
-
-.PHONY: install-fonts
-install-fonts:
-	@./utils/install-configs.bash fonts
 
 .PHONY: install-git
 install-git:
@@ -38,25 +42,13 @@ install-ledger:
 install-machine:
 	@./utils/install-configs.bash machine
 
-.PHONY: install-openvpn
-install-openvpn:
-	@./utils/install-configs.bash openvpn
-
-.PHONY: install-power
-install-power:
-	@./utils/install-configs.bash power
-
 .PHONY: install-profile
 install-profile:
 	@./utils/install-configs.bash profile
 
-.PHONY: install-pypi
-install-pypi:
-	@./utils/install-configs.bash pypi
-
-.PHONY: install-python
-install-python:
-	@./utils/install-configs.bash python
+.PHONY: install-pyenv
+install-pyenv:
+	@./utils/install-configs.bash pyenv
 
 .PHONY: install-ranger
 install-ranger:
@@ -85,6 +77,10 @@ install-udevmon:
 .PHONY: install-vim
 install-vim:
 	@./utils/install-configs.bash vim
+
+.PHONY: install-wofi
+install-wofi:
+	@./utils/install-configs.bash wofi
 
 .PHONY: install-zathura
 install-zathura:

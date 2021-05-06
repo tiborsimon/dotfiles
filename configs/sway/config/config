@@ -1,75 +1,178 @@
-#=============================================================================
-#  __      __        _       _     _
-#  \ \    / /       (_)     | |   | |
-#   \ \  / /_ _ _ __ _  __ _| |__ | | ___  ___
-#    \ \/ / _` | '__| |/ _` | '_ \| |/ _ \/ __|
-#     \  / (_| | |  | | (_| | |_) | |  __/\__ \
-#      \/ \__,_|_|  |_|\__,_|_.__/|_|\___||___/
-#  
-#=============================================================================
+#==============================================================================
+# GLOBAL VARIABLES
+#==============================================================================
 
-#=============================================================================
-# MODIFIER KEYS
-#=============================================================================
-
-set $mod Mod1
+# Modifier keys.
+set $mod   Mod1
 set $super Mod4
 
-#=============================================================================
-# NAVIGATION KEYS
-#=============================================================================
-
-set $left h
-set $down j
-set $up k
+# Navigation keys so you don't need to think about the actual meaning of the
+# directrion of your muscle memory vim navigation.
+set $left  h
+set $down  j
+set $up    k
 set $right l
 
-#=============================================================================
-# COLOR VARIABLES
-#=============================================================================
+# Color definitions.
+set $color_active      #ebd834
+set $color_inactive    #4f4f4f
+set $color_background  #383838
+set $color_foreground  #d3d3d3
+set $color_urgent      #cf2727
+set $color_bar_bg      #1f1f1f
+set $color_nop         #000000
 
-set $color_active     #ebd834
-set $color_inactive   #4f4f4f
-set $color_background #383838
-set $color_foreground #d3d3d3
-set $color_urgent     #cf2727
-set $color_bar_bg     #1f1f1f
-set $color_nop        #000000
+# Dimensions of a window that fully fills the workspace area. It is defined for
+# my t460p screen.
+set $full_window__x      10px
+set $full_window__y      40px
+set $full_window__width  1900px
+set $full_window__height 1030px
 
-xwayland enable
+#==============================================================================
+# ESSENTIAL BINDIGS
+#==============================================================================
 
-#=============================================================================
-# VARIOUS VARIABLES
-#=============================================================================
+# Key bindings that needs to be available even if there is a syntax error in
+# the later more complex config sections. Defined right after the global
+# variables for the exact reason.
+
+# Reload config file.
+bindsym $mod+Shift+c reload
+
+# Kill focused window
+bindsym $mod+$super+w kill
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+q exec swaynag -t warning \
+  -m 'You pressed the exit shortcut. Do you really want to exit sway?' \
+  -b 'Yes, exit sway' 'swaymsg exit'
+
+#==============================================================================
+# TERMINAL MANAGEMENT
+#==============================================================================
 
 set $term alacritty
-set $menu wofi --show run
-# set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-#=============================================================================
-#   _    _                 _____       _             __               
-#  | |  | |               |_   _|     | |           / _|              
-#  | |  | |___  ___ _ __    | |  _ __ | |_ ___ _ __| |_ __ _  ___ ___ 
-#  | |  | / __|/ _ \ '__|   | | | '_ \| __/ _ \ '__|  _/ _` |/ __/ _ \
-#  | |__| \__ \  __/ |     _| |_| | | | ||  __/ |  | || (_| | (_|  __/
-#   \____/|___/\___|_|    |_____|_| |_|\__\___|_|  |_| \__,_|\___\___|
-#                                                                     
-#=============================================================================
+# Start a terminal
+bindsym $mod+Return exec $term
 
-#=============================================================================
-# GAPS
-#=============================================================================
-# Related manual: "man 5 sway".
+#==============================================================================
+# LAUNCHER
+#==============================================================================
 
-gaps inner 12
+set $launcher wofi \
+  --show run \
+  --gtk-dark \
+  --lines=9
 
-#=============================================================================
-# WINDOW TITLE BAR AND BORDER CONFIG
-#=============================================================================
-# Related manual: "man 5 sway"
+# Launcher key binding.
+bindsym $mod+Space exec $launcher
 
-# Only border around the windows.
+#==============================================================================
+# LOCKSCREEN
+#==============================================================================
+
+set $lockscreen_ring_color 'ebd83444'
+set $lockscreen_fill_color 'ebd83400'
+set $lockscreen_text_color 'ebd83488'
+
+set $lockscreen_base swaylock \
+  --daemonize \
+  --show-failed-attempts \
+  --screenshot \
+  --effect-blur 10x10 \
+  --effect-vignette 0.5:0.9 \
+  --indicator-thickness 7 \
+  --indicator-radius 52 \
+  --indicator-idle-visible \
+  --line-uses-ring \
+  --key-hl-color $lockscreen_ring_color \
+  --bs-hl-color $lockscreen_ring_color \
+  --ring-color $lockscreen_ring_color \
+  --ring-clear-color $lockscreen_ring_color \
+  --ring-ver-color $lockscreen_ring_color \
+  --ring-wrong-color $lockscreen_ring_color \
+  --inside-color $lockscreen_fill_color \
+  --inside-clear-color $lockscreen_fill_color \
+  --inside-ver-color $lockscreen_fill_color \
+  --inside-wrong-color $lockscreen_fill_color \
+  --text-color $lockscreen_text_color \
+  --text-clear-color $lockscreen_text_color \
+  --text-ver-color $lockscreen_text_color \
+  --text-wrong-color $lockscreen_text_color
+
+set $lockscreen_fast $lockscreen_base \
+  --fade-in 0.5 \
+  --grace 0.5
+
+set $lockscreen_slow $lockscreen_base \
+  --fade-in 8 \
+  --grace 8
+
+# Lock the screen.
+bindsym F12 exec $lockscreen_fast
+
+# Auto lock and dim
+exec swayidle -w \
+  timeout 300 '$lockscreen_slow' \
+  timeout 600 'swaymsg "output * dpms off"' \
+  resume 'swaymsg "output * dpms on"' \
+  before-sleep '$lockscreen_fast'
+
+#==============================================================================
+# INPUT - KEYBOARD
+#==============================================================================
+
+input type:keyboard {
+  repeat_delay 200
+  repeat_rate 75
+}
+
+#==============================================================================
+# INPUT - TOUCHPAD
+#==============================================================================
+
+input type:touchpad {
+  repeat_delay 200
+  repeat_rate 75
+  scroll_factor 0.3
+  tap enabled
+}
+
+seat * {
+  hide_cursor when-typing enable
+}
+
+#==============================================================================
+# OUTPUT
+#==============================================================================
+
+output * {
+  background $color_background solid_color
+}
+
+# Brightness control.
+bindsym $mod+F5 exec brightnessctl set '5%-'
+bindsym $mod+F6 exec brightnessctl set '+5%'
+
+#==============================================================================
+# SOUND
+#==============================================================================
+
+bindsym $mod+F1 exec my-machine-volume toggle
+bindsym $mod+F2 exec my-machine-volume down 5
+bindsym $mod+F3 exec my-machine-volume up 5
+
+#==============================================================================
+# WINDOWS STYLE
+#==============================================================================
+
+# No title bar, only a reasonably thick border.
 default_border pixel 4
+
+gaps inner 10
+hide_edge_borders none
 
 # Each config block contains the following rows:
 # - title bar border
@@ -83,7 +186,7 @@ client.focused \
   $color_nop \
   $color_nop \
   $color_nop \
-  $color_inactive \
+  $color_active \
   $color_active
 
 # The most recently focused view withing a container which is not focused.
@@ -112,125 +215,31 @@ client.urgent \
 
 # Note: palceholder is ignored by sway.
 
-#=============================================================================
-# BACKGROUND CONFIG
-#=============================================================================
-# Related manual: "man 5 sway"
-
-output * background $color_background solid_color
-
-#=============================================================================
-# STATUS BAR CONFIG
-#=============================================================================
-# Related manual: "man 5 sway-bar".
+#==============================================================================
+# STATUS BAR
+#==============================================================================
 
 bar {
-    position top
+  position top
+  gaps 10
+  height 20
+  mode dock
 
-    gaps 10
+  status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
-
-    colors {
-        statusline $color_foreground
-        background $color_bar_bg
-	#                  border          background      text
-        focused_workspace  $color_active   $color_active   $color_background
-        active_workspace   $color_active   $color_active   $color_background
-        inactive_workspace $color_inactive $color_inactive $color_foreground
-    }
+  colors {
+    statusline $color_foreground
+    background $color_bar_bg
+    #                  border          background      text
+    focused_workspace  $color_active   $color_active   $color_background
+    active_workspace   $color_active   $color_active   $color_background
+    inactive_workspace $color_inactive $color_inactive $color_foreground
+  }
 }
 
-#=============================================================================
-#    ____        _               _
-#   / __ \      | |             | |
-#  | |  | |_   _| |_ _ __  _   _| |_
-#  | |  | | | | | __| '_ \| | | | __|
-#  | |__| | |_| | |_| |_) | |_| | |_
-#   \____/ \__,_|\__| .__/ \__,_|\__|
-#                   | |
-#===================|_|=======================================================
-
-#=============================================================================
-# IDLE and LOCKING
-#=============================================================================
-exec swayidle -w \
-  timeout 300 'swaylock -f -c 000000' \
-  timeout 600 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
-  before-sleep 'swaylock -f -c 000000'
-
-#=============================================================================
-#   _____                   _
-#  |_   _|                 | |
-#    | |  _ __  _ __  _   _| |_
-#    | | | '_ \| '_ \| | | | __|
-#   _| |_| | | | |_) | |_| | |_
-#  |_____|_| |_| .__/ \__,_|\__|
-#              | |
-#==============|_|============================================================
-
-#=============================================================================
-# KEYBOARD
-#=============================================================================
-input type:keyboard {
-  repeat_delay 200
-  repeat_rate 75
-}
-
-#=============================================================================
-# TOUCHPAD
-#=============================================================================
-seat * {
-  hide_cursor when-typing enable
-}
-
-#=============================================================================
-#   _  __            _     _           _ _
-#  | |/ /           | |   (_)         | (_)
-#  | ' / ___ _   _  | |__  _ _ __   __| |_ _ __   __ _ ___
-#  |  < / _ \ | | | | '_ \| | '_ \ / _` | | '_ \ / _` / __|
-#  | . \  __/ |_| | | |_) | | | | | (_| | | | | | (_| \__ \
-#  |_|\_\___|\__, | |_.__/|_|_| |_|\__,_|_|_| |_|\__, |___/
-#             __/ |                               __/ |
-#============|___/===============================|___/========================
-
-#=============================================================================
-# BASICS
-#=============================================================================
-
-# Lock screen
-bindsym $mod+$super+l exec 'swaylock -f -c 000000'
-
-# Start a terminal
-bindsym $mod+Return exec $term
-
-# Kill focused window
-bindsym $mod+$super+w kill
-
-# Start your launcher
-bindsym $mod+Space exec $menu
-
-# Drag floating windows by holding down $mod and left mouse button.
-# Resize them with right mouse button + $mod.
-# Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
-floating_modifier $mod normal
-
-# Reload the configuration file
-bindsym $mod+Shift+c reload
-
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning \
-  -m 'You pressed the exit shortcut. Do you really want to exit sway?' \
-  -b 'Yes, exit sway' 'swaymsg exit'
-
-#=============================================================================
+#==============================================================================
 # NAVIGATION
-#=============================================================================
+#==============================================================================
 
 # Move your focus around
 bindsym $mod+$left focus left
@@ -244,9 +253,9 @@ bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 
-#=============================================================================
+#==============================================================================
 # WORKSPACES
-#=============================================================================
+#==============================================================================
 
 # Move between workspaces
 bindsym $super+$left workspace prev
@@ -263,6 +272,7 @@ bindsym $super+7 workspace number 7
 bindsym $super+8 workspace number 8
 bindsym $super+9 workspace number 9
 bindsym $super+0 workspace number 10
+
 # Move focused container to workspace
 bindsym $super+Shift+1 move container to workspace number 1
 bindsym $super+Shift+2 move container to workspace number 2
@@ -274,93 +284,141 @@ bindsym $super+Shift+7 move container to workspace number 7
 bindsym $super+Shift+8 move container to workspace number 8
 bindsym $super+Shift+9 move container to workspace number 9
 bindsym $super+Shift+0 move container to workspace number 10
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
 
-#=============================================================================
+#==============================================================================
+# FLOATING MODE
+#==============================================================================
+
+# Toggle the current focus between tiling and floating mode.
+bindsym $mod+f floating toggle
+
+# Swap focus between the tiling area and the floating area.
+bindsym $mod+Shift+f focus mode_toggle
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+floating_modifier $mod normal
+
+#==============================================================================
 # LAYOUTS
-#=============================================================================
+#==============================================================================
 
-# You can "split" the current object of your focus with
-# $mod+b or $mod+v, for horizontal and vertical splits
-# respectively.
-bindsym $mod+backslash splith
-bindsym $mod+minus splitv
+# Preselect the new child split position. This action won't have any visible
+# feedback, you just have to launch an application after it.
+bindsym $mod+minus split vertical
+bindsym $mod+backslash split horizontal
 
-# Switch the current container between different layout styles
-#bindsym $mod+s layout default
-#bindsym $mod+w layout tabbed
-#bindsym $mod+e layout toggle all
-
-# Make the current focus fullscreen
+# Make the current focus fullscreen.
 bindsym $mod+m fullscreen
 
-# Toggle the current focus between tiling and floating mode
-bindsym $mod+Shift+space floating toggle
+# Maximizing command that positions and resizes the focused window to fill the
+# workspace. Useful for maximizing floating windows.
+bindsym $mod+Shift+m \
+  resize set width $full_window__width; \
+  resize set height $full_window__height; \
+  move absolute position $full_window__x $full_window__y
 
-# Swap focus between the tiling area and the floating area
-# bindsym $mod+space focus mode_toggle
+#==============================================================================
+# MODES - DEFAULT
+#==============================================================================
 
-# Move focus to the parent container
-bindsym $mod+a focus parent
+# Default mode name.
+set $mode__default 'default'
 
-#=============================================================================
-# SCRATCHPAD
-#=============================================================================
+#==============================================================================
+# MODES - RESIZING
+#==============================================================================
 
-# Sway has a "scratchpad", which is a bag of holding for windows.
-# You can send windows there and get them back later.
-
-# Move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
-
-
-#=============================================================================
-# RESIZING
-#=============================================================================
-
-mode "resize" {
-  # left will shrink the containers width
-  # right will grow the containers width
-  # up will shrink the containers height
-  # down will grow the containers height
+# Coarse resize mode.
+set $mode__coarse_resize 'coarse_resize'
+mode $mode__coarse_resize {
   bindsym $left resize shrink width 10px
   bindsym $down resize grow height 10px
   bindsym $up resize shrink height 10px
   bindsym $right resize grow width 10px
 
-  # Ditto, with arrow keys
-  bindsym Left resize shrink width 10px
-  bindsym Down resize grow height 10px
-  bindsym Up resize shrink height 10px
-  bindsym Right resize grow width 10px
-
-  # Return to default mode
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode $mode__coarse_resize
 
-#=============================================================================
-#    _____                _       _                     _
-#   / ____|              | |     | |                   | |
-#  | (___   ___ _ __ __ _| |_ ___| |__  _ __   __ _  __| |
-#   \___ \ / __| '__/ _` | __/ __| '_ \| '_ \ / _` |/ _` |
-#   ____) | (__| | | (_| | || (__| | | | |_) | (_| | (_| |
-#  |_____/ \___|_|  \__,_|\__\___|_| |_| .__/ \__,_|\__,_|
-#                                      | |
-#======================================|_|====================================
+# Fine resize mode.
+set $mode__fine_resize 'fine_resize'
+mode $mode__fine_resize {
+  bindsym $left resize shrink width 1px
+  bindsym $down resize grow height 1px
+  bindsym $up resize shrink height 1px
+  bindsym $right resize grow width 1px
 
-set $title_1 dropdown_1
-set $dropdown_term alacritty -t $title_1
-exec $dropdown_term
-for_window [title="$title_1"] move container to scratchpad
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+Shift+r mode $mode__fine_resize
 
-set $title_2 org
-exec emacs --title $title_2
-for_window [title="$title_2"] move container to scratchpad
+#==============================================================================
+# MODES - POSITIONING
+#==============================================================================
 
-bindsym F12 scratchpad show
-bindsym $mod+s 'swaymsg scratchpad show;swaymsg scratchpad show'
+# Coarse positioning mode.
+set $mode__coarse_position 'coarse_position'
+mode $mode__coarse_position {
+  bindsym $left move left 10px
+  bindsym $down move down 10px
+  bindsym $up move up 10px
+  bindsym $right move right 10px
+
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+p mode $mode__coarse_position
+
+# Fine positioning mode.
+set $mode__fine_position 'fine_position'
+mode $mode__fine_position {
+  bindsym $left move left 1px
+  bindsym $down move down 1px
+  bindsym $up move up 1px
+  bindsym $right move right 1px
+
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+Shift+p mode $mode__fine_position
+
+#==============================================================================
+# SCRATCHPAD
+#==============================================================================
+
+# Move current window to the scartchpad.
+bindsym $mod+Shift+s move container to scratchpad
+
+# Show the scratchpad and cycle through its content if there are multiple
+# windows in it.
+bindsym $mod+s scratchpad show
+
+# The scratchpad can be used as a drop down terminal. Setting up a terminal as
+# a dropdown can be achieved manually with the following steps:
+# 1. Open a new termianl.
+# 2. Make it floating.
+# 3. Maximize it to fill the workspace.
+# 4. Send it to the scratchpad.
+# Only one terminal should be used to not to have to scroll through the
+# scratchpadded windows.
+
+#==============================================================================
+# ADDITIONAL COMMANDS AND CONFIGS
+#==============================================================================
+
+# For now enable xwayland until emacs 28 came out officially..
+xwayland enable
+
+#==============================================================================
+# INCLUDES
+#==============================================================================
 
 include /etc/sway/config.d/*

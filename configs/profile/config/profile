@@ -27,6 +27,7 @@ export PROJECTS="${HOME}/projects"
 # export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
 
 export MOZ_ENABLE_WAYLAND=1
+export KITTY_ENABLE_WAYLAND=1
 
 
 # ============================================================================

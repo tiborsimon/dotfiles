@@ -3,5 +3,4 @@ cd $(dirname $(readlink -f $0))
 
 source ../../utils/libdeploy.bash
 
-# For volume management
-install_packages alsa-utils bc
+install_packages base-devel openssl zlib xz
