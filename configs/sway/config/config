@@ -51,7 +51,7 @@ set $full_window__height 1030px
 bindsym $mod+Shift+c reload
 
 # Kill focused window
-bindsym $mod+$super+w kill
+bindsym $mod+F4 kill
 
 # Exit sway (logs you out of your Wayland session)
 bindsym $mod+Shift+q exec swaynag -t warning \
@@ -62,7 +62,7 @@ bindsym $mod+Shift+q exec swaynag -t warning \
 # TERMINAL MANAGEMENT
 #==============================================================================
 
-set $term alacritty
+set $term kitty
 
 # Start a terminal
 bindsym $mod+Return exec $term

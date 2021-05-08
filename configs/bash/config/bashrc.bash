@@ -74,7 +74,6 @@ alias ethspeed="speedometer -r enp0s25"
 alias wifispeed="speedometer -r wlp3s0"
 alias starwars="telnet towel.blinkenlights.nl"
 
-
 # Prompt handling
 export PROMPT_COMMAND=__prompt_command  # Func to gen PS1 after CMDs
 
@@ -118,10 +117,8 @@ function __prompt_command() {
 }
 
 # Virtualenvwrapper config
-export WORKON_HOME=~/.virtualenvs
-source ~/.local/bin/virtualenvwrapper.sh
-
-my-keyboard-reset >/dev/null
+# export WORKON_HOME=~/.virtualenvs
+# source ~/.local/bin/virtualenvwrapper.sh
 
 # Add API keys as environment variables
 if [[ -a $API_KEYS_FILE ]]
