@@ -4,4 +4,4 @@ cd $(dirname $(readlink -f $0))
 source ../../utils/libdeploy.bash
 
 link_package \
-  ./config/ripgreprc ${HOME}/.config/.ripgreprc
+  ./config/ripgreprc ${HOME}/.config/ripgreprc

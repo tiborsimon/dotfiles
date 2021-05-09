@@ -18,5 +18,10 @@ web:*.{html,css,js}*
 --colors=match:fg:10,10,10
 --colors=match:bg:200,200,0
 
+# This will make rg run on a single thread, but it worth it..
+--sort=path
+
 # Because who cares about case!?
 --smart-case
+
+--max-columns-preview
