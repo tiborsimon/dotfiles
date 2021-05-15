@@ -1,7 +1,3 @@
-.PHONY: install-alacritty
-install-alacritty:
-	@./utils/install-configs.bash alacritty
-
 .PHONY: install-bash
 install-bash:
 	@./utils/install-configs.bash bash
@@ -26,6 +22,10 @@ install-emacs:
 install-firewall:
 	@./utils/install-configs.bash firewall
 
+.PHONY: install-fonts
+install-fonts:
+	@./utils/install-configs.bash fonts
+
 .PHONY: install-git
 install-git:
 	@./utils/install-configs.bash git
@@ -41,6 +41,10 @@ install-kitty:
 .PHONY: install-ledger
 install-ledger:
 	@./utils/install-configs.bash ledger
+
+.PHONY: install-logind
+install-logind:
+	@./utils/install-configs.bash logind
 
 .PHONY: install-machine
 install-machine:

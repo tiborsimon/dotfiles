@@ -315,18 +315,10 @@ function using {
     mkdir -p ${TEMP_PATH}
     pushd ${TEMP_PATH} &> /dev/null
 
-    function get_yay_package {
-      git clone https://aur.archlinux.org/yay.git
-      cd yay
-      makepkg -si
-      cd ..
-    }
-
-    execute get_yay_package
-
-    # package is ready, we want to install it now
-    # the package is az xz package
-    run_with_privilege pacman --noconfirm -U $(ls | grep "yay.*xz")
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+    cd ..
 
     popd &> /dev/null
     rm -rf ${TEMP_PATH}

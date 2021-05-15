@@ -4,7 +4,8 @@ cd $(dirname $(readlink -f $0))
 source ../../utils/libdeploy.bash
 
 # Basic sway packages.
-install_packages sway swayidle swaylock
+install_packages sway swayidle
+install_aur_packages swaylock-effects-git
 
 # For screenshot management.
 install_packages wl-clipboard grim slurp
