@@ -50,6 +50,10 @@ install-logind:
 install-machine:
 	@./utils/install-configs.bash machine
 
+.PHONY: install-openvpn
+install-openvpn:
+	@./utils/install-configs.bash openvpn
+
 .PHONY: install-profile
 install-profile:
 	@./utils/install-configs.bash profile

@@ -10,7 +10,7 @@
 
 # ============================================================================
 #  G L O B A L   V A R I A B L E   H A N D L I N G
-export TERMINAL="alacritty"
+export TERMINAL="kitty"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export EDITOR="nvim"
 export PROJECTS="${HOME}/projects"

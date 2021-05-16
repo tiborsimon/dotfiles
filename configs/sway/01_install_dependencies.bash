@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-cd $(dirname $(readlink -f $0))
+cd "$(dirname "$(readlink -f "$0")")" || exit
 
 source ../../utils/libdeploy.bash
 
@@ -15,3 +15,6 @@ install_packages jq
 
 # Brightness settings.
 install_packages brightnessctl
+
+# Xorg compatibility until all used program is ported to pure wayland..
+install_packages xorg-xwayland
