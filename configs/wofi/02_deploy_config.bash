@@ -4,5 +4,5 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 link_package \
-  ./config/config ${HOME}/.config/wofi/config \
-  ./config/style.css ${HOME}/.config/wofi/style.css
+  './config/config' "${HOME}/.config/wofi/config" \
+  './config/style.css' "${HOME}/.config/wofi/style.css"

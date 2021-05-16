@@ -4,8 +4,8 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 link_package \
-  ./config/vimrc ${HOME}/.vimrc
+  './config/vimrc' "${HOME}/.vimrc"
 
 link_scripts vim \
-             ./scripts/bookmarks.py
+  './scripts/bookmarks.py'
 

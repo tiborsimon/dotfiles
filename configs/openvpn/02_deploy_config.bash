@@ -13,4 +13,5 @@ source ../../utils/libdeploy.bash
 # down /usr/bin/update-systemd-resolved
 # down-pre
 
-execute_with_privilege cp -fv ./config/00-openvpn-resolved.rules /etc/polkit-1/rules.d/00-openvpn-resolved.rules
+execute_with_privilege cp -fv \
+  './config/00-openvpn-resolved.rules' '/etc/polkit-1/rules.d/00-openvpn-resolved.rules'

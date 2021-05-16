@@ -4,8 +4,8 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 link_package \
-  ./config/kitty.conf ${HOME}/.config/kitty/kitty.conf \
-  ./config/themes/japanesque.conf ${HOME}/.config/kitty/theme.conf
+  './config/kitty.conf' "${HOME}/.config/kitty/kitty.conf" \
+  './config/themes/japanesque.conf' "${HOME}/.config/kitty/theme.conf"
 
 link_scripts kitty \
-  ./scripts/color_table.sh \
+  './scripts/color_table.sh'
