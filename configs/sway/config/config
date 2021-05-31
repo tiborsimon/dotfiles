@@ -83,52 +83,27 @@ bindsym $mod+Space exec $launcher
 # LOCKSCREEN
 #==============================================================================
 
-set $lockscreen_ring_color 'ebd83444'
-set $lockscreen_fill_color 'ebd83400'
-set $lockscreen_text_color 'ebd83488'
-
-set $lockscreen_base swaylock \
-  --daemonize \
-  --show-failed-attempts \
-  --screenshot \
-  --effect-blur 10x10 \
-  --effect-vignette 0.5:0.9 \
-  --indicator-thickness 7 \
-  --indicator-radius 52 \
-  --indicator-idle-visible \
-  --line-uses-ring \
-  --key-hl-color $lockscreen_ring_color \
-  --bs-hl-color $lockscreen_ring_color \
-  --ring-color $lockscreen_ring_color \
-  --ring-clear-color $lockscreen_ring_color \
-  --ring-ver-color $lockscreen_ring_color \
-  --ring-wrong-color $lockscreen_ring_color \
-  --inside-color $lockscreen_fill_color \
-  --inside-clear-color $lockscreen_fill_color \
-  --inside-ver-color $lockscreen_fill_color \
-  --inside-wrong-color $lockscreen_fill_color \
-  --text-color $lockscreen_text_color \
-  --text-clear-color $lockscreen_text_color \
-  --text-ver-color $lockscreen_text_color \
-  --text-wrong-color $lockscreen_text_color
-
-set $lockscreen_fast $lockscreen_base \
-  --fade-in 0.5 \
-  --grace 0.5
-
-set $lockscreen_slow $lockscreen_base \
-  --fade-in 8 \
-  --grace 8
-
 # Lock the screen.
-bindsym F12 exec $lockscreen_fast
+bindsym F12 exec 'my-sway-lock fast'
 
 # Auto lock and dim
 exec swayidle -w \
-  timeout 300 '$lockscreen_slow' \
-  timeout 600 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
-  before-sleep '$lockscreen_fast'
+  timeout 300  'my-sway-idle timeout 5'  resume 'my-sway-idle resume 5' \
+  timeout 600  'my-sway-idle timeout 10' resume 'my-sway-idle resume 10' \
+  timeout 900  'my-sway-idle timeout 15' resume 'my-sway-idle resume 15' \
+  timeout 1200 'my-sway-idle timeout 20' resume 'my-sway-idle resume 20' \
+  timeout 1500 'my-sway-idle timeout 25' resume 'my-sway-idle resume 25' \
+  timeout 1800 'my-sway-idle timeout 30' resume 'my-sway-idle resume 30' \
+  timeout 2100 'my-sway-idle timeout 35' resume 'my-sway-idle resume 35' \
+  timeout 2400 'my-sway-idle timeout 40' resume 'my-sway-idle resume 40' \
+  timeout 2700 'my-sway-idle timeout 45' resume 'my-sway-idle resume 45' \
+  timeout 3000 'my-sway-idle timeout 50' resume 'my-sway-idle resume 50' \
+  timeout 3300 'my-sway-idle timeout 55' resume 'my-sway-idle resume 55' \
+  timeout 3600 'my-sway-idle timeout 60' resume 'my-sway-idle resume 60' \
+  lock         'my-sway-idle lock' \
+  unlock       'my-sway-idle unlock' \
+  before-sleep 'my-sway-idle before-sleep' \
+  after-resume 'my-sway-idle after-resume'
 
 #==============================================================================
 # SCREENSHOT
@@ -287,20 +262,20 @@ bindsym $mod+Shift+$right move right
 #==============================================================================
 
 # Move between workspaces
-bindsym $super+$left workspace prev
-bindsym $super+$right workspace next
+bindsym $super+$left workspace prev;  exec my-sway-scratchpad invalidate
+bindsym $super+$right workspace next; exec my-sway-scratchpad invalidate
 
 # Switch to workspace
-bindsym $super+1 workspace number 1
-bindsym $super+2 workspace number 2
-bindsym $super+3 workspace number 3
-bindsym $super+4 workspace number 4
-bindsym $super+5 workspace number 5
-bindsym $super+6 workspace number 6
-bindsym $super+7 workspace number 7
-bindsym $super+8 workspace number 8
-bindsym $super+9 workspace number 9
-bindsym $super+0 workspace number 10
+bindsym $super+1 workspace number 1;  exec my-sway-scratchpad invalidate
+bindsym $super+2 workspace number 2;  exec my-sway-scratchpad invalidate
+bindsym $super+3 workspace number 3;  exec my-sway-scratchpad invalidate
+bindsym $super+4 workspace number 4;  exec my-sway-scratchpad invalidate
+bindsym $super+5 workspace number 5;  exec my-sway-scratchpad invalidate
+bindsym $super+6 workspace number 6;  exec my-sway-scratchpad invalidate
+bindsym $super+7 workspace number 7;  exec my-sway-scratchpad invalidate
+bindsym $super+8 workspace number 8;  exec my-sway-scratchpad invalidate
+bindsym $super+9 workspace number 9;  exec my-sway-scratchpad invalidate
+bindsym $super+0 workspace number 10; exec my-sway-scratchpad invalidate
 
 # Move focused container to workspace
 bindsym $super+Shift+1 move container to workspace number 1
@@ -313,6 +288,11 @@ bindsym $super+Shift+7 move container to workspace number 7
 bindsym $super+Shift+8 move container to workspace number 8
 bindsym $super+Shift+9 move container to workspace number 9
 bindsym $super+Shift+0 move container to workspace number 10
+
+bindsym $mod+s exec my-sway-scratchpad toggle 'scratch'
+bindsym $mod+w exec my-sway-scratchpad toggle 'work'
+bindsym $mod+o exec my-sway-scratchpad toggle 'org'
+bindsym $mod+d exec my-sway-scratchpad toggle 'dash'
 
 #==============================================================================
 # FLOATING MODE
@@ -428,7 +408,8 @@ bindsym $mod+Shift+s move container to scratchpad
 
 # Show the scratchpad and cycle through its content if there are multiple
 # windows in it.
-bindsym $mod+s scratchpad show
+# bindsym $mod+s scratchpad show
+# bindsym $mod+s exec my-sway-scratchpad
 
 # The scratchpad can be used as a drop down terminal. Setting up a terminal as
 # a dropdown can be achieved manually with the following steps:

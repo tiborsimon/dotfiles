@@ -8,3 +8,6 @@ install_packages usbutils
 
 # For battery tools.
 install_packages upower
+
+# Various packages.
+install_packages tree archey3

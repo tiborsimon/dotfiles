@@ -49,23 +49,24 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(require 'key-chord)
+(key-chord-mode t)
+(key-chord-define-global "jk" 'evil-normal-state)
 
-;; Remap semicolon
-(define-key evil-motion-state-map ";" 'evil-ex)
+;;============================================================================
+;; ORG MODE
 
-
-;; Org mode additional configuration
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
+;; If you use `org' and don't want your org files in the default location
+;; below, change `org-directory'. It must be set before org loads!
 (use-package org
   :config
-  (require 'org-tempo)
-
-  (after! org
-    (setq org-startup-indented nil))
-
   (setq org-directory "~/private/notebook/")
+
+  (require 'org-tempo)
+  (setq org-log-into-drawer t)
+  (setq org-clock-display-default-range 'untilnow)
+  (setq org-clock-into-drawer "CLOCKING")
+
   (setq org-table-number-regexp
     "^\\([<>]?[-+^.0-9]*[0-9][-+^.0-9eEdDx()%:]*\\|\\(0[xX]\\)[0-9a-fA-F]+\\)$")
 
@@ -94,5 +95,15 @@
   ;; Set wides text width
   (setq-default fill-column 100)
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
 )
 
+(map! :leader
+      (:prefix ("m" . "<localleader>")
+       :desc "Add note to header"
+       "z" #'org-add-note))
+(map! :leader
+      (:prefix ("m" . "<localleader>")
+       :desc "C-c C-c mapping"
+       "," #'org-ctrl-c-ctrl-c))
+(map! "<f2>" #'treemacs)

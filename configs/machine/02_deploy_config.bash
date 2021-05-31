@@ -5,4 +5,7 @@ source ../../utils/libdeploy.bash
 
 link_scripts machine \
   './scripts/volume.bash' \
-  './scripts/pacman.bash'
+  './scripts/pacman.bash' \
+  './scripts/on_charger.bash' \
+  './scripts/hibernate.bash' \
+

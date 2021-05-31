@@ -14,10 +14,6 @@ install-docker:
 install-doom-emacs:
 	@./utils/install-configs.bash doom-emacs
 
-.PHONY: install-emacs
-install-emacs:
-	@./utils/install-configs.bash emacs
-
 .PHONY: install-firewall
 install-firewall:
 	@./utils/install-configs.bash firewall
@@ -49,6 +45,10 @@ install-logind:
 .PHONY: install-machine
 install-machine:
 	@./utils/install-configs.bash machine
+
+.PHONY: install-neovim
+install-neovim:
+	@./utils/install-configs.bash neovim
 
 .PHONY: install-openvpn
 install-openvpn:
