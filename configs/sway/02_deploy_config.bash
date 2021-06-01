@@ -11,7 +11,10 @@ fi
 
 link_package \
   './config/config' "${HOME}/.config/sway/config" \
-  './config/status.sh' "${HOME}/.config/sway/status.sh"
+  './config/status.sh' "${HOME}/.config/sway/status.sh" \
+  './config/waybar/config' "${HOME}/.config/waybar/config" \
+  './config/waybar/style.css' "${HOME}/.config/waybar/style.css" \
+
 
 link_scripts sway \
   './scripts/scratchpad.bash' \

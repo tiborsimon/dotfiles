@@ -32,6 +32,7 @@ set $color_urgent      #cf2727
 set $color_bar_bg      #1f1f1f
 set $color_nop         #000000
 
+
 # Dimensions of a window that fully fills the workspace area. It is defined for
 # my t460p screen.
 set $full_window__x      10px
@@ -121,10 +122,6 @@ bindsym Shift+Control+Print exec grim -g "$(slurp)" -t png - | \
   tee "${HOME}/screenshots/$(date +grim_'%y%m%d_%H%M%S.png')" | wl-copy
 
 #==============================================================================
-# LAUNCHER
-#==============================================================================
-
-#==============================================================================
 # INPUT - KEYBOARD
 #==============================================================================
 
@@ -151,10 +148,17 @@ seat * {
 #==============================================================================
 # OUTPUT
 #==============================================================================
+#
+# Monitor definitions.
+set $display_laptop eDP-1
+set $display_external DP-5
 
 output * {
   background $color_background solid_color
 }
+
+output $display_laptop pos 0 1000
+output $display_external pos 1920 0
 
 # Brightness control.
 bindsym $mod+F5 exec brightnessctl set '5%-'
@@ -223,22 +227,26 @@ client.urgent \
 # STATUS BAR
 #==============================================================================
 
+# bar {
+#   position top
+#   gaps 10
+#   height 20
+#   mode dock
+
+#   status_command while ~/.config/sway/status.sh; do sleep 1; done
+
+#   colors {
+#     statusline $color_foreground
+#     background $color_bar_bg
+#     #                  border          background      text
+#     focused_workspace  $color_active   $color_active   $color_background
+#     active_workspace   $color_active   $color_active   $color_background
+#     inactive_workspace $color_inactive $color_inactive $color_foreground
+#   }
+# }
+
 bar {
-  position top
-  gaps 10
-  height 20
-  mode dock
-
-  status_command while ~/.config/sway/status.sh; do sleep 1; done
-
-  colors {
-    statusline $color_foreground
-    background $color_bar_bg
-    #                  border          background      text
-    focused_workspace  $color_active   $color_active   $color_background
-    active_workspace   $color_active   $color_active   $color_background
-    inactive_workspace $color_inactive $color_inactive $color_foreground
-  }
+  swaybar_command waybar
 }
 
 #==============================================================================
@@ -260,6 +268,12 @@ bindsym $mod+Shift+$right move right
 #==============================================================================
 # WORKSPACES
 #==============================================================================
+
+# Move workspace between outputs.
+bindsym $super+Shift+Left  move workspace to left
+bindsym $super+Shift+Right move workspace to right
+bindsym $super+Shift+Up    move workspace to up
+bindsym $super+Shift+Down  move workspace to down
 
 # Move between workspaces
 bindsym $super+$left workspace prev;  exec my-sway-scratchpad invalidate

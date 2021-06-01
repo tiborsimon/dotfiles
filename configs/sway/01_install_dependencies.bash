@@ -4,7 +4,7 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 # Basic sway packages.
-install_packages sway swayidle
+install_packages sway swayidle waybar
 install_aur_packages swaylock-effects-git
 
 # For screenshot management.
