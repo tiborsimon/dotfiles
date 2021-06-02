@@ -148,17 +148,14 @@ seat * {
 #==============================================================================
 # OUTPUT
 #==============================================================================
-#
-# Monitor definitions.
-set $display_laptop eDP-1
-set $display_external DP-5
 
 output * {
   background $color_background solid_color
 }
 
-output $display_laptop pos 0 1000
-output $display_external pos 1920 0
+# Always execute the monitor setup on config load. This could be used if the
+# external monitor's name changes between wakes from hibernation.
+exec_always 'my-sway-setup_outputs'
 
 # Brightness control.
 bindsym $mod+F5 exec brightnessctl set '5%-'

@@ -20,4 +20,6 @@ link_scripts sway \
   './scripts/scratchpad.bash' \
   './scripts/lock.bash' \
   './scripts/idle.bash' \
+  './scripts/ping.bash' \
+  './scripts/setup_outputs.bash' \
 

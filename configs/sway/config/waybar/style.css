@@ -18,6 +18,7 @@ window#waybar {
 #battery,
 #backlight,
 #custom-vpn,
+#custom-ping,
 #network,
 #disk,
 #tray {
@@ -46,7 +47,7 @@ window#waybar {
 }
 #workspaces button:hover {
 	background: #1a1a1a;
-	border: #1a1a1a;
+  border: 0;
 }
 
 #pulseaudio {
@@ -64,13 +65,23 @@ window#waybar {
 #disk {
 	color: #b58900;
 }
+#custom-ping {
+	color: #919191;
+}
+#network {
+	color: #919191;
+}
 
-#clock,
+#clock {
+	padding: 0 12px;
+}
+
 #pulseaudio,
 #memory,
 #cpu,
 #battery,
 #custom-vpn,
+#custom-ping,
 #network,
 #backlight,
 #disk {
