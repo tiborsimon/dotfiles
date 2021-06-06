@@ -11,22 +11,11 @@ set -e  # exit on error
 set -u  # prevent unset variable expansion
 
 #==============================================================================
-# GLOBAL VARIABLES
-#==============================================================================
-
-CACHE_DIR="${HOME}/.cache/my-sway-scratchpad-cache"
-
-mkdir -p "$CACHE_DIR"
-
-CACHE_FILE__ORIGINAL_WORKSPACE="${CACHE_DIR}/original_workspace.cache"
-CACHE_FILE__ACTIVE_SCRATCHPAD="${CACHE_DIR}/active_scratchpad.cache"
-
-#==============================================================================
 # HELP
 #==============================================================================
 
 #==============================================================================
-# Prints out the help message.
+# Prints out the help message and exits.
 #------------------------------------------------------------------------------
 # Globals:
 #   None
@@ -98,6 +87,7 @@ ${BOLD}AUTHOR${RESET}
 
     ${BOLD}Tibor Simon${RESET} - 2021-05.
 END
+  exit 0
 }
 
 #==============================================================================
@@ -105,12 +95,12 @@ END
 #==============================================================================
 
 #==============================================================================
-# Sends a log message to the systemd yournal with the appropriate settings.
+# Sends a log message to the system journal.
 #------------------------------------------------------------------------------
 # Globals:
-#   None
+#   DEBUG_MODE
 # Arguments:
-#   [1] message - Message to send to the journal.
+#   [1] message - Log message to send to the journal.
 # STDIN:
 #   None
 #------------------------------------------------------------------------------
@@ -129,14 +119,25 @@ log() {
 }
 
 #==============================================================================
-# INTERNAL FUNCTIONS
+# CACHE
 #==============================================================================
 
+CACHE_DIR="${HOME}/.cache/my-sway-scratchpad-cache"
+
+# The workspace name the scratchpad action was invoked from.
+CACHE_FILE__PRIMARY_WORKSPACE="${CACHE_DIR}/primary_workspace.cache"
+# If the scratchpad was already created and it is located on a different output
+# then the original workspace, that workspace should be restored before we
+# restore the original workspace to "hide" the scratchpad as we should.
+CACHE_FILE__SECONDARY_WORKSPACE="${CACHE_DIR}/secondary_workspace.cache"
+# The name of the currently active scratchpad.
+CACHE_FILE__ACTIVE_SCRATCHPAD="${CACHE_DIR}/active_scratchpad.cache"
+
 #==============================================================================
-# Prints the currently focused workspace name.
+# Initializes the cache system.
 #------------------------------------------------------------------------------
 # Globals:
-#   CACHE_FILE__ORIGINAL_WORKSPACE
+#   CACHE_DIR
 # Arguments:
 #   None
 # STDIN:
@@ -151,43 +152,17 @@ log() {
 # Status:
 #   0 - Other status is not expected.
 #==============================================================================
-save_current_workspace_name() {
-  swaymsg -t get_workspaces | \
-    jq -r '..|try select(.focused == true) | .name' > \
-    "$CACHE_FILE__ORIGINAL_WORKSPACE"
+cache__init() {
+  mkdir -p "$CACHE_DIR"
 }
 
 #==============================================================================
-# Prints out the previously focused workspace name.
+# Returns true if the cache has content in it.
 #------------------------------------------------------------------------------
 # Globals:
-#   CACHE_FILE__ORIGINAL_WORKSPACE
+#   CACHE_DIR
 # Arguments:
 #   None
-# STDIN:
-#   None
-#------------------------------------------------------------------------------
-# Output variables:
-#   None
-# STDOUT:
-#   Focused workspace name if exists.
-# STDERR:
-#   None
-# Status:
-#   0 - Workspace name printed.
-#   1 - No workspace name stored.
-#==============================================================================
-get_original_workspace_name() {
-  cat "$CACHE_FILE__ORIGINAL_WORKSPACE"
-}
-
-#==============================================================================
-# Saves the given scratchpad name to the cache.
-#------------------------------------------------------------------------------
-# Globals:
-#   CACHE_FILE__ACTIVE_SCRATCHPAD
-# Arguments:
-#   [1] scratchpad_name - Scratchpad name that should be saved.
 # STDIN:
 #   None
 #------------------------------------------------------------------------------
@@ -198,42 +173,19 @@ get_original_workspace_name() {
 # STDERR:
 #   None
 # Status:
-#   0 - Other status is not expected.
+#   0 - Cache has contnent.
+#   1 - Cache has no content.
 #==============================================================================
-save_scratchpad_name() {
-  scratchpad_name="$1"
-  echo "$scratchpad_name" > "$CACHE_FILE__ACTIVE_SCRATCHPAD"
-}
-
-#==============================================================================
-# Prints out the active saved scratchpad name if it is present.
-#------------------------------------------------------------------------------
-# Globals:
-#   CACHE_FILE__ACTIVE_SCRATCHPAD
-# Arguments:
-#   None
-# STDIN:
-#   None
-#------------------------------------------------------------------------------
-# Output variables:
-#   None
-# STDOUT:
-#   Focused workspace name if exists.
-# STDERR:
-#   None
-# Status:
-#   0 - Active scratchpad name printed.
-#   1 - No active scratchpad name saved.
-#==============================================================================
-get_active_scratchpad_name() {
-  cat "$CACHE_FILE__ACTIVE_SCRATCHPAD"
+cache__has_content() {
+  test -n "$(ls -A "$CACHE_DIR")"
 }
 
 #==============================================================================
 # Invalidates the cache by deleting the cache files.
 #------------------------------------------------------------------------------
 # Globals:
-#   CACHE_FILE__ORIGINAL_WORKSPACE
+#   CACHE_FILE__PRIMARY_WORKSPACE
+#   CACHE_FILE__SECONDARY_WORKSPACE
 #   CACHE_FILE__ACTIVE_SCRATCHPAD
 # Arguments:
 #   None
@@ -249,9 +201,219 @@ get_active_scratchpad_name() {
 # Status:
 #   0 - Other status is not expected.
 #==============================================================================
-invalidate_cache() {
-  rm -f "$CACHE_FILE__ORIGINAL_WORKSPACE"
+cache__invalidate() {
+  rm -f "$CACHE_FILE__PRIMARY_WORKSPACE"
+  rm -f "$CACHE_FILE__SECONDARY_WORKSPACE"
   rm -f "$CACHE_FILE__ACTIVE_SCRATCHPAD"
+}
+
+#==============================================================================
+# Sets the value for the primary workspace.
+#------------------------------------------------------------------------------
+# Globals:
+#   CACHE_FILE__PRIMARY_WORKSPACE
+# Arguments:
+#   [1] value - Value that should be saved.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   None
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+cache__set__primary_workspace() {
+  value="$1"
+  echo "$value" > "$CACHE_FILE__PRIMARY_WORKSPACE"
+}
+
+#==============================================================================
+# Sets the value for the secondary workspace.
+#------------------------------------------------------------------------------
+# Globals:
+#   CACHE_FILE__SECONDARY_WORKSPACE
+# Arguments:
+#   [1] value - Value that should be saved.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   None
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+cache__set__secondary_workspace() {
+  value="$1"
+  echo "$value" > "$CACHE_FILE__SECONDARY_WORKSPACE"
+}
+
+#==============================================================================
+# Sets the value for the active scratchpad.
+#------------------------------------------------------------------------------
+# Globals:
+#   CACHE_FILE__ACTIVE_SCRATCHPAD
+# Arguments:
+#   [1] value - Value that should be saved.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   None
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+cache__set__active_scratchpad() {
+  value="$1"
+  echo "$value" > "$CACHE_FILE__ACTIVE_SCRATCHPAD"
+}
+
+#==============================================================================
+# Get the value from the primary workspace cache file if exists.
+#------------------------------------------------------------------------------
+# Globals:
+#   CACHE_FILE__PRIMARY_WORKSPACE
+# Arguments:
+#   None
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   Value from the cache file.
+# STDERR:
+#   None
+# Status:
+#   0 - Cache file is present and value returned.
+#   1 - Cache file does not exist.
+#==============================================================================
+cache__get__primary_workspace() {
+  cat "$CACHE_FILE__PRIMARY_WORKSPACE"
+}
+
+#==============================================================================
+# Get the value from the secondary workspace cache file if exists.
+#------------------------------------------------------------------------------
+# Globals:
+#   CACHE_FILE__SECONDARY_WORKSPACE
+# Arguments:
+#   None
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   Value from the cache file.
+# STDERR:
+#   None
+# Status:
+#   0 - Cache file is present and value returned.
+#   1 - Cache file does not exist.
+#==============================================================================
+cache__get__secondary_workspace() {
+  cat "$CACHE_FILE__SECONDARY_WORKSPACE"
+}
+
+#==============================================================================
+# Get the value from the active scratchpad cache file if exists.
+#------------------------------------------------------------------------------
+# Globals:
+#   CACHE_FILE__ACTIVE_SCRATCHPAD
+# Arguments:
+#   None
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   Value from the cache file.
+# STDERR:
+#   None
+# Status:
+#   0 - Cache file is present and value returned.
+#   1 - Cache file does not exist.
+#==============================================================================
+cache__get__active_scratchpad() {
+  cat "$CACHE_FILE__ACTIVE_SCRATCHPAD"
+}
+
+#==============================================================================
+# SWAY ADAPTER
+#==============================================================================
+
+#==============================================================================
+# Queries the primary workspace name.
+#------------------------------------------------------------------------------
+# Globals:
+#   None
+# Arguments:
+#   None
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   Primary workspace name.
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+adapter__get__primary_workspace_name() {
+  swaymsg --type get_workspaces | \
+  jq --raw-output '..|try select(.focused == true) | .name'
+}
+
+#==============================================================================
+# Queries the secondary workspace name.
+#------------------------------------------------------------------------------
+# Globals:
+#   None
+# Arguments:
+#   [1] scratchpad_name - Name of the toggleable scratchpad name.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   Secondary workspace name.
+# STDERR:
+#   None
+# Status:
+#   0 - Scratchpad exists so secondary workspace can be returned.
+#   1 - Scratchpad doesn't exist yet, secondary workspace cannot be returned.
+#==============================================================================
+adapter__get__secondary_workspace_name() {
+  scratchpad_name="$1"
+
+  scratchpad_output="$( \
+    swaymsg --type get_workspaces | \
+    jq --raw-output "..|try select(.name == \"${scratchpad_name}\") | .output" \
+  )"
+
+  if [ -n "$scratchpad_output" ]
+  then
+    swaymsg --type get_outputs | \
+    jq --raw-output "..|try select(.name == \"${scratchpad_output}\") | .current_workspace"
+  else
+    return 1
+  fi
 }
 
 #==============================================================================
@@ -274,10 +436,152 @@ invalidate_cache() {
 # Status:
 #   0 - Other status is not expected.
 #==============================================================================
-switch_to_workspace() {
+adapter__switch_to_workspace() {
   workspace_name="$1"
   swaymsg workspace "$workspace_name"
 }
+
+#==============================================================================
+# TOGGLE HANDLERS
+#==============================================================================
+
+#==============================================================================
+# Function that toggles the scratchpad on while executing all the necessary
+# persistency tasks.
+#------------------------------------------------------------------------------
+# Globals:
+#   None
+# Arguments:
+#   [1] scratchpad_name - Scratchpad name that should be toggled on.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   None
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+toggle_scratchpad__on() {
+  scratchpad_name="$1"
+
+  log "TOGGLE ON  [${scratchpad_name}]"
+
+  primary_workspace_name="$(adapter__get__primary_workspace_name)"
+
+  # Saving the scratchpad name and the primary workspace name.
+  cache__set__active_scratchpad "$scratchpad_name"
+  cache__set__primary_workspace "$primary_workspace_name"
+
+  # The secondary workspace id can only be saved if the toggleable scratchpad
+  # workspace was already exists. In this case the secondary workspace will be
+  # the one that was active before the toggle event was called on the output
+  # the scratchpad workspace was created into.
+  if secondary_workspace_name="$(adapter__get__secondary_workspace_name "$scratchpad_name")"
+  then
+    cache__set__secondary_workspace "$secondary_workspace_name"
+  fi
+
+  adapter__switch_to_workspace "$scratchpad_name"
+}
+
+#==============================================================================
+# Function that toggles the scratchpad off based on the previously saved data.
+#------------------------------------------------------------------------------
+# Globals:
+#   None
+# Arguments:
+#   [1] scratchpad_name - Scratchpad name that should be toggled off.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   None
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+toggle_scratchpad__off() {
+  scratchpad_name="$1"
+
+  # If the active scratchpad name is different than the currently received
+  # one, the script should switch to the new scratchpad instead of switching
+  # back to the original workspace.
+  if active_scratchpad_name="$(cache__get__active_scratchpad)"
+  then
+    if [ "$scratchpad_name" != "$active_scratchpad_name" ]
+    then
+      replace_scratchpad "$scratchpad_name"
+      return
+    fi
+  fi
+
+  log "TOGGLE OFF [${scratchpad_name}]"
+
+  # STEP 1 - Restore secondary workplace if needed.
+  if old_secondary_workspace_name="$(cache__get__secondary_workspace)"
+  then
+    adapter__switch_to_workspace "$old_secondary_workspace_name"
+  fi
+
+  # STEP 2 - Restore primary workspace.
+  primary_workspace_name="$(cache__get__primary_workspace)"
+  adapter__switch_to_workspace "$primary_workspace_name"
+
+  # STEP 3 - Clearing up the cache for the next toggle cycle.
+  cache__invalidate
+}
+
+#==============================================================================
+# Function that raplaces an existing scratchpad with a new one.
+#------------------------------------------------------------------------------
+# Globals:
+#   None
+# Arguments:
+#   [1] new_scratchpad_name - Scratchpad name that should replace the existing
+#       one.
+# STDIN:
+#   None
+#------------------------------------------------------------------------------
+# Output variables:
+#   None
+# STDOUT:
+#   None
+# STDERR:
+#   None
+# Status:
+#   0 - Other status is not expected.
+#==============================================================================
+replace_scratchpad() {
+  new_scratchpad_name="$1"
+
+  log "REPLACE    [${active_scratchpad_name}]->[${new_scratchpad_name}]"
+
+  # STEP 1 - Restore previous secondary workplace if needed.
+  if old_secondary_workspace_name="$(cache__get__secondary_workspace)"
+  then
+    adapter__switch_to_workspace "$old_secondary_workspace_name"
+  fi
+
+  # STEP 2 - Save secondary workspace for the new scratchpad.
+  if new_secondary_workspace_name="$(adapter__get__secondary_workspace_name "$new_scratchpad_name")"
+  then
+    cache__set__secondary_workspace "$new_secondary_workspace_name"
+  fi
+
+  # STEP 3 - Save new scratchpad name.
+  cache__set__active_scratchpad "$new_scratchpad_name"
+
+  # STEP 4 - Switch to the new scratchpad.
+  adapter__switch_to_workspace "$new_scratchpad_name"
+}
+
 
 #==============================================================================
 # HANDLERS
@@ -290,7 +594,7 @@ switch_to_workspace() {
 # Globals:
 #   None
 # Arguments:
-#   [1] new_scratchpad_name - Scratchpad name that should be toggled.
+#   [1] scratchpad_name - Scratchpad name that should be toggled.
 # STDIN:
 #   None
 #------------------------------------------------------------------------------
@@ -304,38 +608,13 @@ switch_to_workspace() {
 #   0 - Other status is not expected.
 #==============================================================================
 handle_toggle() {
-  new_scratchpad_name="$1"
+  scratchpad_name="$1"
 
-  if original_workspace_name="$(get_original_workspace_name)"
+  if cache__has_content
   then
-
-    # If the active scratchpad name is different than the currently received
-    # one, the script should switch to the new scratchpad instead of switching
-    # back to the original workspace.
-    if active_scratchpad_name="$(get_active_scratchpad_name)"
-    then
-      if [ "$new_scratchpad_name" != "$active_scratchpad_name" ]
-      then
-        log "Replacing active scratchpad '${active_scratchpad_name}' with new scratchpad '${new_scratchpad_name}'.."
-        save_scratchpad_name "$new_scratchpad_name"
-        switch_to_workspace "$new_scratchpad_name"
-        return
-      fi
-    fi
-
-    # Otherwise if the same scratchpad name is received, the script should
-    # toggle back to the original workspace.
-    log "Switching back to the original workspace.."
-    invalidate_cache
-    switch_to_workspace "$original_workspace_name"
-
+    toggle_scratchpad__off "$scratchpad_name"
   else
-
-    log "Toggling from numbered workspace to scratchpad '${new_scratchpad_name}'.."
-    save_current_workspace_name
-    save_scratchpad_name "$new_scratchpad_name"
-    switch_to_workspace "$new_scratchpad_name"
-
+    toggle_scratchpad__on "$scratchpad_name"
   fi
 }
 
@@ -359,13 +638,14 @@ handle_toggle() {
 #   0 - Other status is not expected.
 #==============================================================================
 handle_invalidate() {
-  invalidate_cache
-  log "Cache invalidated due to manual workspace switching."
+  cache__invalidate
 }
 
 #==============================================================================
 # ENTRY POINT
 #==============================================================================
+
+cache__init
 
 report_invalid_parameters() {
   ___reason="$1"
@@ -395,11 +675,9 @@ do
       ;;
     --help|-h )
       display_help
-      exit 0
       ;;
     * )
       display_help
-      exit 0
       ;;
   esac
 done

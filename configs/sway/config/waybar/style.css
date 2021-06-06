@@ -73,7 +73,15 @@ window#waybar {
 }
 
 #clock {
-	padding: 0 12px;
+	padding: 0 6px;
+}
+
+#clock.2 {
+  font-style: italic;
+}
+
+#clock.3 {
+  font-weight: bold;
 }
 
 #pulseaudio,

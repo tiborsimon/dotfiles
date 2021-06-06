@@ -148,11 +148,11 @@ do
           log 'Triggering lockscreen..'
           my-sway-lock slow
           ;;
-        10 )
+        15 )
           log 'Turning off the screen..'
           swaymsg 'output * dpms off'
           ;;
-        15 )
+        20 )
           log 'Triggering hibernating..'
           my-machine-hibernate
           ;;
@@ -171,7 +171,7 @@ do
       minutes="$2"
       log "Event received: '$1 $minutes'"
       case "$minutes" in
-        10 )
+        15 )
           log 'Turning back the screen..'
           swaymsg 'output * dpms on'
           ;;
