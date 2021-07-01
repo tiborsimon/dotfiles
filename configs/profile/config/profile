@@ -19,6 +19,7 @@ export RIPGREP_CONFIG_PATH="${HOME}/.config/ripgreprc"
 
 export MOZ_ENABLE_WAYLAND=1
 export KITTY_ENABLE_WAYLAND=1
+export LIBSEAT_BACKEND=logind
 
 # Doom emacs
 export EMACSDIR="${HOME}/.config/emacs"
