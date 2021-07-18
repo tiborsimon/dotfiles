@@ -19,6 +19,7 @@ window#waybar {
 #backlight,
 #custom-vpn,
 #custom-ping,
+#custom-firejail,
 #network,
 #disk,
 #tray {
@@ -68,6 +69,10 @@ window#waybar {
 #custom-ping {
 	color: #919191;
 }
+#custom-firejail {
+	color: red;
+  font-weight: bold;
+}
 #network {
 	color: #919191;
 }
@@ -90,6 +95,7 @@ window#waybar {
 #battery,
 #custom-vpn,
 #custom-ping,
+#custom-firejail,
 #network,
 #backlight,
 #disk {

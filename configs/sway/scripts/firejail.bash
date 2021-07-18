@@ -1,9 +1,9 @@
 #!/bin/sh
 #==============================================================================
-# SWAY - PING
+# SWAY - FIREJAIL
 #==============================================================================
 
-# Script that measures the network ping.
+# Script that tells the currently running firejail targets.
 
 #==============================================================================
 # SANE ENVIRONMENT
@@ -11,11 +11,6 @@
 
 set -e  # exit on error
 set -u  # prevent unset variable expansion
-
-#==============================================================================
-# GLOBAL VARIABLES
-#==============================================================================
-PING_TARGET='1.1.1.1'
 
 #==============================================================================
 # HELP
@@ -47,26 +42,24 @@ display_help() {
 
 ${BOLD}NAME${RESET}
 
-    ${BOLD}my-sway-ping${RESET} - waybar compatible ping time module
+    ${BOLD}my-sway-firejail${RESET} - waybar compatible firejail counter
 
-    Small script that executes a ping command to check the network latency of
-    the current  connection.
+    Small script that counts the currently firejail sandboxed programs.
 
 ${BOLD}SYNOPSYS${RESET}
 
-    ${BOLD}my-sway-ping measure${RESET}
-    ${BOLD}my-sway-ping check${RESET}
-    ${BOLD}my-sway-ping [--help|-h] ${RESET}
+    ${BOLD}my-sway-firejail display${RESET}
+    ${BOLD}my-sway-firejail check${RESET}
+    ${BOLD}my-sway-firejail [--help|-h] ${RESET}
 
 ${BOLD}DESCRIPTION${RESET}
 
-    ${BOLD}measure${RESET}
-    Measures the network latency and outputs the result in a waybar compatible way.
+    ${BOLD}display${RESET}
+    Counts and displays the currently running sandboxed programs.
 
 
     ${BOLD}check${RESET}
-    Checks if it is reasonable or not to run the measure command i.e. is there
-    an established connection to run the measurement through.
+    Checks if the command would be able to run.
 
 ${BOLD}OPTIONS${RESET}
 
@@ -75,7 +68,7 @@ ${BOLD}OPTIONS${RESET}
 
 ${BOLD}AUTHOR${RESET}
 
-    ${BOLD}Tibor Simon${RESET} - 2021-06.
+    ${BOLD}Tibor Simon${RESET} - 2021-07.
 END
   exit 0
 }
@@ -105,7 +98,7 @@ END
 #==============================================================================
 log_error() {
   message="$1"
-  echo "$message" | systemd-cat -p err -t my-sway-ping
+  echo "$message" | systemd-cat -p err -t my-sway-firejail
 }
 
 #==============================================================================
@@ -114,10 +107,10 @@ log_error() {
 
 
 #==============================================================================
-# Handler for the measurement mode.
+# Handler for the display mode.
 #------------------------------------------------------------------------------
 # Globals:
-#   PING_DESTINATION
+#   None
 # Arguments:
 #   None
 # STDIN:
@@ -126,26 +119,26 @@ log_error() {
 # Output variables:
 #   None
 # STDOUT:
-#   None
+#   Waybar compatible json output.
 # STDERR:
 #   None
 # Status:
 #   0 - Other status is not expected.
 #==============================================================================
-handle_measure() {
-  if result="$(ping -c 4 "$PING_TARGET" 2>&1)"
+handle_display() {
+  if count="$(firejail --list 2>/dev/null | wc --lines)"
   then
-    measurement="$(
-      echo "$result" | \
-      tail -1 | \
-      awk '{print $4}' | \
-      cut -d '/' -f 2 | \
-      xargs -I {} printf '%.1fms' {} \
+    tooltip="$(
+      firejail --list 2>/dev/null | while read -r line
+      do
+        echo -n "${line}\n"
+      done
     )"
-    tooltip="$(echo "$result" | tail -1)"
-    echo "{\"class\": \"connected\", \"text\": \"Ping ${measurement}\", \"tooltip\": \"${tooltip}\"}"
+    # removing trailing new line sequence
+    tooltip="$(echo "$tooltip" | sed 's/\\n$//')"
+    echo "{\"class\": \"connected\", \"text\": \"Firejail ${count}\", \"tooltip\": \"${tooltip}\"}"
   else
-    log_error "Error during measurement: '${result}'"
+    log_error "Error during display: '${count}'"
     echo "{\"class\": \"error\", \"text\": \"-\"}"
   fi
 }
@@ -167,13 +160,11 @@ handle_measure() {
 # STDERR:
 #   None
 # Status:
-#   0 - Networking has full connectivity.
-#   1 - Networking has linited connectivity.
+#   0 - Firejail is available.
+#   1 - Firejail is not available.
 #==============================================================================
 handle_check() {
-  # The nmcli call can also fail here.
-  result="$(nmcli networking connectivity check)"
-  test "$result" == 'full'
+  command -v firejail 2>&1 1>/dev/null
 }
 
 #==============================================================================
@@ -183,8 +174,8 @@ handle_check() {
 while [ "$#" -gt '0' ]
 do
   case "$1" in
-    measure )
-      handle_measure
+    display )
+      handle_display
       exit 0
       ;;
     check )

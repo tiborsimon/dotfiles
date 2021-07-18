@@ -44,12 +44,12 @@ alias buspirate='sudo screen /dev/ttyUSB0 115200 8N1'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias ls='ls --human-readable --color --group-directories-first'
 alias gs='git status'
-alias SS="sudo systemctl"
-alias v="vim"
-alias sv="sudo vim"
-alias r="ranger"
-alias sr="sudo ranger"
-alias mkd="mkdir -pv"
+alias SS='sudo systemctl'
+alias v='vim'
+alias sv='sudo vim'
+alias r='ranger'
+alias sr='sudo ranger'
+alias mkd='mkdir -pv'
 
 function rg {
   # command rg -p $@ | less -RMFXK

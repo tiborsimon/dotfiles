@@ -21,5 +21,6 @@ link_scripts sway \
   './scripts/lock.bash' \
   './scripts/idle.bash' \
   './scripts/ping.bash' \
+  './scripts/firejail.bash' \
   './scripts/setup_outputs.bash' \
 

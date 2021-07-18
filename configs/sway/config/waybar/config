@@ -53,6 +53,7 @@
   /*  RIGHT */
 	"modules-right": [
     "custom/ping",
+    "custom/firejail",
 		"pulseaudio",
     "backlight",
 		"memory",
@@ -68,6 +69,13 @@
     "exec-if": "my-sway-ping check",
     "return-type": "json",
     "interval": 5
+  },
+  "custom/firejail": {
+    "format": "{}",
+    "exec": "my-sway-firejail display",
+    "exec-if": "my-sway-firejail check",
+    "return-type": "json",
+    "interval": 2
   },
 	"pulseaudio": {
 		"format": "{icon} {volume:2}%",
