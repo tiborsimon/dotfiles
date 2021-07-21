@@ -5,6 +5,5 @@ source ../../utils/libdeploy.bash
 
 # Firejail integration
 link_package \
-  './firejail/firefox.profile' "${HOME}/.config/firejail/firefox.profile" \
+  './firejail/firefox.local' "${HOME}/.config/firejail/firefox.local" \
   './firejail/firefox.shim' "${HOME}/.local/bin/firefox"
-

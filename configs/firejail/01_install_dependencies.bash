@@ -3,4 +3,4 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 
 source ../../utils/libdeploy.bash
 
-install_packages firejail
+install_packages firejail xdg-dbus-proxy
