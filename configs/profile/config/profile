@@ -1,3 +1,4 @@
+#!/bin/zsh
 #                     __ _ _
 #                    / _(_) |
 #    _ __  _ __ ___ | |_ _| | ___
@@ -8,27 +9,10 @@
 #   |_|
 #
 
-# ============================================================================
-#  G L O B A L   V A R I A B L E   H A N D L I N G
-export TERMINAL="kitty"
-export XDG_CONFIG_HOME="${HOME}/.config"
-export EDITOR="nvim"
-export PROJECTS="${HOME}/projects"
-# export NPM_CONFIG_PREFIX="${HOME}/.npm-global"
-export RIPGREP_CONFIG_PATH="${HOME}/.config/ripgreprc"
+#==============================================================================
+# PATH HANDLING
+#==============================================================================
 
-export MOZ_ENABLE_WAYLAND=1
-export KITTY_ENABLE_WAYLAND=1
-export LIBSEAT_BACKEND=logind
-
-# Doom emacs
-export EMACSDIR="${HOME}/.config/emacs"
-export DOOMDIR="${HOME}/.config/doom"
-export DOOMLOCALDIR="${EMACSDIR}/.local"
-
-
-# ============================================================================
-#  P A T H   H A N D L I N G
 # PATH="${HOME}/.cargo/bin:${PATH}"
 # PATH="${HOME}/.npm-global/bin:${PATH}"
 # PATH="${HOME}/.scripts:${PATH}"
@@ -36,11 +20,70 @@ PATH="${EMACSDIR}/bin:${PATH}"
 PATH="${HOME}/.local/bin:${PATH}"
 export PATH
 
+#==============================================================================
+# GLOBAL VARIABLES
+#==============================================================================
 
-# ============================================================================
-#  A P I   K E Y   H A N D L I N G
-export API_KEYS_FILE="${HOME}/.api_keys"
-if [ -s $API_KEYS_FILE ]
-then
-  source $API_KEYS_FILE
-fi
+export TERMINAL="kitty"
+export EDITOR="nvim"
+export BROWSER="firefox"
+export READER="zathura"
+export PROJECTS="${HOME}/projects"
+
+#==============================================================================
+# GLOBAL XDG SETTINGS
+#==============================================================================
+
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CACHE_HOME="${HOME}/.cache"
+
+#==============================================================================
+# ZSH
+#==============================================================================
+
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+
+#==============================================================================
+# RIPGREP
+#==============================================================================
+
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgreprc"
+
+#==============================================================================
+# FIREFOX
+#==============================================================================
+
+export MOZ_ENABLE_WAYLAND=1
+
+#==============================================================================
+# KITTY
+#==============================================================================
+
+export KITTY_ENABLE_WAYLAND=1
+
+#==============================================================================
+# SWAY
+#==============================================================================
+# Fix for a sway warning: https://unix.stackexchange.com/a/657578
+export LIBSEAT_BACKEND=logind
+
+#==============================================================================
+# DOOM EMACS
+#==============================================================================
+
+export EMACSDIR="${XDG_CONFIG_HOME}/emacs"
+export DOOMDIR="${XDG_CONFIG_HOME}/doom"
+export DOOMLOCALDIR="${EMACSDIR}/.local"
+
+#==============================================================================
+# LESS / MAN PAGES
+#==============================================================================
+
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'

@@ -4,4 +4,4 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 link_package \
-  './config/profile' "${HOME}/.profile"
+  './config/profile' "${HOME}/.config/profile"

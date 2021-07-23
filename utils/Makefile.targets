@@ -106,3 +106,7 @@ install-wofi:
 install-zathura:
 	@./utils/install-configs.bash zathura
 
+.PHONY: install-zsh
+install-zsh:
+	@./utils/install-configs.bash zsh
+
