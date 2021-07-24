@@ -4,7 +4,7 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 link_package \
-  './config/ledgerrc' "${HOME}/.ledgerrc"
+  './config/ledgerrc' "${HOME}/.config/ledger/ledgerrc"
 
 link_scripts ledger \
   './scripts/formatter.py' \

@@ -62,10 +62,6 @@ install-neovim:
 install-openvpn:
 	@./utils/install-configs.bash openvpn
 
-.PHONY: install-profile
-install-profile:
-	@./utils/install-configs.bash profile
-
 .PHONY: install-pyenv
 install-pyenv:
 	@./utils/install-configs.bash pyenv
@@ -77,6 +73,10 @@ install-ranger:
 .PHONY: install-ripgrep
 install-ripgrep:
 	@./utils/install-configs.bash ripgrep
+
+.PHONY: install-shell
+install-shell:
+	@./utils/install-configs.bash shell
 
 .PHONY: install-sudoers
 install-sudoers:

@@ -1,0 +1,20 @@
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp='cp -iv' \
+	mv='mv -iv' \
+	rm='rm -vI' \
+	bc='bc -ql'
+
+# Colorize commands when possible.
+alias \
+	ls='ls --human-readable --literal --color=auto --group-directories-first' \
+	grep='grep --color=auto' \
+	diff='diff --color=auto'
+
+# These common commands are just too long! Abbreviate them.
+alias \
+  gs='git status' \
+  r='ranger' \
+  ledger='ledger --init-file ~/.config/ledger/ledgerrc' \
+  firecfg='firecfg --bindir=~/.local/bin' \
+  dot='cd ~/dotfiles'

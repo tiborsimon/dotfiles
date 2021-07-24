@@ -4,7 +4,7 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 link_package \
-  './config/gitconfig' "${HOME}/.gitconfig"
+  './config/gitconfig' "${HOME}/.config/git/config"
 
 link_package \
   './scripts/git-sha.bash' "${HOME}/.local/bin/git-sha" \

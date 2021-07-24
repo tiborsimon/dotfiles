@@ -30,27 +30,6 @@ unsetopt beep extendedglob notify
 stty stop undef		# Disable ctrl-s to freeze terminal.
 
 #==============================================================================
-# KEY BINDINGS
-#==============================================================================
-
-# Reset
-bindkey '^r' clear-screen
-
-# Vim key movement
-bindkey '^h' backward-char
-bindkey '^j' history-search-forward
-bindkey '^k' history-search-backward
-bindkey '^l' forward-char
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
-
-
-#==============================================================================
 # HISTORY
 #==============================================================================
 
@@ -94,6 +73,33 @@ zle-line-init() {
 zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+#==============================================================================
+# KEY BINDINGS
+#==============================================================================
+
+# Reset
+bindkey '^r' clear-screen
+
+# Vim key movement
+bindkey '^h' backward-char
+bindkey '^j' history-search-forward
+bindkey '^k' history-search-backward
+bindkey '^l' forward-char
+
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+
+#==============================================================================
+# EXTERNAL CONFIG LOADING
+#==============================================================================
+
+# Load aliases and shortcuts if existent.
+[ -f "${XDG_CONFIG_HOME}/shell/aliasrc" ] && source "${XDG_CONFIG_HOME}/shell/aliasrc"
 
 #==============================================================================
 # ADDITIONAL PLUGINS

@@ -1,2 +1,2 @@
 # Sourcing master profile
-[ -f ~/.config/profile ] && source ~/.config/profile
+[ -f ~/.config/shell/profile ] && source ~/.config/shell/profile
