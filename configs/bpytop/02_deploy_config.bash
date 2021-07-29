@@ -8,5 +8,4 @@ link_package \
 
 # Firejail integration
 link_package \
-  './firejail/bpytop.local' "${HOME}/.config/firejail/bpytop.local" \
-  './firejail/bpytop.shim' "${HOME}/.local/bin/bpytop"
+  './firejail/bpytop.profile' "${HOME}/.config/firejail/bpytop.profile"
