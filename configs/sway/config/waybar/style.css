@@ -72,6 +72,7 @@ window#waybar {
 #custom-firejail {
 	color: red;
   font-weight: bold;
+	padding-right: 6px;
 }
 #network {
 	color: #919191;
@@ -95,7 +96,6 @@ window#waybar {
 #battery,
 #custom-vpn,
 #custom-ping,
-#custom-firejail,
 #network,
 #backlight,
 #disk {

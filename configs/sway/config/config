@@ -135,10 +135,10 @@ input type:keyboard {
 #==============================================================================
 
 input type:touchpad {
-  repeat_delay 200
-  repeat_rate 75
+  natural_scroll disabled
+  accel_profile adaptive
   scroll_factor 0.3
-  tap enabled
+  tap disabled
 }
 
 seat * {
@@ -326,8 +326,8 @@ floating_modifier $mod normal
 
 # Preselect the new child split position. This action won't have any visible
 # feedback, you just have to launch an application after it.
-bindsym $mod+minus split vertical
-bindsym $mod+backslash split horizontal
+bindsym $mod+minus split toggle
+# bindsym $mod+backslash split horizontal
 
 # Make the current focus fullscreen.
 bindsym $mod+m fullscreen

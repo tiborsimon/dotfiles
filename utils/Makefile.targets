@@ -58,13 +58,17 @@ install-machine:
 install-neovim:
 	@./utils/install-configs.bash neovim
 
+.PHONY: install-nodejs
+install-nodejs:
+	@./utils/install-configs.bash nodejs
+
 .PHONY: install-openvpn
 install-openvpn:
 	@./utils/install-configs.bash openvpn
 
-.PHONY: install-pyenv
-install-pyenv:
-	@./utils/install-configs.bash pyenv
+.PHONY: install-python
+install-python:
+	@./utils/install-configs.bash python
 
 .PHONY: install-ranger
 install-ranger:

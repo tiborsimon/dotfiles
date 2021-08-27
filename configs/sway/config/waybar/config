@@ -53,7 +53,6 @@
   /*  RIGHT */
 	"modules-right": [
     "custom/ping",
-    "custom/firejail",
 		"pulseaudio",
     "backlight",
 		"memory",
@@ -62,6 +61,7 @@
     "custom/vpn",
     "network",
 		"battery",
+    "custom/firejail",
 	],
   "custom/ping": {
     "format": "{}",

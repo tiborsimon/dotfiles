@@ -143,7 +143,7 @@ handle_measure() {
       xargs -I {} printf '%.1fms' {} \
     )"
     tooltip="$(echo "$result" | tail -1)"
-    echo "{\"class\": \"connected\", \"text\": \"Ping ${measurement}\", \"tooltip\": \"${tooltip}\"}"
+    echo "{\"class\": \"connected\", \"text\": \"${measurement}\", \"tooltip\": \"${tooltip}\"}"
   else
     log_error "Error during measurement: '${result}'"
     echo "{\"class\": \"error\", \"text\": \"-\"}"

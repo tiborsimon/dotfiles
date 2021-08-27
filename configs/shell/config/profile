@@ -88,3 +88,26 @@ export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 export LESSHISTFILE='-'
+
+#==============================================================================
+# NODE.JS
+#==============================================================================
+
+export npm_config_prefix="$HOME/.local"
+
+#==============================================================================
+# PYTHON
+#==============================================================================
+
+# VirtualEnvWrapper setup.
+export WORKON_HOME=${XDG_DATA_HOME}/virtualenvs
+export PROJECT_HOME=${HOME}/projects
+if [ -f "${HOME}/.local/bin/virtualenvwrapper.sh" ]
+then
+  source "${HOME}/.local/bin/virtualenvwrapper.sh"
+fi
+
+# Pyenv setup.
+#export PYENV_ROOT="${XDG_CONFIG_HOME}/.pyenv"
+#export PATH="${PYENV_ROOT}/bin:${PATH}"
+eval "$(pyenv init --path)"

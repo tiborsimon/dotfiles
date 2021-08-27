@@ -15,6 +15,7 @@ alias \
 alias \
   gs='git status' \
   r='ranger' \
+  e='nvim' \
   ledger='ledger --init-file ~/.config/ledger/ledgerrc' \
   firecfg='firecfg --bindir=~/.local/bin' \
   dot='cd ~/dotfiles'

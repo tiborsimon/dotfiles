@@ -136,7 +136,7 @@ handle_display() {
     )"
     # removing trailing new line sequence
     tooltip="$(echo "$tooltip" | sed 's/\\n$//')"
-    echo "{\"class\": \"connected\", \"text\": \"Firejail ${count}\", \"tooltip\": \"${tooltip}\"}"
+    echo "{\"class\": \"connected\", \"text\": \"[${count}]\", \"tooltip\": \"${tooltip}\"}"
   else
     log_error "Error during display: '${count}'"
     echo "{\"class\": \"error\", \"text\": \"-\"}"
