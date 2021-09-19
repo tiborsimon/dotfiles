@@ -1,5 +1,4 @@
 apparmor
 seccomp
-net wlp3s0
 caps.drop all
 private-bin bash,dbus-launch,dbus-send,env,firefox,sh,which

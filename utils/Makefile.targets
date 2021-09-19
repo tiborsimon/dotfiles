@@ -66,6 +66,10 @@ install-nodejs:
 install-openvpn:
 	@./utils/install-configs.bash openvpn
 
+.PHONY: install-power
+install-power:
+	@./utils/install-configs.bash power
+
 .PHONY: install-python
 install-python:
 	@./utils/install-configs.bash python

@@ -45,6 +45,11 @@ set smarttab
 set smartindent
 set autoindent
 
+" Scrolling
+set scrolloff=3
+set sidescrolloff=5
+set scrolljump=0
+
 "=============================================================================
 " KEYBOARD MAPPINGS
 "=============================================================================
@@ -88,6 +93,9 @@ nnoremap J :m .+1<cr>==
 nnoremap K :m .-2<cr>==
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
+
+" Indented new line, useful in HTML files
+inoremap <C-CR> <CR><Esc>k$o
 
 
 "=============================================================================
@@ -161,8 +169,6 @@ call plug#begin(stdpath('data') . 'vimplug')
   Plug 'kana/vim-arpeggio'
   Plug 'folke/zen-mode.nvim'
 
-  Plug 'lukas-reineke/indent-blankline.nvim'
-
   Plug 'hoob3rt/lualine.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'ryanoasis/vim-devicons'
@@ -182,6 +188,17 @@ call plug#begin(stdpath('data') . 'vimplug')
   Plug 'norcalli/nvim-colorizer.lua'
 
   Plug 'preservim/nerdcommenter'
+
+  Plug 'mattn/emmet-vim', { 'for': ['html'] }
+
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+  Plug 'kevinhwang91/nvim-hlslens'
+
+  Plug 'Yggdroot/indentLine'
+
+  Plug 'Raimondi/delimitMate'
+
 call plug#end()
 
 
@@ -376,30 +393,11 @@ lua << EOF
       -- },
     },
     on_open = function(win)
-      vim.cmd("IndentBlanklineDisable!")
       vim.cmd("set nocursorline")
     end,
     on_close = function()
-      vim.cmd("IndentBlanklineEnable!")
       vim.cmd("set cursorline")
     end,
-  }
-EOF
-
-"=============================================================================
-" PLUGIN - BLANKLINE
-"=============================================================================
-
-lua << EOF
-  vim.opt.listchars = {
-      space = "⋅",
-      eol = "↴",
-  }
-
-  require("indent_blankline").setup {
-      show_end_of_line = false,
-      space_char_blankline = " ",
-      buftype_exclude = {"terminal", "help"}
   }
 EOF
 
@@ -512,7 +510,7 @@ lua <<EOF
       { key = {"<CR>", "o"}, cb = tree_cb("edit") },
       { key = "e",           cb = tree_cb("cd") },
       { key = "s",           cb = tree_cb("vsplit") },
-      { key = "v",           cb = tree_cb("split") },
+      { key = "i",           cb = tree_cb("split") },
       { key = "t",           cb = tree_cb("tabnew") },
       { key = "<",           cb = tree_cb("prev_sibling") },
       { key = ">",           cb = tree_cb("next_sibling") },
@@ -558,6 +556,7 @@ EOF
 
 " Create default mappings
 let g:NERDCreateDefaultMappings = 1
+let g:NERDSpaceDelims = 1
 
 "=============================================================================
 " PLUGIN - EASY ALIGN
@@ -568,3 +567,25 @@ xmap <leader>a <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap <leader>a <Plug>(EasyAlign)
+
+"=============================================================================
+" PLUGIN - HLS LENS
+"=============================================================================
+
+noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
+            \<Cmd>lua require('hlslens').start()<CR>
+
+" "=============================================================================
+" " PLUGIN - EMMET VIM
+" "=============================================================================
+
+" let g:user_emmet_leader_key='<C-m>'
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,css EmmetInstall
+" let g:user_emmet_mode='i'
+
+"=============================================================================
+" PLUGIN - INDENT LINE
+"=============================================================================
+
+let g:indentLine_char = '▏'

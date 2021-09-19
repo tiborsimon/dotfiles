@@ -102,4 +102,4 @@ EXTERNAL_MONITOR_NAME="$( \
 )"
 
 swaymsg output "$LAPTOP_SCREEN_NAME" pos 0 1000
-swaymsg output "$EXTERNAL_MONITOR_NAME" pos 1920 0 transform 270
+swaymsg output "$EXTERNAL_MONITOR_NAME" pos 1920 0 transform 0
