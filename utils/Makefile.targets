@@ -106,6 +106,10 @@ install-udevmon:
 install-vim:
 	@./utils/install-configs.bash vim
 
+.PHONY: install-vscode
+install-vscode:
+	@./utils/install-configs.bash vscode
+
 .PHONY: install-wofi
 install-wofi:
 	@./utils/install-configs.bash wofi

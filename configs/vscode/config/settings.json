@@ -1,0 +1,9 @@
+{
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "editor.minimap.enabled": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "terminal.integrated.altClickMovesCursor": false,
+    "vim.leader": " ",
+    "workbench.colorTheme": "Cobalt2"
+}
