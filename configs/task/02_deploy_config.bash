@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+cd "$(dirname "$(readlink -f "$0")")" || exit
+
+source ../../utils/libdeploy.bash
+
+link_package \
+  './config/taskrc' "${HOME}/.taskrc" \
+  './config/timewarrior.cfg' "${HOME}/.timewarrior/timewarrior.cfg"
+

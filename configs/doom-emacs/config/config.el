@@ -9,6 +9,9 @@
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
 
+(set-language-environment "English")
+(set-locale-environment "en_US.UTF-8")
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
