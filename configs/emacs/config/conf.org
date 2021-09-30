@@ -2,77 +2,67 @@
 #+DESCRIPTION: An org-babel based emacs configuration
 #+LANGUAGE: en
 #+PROPERTY: results silent
+#+TAGS: ticket(t) review(r) issue(i) django(d) flask(f)
+#+SEQ_TODO: RECURRING(R) TODO(t!) SOMEDAY(s!) IN_REVIEW(r!) NEXT(n!) WAITING(w@) | DONE(d@) CANCELLED(c@) SZAMLAZVA(i!) FIZETVE(f!)
 
-* Core Setup
-** Basic Stuff
-*** Better Defaults
-Hello, this is ok.
-#+BEGIN_SRC emacs-lisp
-;; (use-package better-defaults :ensure t)
-;; (setq visible-bell nil)
-#+END_SRC
 
+* Emacs
+** Essentials
 *** Splash Screen
+
 Remove splash screen and use *scratch* instead as the home buffer.
+
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 #+END_SRC
 
 *** Line Numbers
+
 Switch line numbers on by default in all buffers
+
 #+BEGIN_SRC emacs-lisp
 ;; (global-linum-mode 1)
 #+END_SRC
 
 *** Menu Bar
+
 Switch the Menubar off by default (I like to keep everything clean)
+
 #+BEGIN_SRC emacs-lisp
 (menu-bar-mode -1)
 #+END_SRC
 
 *** Scroll Bar
+
 Remove Scroll Bars
+
 #+BEGIN_SRC emacs-lisp
 (scroll-bar-mode -1)
 #+END_SRC
 
 *** Tool Bar
+
 Remove Tool Bars
+
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 #+END_SRC
 
-*** New Line indent
-New lines auto indents
-#+BEGIN_SRC emacs-lisp
-;; (define-key global-map (kbd "RET")
-;;   'newline-and-indent)
-#+END_SRC
-
 *** Tool Tips
-Tool Tips in echo area
+
+Tool Tips in echo area:
+
 #+BEGIN_SRC emacs-lisp
 (tooltip-mode -1)
 (setq tooltip-use-echo-area t)
 #+END_SRC
 
-*** Org mode code block auto indent
-There is a strange indentation issue that is happening inside the code
-blocks. If you hit an enter the already entered lines will be indented
-by one level. This could be quite annoying. The following config
-solves it:
-#+begin_src emacs-lisp
-(electric-indent-mode -1)
-(setq org-edit-src-content-indentation 0
-      org-src-tab-acts-natively t
-      org-src-preserve-indentation t)
-(setq make-backup-files nil)
-#+end_src
+*** Smooth scrolling
 
-*** Scroll handling
-Scrolling in emacs is very jittery by default as it works in a paging
-mode by default. The following settings solves this issue:
+Scrolling in emacs is very jittery by default as it works in a paging mode by
+default. The following settings solves this issue:
+
 #+begin_src emacs-lisp
 (setq scroll-step 1
       scroll-conservatively 101
@@ -80,43 +70,10 @@ mode by default. The following settings solves this issue:
       scroll-preserve-screen-position 't)
 #+end_src
 
-*** Which-key
-#+begin_src emacs-lisp
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode 1)
-  )
-#+end_src
+*** Lockfile handling
 
-*** Fill column
-Automatic line wrapping:
-#+begin_src emacs-lisp
-(setq-default fill-column 82)
-(add-hook 'org-mode-hook 'turn-on-auto-fill)
-#+end_src
-
-*** Basic stuff
 #+BEGIN_SRC emacs-lisp
 (setq create-lockfiles nil)
-(use-package ranger
-  :ensure t
-  :config
-)
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-items '(
-    (recents  . 5)
-    (projects . 5)
-    (agenda . 5)
-  ))
-)
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode +1))
 #+END_SRC
 
 ** Font
@@ -130,7 +87,9 @@ Automatic line wrapping:
 
 ** Themes
 *** Install Themes from Repos
-List of themes to install
+
+List of themes to install.
+
 #+BEGIN_SRC emacs-lisp
 (use-package darkokai-theme
   :ensure t
@@ -141,11 +100,14 @@ List of themes to install
 #+END_SRC
 
 *** Load Current default theme
+
 #+BEGIN_SRC emacs-lisp
 (load-theme 'spacemacs-dark t)
 #+END_SRC
 
-** Evil mode
+** Plugins
+*** Evil mode
+
 Install EVIL (if not yet installed), and enable it.
 
 #+BEGIN_SRC emacs-lisp
@@ -153,121 +115,366 @@ Install EVIL (if not yet installed), and enable it.
 (use-package evil
   :ensure t
   :config
-
   (evil-mode 1)
-  (use-package evil-leader
-    :ensure t
-    :config
-    (global-evil-leader-mode t)
-    (evil-leader/set-leader "<SPC>")
-    (evil-leader/set-key
-      "w" 'save-buffer
-      "e" 'ranger
-    ) 
-  )
-
-  (use-package evil-surround
-    :ensure t
-    :config (global-evil-surround-mode))
-
-  (use-package evil-indent-plus
-    :ensure t)
-
-;;  (use-package evil-org
-;;    :ensure t
-;;    :config
-;;    (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
-;;    (add-hook 'org-mode-hook (lambda () (evil-org-mode))))
-
-  (use-package key-chord
-    :ensure t
-    :config
-    (key-chord-mode 1)
-    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-    (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-    )
-
   (define-key evil-motion-state-map ";" 'evil-ex)
-
-  (use-package powerline-evil
-    :ensure t
-    :config
-    (powerline-evil-vim-theme)
-    )
-
-  ;; Configure the global redo system.. This is a joke though that a simple redo
-  ;; cannot be configured with ease.. This is still not working with this config..
-  (use-package undo-tree
-    :ensure t
-    :config
-    (setq evil-undo-system 'undo-tree)
-    (global-undo-tree-mode)
-    (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
-    )
 )
 #+END_SRC
 
-** Org Mode
+**** Evil leader
+
+#+begin_src emacs-lisp
+(use-package evil-leader
+  :ensure t
+  :config
+  (global-evil-leader-mode t)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+    "w" 'save-buffer
+    "e" 'ranger
+    "b" 'buffer-menu
+  ) 
+)
+#+end_src
+
+**** Evil surround
+
+#+begin_src emacs-lisp
+(use-package evil-surround
+  :ensure t
+  :config 
+  (global-evil-surround-mode)
+)
+#+end_src
+
+**** Evil indent plus
+
+#+begin_src emacs-lisp
+(use-package evil-indent-plus
+  :ensure t)
+#+end_src
+
+**** Key chords
+
+#+begin_src emacs-lisp
+(use-package key-chord
+  :ensure t
+  :config
+  (key-chord-mode 1)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+  )
+#+end_src
+
+**** Powerline evil
+
+#+begin_src emacs-lisp
+(use-package powerline-evil
+  :ensure t
+  :config
+  (powerline-evil-vim-theme)
+  )
+#+end_src
+
+*** Which-key
+
+Adding a minor mode to display the started key maps.
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode 1)
+  )
+#+end_src
+
+*** Projectile
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1))
+#+end_src
+
+*** Dashboard
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '(
+    (recents  . 5)
+    (projects . 5)
+    (agenda . 5)
+  ))
+)
+#+end_src
+
+*** Ranger
+
+#+BEGIN_SRC emacs-lisp
+(use-package ranger
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "e" 'ranger
+  ) 
+)
+#+END_SRC
+
+* Org Mode
+
+Install org-mode and configure it.
+
 #+BEGIN_SRC emacs-lisp
 (use-package org
   :ensure t
   :config
-  ;; Make sure org file code highlights correctly
-  (setq org-src-fontify-natively t)
-
-  (use-package org-tempo)
-
-  (setq org-adapt-indentation nil)
-
-  (evil-leader/set-key-for-mode 'org-mode
-    "m ," 'org-ctrl-c-ctrl-c
-
-    "m c i" 'org-clock-in
-    "m c o" 'org-clock-out
-    "m c g" 'org-clock-jump-to-current-clock
-    "m c d" 'org-clock-display
-
-    "m s" 'org-schedule
-    "m d" 'org-deadline
-  )
-
-  (org-babel-do-load-languages 'org-babel-load-languages
-    '(
-      (shell . t)
-      (python .t)
-    )
-  )
-  (defun my/org-mode-hook ()
-    "Stop the org-level headers form increasing in height relative to the other text."
-    (dolist (face '(org-level-1
-                    org-level-2
-                    org-level-3
-                    org-level-4
-                    org-level-5))
-      (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
-
-    (add-hook 'org-mode-hook 'my/org-mode-hook)
-
 )
 #+END_SRC
 
-Htmlize to export my org files to web pages:
+** Essential key mappings
+
+#+begin_src emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "m ," 'org-ctrl-c-ctrl-c
+)
+#+end_src
+
+** Fill column
+
+Automatic line wrapping:
+
+#+begin_src emacs-lisp
+(setq-default fill-column 82)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+end_src
+
+** Heading formatting
+
+Stop the org-level headers form increasing in height relative to the other text.
+
 #+BEGIN_SRC emacs-lisp
-(use-package htmlize :ensure t)
+(defun my/org-mode-hook ()
+  (dolist (face '(org-level-1
+                  org-level-2
+                  org-level-3
+                  org-level-4
+                  org-level-5))
+    (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+
+(add-hook 'org-mode-hook 'my/org-mode-hook)
 #+END_SRC
 
-Add org-clock times into a ~:LOGBOOK:~ drawer.
-#+BEGIN_SRC emacs-lisp
-(setq org-clock-into-drawer t)
-#+END_SRC
+** Indent mode
 
 Turn on indent mode on startup.
+
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-indented t)
 #+END_SRC
 
-Org Agenda open in current window
+** Clocking
+*** Global clock handling
+By default clocktables only will calculate times in the current year. This is not
+a good way if we have clocking data spanning over many years. This settings will
+make org-mode to use all data available.
+
+#+begin_src  emacs-lisp
+(setq org-clock-display-default-range 'untilnow)
+#+end_src
+
+*** Clocking into drawer
+
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-window-setup 'current-window)
+(setq org-clock-into-drawer "CLOCKING")
 #+END_SRC
 
+*** Key mappings
+
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "m c i" 'org-clock-in
+  "m c o" 'org-clock-out
+  "m c g" 'org-clock-goto
+  "m c d" 'org-clock-display
+)
+#+END_SRC
+
+*** Clocktable customizations
+
+The clocktable functionality displays the clocked stuff in days which is not
+good. We want to displya them in hours even if it exeeds 24 hours. This function
+will solve it:
+
+#+begin_src emacs-lisp
+(defun my-minutes-in-org-time (time)
+  (let ((re  "\\(\\([0-9]+\\)d \\)?\\([0-9]+\\):\\([0-9]+\\)")
+        (values '(2 3 4)))
+    (save-match-data
+      (catch 'exit
+        (if (not (string-match re time))
+            (throw 'exit 0.)))
+      (let ((values (mapcar (lambda (num)
+                              (string-to-number ;; convert to number
+                               (or (match-string num time) ;; the part of the regex that matches
+                                   "0"))) ;; or zero in case no days exist, then match-string is nil
+                            values)))
+        (let ((days (nth 0 values))
+              (hours (nth 1 values))
+              (minutes (nth 2 values)))
+          (+ (* 60
+                (+ (* 24 days)
+                   hours))
+             minutes))))))
+#+end_src
+
+** Logs
+*** Separate drawer
+
+Logs should go into a separate drawer:
+
+#+begin_src emacs-lisp
+(setq org-log-into-drawer t)
+#+end_src
+
+*** Key bindings
+
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "m z" 'org-add-note
+)
+#+END_SRC
+
+** Todo items
+*** Default logging for states
+
+Setting an item as done or rescheduling it should trigger a note:
+
+#+begin_src emacs-lisp
+(setq org-log-done "note")
+(setq org-log-reschedule "note")
+#+end_src
+
+*** Key bindings
+
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "m t" 'org-todo
+  "m s" 'org-schedule
+  "m d" 'org-deadline
+)
+#+END_SRC
+
+*** File based global headers
+
+This is only a reminder on how to add a global file scoped tag definition with
+automatic timestamp and note insertion.
+
+#+begin_src text
+#+SEQ_TODO: RECURRING(R) TODO(t!) SOMEDAY(s!) IN_REVIEW(r!) NEXT(n!) WAITING(w@) | DONE(d@) CANCELLED(c@) SZAMLAZVA(i!) FIZETVE(f!)
+#+end_src
+
+1. The *todo* and *done* states are separated from each other with a pipe.
+2. The first *todo* item will be used for the recurring tasks on completition.
+3. The letter in the parenthesis after the name will be the shortcut in the
+   interactive menu.
+4. An exclamation mark ~!~ after the shortcut will trigger a timestamp insertion into
+   the logbook on completition.
+5. An at ~@~ mark will initiate a note insertion on completition.
+
+** Refile
+*** Logging the refile action
+
+If a refile action is issued on an item, the item's logbook will be updated.
+
+#+begin_src emacs-lisp
+(setq org-log-refile t)
+#+end_src
+
+*** Refile targets
+
+We are allowing all agenda files to be targets:
+
+#+begin_src emacs-lisp
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+#+end_src
+
+*** Key bindigs
+
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "m r" 'org-refile
+)
+#+END_SRC
+
+** Capture
+*** Global key mapping
+
+Setting up a keymap that would be available in every buffer and mode:
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<f6>") 'org-capture)
+#+end_src
+
+*** Capture templates
+
+#+begin_src emacs-lisp
+(setq org-capture-templates
+ '(
+    (
+      "t" "Todo" entry (file+headline "~/private/notebook/refile.org" "Tasks")
+      "* TODO %^{title}\n  CREATED: %U\n   %?"
+      :clock-in t :clock-resume t
+    )
+    (
+       "j" "Journal" entry (file+olp+datetree "~/private/journal/journal.org")
+       "* Entry on %<%H:%M>\n   %?"
+       :clock-in t :clock-resume t
+    )
+  )
+)
+#+end_src
+
+** Code blocks
+*** Syntax highlighting
+
+#+BEGIN_SRC emacs-lisp
+;; Make sure org file code highlights correctly
+(setq org-src-fontify-natively t)
+#+END_SRC
+
+*** Code block templates
+
+This is a new thing that is required to be able to use code block templates like ~<s~.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-tempo)
+#+END_SRC
+
+*** Indentation inside the code block
+
+There is a strange indentation issue that is happening inside the code blocks. If
+you hit an enter the already entered lines will be indented by one level. This
+could be quite annoying. The following config solves it:
+
+#+begin_src emacs-lisp
+(electric-indent-mode -1)
+(setq org-edit-src-content-indentation 0
+      org-src-tab-acts-natively t
+      org-adapt-indentation nil
+      org-src-preserve-indentation t)
+(setq make-backup-files nil)
+#+end_src
+
+*** Enabled languages
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages 'org-babel-load-languages
+  '(
+    (shell . t)
+    (python .t)
+  )
+)
+#+END_SRC
