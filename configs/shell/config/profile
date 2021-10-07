@@ -111,3 +111,12 @@ fi
 #export PYENV_ROOT="${XDG_CONFIG_HOME}/.pyenv"
 #export PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init --path)"
+
+#==============================================================================
+# VAULT
+#==============================================================================
+
+export VAULT__MOUNT_POINT="${HOME}/vault"
+export VAULT__LUKS_NAME='vault'
+export VAULT__LUKS_DEVICE='/dev/sdb1'
+

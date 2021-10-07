@@ -1,6 +1,8 @@
 Cmnd_Alias       UPDATE_DOWNLOAD = /usr/bin/pacman --sync --refresh --refresh --sysupgrade --downloadonly --noconfirm
 Cmnd_Alias       UPDATE_INSTALL = /usr/bin/pacman --sync --refresh --refresh --sysupgrade
 Cmnd_Alias       SET_BRIGHTNESS = /usr/bin/tee /sys/class/backlight/intel_backlight/brightness
+Cmnd_Alias       VAULT_SUSPEND = /usr/bin/cryptsetup luksSuspend vault
+Cmnd_Alias       FLUSH_DISK_CACHE = /usr/bin/tee /proc/sys/vm/drop_caches
 
 %wheel ALL=(ALL) ALL
-%wheel ALL=(ALL) NOPASSWD: UPDATE_DOWNLOAD, UPDATE_INSTALL, SET_BRIGHTNESS
+%wheel ALL=(ALL) NOPASSWD: UPDATE_DOWNLOAD, UPDATE_INSTALL, SET_BRIGHTNESS, VAULT_SUSPEND, FLUSH_DISK_CACHE

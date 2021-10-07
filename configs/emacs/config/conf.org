@@ -8,6 +8,15 @@
 
 * Emacs
 ** Essentials
+*** Custom file location
+
+Details: https://stackoverflow.com/a/5058752/1565331
+
+#+BEGIN_SRC emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+#+END_SRC
+
 *** Splash Screen
 
 Remove splash screen and use *scratch* instead as the home buffer.
@@ -117,6 +126,11 @@ Install EVIL (if not yet installed), and enable it.
   :config
   (evil-mode 1)
   (define-key evil-motion-state-map ";" 'evil-ex)
+  ;; Window navigation
+  (define-key evil-motion-state-map (kbd "C-l") 'windmove-right)
+  (define-key evil-motion-state-map (kbd "C-h") 'windmove-left)
+  (define-key evil-motion-state-map (kbd "C-j") 'windmove-down)
+  (define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
 )
 #+END_SRC
 
@@ -204,9 +218,7 @@ Adding a minor mode to display the started key maps.
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-items '(
-    (recents  . 5)
     (projects . 5)
-    (agenda . 5)
   ))
 )
 #+end_src
@@ -233,6 +245,12 @@ Install org-mode and configure it.
   :config
 )
 #+END_SRC
+
+** Default directory
+
+#+begin_src emacs-lisp
+(setq default-directory "~/core/private/notebook")
+#+end_src
 
 ** Essential key mappings
 
@@ -478,3 +496,33 @@ could be quite annoying. The following config solves it:
   )
 )
 #+END_SRC
+
+** Agenda
+*** Agenda file config
+
+#+begin_src emacs-lisp
+(setq org-agenda-files (directory-files-recursively "~/core/private/notebook" "\.org$"))
+#+end_src
+
+*** Key bindigs
+
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "m a" 'org-agenda
+)
+#+END_SRC
+
+*** Agenda key mappings
+
+#+begin_src emacs-lisp
+(evil-set-initial-state 'org-agenda-mode 'motion)
+(evil-define-key 'motion org-agenda-mode-map
+  (kbd "<tab>") 'org-agenda-goto
+  "j" 'org-agenda-next-line
+  "k" 'org-agenda-previous-line
+  (kbd "RET") 'org-agenda-switch-to
+  (kbd "<tab>") 'org-agenda-goto
+  "t" 'org-agenda-todo
+  "z" 'org-agenda-add-note
+)
+#+end_src

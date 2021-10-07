@@ -114,6 +114,10 @@ install-tools:
 install-udevmon:
 	@./utils/install-configs.bash udevmon
 
+.PHONY: install-vault
+install-vault:
+	@./utils/install-configs.bash vault
+
 .PHONY: install-vim
 install-vim:
 	@./utils/install-configs.bash vim
