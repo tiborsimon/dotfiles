@@ -65,6 +65,7 @@ lvim.builtin.telescope.on_config_done = function()
   lvim.builtin.telescope.defaults.mappings.i["<C-p>"] = actions.cycle_previewers_prev
   lvim.builtin.telescope.defaults.mappings.i["<C-v>"] = actions.select_vertical
   lvim.builtin.telescope.defaults.mappings.i["<C-x>"] = actions.select_horizontal
+  lvim.builtin.telescope.defaults.mappings.i["<C-t>"] = actions.select_tab
   -- for normal mode
   lvim.builtin.telescope.defaults.mappings.n["<C-j>"] = actions.move_selection_next
   lvim.builtin.telescope.defaults.mappings.n["<C-k>"] = actions.move_selection_previous
