@@ -12,54 +12,54 @@
 *** Custom file location
 Details: https://stackoverflow.com/a/5058752/1565331
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
-#+END_SRC
+#+end_src
 
 *** Splash Screen
 Remove splash screen and use *scratch* instead as the home buffer.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
-#+END_SRC
+#+end_src
 
 *** Highlight line mode
 It is better to have the current line highlighted.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (global-hl-line-mode 1)
-#+END_SRC
+#+end_src
 
 *** Menu Bar
 Switch the Menubar off by default (I like to keep everything clean)
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (menu-bar-mode -1)
-#+END_SRC
+#+end_src
 
 *** Scroll Bar
 Remove Scroll Bars
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (scroll-bar-mode -1)
-#+END_SRC
+#+end_src
 
 *** Tool Bar
 Remove Tool Bars
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (tool-bar-mode -1)
-#+END_SRC
+#+end_src
 
 *** Tool Tips
 Tool Tips in echo area:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (tooltip-mode -1)
 (setq tooltip-use-echo-area t)
-#+END_SRC
+#+end_src
 
 *** Smooth scrolling
 Scrolling in emacs is very jittery by default as it works in a paging mode by
@@ -72,44 +72,45 @@ default. The following settings solves this issue:
       scroll-preserve-screen-position 't)
 #+end_src
 
-*** Lockfile handling
-#+BEGIN_SRC emacs-lisp
+*** Lockfile and backup handling
+#+begin_src emacs-lisp
 (setq create-lockfiles nil)
-#+END_SRC
+(setq make-backup-files nil)
+#+end_src
 
 ** Font
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
                     :height 100
                     :weight 'normal
                     :width 'normal)
-#+END_SRC
+#+end_src
 
 ** Themes
 *** Install Themes from Repos
 List of themes to install.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package darkokai-theme
   :ensure t
   :defer t)
 (use-package spacemacs-theme
   :ensure t
   :defer t)
-#+END_SRC
+#+end_src
 
 *** Load Current default theme
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (load-theme 'spacemacs-dark t)
-#+END_SRC
+#+end_src
 
 ** Plugins
 *** Evil mode
 **** Base
 Install EVIL (if not yet installed), and enable it.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 ;; Evil Mode
 (use-package evil
   :ensure t
@@ -123,7 +124,7 @@ Install EVIL (if not yet installed), and enable it.
   (define-key evil-motion-state-map (kbd "C-j") 'windmove-down)
   (define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
 )
-#+END_SRC
+#+end_src
 
 **** Evil leader
 #+begin_src emacs-lisp
@@ -214,7 +215,7 @@ Adding a minor mode to display the started key maps.
 #+end_src
 
 *** Ranger
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package ranger
   :ensure t
   :config
@@ -222,18 +223,18 @@ Adding a minor mode to display the started key maps.
     "e" 'ranger
   ) 
 )
-#+END_SRC
+#+end_src
 
 * Org Mode
 ** Base
 Install org-mode and configure it.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package org
   :ensure t
   :config
 )
-#+END_SRC
+#+end_src
 
 ** Default directory
 #+begin_src emacs-lisp
@@ -258,7 +259,7 @@ Automatic line wrapping:
 ** Heading formatting
 Stop the org-level headers form increasing in height relative to the other text.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (defun my/org-mode-hook ()
   (dolist (face '(org-level-1
                   org-level-2
@@ -268,14 +269,14 @@ Stop the org-level headers form increasing in height relative to the other text.
     (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 
 (add-hook 'org-mode-hook 'my/org-mode-hook)
-#+END_SRC
+#+end_src
 
 ** Indent mode
 Turn on indent mode on startup.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq org-startup-indented t)
-#+END_SRC
+#+end_src
 
 ** Clocking
 *** Global clock handling
@@ -288,12 +289,12 @@ make org-mode to use all data available.
 #+end_src
 
 *** Clocking into drawer
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq org-clock-into-drawer "CLOCKING")
-#+END_SRC
+#+end_src
 
 *** Key mappings
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m c i" 'org-clock-in
   "m c o" 'org-clock-out
@@ -301,7 +302,7 @@ make org-mode to use all data available.
   "m c d" 'org-clock-display
   "m c U" 'org-update-all-dblocks
 )
-#+END_SRC
+#+end_src
 
 *** Clocktable customizations
 The clocktable functionality displays the clocked stuff in days which is not
@@ -339,11 +340,11 @@ Logs should go into a separate drawer:
 #+end_src
 
 *** Key bindings
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m z" 'org-add-note
 )
-#+END_SRC
+#+end_src
 
 ** Todo items
 *** Default logging for states
@@ -355,13 +356,13 @@ Setting an item as done or rescheduling it should trigger a note:
 #+end_src
 
 *** Key bindings
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m t" 'org-todo
   "m s" 'org-schedule
   "m d" 'org-deadline
 )
-#+END_SRC
+#+end_src
 
 *** File based global headers
 This is only a reminder on how to add a global file scoped tag definition with
@@ -395,11 +396,11 @@ We are allowing all agenda files to be targets:
 #+end_src
 
 *** Key bindigs
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m r" 'org-refile
 )
-#+END_SRC
+#+end_src
 
 *** Auto save on refile
 For some reason ~org-refile~ isn't saving on refile by default..
@@ -407,11 +408,11 @@ Note, that this is not perfect.. If you want to add a note during refile, that
 note wont be saved automatically.. I got tired of this, will manually save all
 files after a refile..
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (advice-add 'org-refile :after
         (lambda (&rest _)
         (org-save-all-org-buffers)))
-#+END_SRC
+#+end_src
 
 *** Reverse note order
 To put the refiled stuff on the top of the target.
@@ -450,17 +451,17 @@ Setting up a keymap that would be available in every buffer and mode:
 
 ** Code blocks
 *** Syntax highlighting
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 ;; Make sure org file code highlights correctly
 (setq org-src-fontify-natively t)
-#+END_SRC
+#+end_src
 
 *** Code block templates
 This is a new thing that is required to be able to use code block templates like ~<s~.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (use-package org-tempo)
-#+END_SRC
+#+end_src
 
 *** Indentation inside the code block
 There is a strange indentation issue that is happening inside the code blocks. If
@@ -477,14 +478,14 @@ could be quite annoying. The following config solves it:
 #+end_src
 
 *** Enabled languages
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (org-babel-do-load-languages 'org-babel-load-languages
   '(
     (shell . t)
     (python .t)
   )
 )
-#+END_SRC
+#+end_src
 
 ** Agenda
 *** Agenda file config
@@ -493,11 +494,11 @@ could be quite annoying. The following config solves it:
 #+end_src
 
 *** Key bindigs
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m a" 'org-agenda
 )
-#+END_SRC
+#+end_src
 
 *** Agenda key mappings
 #+begin_src emacs-lisp
@@ -510,6 +511,7 @@ could be quite annoying. The following config solves it:
   (kbd "<tab>") 'org-agenda-goto
   "t" 'org-agenda-todo
   "z" 'org-agenda-add-note
+  "L" 'org-agenda-log-mode
 )
 #+end_src
 
@@ -517,14 +519,14 @@ could be quite annoying. The following config solves it:
 *** File type handling
 We are only interested in pdf for now.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq org-file-apps
     '(("\\.pdf\\'" . emacs)
       (auto-mode . emacs)))
 #+end_src
 
 *** Key bindings
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m o" 'org-open-at-point
 )
@@ -532,8 +534,15 @@ We are only interested in pdf for now.
 
 ** Exporting
 *** Key bindigs
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (evil-leader/set-key-for-mode 'org-mode
   "m e" 'org-export-dispatch
 )
-#+END_SRC
+#+end_src
+
+** Habits
+*** Base
+#+begin_src emacs-lisp
+(use-package org-habit)
+(add-to-list 'org-modules 'org-habit t)
+#+end_src

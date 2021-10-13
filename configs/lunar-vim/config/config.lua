@@ -162,3 +162,17 @@ vim.g.medieval_langs = {"bash", "sh", "python"}
 -- lvim.autocommands.custom_groups = {
 --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
 -- }
+
+vim.api.nvim_command([[
+augroup snippets_ledger_group
+autocmd FileType ledger execute "setl noai nocin nosi inde="
+autocmd BufRead,BufNewFile *.ledger set filetype=ledger
+autocmd Filetype ledger nnoremap <leader>Fh Vc<cr><esc>i## <esc>77a=<esc>:r!date '+\%F - \%A'<cr>I## <esc>0o<esc>
+autocmd Filetype ledger nnoremap <leader>Ft :read!date '+\%F'<cr>A * <esc>A
+autocmd Filetype ledger nnoremap <leader>Fp :call FzyCommand("ledger accounts",":read!echo '   '")<cr>A  <ESC>a
+autocmd Filetype ledger nnoremap <leader>FP :call FzyCommand("ledger accounts",":read!echo '   '")<cr>o<esc>
+autocmd Filetype ledger nnoremap <leader>Fa $F<space>F<space>v0d:right 66<cr>gvp0
+autocmd FileType ledger autocmd BufWritePre <buffer> silent %!my-ledger-formatter
+autocmd FileType ledger autocmd BufWritePost <buffer> :normal! G
+augroup END
+]])
