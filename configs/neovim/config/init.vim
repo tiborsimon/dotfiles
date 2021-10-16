@@ -142,7 +142,7 @@ nnoremap <silent> <leader>/ :nohlsearch<cr>
 " PLUGINS
 "=============================================================================
 call plug#begin(stdpath('data') . 'vimplug')
-  Plug 'joeytwiddle/sexy_scroller.vim'
+  Plug 'psliwka/vim-smoothie'
 
   Plug 'monsonjeremy/onedark.nvim'
 
@@ -169,11 +169,15 @@ call plug#begin(stdpath('data') . 'vimplug')
   Plug 'kana/vim-arpeggio'
   Plug 'folke/zen-mode.nvim'
 
+  Plug 'folke/which-key.nvim'
+
   Plug 'hoob3rt/lualine.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'ryanoasis/vim-devicons'
   Plug 'kdheepak/tabline.nvim'
   Plug 'arkav/lualine-lsp-progress'
+
+  Plug 'akinsho/toggleterm.nvim'
 
   Plug 'bronson/vim-trailing-whitespace'
 
@@ -187,19 +191,65 @@ call plug#begin(stdpath('data') . 'vimplug')
 
   Plug 'norcalli/nvim-colorizer.lua'
 
-  Plug 'preservim/nerdcommenter'
+  " Plug 'preservim/nerdcommenter'
 
   Plug 'mattn/emmet-vim', { 'for': ['html'] }
 
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-  Plug 'kevinhwang91/nvim-hlslens'
+  " Plug 'kevinhwang91/nvim-hlslens'
 
-  Plug 'Yggdroot/indentLine'
+  " Plug 'Yggdroot/indentLine'
 
-  Plug 'Raimondi/delimitMate'
+  " Plug 'Raimondi/delimitMate'
 
 call plug#end()
+
+
+lua <<EOF
+require("toggleterm").setup{
+  -- size can be a number or function which is passed the current terminal
+
+  -- size = 20,
+  -- open_mapping = [[<c-\>]],
+  -- hide_numbers = true, -- hide the number column in toggleterm buffers
+  -- shade_filetypes = {},
+  -- shade_terminals = true,
+  -- shading_factor = '<number>', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+  -- start_in_insert = true,
+  -- insert_mappings = true, -- whether or not the open mapping applies in insert mode
+  -- persist_size = true,
+  -- direction = 'float',
+  -- close_on_exit = true, -- close the terminal window when the process exits
+  -- shell = vim.o.shell, -- change the default shell
+  -- -- This field is only relevant if direction is set to 'float'
+  -- float_opts = {
+  --   -- The border key is *almost* the same as 'nvim_open_win'
+  --   -- see :h nvim_open_win for details on borders however
+  --   -- the 'curved' border is a custom border type
+  --   -- not natively supported but implemented in this plugin.
+  --   border = 'curved',
+  --   --     width = <value>,
+  --   -- height = <value>,
+  --   winblend = 3,
+  --   highlights = {
+  --     border = "Normal",
+  --     background = "Normal",
+  --   }
+  -- }
+}
+EOF
+
+lua <<EOF
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({ hidden = true, position = float })
+
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<c-\\>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+EOF
 
 
 "=============================================================================
@@ -226,6 +276,23 @@ EOF
 colorscheme onedark
 
 "=============================================================================
+" PLUGIN - WHICH-KEY
+"=============================================================================
+
+lua << EOF
+  require("which-key").setup {
+    plugins = {
+      marks = false,
+      registers = false,
+      spelling = {
+        enabled = false,
+        suggestions = 20,
+      },
+    }
+  }
+EOF
+
+"=============================================================================
 " PLUGIN - GALAXYLINE
 "=============================================================================
 
@@ -236,12 +303,32 @@ require("treesitter_config")
 EOF
 
 "=============================================================================
-" PLUGIN - VIM-SMOOTHIE
+" PLUGIN - SEXY-SCROLLER
 "=============================================================================
+" Set the time it takes (in milliseconds) for the buffer to scroll one line
+" or column.
+let g:SexyScroller_ScrollTime = 11
 
-" let g:smoothie_experimental_mappings=1
-let g:SexyScroller_MaxTime = 400
+" Set the time it takes for the cursor to travel one line. Probably only
+" visible if you have `:set cursorline`.  Set it to 0 to never animate
+" the cursor.
+let g:SexyScroller_CursorTime = 5
+
+" Set the maximum amount of time that longer scrolls can take.
+let g:SexyScroller_MaxTime = 300
+
+" Choose the easing style (how scrolling accelerates and deccelerates):
+"   - 1 = start fast, finish slowly            (like 2 but less so)
+"   - 2 = start very fast, finish very slowly  (recommended, default)
+"   - 3 = start slowly, get faster, end slowly (sexy)
+"   - 4 = start very slowly, end very slowly   (like 3 but more so)
+"   - ? = constant speed                       (dull)
 let g:SexyScroller_EasingStyle = 3
+
+" Interrupts the animation if you press a key.  Resumes the animation if they
+" key you pressed causes further scrolling, otherwise just jumps directly to
+" the destination.  Resuming animation looks best with EasingStyle 1 or 2.
+let g:SexyScroller_DetectPendingKeys = 1
 
 "=============================================================================
 " PLUGIN - EASY-MOTION
@@ -251,8 +338,8 @@ let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 
 " <Leader>f{char} to move to {char}
-map  <Leader>j <Plug>(easymotion-bd-f2)
-nmap <Leader>j <Plug>(easymotion-overwin-f2)
+map  <Leader><space> <Plug>(easymotion-bd-f2)
+nmap <Leader><space> <Plug>(easymotion-overwin-f2)
 
 "=============================================================================
 " PLUGIN - LSP
@@ -278,19 +365,8 @@ nmap <Leader>j <Plug>(easymotion-overwin-f2)
 " PLUGIN - TELESCOPE
 "=============================================================================
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fF <cmd>Telescope file_browser<cr>
-nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 
 " VIM pickers
-nnoremap <leader>b <cmd>Telescope buffers<cr>
-nnoremap <leader>vh <cmd>Telescope help_tags<cr>
-nnoremap <leader>vc <cmd>Telescope colorscheme<cr>
-nnoremap <leader>vs <cmd>Telescope search_history<cr>
-nnoremap <leader>vr <cmd>Telescope registers<cr>
-nnoremap <leader>vf <cmd>Telescope current_buffer_fuzzy_find<cr>
-nnoremap <leader>vk <cmd>Telescope keymaps<cr>
 
 " TREESITTER pickers
 nnoremap <leader>tt <cmd>Telescope treesitter<cr>
@@ -303,15 +379,73 @@ nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
 nnoremap <leader>ld <cmd>Telescope lsp_definitions<cr>
 nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
 
-" GIT pickers
-nnoremap <leader>gc <cmd>Telescope git_bcommits<cr>
-nnoremap <leader>gC <cmd>Telescope git_commits<cr>
-nnoremap <leader>gb <cmd>Telescope git_branches<cr>
-nnoremap <leader>gs <cmd>Telescope git_status<cr>
-nnoremap <leader>gS <cmd>Telescope git_stash<cr>
+
+
 
 lua <<EOF
 require("telescope_config")
+EOF
+
+lua <<EOF
+local wk = require("which-key")
+wk.register({
+  f = {
+    name = "Files",
+    f = { "<cmd>Telescope find_files<cr>", "[F]ind File" },
+    b = { "<cmd>Telescope file_browser<cr>", "File [B]rowser" },
+    r = { "<cmd>Telescope oldfiles<cr>", "[R]ecent Files" },
+    g = { "<cmd>Telescope live_grep<cr>", "Live [G]rep" },
+  },
+}, { prefix = "<leader>" })
+EOF
+
+lua <<EOF
+local wk = require("which-key")
+wk.register({
+  v = {
+    name = "Vim",
+    h = { "<cmd>Telescope help_tags<cr>", "[H]elp Tags" },
+    c = { "<cmd>Telescope colorscheme<cr>", "[C]olorscheme" },
+    s = { "<cmd>Telescope search_history<cr>", "[S]earch History" },
+    r = { "<cmd>Telescope registers<cr>", "[R]egisters" },
+    f = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Buffer [F]uzzy Find" },
+    k = { "<cmd>Telescope keymaps<cr>", "[K]eymaps" },
+  },
+}, { prefix = "<leader>" })
+EOF
+
+lua <<EOF
+local wk = require("which-key")
+wk.register({
+  b = {
+    name = "Buffers",
+    b = { "<cmd>Telescope buffers<cr>", "List [B]uffers" },
+  },
+}, { prefix = "<leader>" })
+EOF
+
+lua <<EOF
+local wk = require("which-key")
+wk.register({
+  b = {
+    name = "Buffers",
+    b = { "<cmd>Telescope buffers<cr>", "List [B]uffers" },
+  },
+}, { prefix = "<leader>" })
+EOF
+
+lua <<EOF
+local wk = require("which-key")
+wk.register({
+  g = {
+    name = "Git",
+    b = { "<cmd>Telescope git_bcommits<cr>", "[B]uffer Commits" },
+    c = { "<cmd>Telescope git_commits<cr>", "[C]ommits" },
+    s = { "<cmd>Telescope git_status<cr>", "[S]tatus" },
+    S = { "<cmd>Telescope git_stash<cr>", "[S]tash" },
+    B = { "<cmd>Telescope git_branches<cr>", "[B]ranches" },
+  },
+}, { prefix = "<leader>" })
 EOF
 
 "=============================================================================
@@ -495,7 +629,10 @@ let g:extra_whitespace_ignored_filetypes = ["TelescopePrompt", "vim-plug", "[Plu
 " PLUGIN - NVIM TREE
 "=============================================================================
 
-nnoremap <silent> <F2> :NvimTreeToggle<CR>
+lua <<EOF
+  require'nvim-tree'.setup()
+EOF
+
 let g:nvim_tree_show_icons = {
     \ 'git': 0,
     \ 'folders': 0,
@@ -505,42 +642,43 @@ let g:nvim_tree_show_icons = {
 let g:nvim_tree_disable_default_keybindings = 1
 
 lua <<EOF
-    local tree_cb = require'nvim-tree.config'.nvim_tree_callback
-    vim.g.nvim_tree_bindings = {
-      { key = {"<CR>", "o"}, cb = tree_cb("edit") },
-      { key = "e",           cb = tree_cb("cd") },
-      { key = "s",           cb = tree_cb("vsplit") },
-      { key = "i",           cb = tree_cb("split") },
-      { key = "t",           cb = tree_cb("tabnew") },
-      { key = "<",           cb = tree_cb("prev_sibling") },
-      { key = ">",           cb = tree_cb("next_sibling") },
-      { key = "P",           cb = tree_cb("parent_node") },
-      { key = "<BS>",        cb = tree_cb("close_node") },
-      { key = "<S-CR>",      cb = tree_cb("close_node") },
-      { key = "<Tab>",       cb = tree_cb("preview") },
-      { key = "K",           cb = tree_cb("first_sibling") },
-      { key = "J",           cb = tree_cb("last_sibling") },
-      { key = "I",           cb = tree_cb("toggle_ignored") },
-      { key = "H",           cb = tree_cb("toggle_dotfiles") },
-      { key = "R",           cb = tree_cb("refresh") },
-      { key = "a",           cb = tree_cb("create") },
-      { key = "d",           cb = tree_cb("remove") },
-      { key = "r",           cb = tree_cb("rename") },
-      { key = "<C-r>",       cb = tree_cb("full_rename") },
-      { key = "x",           cb = tree_cb("cut") },
-      { key = "c",           cb = tree_cb("copy") },
-      { key = "p",           cb = tree_cb("paste") },
-      { key = "y",           cb = tree_cb("copy_name") },
-      { key = "Y",           cb = tree_cb("copy_path") },
-      { key = "gy",          cb = tree_cb("copy_absolute_path") },
-      { key = "[c",          cb = tree_cb("prev_git_item") },
-      { key = "]c",          cb = tree_cb("next_git_item") },
-      { key = "u",           cb = tree_cb("dir_up") },
-      { key = "O",           cb = tree_cb("system_open") },
-      { key = "q",           cb = tree_cb("close") },
-      { key = "?",           cb = tree_cb("toggle_help") },
-    }
+  local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+  vim.g.nvim_tree_bindings = {
+    { key = {"<CR>", "o"}, cb = tree_cb("edit") },
+    { key = "e",           cb = tree_cb("cd") },
+    { key = "s",           cb = tree_cb("vsplit") },
+    { key = "i",           cb = tree_cb("split") },
+    { key = "t",           cb = tree_cb("tabnew") },
+    { key = "<",           cb = tree_cb("prev_sibling") },
+    { key = ">",           cb = tree_cb("next_sibling") },
+    { key = "P",           cb = tree_cb("parent_node") },
+    { key = "<BS>",        cb = tree_cb("close_node") },
+    { key = "<S-CR>",      cb = tree_cb("close_node") },
+    { key = "<Tab>",       cb = tree_cb("preview") },
+    { key = "K",           cb = tree_cb("first_sibling") },
+    { key = "J",           cb = tree_cb("last_sibling") },
+    { key = "I",           cb = tree_cb("toggle_ignored") },
+    { key = "H",           cb = tree_cb("toggle_dotfiles") },
+    { key = "R",           cb = tree_cb("refresh") },
+    { key = "a",           cb = tree_cb("create") },
+    { key = "d",           cb = tree_cb("remove") },
+    { key = "r",           cb = tree_cb("rename") },
+    { key = "<C-r>",       cb = tree_cb("full_rename") },
+    { key = "x",           cb = tree_cb("cut") },
+    { key = "c",           cb = tree_cb("copy") },
+    { key = "p",           cb = tree_cb("paste") },
+    { key = "y",           cb = tree_cb("copy_name") },
+    { key = "Y",           cb = tree_cb("copy_path") },
+    { key = "gy",          cb = tree_cb("copy_absolute_path") },
+    { key = "[c",          cb = tree_cb("prev_git_item") },
+    { key = "]c",          cb = tree_cb("next_git_item") },
+    { key = "u",           cb = tree_cb("dir_up") },
+    { key = "O",           cb = tree_cb("system_open") },
+    { key = "q",           cb = tree_cb("close") },
+    { key = "?",           cb = tree_cb("toggle_help") },
+  }
 EOF
+nnoremap <silent> <F2> :NvimTreeToggle<CR>
 
 "=============================================================================
 " PLUGIN - COLORIZE
@@ -572,8 +710,8 @@ nmap <leader>a <Plug>(EasyAlign)
 " PLUGIN - HLS LENS
 "=============================================================================
 
-noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
-            \<Cmd>lua require('hlslens').start()<CR>
+"noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
+"            \<Cmd>lua require('hlslens').start()<CR>
 
 " "=============================================================================
 " " PLUGIN - EMMET VIM
@@ -588,4 +726,4 @@ noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
 " PLUGIN - INDENT LINE
 "=============================================================================
 
-let g:indentLine_char = '▏'
+" let g:indentLine_char = '▏'

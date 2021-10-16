@@ -142,9 +142,9 @@ Install EVIL (if not yet installed), and enable it.
     "s" 'save-some-buffers
     "S" 'my-save-all
     "e" 'ranger
-    "b" 'buffer-menu
+    "b" 'buffer-menu-other-window
     "<tab>" 'previous-buffer
-  ) 
+  )
 )
 #+end_src
 
@@ -152,7 +152,7 @@ Install EVIL (if not yet installed), and enable it.
 #+begin_src emacs-lisp
 (use-package evil-surround
   :ensure t
-  :config 
+  :config
   (global-evil-surround-mode)
 )
 #+end_src
@@ -221,7 +221,7 @@ Adding a minor mode to display the started key maps.
   :config
   (evil-leader/set-key
     "e" 'ranger
-  ) 
+  )
 )
 #+end_src
 
