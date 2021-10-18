@@ -1,0 +1,442 @@
+#==============================================================================
+#    _____                                       __ _
+#   / ____|                                     / _(_)
+#  | (_____      ____ _ _   _    ___ ___  _ __ | |_ _  __ _
+#   \___ \ \ /\ / / _` | | | |  / __/ _ \| '_ \|  _| |/ _` |
+#   ____) \ V  V / (_| | |_| | | (_| (_) | | | | | | | (_| |
+#  |_____/ \_/\_/ \__,_|\__, |  \___\___/|_| |_|_| |_|\__, |
+#                        __/ |                         __/ |
+#=======================|___/=========================|___/====================
+
+#==============================================================================
+# GLOBAL VARIABLES
+#==============================================================================
+
+# Modifier keys.
+set $mod   Mod1
+set $super Mod4
+
+# Navigation keys so you don't need to think about the actual meaning of the
+# directrion of your muscle memory vim navigation.
+set $left  h
+set $down  j
+set $up    k
+set $right l
+
+# Color definitions.
+set $color_active      #ebd834
+set $color_inactive    #4f4f4f
+set $color_background  #383838
+set $color_foreground  #d3d3d3
+set $color_urgent      #cf2727
+set $color_bar_bg      #1f1f1f
+set $color_nop         #000000
+
+
+# Dimensions of a window that fully fills the workspace area. It is defined for
+# my t460p screen.
+set $full_window__x      10px
+set $full_window__y      40px
+set $full_window__width  1900px
+set $full_window__height 1030px
+
+#==============================================================================
+# ESSENTIAL BINDIGS
+#==============================================================================
+
+# Key bindings that needs to be available even if there is a syntax error in
+# the later more complex config sections. Defined right after the global
+# variables for the exact reason.
+
+# Reload config file.
+bindsym $mod+Shift+c reload
+
+# Kill focused window
+bindsym $mod+F4 kill
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+q exec swaynag -t warning \
+  -m 'You pressed the exit shortcut. Do you really want to exit sway?' \
+  -b 'Yes, exit sway' 'swaymsg exit'
+
+#==============================================================================
+# TERMINAL MANAGEMENT
+#==============================================================================
+
+set $term kitty
+
+# Start a terminal
+bindsym $mod+t exec $term
+
+#==============================================================================
+# LAUNCHER
+#==============================================================================
+
+set $launcher wofi \
+  --show run \
+  --gtk-dark \
+  --lines=9
+
+# Launcher key binding.
+bindsym $mod+Space exec $launcher
+
+#==============================================================================
+# LOCKSCREEN
+#==============================================================================
+
+# Lock the screen.
+bindsym Insert exec 'my-sway-lock fast'
+
+# Auto lock and dim
+exec swayidle -w \
+  timeout 300  'my-sway-idle timeout 5'  resume 'my-sway-idle resume 5' \
+  timeout 600  'my-sway-idle timeout 10' resume 'my-sway-idle resume 10' \
+  timeout 900  'my-sway-idle timeout 15' resume 'my-sway-idle resume 15' \
+  timeout 1200 'my-sway-idle timeout 20' resume 'my-sway-idle resume 20' \
+  timeout 1500 'my-sway-idle timeout 25' resume 'my-sway-idle resume 25' \
+  timeout 1800 'my-sway-idle timeout 30' resume 'my-sway-idle resume 30' \
+  timeout 2100 'my-sway-idle timeout 35' resume 'my-sway-idle resume 35' \
+  timeout 2400 'my-sway-idle timeout 40' resume 'my-sway-idle resume 40' \
+  timeout 2700 'my-sway-idle timeout 45' resume 'my-sway-idle resume 45' \
+  timeout 3000 'my-sway-idle timeout 50' resume 'my-sway-idle resume 50' \
+  timeout 3300 'my-sway-idle timeout 55' resume 'my-sway-idle resume 55' \
+  timeout 3600 'my-sway-idle timeout 60' resume 'my-sway-idle resume 60' \
+  lock         'my-sway-idle lock' \
+  unlock       'my-sway-idle unlock' \
+  before-sleep 'my-sway-idle before-sleep' \
+  after-resume 'my-sway-idle after-resume'
+
+#==============================================================================
+# SCREENSHOT
+#==============================================================================
+
+# Capture the entire foocused screen.
+bindsym Shift+Print exec \
+  grim \
+    -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')" \
+    -t png - | \
+  tee "${HOME}/screenshots/$(date +grim_'%y%m%d_%H%M%S.png')" | wl-copy
+
+# Capture the specified screen area.
+bindsym Shift+Control+Print exec grim -g "$(slurp)" -t png - | \
+  tee "${HOME}/screenshots/$(date +grim_'%y%m%d_%H%M%S.png')" | wl-copy
+
+#==============================================================================
+# INPUT - KEYBOARD
+#==============================================================================
+
+input type:keyboard {
+  repeat_delay 200
+  repeat_rate 70
+  xkb_options caps:ctrl_modifier
+}
+
+#==============================================================================
+# INPUT - TOUCHPAD
+#==============================================================================
+
+input type:touchpad {
+  natural_scroll disabled
+  accel_profile adaptive
+  scroll_factor 0.3
+  tap disabled
+}
+
+seat * {
+  hide_cursor when-typing enable
+}
+
+#==============================================================================
+# OUTPUT
+#==============================================================================
+
+output * {
+  background $color_background solid_color
+  background ~/dotfiles/configs/desktop__backgrounds/Albero_Del_Pepe_by_Harisont.jpg fill
+}
+
+# Always execute the monitor setup on config load. This could be used if the
+# external monitor's name changes between wakes from hibernation.
+exec_always 'my-sway-setup_outputs'
+
+# Brightness control.
+bindsym $mod+F5 exec brightnessctl set '5%-'
+bindsym $mod+F6 exec brightnessctl set '+5%'
+
+#==============================================================================
+# SOUND
+#==============================================================================
+
+bindsym $mod+F1 exec my-machine-volume toggle
+bindsym $mod+F2 exec my-machine-volume down 5
+bindsym $mod+F3 exec my-machine-volume up 5
+
+#==============================================================================
+# WINDOWS STYLE
+#==============================================================================
+
+# No title bar, only a reasonably thick border.
+default_border pixel 4
+
+gaps inner 10
+hide_edge_borders none
+
+# Each config block contains the following rows:
+# - title bar border
+# - title bar background
+# - title bar text
+# - indicator color (for tiled containers the next childer's right border)
+# - window border
+
+# The window that has focus.
+client.focused \
+  $color_nop \
+  $color_nop \
+  $color_nop \
+  $color_active \
+  $color_active
+
+# The most recently focused view withing a container which is not focused.
+client.focused_inactive \
+  $color_nop \
+  $color_nop \
+  $color_nop \
+  $color_inactive \
+  $color_inactive
+
+# A view that does not have focus.
+client.unfocused \
+  $color_nop \
+  $color_nop \
+  $color_nop \
+  $color_inactive \
+  $color_inactive
+
+# A view with an urgency hint. Only for Xwayland windows..
+client.urgent \
+  $color_nop \
+  $color_nop \
+  $color_nop \
+  $color_inactive \
+  $color_inactive
+
+# Note: palceholder is ignored by sway.
+
+#==============================================================================
+# STATUS BAR
+#==============================================================================
+
+bar {
+  swaybar_command waybar
+}
+
+#==============================================================================
+# NAVIGATION
+#==============================================================================
+
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+#==============================================================================
+# WORKSPACES
+#==============================================================================
+
+# Move workspace between outputs.
+bindsym $super+Shift+Left  move workspace to left
+bindsym $super+Shift+Right move workspace to right
+bindsym $super+Shift+Up    move workspace to up
+bindsym $super+Shift+Down  move workspace to down
+
+# Move between workspaces
+bindsym $super+$left workspace prev;  exec my-sway-scratchpad invalidate
+bindsym $super+$right workspace next; exec my-sway-scratchpad invalidate
+
+# Switch to workspace
+bindsym $super+1 workspace number 1;  exec my-sway-scratchpad invalidate
+bindsym $super+2 workspace number 2;  exec my-sway-scratchpad invalidate
+bindsym $super+3 workspace number 3;  exec my-sway-scratchpad invalidate
+bindsym $super+4 workspace number 4;  exec my-sway-scratchpad invalidate
+bindsym $super+5 workspace number 5;  exec my-sway-scratchpad invalidate
+bindsym $super+6 workspace number 6;  exec my-sway-scratchpad invalidate
+bindsym $super+7 workspace number 7;  exec my-sway-scratchpad invalidate
+bindsym $super+8 workspace number 8;  exec my-sway-scratchpad invalidate
+bindsym $super+9 workspace number 9;  exec my-sway-scratchpad invalidate
+bindsym $super+0 workspace number 10; exec my-sway-scratchpad invalidate
+
+# Move focused container to workspace
+bindsym $super+Shift+1 move container to workspace number 1
+bindsym $super+Shift+2 move container to workspace number 2
+bindsym $super+Shift+3 move container to workspace number 3
+bindsym $super+Shift+4 move container to workspace number 4
+bindsym $super+Shift+5 move container to workspace number 5
+bindsym $super+Shift+6 move container to workspace number 6
+bindsym $super+Shift+7 move container to workspace number 7
+bindsym $super+Shift+8 move container to workspace number 8
+bindsym $super+Shift+9 move container to workspace number 9
+bindsym $super+Shift+0 move container to workspace number 10
+
+bindsym $mod+s exec my-sway-scratchpad toggle 'scratch'
+bindsym $mod+w exec my-sway-scratchpad toggle 'work'
+bindsym $mod+o exec my-sway-scratchpad toggle 'org'
+bindsym $mod+d exec my-sway-scratchpad toggle 'dash'
+
+#==============================================================================
+# FLOATING MODE
+#==============================================================================
+
+# Toggle the current focus between tiling and floating mode.
+bindsym $mod+f floating toggle
+
+# Swap focus between the tiling area and the floating area.
+bindsym $mod+Shift+f focus mode_toggle
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+floating_modifier $mod normal
+
+#==============================================================================
+# LAYOUTS
+#==============================================================================
+
+# Preselect the new child split position. This action won't have any visible
+# feedback, you just have to launch an application after it.
+bindsym $mod+minus split toggle
+# bindsym $mod+backslash split horizontal
+
+# Make the current focus fullscreen.
+bindsym $mod+m fullscreen
+
+# Maximizing command that positions and resizes the focused window to fill the
+# workspace. Useful for maximizing floating windows.
+bindsym $mod+Shift+m \
+  resize set width $full_window__width; \
+  resize set height $full_window__height; \
+  move absolute position $full_window__x $full_window__y
+
+#==============================================================================
+# MODES - DEFAULT
+#==============================================================================
+
+# Default mode name.
+set $mode__default 'default'
+
+#==============================================================================
+# MODES - RESIZING
+#==============================================================================
+
+# Coarse resize mode.
+set $mode__coarse_resize 'coarse_resize'
+mode $mode__coarse_resize {
+  bindsym $left resize shrink width 10px
+  bindsym $down resize grow height 10px
+  bindsym $up resize shrink height 10px
+  bindsym $right resize grow width 10px
+
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+r mode $mode__coarse_resize
+
+# Fine resize mode.
+set $mode__fine_resize 'fine_resize'
+mode $mode__fine_resize {
+  bindsym $left resize shrink width 1px
+  bindsym $down resize grow height 1px
+  bindsym $up resize shrink height 1px
+  bindsym $right resize grow width 1px
+
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+Shift+r mode $mode__fine_resize
+
+#==============================================================================
+# MODES - POSITIONING
+#==============================================================================
+
+# Coarse positioning mode.
+set $mode__coarse_position 'coarse_position'
+mode $mode__coarse_position {
+  bindsym $left move left 10px
+  bindsym $down move down 10px
+  bindsym $up move up 10px
+  bindsym $right move right 10px
+
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+p mode $mode__coarse_position
+
+# Fine positioning mode.
+set $mode__fine_position 'fine_position'
+mode $mode__fine_position {
+  bindsym $left move left 1px
+  bindsym $down move down 1px
+  bindsym $up move up 1px
+  bindsym $right move right 1px
+
+  bindsym Return mode $mode__default
+  bindsym Escape mode $mode__default
+  bindsym q mode $mode__default
+}
+bindsym $mod+Shift+p mode $mode__fine_position
+
+#==============================================================================
+# SCRATCHPAD
+#==============================================================================
+
+# Move current window to the scartchpad.
+bindsym $mod+Shift+s move container to scratchpad
+
+# Show the scratchpad and cycle through its content if there are multiple
+# windows in it.
+# bindsym $mod+s scratchpad show
+# bindsym $mod+s exec my-sway-scratchpad
+
+# The scratchpad can be used as a drop down terminal. Setting up a terminal as
+# a dropdown can be achieved manually with the following steps:
+# 1. Open a new termianl.
+# 2. Make it floating.
+# 3. Maximize it to fill the workspace.
+# 4. Send it to the scratchpad.
+# Only one terminal should be used to not to have to scroll through the
+# scratchpadded windows.
+
+#==============================================================================
+# ADDITIONAL COMMANDS AND CONFIGS
+#==============================================================================
+
+# For now enable xwayland until emacs 28 came out officially..
+xwayland enable
+
+#==============================================================================
+# NIGHT TIME COLOR MANAGEMENT
+#==============================================================================
+
+exec gammastep
+
+#==============================================================================
+# FIREFOX NOTIFICATION ISSUE
+#==============================================================================
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1712681
+no_focus [app_id="firefox" title="^$"]
+for_window [app_id="firefox" title="^$"] border none, floating enable, move position 79 ppt 88 ppt
+
+#==============================================================================
+# INCLUDES
+#==============================================================================
+
+include /etc/sway/config.d/*

@@ -1,148 +1,144 @@
-.PHONY: install-backgrounds
-install-backgrounds:
-	@./utils/install-configs.bash backgrounds
+.PHONY: install-browser__firefox
+install-browser__firefox:
+	@./utils/install-configs.bash browser__firefox
 
-.PHONY: install-bash
-install-bash:
-	@./utils/install-configs.bash bash
+.PHONY: install-desktop__backgrounds
+install-desktop__backgrounds:
+	@./utils/install-configs.bash desktop__backgrounds
 
-.PHONY: install-bpytop
-install-bpytop:
-	@./utils/install-configs.bash bpytop
+.PHONY: install-desktop__fonts
+install-desktop__fonts:
+	@./utils/install-configs.bash desktop__fonts
 
-.PHONY: install-docker
-install-docker:
-	@./utils/install-configs.bash docker
+.PHONY: install-desktop__gammastep
+install-desktop__gammastep:
+	@./utils/install-configs.bash desktop__gammastep
 
-.PHONY: install-doom-emacs
-install-doom-emacs:
-	@./utils/install-configs.bash doom-emacs
+.PHONY: install-desktop__sway
+install-desktop__sway:
+	@./utils/install-configs.bash desktop__sway
 
-.PHONY: install-emacs
-install-emacs:
-	@./utils/install-configs.bash emacs
+.PHONY: install-desktop__waybar
+install-desktop__waybar:
+	@./utils/install-configs.bash desktop__waybar
 
-.PHONY: install-firefox
-install-firefox:
-	@./utils/install-configs.bash firefox
+.PHONY: install-desktop__wofi
+install-desktop__wofi:
+	@./utils/install-configs.bash desktop__wofi
 
-.PHONY: install-firejail
-install-firejail:
-	@./utils/install-configs.bash firejail
+.PHONY: install-dev__docker
+install-dev__docker:
+	@./utils/install-configs.bash dev__docker
 
-.PHONY: install-firewall
-install-firewall:
-	@./utils/install-configs.bash firewall
+.PHONY: install-dev__git
+install-dev__git:
+	@./utils/install-configs.bash dev__git
 
-.PHONY: install-fonts
-install-fonts:
-	@./utils/install-configs.bash fonts
+.PHONY: install-dev__nodejs
+install-dev__nodejs:
+	@./utils/install-configs.bash dev__nodejs
 
-.PHONY: install-gammastep
-install-gammastep:
-	@./utils/install-configs.bash gammastep
+.PHONY: install-dev__python
+install-dev__python:
+	@./utils/install-configs.bash dev__python
 
-.PHONY: install-git
-install-git:
-	@./utils/install-configs.bash git
+.PHONY: install-editor__doom-emacs
+install-editor__doom-emacs:
+	@./utils/install-configs.bash editor__doom-emacs
 
-.PHONY: install-keybase
-install-keybase:
-	@./utils/install-configs.bash keybase
+.PHONY: install-editor__emacs
+install-editor__emacs:
+	@./utils/install-configs.bash editor__emacs
 
-.PHONY: install-kitty
-install-kitty:
-	@./utils/install-configs.bash kitty
+.PHONY: install-editor__lunar-vim
+install-editor__lunar-vim:
+	@./utils/install-configs.bash editor__lunar-vim
 
-.PHONY: install-ledger
-install-ledger:
-	@./utils/install-configs.bash ledger
+.PHONY: install-editor__neovim
+install-editor__neovim:
+	@./utils/install-configs.bash editor__neovim
 
-.PHONY: install-logind
-install-logind:
-	@./utils/install-configs.bash logind
+.PHONY: install-editor__vim
+install-editor__vim:
+	@./utils/install-configs.bash editor__vim
 
-.PHONY: install-lunar-vim
-install-lunar-vim:
-	@./utils/install-configs.bash lunar-vim
+.PHONY: install-editor__vscode
+install-editor__vscode:
+	@./utils/install-configs.bash editor__vscode
 
-.PHONY: install-machine
-install-machine:
-	@./utils/install-configs.bash machine
+.PHONY: install-networking__firewall
+install-networking__firewall:
+	@./utils/install-configs.bash networking__firewall
 
-.PHONY: install-neovim
-install-neovim:
-	@./utils/install-configs.bash neovim
+.PHONY: install-networking__openvpn
+install-networking__openvpn:
+	@./utils/install-configs.bash networking__openvpn
 
-.PHONY: install-nodejs
-install-nodejs:
-	@./utils/install-configs.bash nodejs
+.PHONY: install-shell__alias
+install-shell__alias:
+	@./utils/install-configs.bash shell__alias
 
-.PHONY: install-openvpn
-install-openvpn:
-	@./utils/install-configs.bash openvpn
+.PHONY: install-shell__profile
+install-shell__profile:
+	@./utils/install-configs.bash shell__profile
 
-.PHONY: install-power
-install-power:
-	@./utils/install-configs.bash power
+.PHONY: install-shell__zsh
+install-shell__zsh:
+	@./utils/install-configs.bash shell__zsh
 
-.PHONY: install-python
-install-python:
-	@./utils/install-configs.bash python
+.PHONY: install-system__firejail
+install-system__firejail:
+	@./utils/install-configs.bash system__firejail
 
-.PHONY: install-ranger
-install-ranger:
-	@./utils/install-configs.bash ranger
+.PHONY: install-system__logind
+install-system__logind:
+	@./utils/install-configs.bash system__logind
 
-.PHONY: install-ripgrep
-install-ripgrep:
-	@./utils/install-configs.bash ripgrep
+.PHONY: install-system__machine
+install-system__machine:
+	@./utils/install-configs.bash system__machine
 
-.PHONY: install-shell
-install-shell:
-	@./utils/install-configs.bash shell
+.PHONY: install-system__power
+install-system__power:
+	@./utils/install-configs.bash system__power
 
-.PHONY: install-sudoers
-install-sudoers:
-	@./utils/install-configs.bash sudoers
+.PHONY: install-system__sudoers
+install-system__sudoers:
+	@./utils/install-configs.bash system__sudoers
 
-.PHONY: install-sway
-install-sway:
-	@./utils/install-configs.bash sway
+.PHONY: install-system__udevmon
+install-system__udevmon:
+	@./utils/install-configs.bash system__udevmon
 
-.PHONY: install-task
-install-task:
-	@./utils/install-configs.bash task
+.PHONY: install-terminal__kitty
+install-terminal__kitty:
+	@./utils/install-configs.bash terminal__kitty
 
-.PHONY: install-tools
-install-tools:
-	@./utils/install-configs.bash tools
+.PHONY: install-tools__bpytop
+install-tools__bpytop:
+	@./utils/install-configs.bash tools__bpytop
 
-.PHONY: install-udevmon
-install-udevmon:
-	@./utils/install-configs.bash udevmon
+.PHONY: install-tools__common
+install-tools__common:
+	@./utils/install-configs.bash tools__common
 
-.PHONY: install-vault
-install-vault:
-	@./utils/install-configs.bash vault
+.PHONY: install-tools__keybase
+install-tools__keybase:
+	@./utils/install-configs.bash tools__keybase
 
-.PHONY: install-vim
-install-vim:
-	@./utils/install-configs.bash vim
+.PHONY: install-tools__ledger
+install-tools__ledger:
+	@./utils/install-configs.bash tools__ledger
 
-.PHONY: install-vscode
-install-vscode:
-	@./utils/install-configs.bash vscode
+.PHONY: install-tools__ranger
+install-tools__ranger:
+	@./utils/install-configs.bash tools__ranger
 
-.PHONY: install-wofi
-install-wofi:
-	@./utils/install-configs.bash wofi
+.PHONY: install-tools__ripgrep
+install-tools__ripgrep:
+	@./utils/install-configs.bash tools__ripgrep
 
-.PHONY: install-zathura
-install-zathura:
-	@./utils/install-configs.bash zathura
-
-.PHONY: install-zsh
-install-zsh:
-	@./utils/install-configs.bash zsh
+.PHONY: install-tools__zathura
+install-tools__zathura:
+	@./utils/install-configs.bash tools__zathura
 

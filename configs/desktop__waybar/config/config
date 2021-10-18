@@ -1,0 +1,198 @@
+[{
+  /* ====================================================================== */
+  /*  BUILT IN DISPLAY */
+  /* ====================================================================== */
+  "output": "eDP-1",
+	"layer": "top",
+	"position": "top",
+  "height": 10,
+  "margin-top": 10,
+  "margin-left": 10,
+  "margin-right": 10,
+
+  /* ====================================================================== */
+  /*  LEFT */
+	"modules-left": [
+		"sway/workspaces",
+		"sway/mode",
+	],
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"format": " {name} ",
+    "numeric-first": true,
+	},
+  "sway/mode": {
+    "format": "{}",
+    "max-length": 50
+  },
+
+  /* ====================================================================== */
+  /*  CENTER */
+	"modules-center": [
+		"clock#1",
+		"clock#2",
+		"clock#3",
+	],
+	"clock#1": {
+		"format": "{:%Y-%m-%d}",
+		"tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+	"clock#2": {
+		"format": "{:%a}",
+		"tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+	"clock#3": {
+		"format": "{:%H:%M}",
+		"tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+
+  /* ====================================================================== */
+  /*  RIGHT */
+	"modules-right": [
+    "custom/ping",
+		"pulseaudio",
+    "backlight",
+		"memory",
+		"cpu",
+		"disk",
+    "custom/vpn",
+    "network",
+		"battery",
+    "custom/firejail",
+	],
+  "custom/ping": {
+    "format": "{}",
+    "exec": "my-waybar-ping measure",
+    "exec-if": "my-waybar-ping check",
+    "return-type": "json",
+    "interval": 5
+  },
+  "custom/firejail": {
+    "format": "{}",
+    "exec": "my-waybar-firejail display",
+    "exec-if": "my-waybar-firejail check",
+    "return-type": "json",
+    "interval": 2
+  },
+	"pulseaudio": {
+		"format": "{icon} {volume:2}%",
+		"format-bluetooth": "{icon}  {volume}%",
+		"format-muted": "MUTE",
+		"format-icons": {
+			"headphones": "",
+			"default": [
+				"",
+				""
+			]
+		},
+		"scroll-step": 5,
+		"on-click": "pamixer -t",
+		"on-click-right": "pavucontrol"
+	},
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{percent}% {icon}",
+    "format-icons": [""]
+  },
+	"memory": {
+		"interval": 5,
+		"format": "Mem {}%"
+	},
+	"cpu": {
+		"interval": 5,
+		"format": "CPU {usage:2}%"
+	},
+	"disk": {
+		"interval": 5,
+		"format": "Disk {percentage_used:2}%",
+		"path": "/"
+	},
+  "custom/vpn": {
+    "format": "VPN ",
+    "exec": "echo '{\"class\": \"connected\"}'",
+    "exec-if": "test -d /proc/sys/net/ipv4/conf/tun0",
+    "return-type": "json",
+    "interval": 5
+  },
+  "network": {
+    "interface": "wlp3s0",
+    "format": "{ifname}",
+    "format-wifi": "{essid} ",
+    "format-ethernet": "{ifname} ",
+    "format-disconnected": "", //An empty format will hide the module.
+    "tooltip-format": "{ifname}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 50
+  },
+	"battery": {
+		"states": {
+			"good": 95,
+			"warning": 30,
+			"critical": 15
+		},
+		"format":"{capacity}% {icon}",
+		"format-icons": [
+			"",
+			"",
+			"",
+			"",
+			""
+		]
+	},
+},
+{
+  /* ====================================================================== */
+  /*  EXTERNAL DISPLAYS */
+  /* ====================================================================== */
+  "output": "!eDP-1",
+	"layer": "top",
+	"position": "top",
+  "height": 10,
+  "margin-top": 10,
+  "margin-left": 10,
+  "margin-right": 10,
+
+  /* ====================================================================== */
+  /*  LEFT */
+	"modules-left": [
+		"sway/workspaces",
+		"sway/mode",
+	],
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"format": " {name} ",
+    "numeric-first": true,
+	},
+  "sway/mode": {
+    "format": "{}",
+    "max-length": 50
+  },
+
+  /* ====================================================================== */
+  /*  RIGHT */
+	"modules-right": [
+		"clock#1",
+		"clock#2",
+		"clock#3",
+	],
+	"clock#1": {
+		"format": "{:%Y-%m-%d}",
+		"tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+	"clock#2": {
+		"format": "{:%a}",
+		"tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+	"clock#3": {
+		"format": "{:%H:%M}",
+		"tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	},
+}]
