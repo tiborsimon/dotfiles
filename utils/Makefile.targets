@@ -1,3 +1,7 @@
+.PHONY: install-backgrounds
+install-backgrounds:
+	@./utils/install-configs.bash backgrounds
+
 .PHONY: install-bash
 install-bash:
 	@./utils/install-configs.bash bash
@@ -33,6 +37,10 @@ install-firewall:
 .PHONY: install-fonts
 install-fonts:
 	@./utils/install-configs.bash fonts
+
+.PHONY: install-gammastep
+install-gammastep:
+	@./utils/install-configs.bash gammastep
 
 .PHONY: install-git
 install-git:

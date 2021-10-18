@@ -113,10 +113,9 @@ fi
 eval "$(pyenv init --path)"
 
 #==============================================================================
-# VAULT
+# INTEL GRAPHICS IRIS FIX
 #==============================================================================
+# https://wiki.archlinux.org/title/intel_graphics
 
-export VAULT__MOUNT_POINT="${HOME}/vault"
-export VAULT__LUKS_NAME='vault'
-export VAULT__LUKS_DEVICE='/dev/sdb1'
+export MESA_LOADER_DRIVER_OVERRIDE=i965
 

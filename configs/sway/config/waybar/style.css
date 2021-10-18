@@ -4,7 +4,7 @@
 }
 
 window#waybar {
-	background: #1f1f1f;
+	background: rgba(31, 31, 31, 0.9);
 	color: #d3d3d3;
 }
 
@@ -24,13 +24,12 @@ window#waybar {
 #disk,
 #tray {
 	color: #d3d3d3;
-	background: #1a1a1a;
 }
 
 #mode {
 	color: black;
 	background: red;
-  padding: 0 10 0 10;
+  padding: 0 10px 0 10px;
 }
 
 #workspaces button {
@@ -47,7 +46,6 @@ window#waybar {
 	text-shadow: inherit;
 }
 #workspaces button:hover {
-	background: #1a1a1a;
   border: 0;
 }
 

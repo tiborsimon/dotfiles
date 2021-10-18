@@ -66,7 +66,7 @@ bindsym $mod+Shift+q exec swaynag -t warning \
 set $term kitty
 
 # Start a terminal
-bindsym $mod+Return exec $term
+bindsym $mod+t exec $term
 
 #==============================================================================
 # LAUNCHER
@@ -85,7 +85,7 @@ bindsym $mod+Space exec $launcher
 #==============================================================================
 
 # Lock the screen.
-bindsym F12 exec 'my-sway-lock fast'
+bindsym Insert exec 'my-sway-lock fast'
 
 # Auto lock and dim
 exec swayidle -w \
@@ -128,6 +128,7 @@ bindsym Shift+Control+Print exec grim -g "$(slurp)" -t png - | \
 input type:keyboard {
   repeat_delay 200
   repeat_rate 70
+  xkb_options caps:ctrl_modifier
 }
 
 #==============================================================================
@@ -151,6 +152,7 @@ seat * {
 
 output * {
   background $color_background solid_color
+  background ~/dotfiles/configs/backgrounds/Albero_Del_Pepe_by_Harisont.jpg fill
 }
 
 # Always execute the monitor setup on config load. This could be used if the
@@ -437,6 +439,19 @@ bindsym $mod+Shift+s move container to scratchpad
 
 # For now enable xwayland until emacs 28 came out officially..
 xwayland enable
+
+#==============================================================================
+# NIGHT TIME COLOR MANAGEMENT
+#==============================================================================
+
+exec gammastep
+
+#==============================================================================
+# FIREFOX NOTIFICATION ISSUE
+#==============================================================================
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1712681
+no_focus [app_id="firefox" title="^$"]
+for_window [app_id="firefox" title="^$"] border none, floating enable, move position 79 ppt 88 ppt
 
 #==============================================================================
 # INCLUDES

@@ -238,7 +238,7 @@ Install org-mode and configure it.
 
 ** Default directory
 #+begin_src emacs-lisp
-(setq default-directory "~/core/private/notebook")
+(setq default-directory "~/org")
 #+end_src
 
 ** Essential key mappings
@@ -490,7 +490,7 @@ could be quite annoying. The following config solves it:
 ** Agenda
 *** Agenda file config
 #+begin_src emacs-lisp
-(setq org-agenda-files (directory-files-recursively "~/core/private/notebook" "\\.org$"))
+(setq org-agenda-files (directory-files-recursively "~/org" "\\.org$"))
 #+end_src
 
 *** Key bindigs
