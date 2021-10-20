@@ -78,6 +78,18 @@ default. The following settings solves this issue:
 (setq make-backup-files nil)
 #+end_src
 
+*** Disable warning window
+#+begin_src emacs-lisp
+(setq native-comp-async-report-warnings-errors nil)
+#+end_src
+
+*** Disable vc mode
+
+#+begin_src emacs-lisp
+(eval-after-load "vc" '(remove-hook 'find-file-hook 'vc-find-file-hook))
+(setq vc-handled-backends nil)
+#+end_src
+
 ** Font
 #+begin_src emacs-lisp
 (set-face-attribute 'default nil
@@ -125,6 +137,17 @@ Install EVIL (if not yet installed), and enable it.
   (define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
 )
 #+end_src
+#
+**** Evil undo system
+#+begin_src emacs-lisp
+(use-package undo-fu
+  :ensure t
+  :config
+  (setq evil-undo-system 'undo-fu)
+  (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+  (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+)
+#+end_src
 
 **** Evil leader
 #+begin_src emacs-lisp
@@ -143,7 +166,6 @@ Install EVIL (if not yet installed), and enable it.
     "S" 'my-save-all
     "e" 'ranger
     "b" 'buffer-menu-other-window
-    "<tab>" 'previous-buffer
   )
 )
 #+end_src
@@ -194,26 +216,6 @@ Adding a minor mode to display the started key maps.
   )
 #+end_src
 
-*** Projectile
-#+begin_src emacs-lisp
-;; (use-package projectile
-;;   :ensure t
-;;   :config
-;;   (projectile-mode +1))
-#+end_src
-
-*** Dashboard
-#+begin_src emacs-lisp
-;; (use-package dashboard
-;;   :ensure t
-;;   :config
-;;   (dashboard-setup-startup-hook)
-;;   (setq dashboard-items '(
-;;     (projects . 5)
-;;   ))
-;; )
-#+end_src
-
 *** Ranger
 #+begin_src emacs-lisp
 (use-package ranger
@@ -246,6 +248,9 @@ Install org-mode and configure it.
 (evil-leader/set-key-for-mode 'org-mode
   "m ," 'org-ctrl-c-ctrl-c
 )
+;; Had to add this explicit org-cycle mapping as the new wayland based emacs
+;; build with native comp somehow removed it. (AUR: emacs-gcc-wayland-devel-bin)
+(define-key evil-normal-state-map (kbd "<tab>") 'org-cycle)
 #+end_src
 
 ** Fill column
@@ -311,7 +316,7 @@ will solve it:
 
 #+begin_src emacs-lisp
 (defun my-minutes-in-org-time (time)
-  (let ((re  "\\(\\([0-9]+\\)d \\)?\\([0-9]+\\):\\([0-9]+\\)")
+  (/ (let ((re  "\\(\\([0-9]+\\)d \\)?\\([0-9]+\\):\\([0-9]+\\)")
         (values '(2 3 4)))
     (save-match-data
       (catch 'exit
@@ -328,7 +333,8 @@ will solve it:
           (+ (* 60
                 (+ (* 24 days)
                    hours))
-             minutes))))))
+             minutes))))) 60.0)
+)
 #+end_src
 
 ** Logs

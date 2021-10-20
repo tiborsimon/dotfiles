@@ -23,4 +23,4 @@ install_packages mako libnotify
 install_packages pulseaudio pulseaudio-alsa
 
 # Xorg compatibility until all used program is ported to pure wayland..
-install_packages xorg-xwayland
+# install_packages xorg-xwayland
