@@ -39,6 +39,14 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_CACHE_HOME="${HOME}/.cache"
 
 #==============================================================================
+# GPG
+#==============================================================================
+
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+mkdir --parents "$GNUPGHOME"
+chmod 700 "$GNUPGHOME"
+
+#==============================================================================
 # ZSH
 #==============================================================================
 
@@ -57,24 +65,10 @@ export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgreprc"
 export MOZ_ENABLE_WAYLAND=1
 
 #==============================================================================
-# KITTY
-#==============================================================================
-
-export KITTY_ENABLE_WAYLAND=1
-
-#==============================================================================
 # SWAY
 #==============================================================================
 # Fix for a sway warning: https://unix.stackexchange.com/a/657578
 export LIBSEAT_BACKEND=logind
-
-#==============================================================================
-# DOOM EMACS
-#==============================================================================
-
-export EMACSDIR="${XDG_CONFIG_HOME}/emacs"
-export DOOMDIR="${XDG_CONFIG_HOME}/doom"
-export DOOMLOCALDIR="${EMACSDIR}/.local"
 
 #==============================================================================
 # LESS / MAN PAGES
@@ -87,7 +81,7 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
-export LESSHISTFILE='-'
+export LESSHISTFILE=/dev/null
 
 #==============================================================================
 # NODE.JS
@@ -108,8 +102,8 @@ then
 fi
 
 # Pyenv setup.
-#export PYENV_ROOT="${XDG_CONFIG_HOME}/.pyenv"
-#export PATH="${PYENV_ROOT}/bin:${PATH}"
+export PYENV_ROOT="${XDG_CONFIG_HOME}/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 
 #==============================================================================
@@ -118,4 +112,3 @@ eval "$(pyenv init --path)"
 # https://wiki.archlinux.org/title/intel_graphics
 
 export MESA_LOADER_DRIVER_OVERRIDE=i965
-
