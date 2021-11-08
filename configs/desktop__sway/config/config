@@ -419,8 +419,9 @@ bindsym $mod+Shift+s move container to scratchpad
 # ADDITIONAL COMMANDS AND CONFIGS
 #==============================================================================
 
+# Disabling it temporary until the full wayland transition testing is done.
 # For now enable xwayland until emacs 28 came out officially..
-xwayland enable
+# xwayland enable
 
 #==============================================================================
 # NIGHT TIME COLOR MANAGEMENT
