@@ -5,3 +5,4 @@ source ../../utils/libdeploy.bash
 
 install_packages ttf-dejavu ttf-liberation noto-fonts
 install_aur_packages nerd-fonts-source-code-pro
+install_aur_packages nerd-fonts-hack

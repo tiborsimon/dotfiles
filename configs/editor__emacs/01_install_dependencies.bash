@@ -11,3 +11,6 @@ install_packages ghostscript
 
 # To be able to run natively on wayland.
 install_aur_packages emacs-gcc-wayland-devel-bin
+
+# Plantuml stuff
+install_packages plantuml xorg-xwayland

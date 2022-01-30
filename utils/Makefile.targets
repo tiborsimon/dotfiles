@@ -66,6 +66,10 @@ install-editor__vim:
 install-editor__vscode:
 	@./utils/install-configs.bash editor__vscode
 
+.PHONY: install-music__pure_data
+install-music__pure_data:
+	@./utils/install-configs.bash music__pure_data
+
 .PHONY: install-networking__firewall
 install-networking__firewall:
 	@./utils/install-configs.bash networking__firewall
@@ -129,6 +133,10 @@ install-tools__keybase:
 .PHONY: install-tools__ledger
 install-tools__ledger:
 	@./utils/install-configs.bash tools__ledger
+
+.PHONY: install-tools__mpv
+install-tools__mpv:
+	@./utils/install-configs.bash tools__mpv
 
 .PHONY: install-tools__ranger
 install-tools__ranger:

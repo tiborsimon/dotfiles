@@ -1,0 +1,19 @@
+total 68K
+drwxr-xr-x 17 tibor users 4.0K Jan 30 14:53 .
+drwxr-xr-x  3 tibor users 4.0K Jan  7 18:10 ..
+drwxr-xr-x  9 tibor users 4.0K Nov 30 20:39 LuaSnip
+drwxr-xr-x  5 tibor users 4.0K Nov 28 16:24 cmp-buffer
+drwxr-xr-x  5 tibor users 4.0K Nov 28 16:24 cmp-cmdline
+drwxr-xr-x  5 tibor users 4.0K Nov 28 16:24 cmp-nvim-lsp
+drwxr-xr-x  5 tibor users 4.0K Nov 28 17:36 cmp-nvim-lua
+drwxr-xr-x  5 tibor users 4.0K Nov 28 16:24 cmp-path
+drwxr-xr-x  4 tibor users 4.0K Nov 28 18:10 config
+drwxr-xr-x  6 tibor users 4.0K Dec  5 17:15 lsp_signature.nvim
+drwxr-xr-x  4 tibor users 4.0K Nov 28 17:39 lspkind-nvim
+drwxr-xr-x  8 tibor users 4.0K Dec 23 17:14 null-ls.nvim
+drwxr-xr-x  7 tibor users 4.0K Dec  5 16:59 nvim-autopairs
+drwxr-xr-x 10 tibor users 4.0K Nov 28 16:21 nvim-cmp
+drwxr-xr-x  6 tibor users 4.0K Dec  5 10:20 nvim-lsp-ts-utils
+drwxr-xr-x 10 tibor users 4.0K Nov 28 10:47 nvim-lspconfig
+drwxr-xr-x  6 tibor users 4.0K Nov 30 20:55 trouble.nvim
+-rw-r--r--  1 tibor users    0 Jan 30 14:53 lsp_config_history.txt

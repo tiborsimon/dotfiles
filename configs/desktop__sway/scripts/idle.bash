@@ -149,8 +149,8 @@ do
           my-sway-lock slow
           ;;
         15 )
-          log 'Turning off the screen..'
-          swaymsg 'output * dpms off'
+          # log 'Turning off the screen..'
+          # swaymsg 'output * dpms off'
           ;;
         20 )
           log 'Triggering hibernating..'
@@ -172,8 +172,8 @@ do
       log "Event received: '$1 $minutes'"
       case "$minutes" in
         15 )
-          log 'Turning back the screen..'
-          swaymsg 'output * dpms on'
+          # log 'Turning back the screen..'
+          # swaymsg 'output * dpms on'
           ;;
         * )
           ;;
@@ -187,8 +187,8 @@ do
       ;;
     unlock )
       log "Event received: '$1'"
-      log 'Turning back the screen..'
-      swaymsg "output * dpms on"
+      # log 'Turning back the screen..'
+      # swaymsg "output * dpms on"
       exit 0
       ;;
     before-sleep )
@@ -198,8 +198,8 @@ do
       ;;
     after-resume )
       log "Event received: '$1'"
-      log 'Turning back the screen..'
-      swaymsg "output * dpms on"
+      # log 'Turning back the screen..'
+      # swaymsg "output * dpms on"
       exit 0
       ;;
     --help|-h )

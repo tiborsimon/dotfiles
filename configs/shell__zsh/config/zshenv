@@ -1,0 +1,5 @@
+# Sourcing master profile.
+source "${HOME}/.config/shell/profile"
+
+# Load aliases and shortcuts.
+source "${HOME}/.config/shell/aliasrc"

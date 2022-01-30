@@ -23,4 +23,5 @@ install_packages mako libnotify
 install_packages pulseaudio pulseaudio-alsa
 
 # Xorg compatibility until all used program is ported to pure wayland..
+# This is needed only for plantuml AFAIK.
 # install_packages xorg-xwayland

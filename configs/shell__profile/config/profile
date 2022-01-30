@@ -95,11 +95,7 @@ export npm_config_prefix="$HOME/.local"
 
 # VirtualEnvWrapper setup.
 export WORKON_HOME=${XDG_DATA_HOME}/virtualenvs
-export PROJECT_HOME=${HOME}/projects
-if [ -f "${HOME}/.local/bin/virtualenvwrapper.sh" ]
-then
-  source "${HOME}/.local/bin/virtualenvwrapper.sh"
-fi
+export PROJECT_HOME=${HOME}/workspace/projects
 
 # Pyenv setup.
 export PYENV_ROOT="${XDG_CONFIG_HOME}/pyenv"

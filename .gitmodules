@@ -1,0 +1,54 @@
+[submodule "configs/editor__neovim/config/pack/01_theme/start/onedark.vim"]
+	path = configs/editor__neovim/config/pack/01_theme/start/onedark.vim
+	url = https://github.com/joshdick/onedark.vim.git
+[submodule "configs/editor__neovim/config/pack/01_theme/start/papercolor-theme"]
+	path = configs/editor__neovim/config/pack/01_theme/start/papercolor-theme
+	url = https://github.com/NLKNguyen/papercolor-theme.git
+[submodule "configs/editor__neovim/config/pack/02_picker/start/nvim-web-devicons"]
+	path = configs/editor__neovim/config/pack/02_picker/start/nvim-web-devicons
+	url = https://github.com/kyazdani42/nvim-web-devicons.git
+[submodule "configs/editor__neovim/config/pack/02_picker/start/plenary.nvim"]
+	path = configs/editor__neovim/config/pack/02_picker/start/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim.git
+[submodule "configs/editor__neovim/config/pack/02_picker/start/telescope-fzf-native.nvim"]
+	path = configs/editor__neovim/config/pack/02_picker/start/telescope-fzf-native.nvim
+	url = https://github.com/nvim-telescope/telescope-fzf-native.nvim.git
+[submodule "configs/editor__neovim/config/pack/02_picker/start/telescope.nvim"]
+	path = configs/editor__neovim/config/pack/02_picker/start/telescope.nvim
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "configs/editor__neovim/config/pack/file-tree/start/nvim-tree"]
+	path = configs/editor__neovim/config/pack/file-tree/start/nvim-tree
+	url = https://github.com/kyazdani42/nvim-tree.lua.git
+[submodule "configs/editor__neovim/config/pack/mappings/start/which-key.nvim"]
+	path = configs/editor__neovim/config/pack/mappings/start/which-key.nvim
+	url = https://github.com/folke/which-key.nvim.git
+[submodule "configs/editor__neovim/config/pack/parsing/start/nvim-treesitter"]
+	path = configs/editor__neovim/config/pack/parsing/start/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git
+[submodule "configs/editor__neovim/config/pack/status_line/start/lualine.nvim"]
+	path = configs/editor__neovim/config/pack/status_line/start/lualine.nvim
+	url = https://github.com/nvim-lualine/lualine.nvim.git
+[submodule "configs/editor__neovim/config/pack/terminal/start/toggleterm.nvim"]
+	path = configs/editor__neovim/config/pack/terminal/start/toggleterm.nvim
+	url = https://github.com/akinsho/toggleterm.nvim.git
+[submodule "configs/editor__neovim/config/pack/tpope_magic/start/vim-characterize"]
+	path = configs/editor__neovim/config/pack/tpope_magic/start/vim-characterize
+	url = https://github.com/tpope/vim-characterize.git
+[submodule "configs/editor__neovim/config/pack/tpope_magic/start/vim-commentary"]
+	path = configs/editor__neovim/config/pack/tpope_magic/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git
+[submodule "configs/editor__neovim/config/pack/tpope_magic/start/vim-repeat"]
+	path = configs/editor__neovim/config/pack/tpope_magic/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "configs/editor__neovim/config/pack/tpope_magic/start/vim-speeddating"]
+	path = configs/editor__neovim/config/pack/tpope_magic/start/vim-speeddating
+	url = https://github.com/tpope/vim-speeddating.git
+[submodule "configs/editor__neovim/config/pack/tpope_magic/start/vim-surround"]
+	path = configs/editor__neovim/config/pack/tpope_magic/start/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "configs/editor__neovim/config/pack/tpope_magic/start/vim-unimpaired"]
+	path = configs/editor__neovim/config/pack/tpope_magic/start/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule "configs/editor__neovim/config/pack/version_control/start/vim-fugitive"]
+	path = configs/editor__neovim/config/pack/version_control/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git

@@ -1,3 +1,1 @@
-seccomp
-caps.drop all
-private-bin bash,dbus-launch,dbus-send,env,firefox,sh,which
+ignore nou2f

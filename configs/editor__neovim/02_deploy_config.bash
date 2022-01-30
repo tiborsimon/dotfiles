@@ -5,6 +5,3 @@ source ../../utils/libdeploy.bash
 
 link_package \
   './config' "${HOME}/.config/nvim"
-
-
-write_to_messages " nvim - You should run the PlugInstall command in neovim."

@@ -102,6 +102,12 @@ bindkey -v '^?' backward-delete-char
 [ -f "${XDG_CONFIG_HOME}/shell/aliasrc" ] && source "${XDG_CONFIG_HOME}/shell/aliasrc"
 
 #==============================================================================
+# VIRTUALENVWRAPPER INTEGRATION
+#==============================================================================
+
+source "${HOME}/.local/bin/virtualenvwrapper.sh"
+
+#==============================================================================
 # PYENV INTEGRATION
 #==============================================================================
 

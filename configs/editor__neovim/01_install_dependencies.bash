@@ -4,9 +4,17 @@ cd "$(dirname "$(readlink -f "$0")")" || exit
 source ../../utils/libdeploy.bash
 
 install_packages neovim
-install_packages fzy ripgrep
+install_packages fzy ripgrep fzf
 
-info "Installing VimPlug plugin manager.."
-execute curl --fail --location --create-dirs \
-  --output "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Typescript
+execute npm -g install \
+  typescript-language-server \
+  diagnostic-languageserver \
+  eslint \
+  prettier \
+  @typescript-eslint/parser \
+  @typescript-eslint/eslint-plugin
+
+# Python
+execute npm -g install \
+  pyright 

@@ -1,0 +1,18 @@
+Bash Ide
+Bookmarks
+Date & Time
+ESLint
+highliht
+Jupyter
+Jupyter Keymap
+Jupiter Notebook Renderers
+Live Server
+One Dark Pro
+Prettier
+Pylance
+Python
+Shellcheck
+Spell Right
+Trailing Spaces
+Vim
+Visual Code IntelliCode

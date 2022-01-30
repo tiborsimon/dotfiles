@@ -13,7 +13,7 @@ import unittest
 #  C O N F I G U R A T I O N
 
 INDENT_SPACES = 4
-LINE_WIDTH = 80
+LINE_WIDTH = 90
 POSTING_COMMENT_INDENT_SPACES = 2
 
 # ============================================================================

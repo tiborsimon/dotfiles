@@ -161,9 +161,9 @@ Install EVIL (if not yet installed), and enable it.
   (defun my-save-all () (interactive) (save-some-buffers t))
 
   (evil-leader/set-key
-    "w" 'save-buffer
-    "s" 'save-some-buffers
-    "S" 'my-save-all
+    "fs" 'save-buffer
+    "fS" 'save-some-buffers
+    "fW" 'my-save-all
     "e" 'ranger
     "b" 'buffer-menu-other-window
   )
@@ -439,17 +439,27 @@ Setting up a keymap that would be available in every buffer and mode:
 *** Capture templates
 
 #+begin_src emacs-lisp
+(defun my-weekly-review-function ()
+  (beginning-of-buffer)
+  (re-search-forward (format-time-string "** %Y-W%V"))
+)
+
 (setq org-capture-templates
  '(
     (
-      "t" "Todo" entry (file+headline "~/private/notebook/refile.org" "Tasks")
-      "* TODO %^{title}\n  CREATED: %U\n   %?"
+      "t" "Todo" entry (file+headline "~/org/refile.org" "Tasks")
+      (file "~/org/templates/task.capture")
       :clock-in t :clock-resume t
     )
     (
-       "j" "Journal" entry (file+olp+datetree "~/private/journal/journal.org")
-       "* Entry on %<%H:%M>\n   %?"
-       :clock-in t :clock-resume t
+       "d" "Daily review" plain (file+olp+datetree "~/org/journal.org")
+       (file "~/org/templates/daily-review.capture")
+       :clock-in t :clock-resume t :tree-type week
+    )
+    (
+       "w" "Weekly review" entry (file+function "~/org/journal.org" my-weekly-review-function)
+       (file "~/org/templates/weekly-review.capture")
+       :clock-in t :clock-resume t :prepend t
     )
   )
 )
@@ -518,6 +528,8 @@ could be quite annoying. The following config solves it:
   "t" 'org-agenda-todo
   "z" 'org-agenda-add-note
   "L" 'org-agenda-log-mode
+  "f" 'org-agenda-later
+  "b" 'org-agenda-earlier
 )
 #+end_src
 
@@ -546,9 +558,29 @@ We are only interested in pdf for now.
 )
 #+end_src
 
+** Toggles
+*** Key bindigs
+#+begin_src emacs-lisp
+(evil-leader/set-key-for-mode 'org-mode
+  "t i" 'org-toggle-inline-images
+)
+#+end_src
+
 ** Habits
 *** Base
 #+begin_src emacs-lisp
 (use-package org-habit)
 (add-to-list 'org-modules 'org-habit t)
+#+end_src
+
+** Plantuml integration
+Based on this link: https://plantuml.com/emacs
+#+begin_src emacs-lisp
+(use-package plantuml-mode
+  :ensure t
+  :defer t)
+;; This was determined by a find, after the plantuml package got installed: find / -name 'plantuml.jar'
+(setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml/plantuml.jar"))
+(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 #+end_src
